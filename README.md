@@ -10,7 +10,7 @@ Na projektu rade:
 
 -[Marija Ćurčić, SW 24/17](https://github.com/marijacurcic7)
 
--[Ilija Grk, SW 2/17](https://github.com/)
+-[Ilija Grk, SW 2/17](https://github.com/GDBxNS)
 
 -[Igor Lukić, SW 53/17](https://github.com/cigor99)
 
