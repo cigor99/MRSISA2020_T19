@@ -15,8 +15,12 @@ public class KlinickiCentarApplication {
 		SpringApplication.run(KlinickiCentarApplication.class, args);
 	}
 
-	@GetMapping("/hello")
-	public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
+//	@GetMapping("/hello")
+//	public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
+//		return String.format("Hello %s!", name);
+//	}
+	@GetMapping("/index")
+	public String index(@RequestParam(value = "name", defaultValue = "World") String name) {
 		return String.format("Hello %s!", name);
 	}
 }
