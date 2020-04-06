@@ -13,7 +13,9 @@ public class KlinickiCentarApplication {
 	public static void main(String[] args) {
 		System.setProperty("server.servlet.context-path", "/klinicki-centar");
 		SpringApplication.run(KlinickiCentarApplication.class, args);
-	}
+	}   
+	 
+	
 
 //	@GetMapping("/hello")
 //	public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
