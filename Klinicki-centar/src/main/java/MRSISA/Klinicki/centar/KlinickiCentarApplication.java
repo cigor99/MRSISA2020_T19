@@ -11,16 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class KlinickiCentarApplication {
 
 	public static void main(String[] args) {
-		System.setProperty("server.servlet.context-path", "/klinicki-centar");
 		SpringApplication.run(KlinickiCentarApplication.class, args);
 	}   
 	 
-	
-
-//	@GetMapping("/hello")
-//	public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
-//		return String.format("Hello %s!", name);
-//	}
 	@GetMapping("/index")
 	public String index(@RequestParam(value = "name", defaultValue = "World") String name) {
 		return String.format("Hello %s!", name);
