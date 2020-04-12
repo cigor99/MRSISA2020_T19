@@ -1,15 +1,13 @@
 package MRSISA.Klinicki.centar.service;
 
-import java.util.Collection;
+import java.util.ArrayList;
 
 import MRSISA.Klinicki.centar.domain.Lekar;
 
 public interface LekarService {
 
-	Collection<Lekar> findAll();
+	void dodajLekara(Lekar lekar);
 
-	Lekar findOne(String email);
-
-	Lekar create(Lekar lekar) throws Exception;
+	ArrayList<Lekar> getLekari();
 	
 }

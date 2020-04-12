@@ -2,6 +2,8 @@ package MRSISA.Klinicki.centar.domain;
 
 import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Lekar {
 	
 	@NotEmpty(message = "Email je obavezan.")
@@ -12,7 +14,15 @@ public class Lekar {
 	
 	private String ime;
 	private String prezime;
+
 	
+	public Lekar(@JsonProperty("email") String email, @JsonProperty("lozinka") String lozinka, @JsonProperty("ime") String ime, @JsonProperty("prezime") String prezime) {
+		super();
+		this.email = email;
+		this.lozinka = lozinka;
+		this.ime = ime;
+		this.prezime = prezime;
+	}
 	public String getEmail() {
 		return email;
 	}
