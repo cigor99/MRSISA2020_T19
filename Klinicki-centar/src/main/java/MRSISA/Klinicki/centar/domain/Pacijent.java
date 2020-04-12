@@ -31,6 +31,13 @@ public class Pacijent {
 		this.email = email;
 		this.lozinka = lozinka;
 	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "Pacijent [ime=" + ime + ", prezime=" + prezime + ", email=" + email + ", lozinka=" + lozinka + "]";
+	}
 
 	public String getIme() {
 		return ime;
