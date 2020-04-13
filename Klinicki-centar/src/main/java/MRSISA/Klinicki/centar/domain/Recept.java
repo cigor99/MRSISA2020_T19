@@ -1,19 +1,21 @@
 package MRSISA.Klinicki.centar.domain;
 
+import java.util.ArrayList;
+
 public class Recept {
 	private Integer id;
 	private Integer pregled; // Ovo je id izvestaja o pregledu
-	private Integer lek;
+	private ArrayList<Integer> lekovi;
 
 	public Recept() {
 		super();
 	}
 
-	public Recept(Integer id, Integer pregled, Integer lek) {
+	public Recept(Integer id, Integer pregled, ArrayList<Integer> lekovi) {
 		super();
 		this.id = id;
 		this.pregled = pregled;
-		this.lek = lek;
+		this.lekovi = lekovi;
 	}
 
 	public Integer getId() {
@@ -32,12 +34,14 @@ public class Recept {
 		this.pregled = pregled;
 	}
 
-	public Integer getLek() {
-		return lek;
+	public ArrayList<Integer> getLekovi() {
+		return lekovi;
 	}
 
-	public void setLek(Integer lek) {
-		this.lek = lek;
+	public void setLekovi(ArrayList<Integer> lekovi) {
+		this.lekovi = lekovi;
 	}
+
+	
 
 }

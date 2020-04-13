@@ -1,9 +1,23 @@
 package MRSISA.Klinicki.centar.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Dijagnoza {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	@Column
 	private String sifra;
+	@Column
 	private String naziv;
+	@Column
 	private String opis;
 
 	public Dijagnoza() {

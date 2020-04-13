@@ -1,18 +1,13 @@
 package MRSISA.Klinicki.centar.domain;
 
-import java.util.ArrayList;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotEmpty;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-public class Lekar {
+public class AdministratorKlinike {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,68 +17,82 @@ public class Lekar {
 	private String email;
 	@Column
 	private String lozinka;
-	
 	@Column
 	private String ime;
 	@Column
 	private String prezime;
+	@Column
+	private String jmbg;
 	private Integer klinika;
-	private ArrayList<Integer> pregledi;
-	private ArrayList<Integer> operacije;
-
 	
-	public Lekar(@JsonProperty("email") String email, @JsonProperty("lozinka") String lozinka, @JsonProperty("ime") String ime, @JsonProperty("prezime") String prezime) {
+	public AdministratorKlinike(Integer id, String email, String lozinka, String ime, String prezime, String jmbg,
+			Integer klinika) {
 		super();
+		this.id = id;
 		this.email = email;
 		this.lozinka = lozinka;
 		this.ime = ime;
 		this.prezime = prezime;
-		this.pregledi = new ArrayList<>();
-		this.operacije = new ArrayList<>();
+		this.jmbg = jmbg;
+		this.klinika = klinika;
 	}
-	
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public String getLozinka() {
 		return lozinka;
 	}
+
 	public void setLozinka(String lozinka) {
 		this.lozinka = lozinka;
 	}
+
 	public String getIme() {
 		return ime;
 	}
+
 	public void setIme(String ime) {
 		this.ime = ime;
 	}
+
 	public String getPrezime() {
 		return prezime;
 	}
+
 	public void setPrezime(String prezime) {
 		this.prezime = prezime;
 	}
+
+	public String getJmbg() {
+		return jmbg;
+	}
+
+	public void setJmbg(String jmbg) {
+		this.jmbg = jmbg;
+	}
+
 	public Integer getKlinika() {
 		return klinika;
 	}
+
 	public void setKlinika(Integer klinika) {
 		this.klinika = klinika;
 	}
-	public ArrayList<Integer> getPregledi() {
-		return pregledi;
-	}
-	public void setPregledi(ArrayList<Integer> pregledi) {
-		this.pregledi = pregledi;
-	}
-	public ArrayList<Integer> getOperacije() {
-		return operacije;
-	}
-	public void setOperacije(ArrayList<Integer> operacije) {
-		this.operacije = operacije;
-	}
-	
 
+	
+	
 }
