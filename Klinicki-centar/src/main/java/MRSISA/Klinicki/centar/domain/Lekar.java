@@ -1,89 +1,106 @@
 package MRSISA.Klinicki.centar.domain;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.annotations.ManyToAny;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class Lekar {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID_lekara", unique = true, nullable = false)
 	private Integer id;
-	
-	@Column
-	private String email;
-	@Column
-	private String lozinka;
-	
-	@Column
-	private String ime;
-	@Column
-	private String prezime;
-	private Integer klinika;
-	private ArrayList<Integer> pregledi;
-	private ArrayList<Integer> operacije;
 
-	
-	public Lekar(@JsonProperty("email") String email, @JsonProperty("lozinka") String lozinka, @JsonProperty("ime") String ime, @JsonProperty("prezime") String prezime) {
+	@Column(name = "email", unique = true, nullable = false)
+	private String email;
+
+	@Column(name = "lozinka", unique = false, nullable = false)
+	private String lozinka;
+
+	@Column(name = "ime", unique = false, nullable = false)
+	private String ime;
+
+	@Column(name = "prezime", unique = false, nullable = false)
+	private String prezime;
+
+	@ManyToOne
+	@JoinColumn(name = "klinika", referencedColumnName = "ID_Klinike", nullable = false)
+	private Klinika klinika;
+
+	public Lekar() {
+
+	}
+
+	public Lekar(Integer id, String email, String lozinka, String ime, String prezime, Klinika klinika) {
 		super();
+		this.id = id;
 		this.email = email;
 		this.lozinka = lozinka;
 		this.ime = ime;
 		this.prezime = prezime;
-		this.pregledi = new ArrayList<>();
-		this.operacije = new ArrayList<>();
+		this.klinika = klinika;
 	}
-	
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public String getLozinka() {
 		return lozinka;
 	}
+
 	public void setLozinka(String lozinka) {
 		this.lozinka = lozinka;
 	}
+
 	public String getIme() {
 		return ime;
 	}
+
 	public void setIme(String ime) {
 		this.ime = ime;
 	}
+
 	public String getPrezime() {
 		return prezime;
 	}
+
 	public void setPrezime(String prezime) {
 		this.prezime = prezime;
 	}
-	public Integer getKlinika() {
+
+	public Klinika getKlinika() {
 		return klinika;
 	}
-	public void setKlinika(Integer klinika) {
+
+	public void setKlinika(Klinika klinika) {
 		this.klinika = klinika;
 	}
-	public ArrayList<Integer> getPregledi() {
-		return pregledi;
+
+	public Integer getId() {
+		return id;
 	}
-	public void setPregledi(ArrayList<Integer> pregledi) {
-		this.pregledi = pregledi;
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
-	public ArrayList<Integer> getOperacije() {
-		return operacije;
-	}
-	public void setOperacije(ArrayList<Integer> operacije) {
-		this.operacije = operacije;
-	}
-	
 
 }

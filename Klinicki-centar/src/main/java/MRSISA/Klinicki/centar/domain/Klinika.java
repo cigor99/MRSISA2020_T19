@@ -2,29 +2,95 @@ package MRSISA.Klinicki.centar.domain;
 
 import java.util.ArrayList;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@Entity
+@Table(name = "Klinike")
 public class Klinika {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID_Klinike", unique = true, nullable = false)
 	private Integer id;
+
+	@Column(name = "naziv", unique = false, nullable = false)
 	private String naziv;
+
+	@Column(name = "adresa", unique = false, nullable = false)
 	private String adresa;
+
+	@Column(name = "opis", unique = false, nullable = false)
 	private String opis;
-//	private ArrayList<Lekar> lekari;
-//	private ArrayList<Cena>Cenovik;
-//	private ArrayList<Sala>Sale;
+
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "klinika")
+	private ArrayList<AdministratorKlinike> administratori;
+
+	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy = "klinika")
+	private ArrayList<Lekar> lekari;
+
+	@Column(name = "cenovnik", unique = false, nullable = false)
+	private Cenovnik cenovnik;
+
+	
+	private ArrayList<Sala> Sale;
 
 	public String getNaziv() {
 		return naziv;
 	}
 
-	public Klinika(@JsonProperty("id")Integer id, @JsonProperty("naziv") String naziv, @JsonProperty("adresa") String adresa,
-			@JsonProperty("opis") String opis) {
+	public Klinika(Integer id, String naziv, String adresa, String opis, ArrayList<AdministratorKlinike> administratori,
+			ArrayList<Lekar> lekari, Cenovnik cenovnik, ArrayList<Sala> sale) {
 		super();
 		this.id = id;
 		this.naziv = naziv;
 		this.adresa = adresa;
 		this.opis = opis;
-//		this.lekari = lekari;
+		this.administratori = administratori;
+		this.lekari = lekari;
+		this.cenovnik = cenovnik;
+		Sale = sale;
+	}
+
+	public ArrayList<AdministratorKlinike> getAdministratori() {
+		return administratori;
+	}
+
+	public void setAdministratori(ArrayList<AdministratorKlinike> administratori) {
+		this.administratori = administratori;
+	}
+
+	public ArrayList<Lekar> getLekari() {
+		return lekari;
+	}
+
+	public void setLekari(ArrayList<Lekar> lekari) {
+		this.lekari = lekari;
+	}
+
+	public Cenovnik getCenovnik() {
+		return cenovnik;
+	}
+
+	public void setCenovnik(Cenovnik cenovnik) {
+		this.cenovnik = cenovnik;
+	}
+
+	public ArrayList<Sala> getSale() {
+		return Sale;
+	}
+
+	public void setSale(ArrayList<Sala> sale) {
+		Sale = sale;
 	}
 
 	public void setNaziv(String naziv) {
@@ -54,13 +120,5 @@ public class Klinika {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
-//	public ArrayList<Lekar> getLekari() {
-//		return lekari;
-//	}
-//
-//	public void setLekari(ArrayList<Lekar> lekari) {
-//		this.lekari = lekari;
-//	}
 
 }

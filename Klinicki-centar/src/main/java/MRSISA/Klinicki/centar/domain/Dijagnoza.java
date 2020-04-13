@@ -5,19 +5,24 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "Dijagnoze")
 public class Dijagnoza {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID_Dijagnoza", unique = true, nullable = false)
 	private Integer id;
 	
-	@Column
+	@Column(name = "sifra", unique = true, nullable = false)
 	private String sifra;
-	@Column
+	
+	@Column(name = "naziv", unique = false, nullable = false)
 	private String naziv;
-	@Column
+	
+	@Column(name = "opis", unique = false, nullable = false)
 	private String opis;
 
 	public Dijagnoza() {

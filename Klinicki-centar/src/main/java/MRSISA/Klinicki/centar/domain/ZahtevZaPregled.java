@@ -1,8 +1,23 @@
 package MRSISA.Klinicki.centar.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "Zahtevi za pregled")
 public class ZahtevZaPregled {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)	
+	@Column(name = "ID_ZZP", unique = true, nullable = false)
 	private Integer id;
+	
+	@Column(name = "stanje zahteva", unique = false, nullable = false)
 	private StanjeZahteva stanje;
+	
 	private Integer pregled;
 
 	public ZahtevZaPregled() {

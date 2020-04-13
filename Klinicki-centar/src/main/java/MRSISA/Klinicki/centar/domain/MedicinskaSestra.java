@@ -4,13 +4,37 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+@Entity
+@Table(name = "Medicinske Sestre")
+
 public class MedicinskaSestra {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID_MedSes", unique = true, nullable = false)
 	private Integer id;
+	
+	@Column(name = "ime", unique = false, nullable = false)
 	private String ime;
+	
+	@Column(name = "prezime", unique = false, nullable = false)
 	private String prezime;
+	
+	@Column(name = "JMBG", unique = true, nullable = false)
 	private String jmbg;
+	
+	@Column(name = "email", unique = true, nullable = false)
 	private String email;
+	
+	@Column(name = "lozinka", unique = false, nullable = false)
 	private String lozinka;
+	
+	
 	private List<Integer> recepti;
 
 	public MedicinskaSestra() {

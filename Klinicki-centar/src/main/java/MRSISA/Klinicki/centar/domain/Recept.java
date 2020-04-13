@@ -2,9 +2,23 @@ package MRSISA.Klinicki.centar.domain;
 
 import java.util.ArrayList;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "Recepti")
 public class Recept {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)	
+	@Column(name = "ID_Recepta", unique = true, nullable = false)
 	private Integer id;
+	
 	private Integer pregled; // Ovo je id izvestaja o pregledu
+	
 	private ArrayList<Integer> lekovi;
 
 	public Recept() {

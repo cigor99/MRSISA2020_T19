@@ -3,12 +3,33 @@ package MRSISA.Klinicki.centar.domain;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "Operacije")
 public class Operacija {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID_Operacije", unique = true, nullable = false)
 	private Integer id;
+	
+	@Column(name = "datum", unique = false, nullable = false)
 	private Date datum;
+	
+	@Column(name = "sala", unique = false, nullable = false)
 	private Integer sala;
+	
+	
 	private List<Integer> lekari;
+	
+	@Column(name = "tip operacije", unique = false, nullable = false)
 	private TipPregleda tip;
+	
 	private Integer pacijent;
 
 	public Operacija() {

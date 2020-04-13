@@ -3,26 +3,42 @@ package MRSISA.Klinicki.centar.domain;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@Entity
+@Table(name = "Pacijenti")
 public class Pacijent {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID_Pacijenta", unique = true, nullable = false)
 	private Integer id;
 
 	@NotEmpty(message = "Ime je obavezno")
+	@Column(name = "ime", unique = false, nullable = false)
 	private String ime;
 
 	@NotEmpty(message = "Prezime je obavezno")
+	@Column(name = "prezime", unique = false, nullable = false)
 	private String prezime;
 
+	@Column(name = "JMBG", unique = true, nullable = false)
 	private String jmbg;
 
 	@NotEmpty(message = "Email je obavezan")
+	@Column(name = "email", unique = true, nullable = false)
 	private String email;
 
 	@NotEmpty(message = "Lozinka je obavezna")
+	@Column(name = "lozinka", unique = false, nullable = false)
 	private String lozinka;
 
 	private Integer karton;

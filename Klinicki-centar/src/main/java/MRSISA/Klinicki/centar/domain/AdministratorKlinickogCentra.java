@@ -5,28 +5,43 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.ManyToAny;
 
 @Entity
+@Table(name = "AdministratoriKC")
 public class AdministratorKlinickogCentra {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID_AdminKC", unique = true, nullable = false)
 	private Integer id;
-	
-	@Column
+
+	@Column(name = "email", unique = true, nullable = false)
 	private String email;
-	@Column
+
+	@Column(name = "lozinka", unique = false, nullable = false)
 	private String lozinka;
-	@Column
+
+	@Column(name = "ime", unique = false, nullable = false)
 	private String ime;
-	@Column
+
+	@Column(name = "prezime", unique = false, nullable = false)
 	private String prezime;
-	@Column
+
+	@Column(name = "JMBG", unique = true, nullable = false)
 	private String jmbg;
-	private Integer klinickiCentar;
-	
+
+	@ManyToOne
+	@JoinColumn(name = "klinicki_centar", referencedColumnName = "ID_KC", nullable = false)
+	private KlinickiCentar klinickiCentar;
+
 	public AdministratorKlinickogCentra(Integer id, String email, String lozinka, String ime, String prezime,
-			String jmbg, Integer klinickiCentar) {
+			String jmbg, KlinickiCentar klinickiCentar) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -85,14 +100,12 @@ public class AdministratorKlinickogCentra {
 		this.jmbg = jmbg;
 	}
 
-	public Integer getKlinickiCentar() {
+	public KlinickiCentar getKlinickiCentar() {
 		return klinickiCentar;
 	}
 
-	public void setKlinickiCentar(Integer klinickiCentar) {
+	public void setKlinickiCentar(KlinickiCentar klinickiCentar) {
 		this.klinickiCentar = klinickiCentar;
 	}
-	
-	
 
 }

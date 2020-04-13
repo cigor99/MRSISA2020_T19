@@ -3,9 +3,23 @@ package MRSISA.Klinicki.centar.domain;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "Zdravstevni kartoni")
 public class ZdravstveniKarton {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)	
+	@Column(name = "ID_Pregleda", unique = true, nullable = false)
 	private Integer id;
+	
 	private List<Integer> izvestaji;
+	
 	private Integer pacijent; // Id pacijenta
 
 	public Integer getId() {

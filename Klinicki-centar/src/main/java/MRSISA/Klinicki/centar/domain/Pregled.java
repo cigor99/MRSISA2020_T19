@@ -2,14 +2,39 @@ package MRSISA.Klinicki.centar.domain;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "Pregledi")
 public class Pregled {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)	
+	@Column(name = "ID_Pregleda", unique = true, nullable = false)
 	private Integer id;
+	
+	@Column(name = "date", unique = false, nullable = false)
 	private Date datum;
+	
+	
 	private Integer sala;
+	
 	private Integer lekar;
+	
+	@Column(name = "tip", unique = false, nullable = false)
 	private TipPregleda tip;
+	
 	private Integer pacijent;
+	
+	@Column(name = "popust", unique = false, nullable = false)
 	private float popust; // U modelu je int, zar nije popust decimala?
+	
+	@Column(name = "slobodan", unique = false, nullable = false)
 	private boolean slobodan;
 
 	public Pregled() {

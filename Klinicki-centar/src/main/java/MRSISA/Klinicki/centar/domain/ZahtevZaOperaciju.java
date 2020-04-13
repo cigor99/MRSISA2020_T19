@@ -1,0 +1,50 @@
+package MRSISA.Klinicki.centar.domain;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "Zahtevi za operaciju")
+public class ZahtevZaOperaciju {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)	
+	@Column(name = "ID_ZZO", unique = true, nullable = false)
+	private Integer id;
+	
+	@Column(name = "operacija", unique = false, nullable = false)
+	private Operacija operacija;
+	
+	@Column(name = "stanje zahteva", unique = false, nullable = false)
+	private StanjeZahteva stanjeZahteva;
+
+	public ZahtevZaOperaciju() {
+
+	}
+
+	public ZahtevZaOperaciju(Operacija operacija, StanjeZahteva stanjeZahteva) {
+		super();
+		this.operacija = operacija;
+		this.stanjeZahteva = stanjeZahteva;
+	}
+
+	public Operacija getOperacija() {
+		return operacija;
+	}
+
+	public void setOperacija(Operacija operacija) {
+		this.operacija = operacija;
+	}
+
+	public StanjeZahteva getStanjeZahteva() {
+		return stanjeZahteva;
+	}
+
+	public void setStanjeZahteva(StanjeZahteva stanjeZahteva) {
+		this.stanjeZahteva = stanjeZahteva;
+	}
+
+}

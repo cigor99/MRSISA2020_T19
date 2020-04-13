@@ -5,28 +5,42 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.ManyToAny;
 
 @Entity
+@Table(name = "AdminiKlinike")
 public class AdministratorKlinike {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID_AdminK", unique = true, nullable = false)
 	private Integer id;
-	
-	@Column
+
+	@Column(name = "email", unique = true, nullable = false)
 	private String email;
-	@Column
+
+	@Column(name = "lozinka", unique = false, nullable = false)
 	private String lozinka;
-	@Column
+
+	@Column(name = "ime", unique = false, nullable = false)
 	private String ime;
-	@Column
+
+	@Column(name = "prezime", unique = false, nullable = false)
 	private String prezime;
-	@Column
+
+	@Column(name = "JMBG", unique = false, nullable = false)
 	private String jmbg;
-	private Integer klinika;
-	
+
+	@ManyToOne
+	@JoinColumn(name = "klinika", referencedColumnName = "ID_Klinike", nullable = false)
+	private Klinika klinika;
+
 	public AdministratorKlinike(Integer id, String email, String lozinka, String ime, String prezime, String jmbg,
-			Integer klinika) {
+			Klinika klinika) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -85,14 +99,12 @@ public class AdministratorKlinike {
 		this.jmbg = jmbg;
 	}
 
-	public Integer getKlinika() {
+	public Klinika getKlinika() {
 		return klinika;
 	}
 
-	public void setKlinika(Integer klinika) {
+	public void setKlinika(Klinika klinika) {
 		this.klinika = klinika;
 	}
 
-	
-	
 }
