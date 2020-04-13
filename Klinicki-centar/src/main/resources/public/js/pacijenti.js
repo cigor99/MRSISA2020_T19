@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	pokretanje();
+	kreiraj();
 	
 	$("#potvrdi").click(function(){
 		$.ajax({
@@ -20,14 +20,14 @@ $(document).ready(function() {
 				printPacijent(response);
 			},
 			error : function(response) {
-				alert("error")
+				alert("Greska pri kliku potvrdi")
 			}
 		});
 	});
 
 });
 
-function pokretanje(){
+function kreiraj(){
 	var ime = $("#ime").val();
 	var prezime = $("#prezime").val();
 	var email = $("#email").val();
@@ -45,13 +45,16 @@ function pokretanje(){
 		}),
 
 		success : function(response) {
-			console.log(response.ime)
+			console.log(response.ime);
+			pronadji();
 		},
 		error : function(response) {
-			alert("error")
+			alert("Greska pri pravljenju privremenog")
 		}
 	});
-	
+}
+
+function pronadji(){
 	$.ajax({
 		type : 'POST',
 		url : "pacijent/pronadjiPacijenta",
@@ -62,7 +65,7 @@ function pokretanje(){
 			printPacijent(response);
 		},
 		error : function(response) {
-			alert("error")
+			alert("Greska pri pronalasku pacijenta")
 		}
 	});
 }
