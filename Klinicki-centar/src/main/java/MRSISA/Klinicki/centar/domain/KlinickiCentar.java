@@ -1,6 +1,8 @@
 package MRSISA.Klinicki.centar.domain;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -20,25 +23,25 @@ public class KlinickiCentar {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID_KC", unique = true, nullable = false)
 	private Integer id;
-	
-	@Column(name = "Sifarnik_lekova")
-	private ArrayList<Lek> sifranikLekova;
 
-	@Column(name = "Sifarnik_dijagnoza")
-	private ArrayList<Dijagnoza> sifarnikDijagnoza;
+	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy = "klinickiCentar" )
+	private Set<Lek> sifranikLekova = new HashSet<Lek>();
 
-	@Column(name = "Zahtevi_za_registraciju")
-	private ArrayList<ZahtevZaRegistraciju> zahteviZaReg;
+	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy = "klinickiCentar" )
+	private Set<Dijagnoza> sifarnikDijagnoza = new HashSet<Dijagnoza>();
+
+	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy = "klinickiCentar")
+	private Set<ZahtevZaRegistraciju> zahteviZaReg = new HashSet<ZahtevZaRegistraciju>();
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "klinickiCentar")
-	private ArrayList<AdministratorKlinickogCentra> adminiKC;
+	private Set<AdministratorKlinickogCentra> adminiKC = new HashSet<AdministratorKlinickogCentra>();
 
 	public KlinickiCentar() {
 
 	}
 
-	public KlinickiCentar(Integer id, ArrayList<Lek> sifranikLekova, ArrayList<Dijagnoza> sifarnikDijagnoza,
-			ArrayList<ZahtevZaRegistraciju> zahteviZaReg, ArrayList<AdministratorKlinickogCentra> adminiKC) {
+	public KlinickiCentar(Integer id, Set<Lek> sifranikLekova, Set<Dijagnoza> sifarnikDijagnoza,
+			Set<ZahtevZaRegistraciju> zahteviZaReg, Set<AdministratorKlinickogCentra> adminiKC) {
 		super();
 		this.id = id;
 		this.sifranikLekova = sifranikLekova;
@@ -55,35 +58,35 @@ public class KlinickiCentar {
 		this.id = id;
 	}
 
-	public ArrayList<Lek> getSifranikLekova() {
+	public Set<Lek> getSifranikLekova() {
 		return sifranikLekova;
 	}
 
-	public void setSifranikLekova(ArrayList<Lek> sifranikLekova) {
+	public void setSifranikLekova(Set<Lek> sifranikLekova) {
 		this.sifranikLekova = sifranikLekova;
 	}
 
-	public ArrayList<Dijagnoza> getSifarnikDijagnoza() {
+	public Set<Dijagnoza> getSifarnikDijagnoza() {
 		return sifarnikDijagnoza;
 	}
 
-	public void setSifarnikDijagnoza(ArrayList<Dijagnoza> sifarnikDijagnoza) {
+	public void setSifarnikDijagnoza(Set<Dijagnoza> sifarnikDijagnoza) {
 		this.sifarnikDijagnoza = sifarnikDijagnoza;
 	}
 
-	public ArrayList<ZahtevZaRegistraciju> getZahteviZaReg() {
+	public Set<ZahtevZaRegistraciju> getZahteviZaReg() {
 		return zahteviZaReg;
 	}
 
-	public void setZahteviZaReg(ArrayList<ZahtevZaRegistraciju> zahteviZaReg) {
+	public void setZahteviZaReg(Set<ZahtevZaRegistraciju> zahteviZaReg) {
 		this.zahteviZaReg = zahteviZaReg;
 	}
 
-	public ArrayList<AdministratorKlinickogCentra> getAdminiKC() {
+	public Set<AdministratorKlinickogCentra> getAdminiKC() {
 		return adminiKC;
 	}
 
-	public void setAdminiKC(ArrayList<AdministratorKlinickogCentra> adminiKC) {
+	public void setAdminiKC(Set<AdministratorKlinickogCentra> adminiKC) {
 		this.adminiKC = adminiKC;
 	}
 

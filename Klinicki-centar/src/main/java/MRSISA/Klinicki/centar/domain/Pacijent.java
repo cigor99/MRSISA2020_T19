@@ -1,13 +1,21 @@
 package MRSISA.Klinicki.centar.domain;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
@@ -41,31 +49,63 @@ public class Pacijent {
 	@Column(name = "lozinka", unique = false, nullable = false)
 	private String lozinka;
 
-	private Integer karton;
+	@OneToOne(cascade = { CascadeType.ALL })
+	@JoinColumn(name = "zdravsteni_karton", referencedColumnName = "ID_Pregleda")
+	private ZdravstveniKarton zdravstveniKarton;
 
-	private List<Integer> istorijaPregleda;
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "ID_Pregleda")
+	private List<Pregled> istorijaPregleda;
 
-	private List<Integer> istorijaOperacija;
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "ID_Operacije")
+	private List<Operacija> istorijaOperacija;
+
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "pacijent")
+	private Set<Operacija> Operacije = new HashSet<Operacija>();
+
+	@OneToOne(mappedBy = "pacijent")
+	private ZahtevZaRegistraciju zahtevZaRegistraciju;
 
 	public Pacijent() {
 		super();
 	}
 
-	public Pacijent(@NotEmpty(message = "Ime je obavezno") @JsonProperty("ime") String ime,
-			@NotEmpty(message = "Prezime je obavezno") @JsonProperty("prezime") String prezime,
-			@NotEmpty(message = "Email je obavezan") @JsonProperty("email") String email,
-			@NotEmpty(message = "Lozinka je obavezna") @JsonProperty("lozinka") String lozinka) {
-		this.ime = ime;
-		this.prezime = prezime;
-		this.email = email;
-		this.lozinka = lozinka;
+//	public Pacijent(@NotEmpty(message = "Ime je obavezno") @JsonProperty("ime") String ime,
+//			@NotEmpty(message = "Prezime je obavezno") @JsonProperty("prezime") String prezime,
+//			@NotEmpty(message = "Email je obavezan") @JsonProperty("email") String email,
+//			@NotEmpty(message = "Lozinka je obavezna") @JsonProperty("lozinka") String lozinka) {
+//		this.ime = ime;
+//		this.prezime = prezime;
+//		this.email = email;
+//		this.lozinka = lozinka;
+//	}
+//
+//	public Pacijent(Integer id, @NotEmpty(message = "Ime je obavezno") String ime,
+//			@NotEmpty(message = "Prezime je obavezno") String prezime, String jmbg,
+//			@NotEmpty(message = "Email je obavezan") String email,
+//			@NotEmpty(message = "Lozinka je obavezna") String lozinka, Integer karton, List<Integer> istorijaPregleda,
+//			List<Integer> istorijaOperacija) {
+//		super();
+//		this.id = id;
+//		this.ime = ime;
+//		this.prezime = prezime;
+//		this.jmbg = jmbg;
+//		this.email = email;
+//		this.lozinka = lozinka;
+//		this.karton = karton;
+//		this.istorijaPregleda = istorijaPregleda;
+//		this.istorijaOperacija = istorijaOperacija;
+//	}
+
+	public Integer getId() {
+		return id;
 	}
 
 	public Pacijent(Integer id, @NotEmpty(message = "Ime je obavezno") String ime,
 			@NotEmpty(message = "Prezime je obavezno") String prezime, String jmbg,
 			@NotEmpty(message = "Email je obavezan") String email,
-			@NotEmpty(message = "Lozinka je obavezna") String lozinka, Integer karton, List<Integer> istorijaPregleda,
-			List<Integer> istorijaOperacija) {
+			@NotEmpty(message = "Lozinka je obavezna") String lozinka, ZdravstveniKarton zdravstveniKarton,
+			List<Pregled> istorijaPregleda, List<Operacija> istorijaOperacija, Set<Operacija> operacije,
+			ZahtevZaRegistraciju zahtevZaRegistraciju) {
 		super();
 		this.id = id;
 		this.ime = ime;
@@ -73,13 +113,35 @@ public class Pacijent {
 		this.jmbg = jmbg;
 		this.email = email;
 		this.lozinka = lozinka;
-		this.karton = karton;
+		this.zdravstveniKarton = zdravstveniKarton;
 		this.istorijaPregleda = istorijaPregleda;
 		this.istorijaOperacija = istorijaOperacija;
+		Operacije = operacije;
+		this.zahtevZaRegistraciju = zahtevZaRegistraciju;
 	}
 
-	public Integer getId() {
-		return id;
+	public ZahtevZaRegistraciju getZahtevZaRegistraciju() {
+		return zahtevZaRegistraciju;
+	}
+
+	public void setZahtevZaRegistraciju(ZahtevZaRegistraciju zahtevZaRegistraciju) {
+		this.zahtevZaRegistraciju = zahtevZaRegistraciju;
+	}
+
+	public ZdravstveniKarton getZdravstveniKarton() {
+		return zdravstveniKarton;
+	}
+
+	public void setZdravstveniKarton(ZdravstveniKarton zdravstveniKarton) {
+		this.zdravstveniKarton = zdravstveniKarton;
+	}
+
+	public Set<Operacija> getOperacije() {
+		return Operacije;
+	}
+
+	public void setOperacije(Set<Operacija> operacije) {
+		Operacije = operacije;
 	}
 
 	public void setId(Integer id) {
@@ -126,27 +188,19 @@ public class Pacijent {
 		this.lozinka = lozinka;
 	}
 
-	public Integer getKarton() {
-		return karton;
-	}
-
-	public void setKarton(Integer karton) {
-		this.karton = karton;
-	}
-
-	public List<Integer> getIstorijaPregleda() {
+	public List<Pregled> getIstorijaPregleda() {
 		return istorijaPregleda;
 	}
 
-	public void setIstorijaPregleda(List<Integer> istorijaPregleda) {
+	public void setIstorijaPregleda(List<Pregled> istorijaPregleda) {
 		this.istorijaPregleda = istorijaPregleda;
 	}
 
-	public List<Integer> getIstorijaOperacija() {
+	public List<Operacija> getIstorijaOperacija() {
 		return istorijaOperacija;
 	}
 
-	public void setIstorijaOperacija(List<Integer> istorijaOperacija) {
+	public void setIstorijaOperacija(List<Operacija> istorijaOperacija) {
 		this.istorijaOperacija = istorijaOperacija;
 	}
 

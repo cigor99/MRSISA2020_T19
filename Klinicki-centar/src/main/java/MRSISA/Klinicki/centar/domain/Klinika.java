@@ -1,6 +1,8 @@
 package MRSISA.Klinicki.centar.domain;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,6 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -33,23 +37,24 @@ public class Klinika {
 	private String opis;
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "klinika")
-	private ArrayList<AdministratorKlinike> administratori;
+	private Set<AdministratorKlinike> administratori = new HashSet<AdministratorKlinike>();
 
-	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy = "klinika")
-	private ArrayList<Lekar> lekari;
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "klinika")
+	private Set<Lekar> lekari = new HashSet<Lekar>();
 
-	@Column(name = "cenovnik", unique = false, nullable = false)
+	@ManyToOne
+	@JoinColumn(name = "cenovnik", referencedColumnName = "ID_Cenovnika", nullable = false)
 	private Cenovnik cenovnik;
 
-	
-	private ArrayList<Sala> Sale;
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "klinika")
+	private Set<Sala> sale = new HashSet<Sala>();
 
 	public String getNaziv() {
 		return naziv;
 	}
 
-	public Klinika(Integer id, String naziv, String adresa, String opis, ArrayList<AdministratorKlinike> administratori,
-			ArrayList<Lekar> lekari, Cenovnik cenovnik, ArrayList<Sala> sale) {
+	public Klinika(Integer id, String naziv, String adresa, String opis, Set<AdministratorKlinike> administratori,
+			Set<Lekar> lekari, Cenovnik cenovnik, Set<Sala> sale) {
 		super();
 		this.id = id;
 		this.naziv = naziv;
@@ -58,43 +63,15 @@ public class Klinika {
 		this.administratori = administratori;
 		this.lekari = lekari;
 		this.cenovnik = cenovnik;
-		Sale = sale;
+		this.sale = sale;
 	}
 
-	public ArrayList<AdministratorKlinike> getAdministratori() {
-		return administratori;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setAdministratori(ArrayList<AdministratorKlinike> administratori) {
-		this.administratori = administratori;
-	}
-
-	public ArrayList<Lekar> getLekari() {
-		return lekari;
-	}
-
-	public void setLekari(ArrayList<Lekar> lekari) {
-		this.lekari = lekari;
-	}
-
-	public Cenovnik getCenovnik() {
-		return cenovnik;
-	}
-
-	public void setCenovnik(Cenovnik cenovnik) {
-		this.cenovnik = cenovnik;
-	}
-
-	public ArrayList<Sala> getSale() {
-		return Sale;
-	}
-
-	public void setSale(ArrayList<Sala> sale) {
-		Sale = sale;
-	}
-
-	public void setNaziv(String naziv) {
-		this.naziv = naziv;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getAdresa() {
@@ -113,12 +90,40 @@ public class Klinika {
 		this.opis = opis;
 	}
 
-	public Integer getId() {
-		return id;
+	public Set<AdministratorKlinike> getAdministratori() {
+		return administratori;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setAdministratori(Set<AdministratorKlinike> administratori) {
+		this.administratori = administratori;
+	}
+
+	public Set<Lekar> getLekari() {
+		return lekari;
+	}
+
+	public void setLekari(Set<Lekar> lekari) {
+		this.lekari = lekari;
+	}
+
+	public Cenovnik getCenovnik() {
+		return cenovnik;
+	}
+
+	public void setCenovnik(Cenovnik cenovnik) {
+		this.cenovnik = cenovnik;
+	}
+
+	public Set<Sala> getSale() {
+		return sale;
+	}
+
+	public void setSale(Set<Sala> sale) {
+		this.sale = sale;
+	}
+
+	public void setNaziv(String naziv) {
+		this.naziv = naziv;
 	}
 
 }

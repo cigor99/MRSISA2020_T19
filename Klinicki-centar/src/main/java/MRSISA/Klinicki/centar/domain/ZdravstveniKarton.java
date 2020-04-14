@@ -8,19 +8,40 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "Zdravstevni kartoni")
 public class ZdravstveniKarton {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID_Pregleda", unique = true, nullable = false)
 	private Integer id;
-	
+
 	private List<Integer> izvestaji;
-	
-	private Integer pacijent; // Id pacijenta
+
+	@OneToOne(mappedBy = "zdravstveniKarton")
+	private Pacijent pacijent;
+
+	public ZdravstveniKarton() {
+		super();
+	}
+
+	public ZdravstveniKarton(Integer id, List<Integer> izvestaji, Pacijent pacijent) {
+		super();
+		this.id = id;
+		this.izvestaji = izvestaji;
+		this.pacijent = pacijent;
+	}
+
+	public Pacijent getPacijent() {
+		return pacijent;
+	}
+
+	public void setPacijent(Pacijent pacijent) {
+		this.pacijent = pacijent;
+	}
 
 	public Integer getId() {
 		return id;
@@ -36,25 +57,6 @@ public class ZdravstveniKarton {
 
 	public void setIzvestaji(List<Integer> izvestaji) {
 		this.izvestaji = izvestaji;
-	}
-
-	public Integer getPacijent() {
-		return pacijent;
-	}
-
-	public void setPacijent(Integer pacijent) {
-		this.pacijent = pacijent;
-	}
-
-	public ZdravstveniKarton(Integer id, List<Integer> izvestaji, Integer pacijent) {
-		super();
-		this.id = id;
-		this.izvestaji = izvestaji;
-		this.pacijent = pacijent;
-	}
-
-	public ZdravstveniKarton() {
-		super();
 	}
 
 }

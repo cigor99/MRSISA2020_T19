@@ -5,19 +5,22 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "Zahtevi za operaciju")
 public class ZahtevZaOperaciju {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID_ZZO", unique = true, nullable = false)
 	private Integer id;
-	
-	@Column(name = "operacija", unique = false, nullable = false)
+
+	@ManyToOne
+	@JoinColumn(name = "operacija", referencedColumnName = "ID_Operacije", nullable = false)
 	private Operacija operacija;
-	
+
 	@Column(name = "stanje zahteva", unique = false, nullable = false)
 	private StanjeZahteva stanjeZahteva;
 
@@ -25,10 +28,19 @@ public class ZahtevZaOperaciju {
 
 	}
 
-	public ZahtevZaOperaciju(Operacija operacija, StanjeZahteva stanjeZahteva) {
+	public ZahtevZaOperaciju(Integer id, Operacija operacija, StanjeZahteva stanjeZahteva) {
 		super();
+		this.id = id;
 		this.operacija = operacija;
 		this.stanjeZahteva = stanjeZahteva;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public Operacija getOperacija() {

@@ -1,57 +1,91 @@
 package MRSISA.Klinicki.centar.domain;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "Pregledi")
 public class Pregled {
-	
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID_Pregleda", unique = true, nullable = false)
 	private Integer id;
-	
+
 	@Column(name = "date", unique = false, nullable = false)
 	private Date datum;
-	
-	
-	private Integer sala;
-	
-	private Integer lekar;
-	
-	@Column(name = "tip", unique = false, nullable = false)
-	private TipPregleda tip;
-	
-	private Integer pacijent;
-	
+
+	@ManyToOne
+	@JoinColumn(name = "sala", referencedColumnName = "ID_Sale", nullable = false)
+	private Sala sala;
+
+	@ManyToOne
+	@JoinColumn(name = "lekar", referencedColumnName = "ID_lekara", nullable = false)
+	private Lekar lekar;
+
+	@ManyToOne
+	@JoinColumn(name = "tip_pregleda", referencedColumnName = "ID_TipaPregleda", nullable = false)
+	private TipPregleda tipPregleda;
+
+	@ManyToOne
+	@JoinColumn(name = "pacijent", referencedColumnName = "ID_Pacijenta", nullable = false)
+	private Pacijent pacijent;
+
 	@Column(name = "popust", unique = false, nullable = false)
-	private float popust; // U modelu je int, zar nije popust decimala?
-	
+	private float popust;
+
 	@Column(name = "slobodan", unique = false, nullable = false)
 	private boolean slobodan;
+
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "pregled")
+	private Set<IzvestajPregleda> izvestajiPregleda = new HashSet<IzvestajPregleda>();
+
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "pregled")
+	private Set<Recept> recepti = new HashSet<Recept>();
+
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "pregled")
+	private Set<ZahtevZaPregled> zahteviZaPregled = new HashSet<ZahtevZaPregled>();
 
 	public Pregled() {
 		super();
 	}
 
-	public Pregled(Integer id, Date datum, Integer sala, Integer lekar, TipPregleda tip, Integer pacijent, float popust,
-			boolean slobodan) {
+	public Pregled(Integer id, Date datum, Sala sala, Lekar lekar, TipPregleda tipPregleda, Pacijent pacijent,
+			float popust, boolean slobodan, Set<IzvestajPregleda> izvestajiPregleda, Set<Recept> recepti,
+			Set<ZahtevZaPregled> zahteviZaPregled) {
 		super();
 		this.id = id;
 		this.datum = datum;
 		this.sala = sala;
 		this.lekar = lekar;
-		this.tip = tip;
+		this.tipPregleda = tipPregleda;
 		this.pacijent = pacijent;
 		this.popust = popust;
 		this.slobodan = slobodan;
+		this.izvestajiPregleda = izvestajiPregleda;
+		this.recepti = recepti;
+		this.zahteviZaPregled = zahteviZaPregled;
+	}
+
+	public Set<ZahtevZaPregled> getZahteviZaPregled() {
+		return zahteviZaPregled;
+	}
+
+	public void setZahteviZaPregled(Set<ZahtevZaPregled> zahteviZaPregled) {
+		this.zahteviZaPregled = zahteviZaPregled;
 	}
 
 	public Integer getId() {
@@ -70,35 +104,35 @@ public class Pregled {
 		this.datum = datum;
 	}
 
-	public Integer getSala() {
+	public Sala getSala() {
 		return sala;
 	}
 
-	public void setSala(Integer sala) {
+	public void setSala(Sala sala) {
 		this.sala = sala;
 	}
 
-	public Integer getLekar() {
+	public Lekar getLekar() {
 		return lekar;
 	}
 
-	public void setLekar(Integer lekar) {
+	public void setLekar(Lekar lekar) {
 		this.lekar = lekar;
 	}
 
-	public TipPregleda getTip() {
-		return tip;
+	public TipPregleda getTipPregleda() {
+		return tipPregleda;
 	}
 
-	public void setTip(TipPregleda tip) {
-		this.tip = tip;
+	public void setTipPregleda(TipPregleda tipPregleda) {
+		this.tipPregleda = tipPregleda;
 	}
 
-	public Integer getPacijent() {
+	public Pacijent getPacijent() {
 		return pacijent;
 	}
 
-	public void setPacijent(Integer pacijent) {
+	public void setPacijent(Pacijent pacijent) {
 		this.pacijent = pacijent;
 	}
 
@@ -116,6 +150,22 @@ public class Pregled {
 
 	public void setSlobodan(boolean slobodan) {
 		this.slobodan = slobodan;
+	}
+
+	public Set<IzvestajPregleda> getIzvestajiPregleda() {
+		return izvestajiPregleda;
+	}
+
+	public void setIzvestajiPregleda(Set<IzvestajPregleda> izvestajiPregleda) {
+		this.izvestajiPregleda = izvestajiPregleda;
+	}
+
+	public Set<Recept> getRecepti() {
+		return recepti;
+	}
+
+	public void setRecepti(Set<Recept> recepti) {
+		this.recepti = recepti;
 	}
 
 }
