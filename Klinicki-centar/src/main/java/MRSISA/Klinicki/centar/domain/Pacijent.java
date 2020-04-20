@@ -53,10 +53,10 @@ public class Pacijent {
 	@JoinColumn(name = "zdravsteni_karton", referencedColumnName = "ID_Pregleda")
 	private ZdravstveniKarton zdravstveniKarton;
 
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "ID_Pregleda")
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "pacijent")
 	private List<Pregled> istorijaPregleda;
 
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "ID_Operacije")
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "pacijent")
 	private List<Operacija> istorijaOperacija;
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "pacijent")

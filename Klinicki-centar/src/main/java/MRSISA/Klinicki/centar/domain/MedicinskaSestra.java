@@ -41,7 +41,7 @@ public class MedicinskaSestra {
 	private String lozinka;
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "medicinskaSestra")
-	private Set<Integer> recepti = new HashSet<Integer>();
+	private Set<Recept> recepti = new HashSet<Recept>();
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "medicinskaSestra")
 	private Set<ZahtevZaGodisnjiOdmor> zahteviZaGodisnji = new HashSet<ZahtevZaGodisnjiOdmor>();
@@ -51,7 +51,7 @@ public class MedicinskaSestra {
 	}
 
 	public MedicinskaSestra(Integer id, String ime, String prezime, String jmbg, String email, String lozinka,
-			Set<Integer> recepti, Set<ZahtevZaGodisnjiOdmor> zahteviZaGodisnji) {
+			Set<Recept> recepti, Set<ZahtevZaGodisnjiOdmor> zahteviZaGodisnji) {
 		super();
 		this.id = id;
 		this.ime = ime;
@@ -119,11 +119,11 @@ public class MedicinskaSestra {
 		this.lozinka = lozinka;
 	}
 
-	public Set<Integer> getRecepti() {
+	public Set<Recept> getRecepti() {
 		return recepti;
 	}
 
-	public void setRecepti(Set<Integer> recepti) {
+	public void setRecepti(Set<Recept> recepti) {
 		this.recepti = recepti;
 	}
 

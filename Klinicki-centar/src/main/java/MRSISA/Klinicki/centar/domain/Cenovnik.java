@@ -22,7 +22,7 @@ public class Cenovnik {
 	@Column(name = "ID_Cenovnika", unique = true, nullable = false)
 	private Integer id;
 
-	@Column(name = "cene", unique = false, nullable = false)
+	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy = "cenovnik")
 	private Set<Cena> cene = new HashSet<Cena>();
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "cenovnik")

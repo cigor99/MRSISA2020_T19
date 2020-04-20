@@ -21,10 +21,14 @@ public class IzvestajPregleda {
 	@Column(name = "ID_Izvestaja", unique = true, nullable = false)
 	private Integer id;
 
-	@ManyToOne
-	@JoinColumn(name = "recepti", referencedColumnName = "ID_Recepta", nullable = false)
-	private Set<Integer> recepti = new HashSet<Integer>();
+//	@ManyToOne
+//	@JoinColumn(name = "recepti", referencedColumnName = "ID_Recepta", nullable = false)
+//	private Set<Integer> recepti = new HashSet<Integer>();
 
+	@ManyToOne
+	@JoinColumn(name = "zdravstevniKarton", referencedColumnName = "ID_Pregleda", nullable = false)
+	private ZdravstveniKarton zdravstveniKarton;
+	
 	@ManyToOne
 	@JoinColumn(name = "dijagnoza", referencedColumnName = "ID_Dijagnoza", nullable = false)
 	private Dijagnoza dijagnoza;
@@ -35,19 +39,23 @@ public class IzvestajPregleda {
 
 	@ManyToOne
 	@JoinColumn(name = "lekar", referencedColumnName = "ID_lekara", nullable = false)
-	private Lekar lekar; 
+	private Lekar lekar;
+
+	@ManyToOne
+	@JoinColumn(name = "recept", referencedColumnName = "ID_Recepta", nullable = false)
+	private Recept recept;
 
 	public IzvestajPregleda() {
 		super();
 	}
 
-	public IzvestajPregleda(Integer id, Set<Integer> recepti, Dijagnoza dijagnoza, Pregled pregled, Lekar lekar) {
+	public IzvestajPregleda(Integer id, Dijagnoza dijagnoza, Pregled pregled, Lekar lekar, Recept recept) {
 		super();
 		this.id = id;
-		this.recepti = recepti;
 		this.dijagnoza = dijagnoza;
 		this.pregled = pregled;
 		this.lekar = lekar;
+		this.recept = recept;
 	}
 
 	public Integer getId() {
@@ -58,12 +66,12 @@ public class IzvestajPregleda {
 		this.id = id;
 	}
 
-	public Set<Integer> getRecepti() {
-		return recepti;
+	public Recept getRecept() {
+		return recept;
 	}
 
-	public void setRecepti(Set<Integer> recepti) {
-		this.recepti = recepti;
+	public void setRecept(Recept recept) {
+		this.recept = recept;
 	}
 
 	public Dijagnoza getDijagnoza() {

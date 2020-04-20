@@ -32,15 +32,18 @@ public class Recept {
 	@JoinColumn(name = "pregled", referencedColumnName = "ID_Pregleda", nullable = false)
 	private Pregled pregled;
 
-	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
-	@JoinTable(name = "lekovi", joinColumns = @JoinColumn(name = "ID_lekara"), inverseJoinColumns = @JoinColumn(name = "ID_Recepta"))
+	@ManyToMany
+//	(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	@JoinTable(name = "lek_recept", 
+	joinColumns = {@JoinColumn(name = "ID_Recepta")}, 
+	inverseJoinColumns = {@JoinColumn(name = "ID_Leka")})
 	private Set<Lek> lekovi = new HashSet<Lek>();
 
 	@ManyToOne()
 	@JoinColumn(name = "medicinska_sestra", referencedColumnName = "ID_MedSes", nullable = false)
 	private MedicinskaSestra medicinskaSestra;
 
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "recepti")
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "recept")
 	private Set<IzvestajPregleda> izvestajiPregleda = new HashSet<IzvestajPregleda>();
 
 	public Recept() {
