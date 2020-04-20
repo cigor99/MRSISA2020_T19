@@ -33,7 +33,7 @@ public class ZdravstveniKarton {
 		super();
 	}
 
-	public ZdravstveniKarton(Integer id, List<Integer> izvestaji, Pacijent pacijent) {
+	public ZdravstveniKarton(Integer id,  Set<IzvestajPregleda> izvestaji, Pacijent pacijent) {
 		super();
 		this.id = id;
 		this.izvestaji = izvestaji;
@@ -56,12 +56,14 @@ public class ZdravstveniKarton {
 		this.id = id;
 	}
 
-	public List<Integer> getIzvestaji() {
+	public Set<IzvestajPregleda> getIzvestaji() {
 		return izvestaji;
 	}
 
-	public void setIzvestaji(List<Integer> izvestaji) {
+	public void setIzvestaji(Set<IzvestajPregleda> izvestaji) {
 		this.izvestaji = izvestaji;
 	}
+
+	
 
 }
