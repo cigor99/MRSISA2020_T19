@@ -23,7 +23,7 @@ public class ZdravstveniKarton {
 	@Column(name = "ID_Pregleda", unique = true, nullable = false)
 	private Integer id;
 
-	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy = "zdravstveniKarton")
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "zdravstveniKarton")
 	private Set<IzvestajPregleda> izvestaji;
 
 	@OneToOne(mappedBy = "zdravstveniKarton")
@@ -33,7 +33,7 @@ public class ZdravstveniKarton {
 		super();
 	}
 
-	public ZdravstveniKarton(Integer id, List<Integer> izvestaji, Pacijent pacijent) {
+	public ZdravstveniKarton(Integer id, Set<IzvestajPregleda> izvestaji, Pacijent pacijent) {
 		super();
 		this.id = id;
 		this.izvestaji = izvestaji;
@@ -56,12 +56,14 @@ public class ZdravstveniKarton {
 		this.id = id;
 	}
 
-	public List<Integer> getIzvestaji() {
+	public Set<IzvestajPregleda> getIzvestaji() {
 		return izvestaji;
 	}
 
-	public void setIzvestaji(List<Integer> izvestaji) {
+	public void setIzvestaji(Set<IzvestajPregleda> izvestaji) {
 		this.izvestaji = izvestaji;
 	}
+
+	
 
 }

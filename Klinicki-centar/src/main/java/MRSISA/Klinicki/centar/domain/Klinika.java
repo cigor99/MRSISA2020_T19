@@ -43,7 +43,7 @@ public class Klinika {
 	private Set<Lekar> lekari = new HashSet<Lekar>();
 
 	@ManyToOne
-	@JoinColumn(name = "cenovnik", referencedColumnName = "ID_Cenovnika", nullable = false)
+	@JoinColumn(name = "cenovnik", referencedColumnName = "ID_Cenovnika", nullable = true)
 	private Cenovnik cenovnik;
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "klinika")
@@ -51,6 +51,17 @@ public class Klinika {
 
 	public String getNaziv() {
 		return naziv;
+	}
+	public Klinika() {
+		
+	}
+	
+	public Klinika(Integer id, String naziv, String adresa, String opis) {
+		super();
+		this.id = id;
+		this.naziv = naziv;
+		this.adresa = adresa;
+		this.opis = opis;
 	}
 
 	public Klinika(Integer id, String naziv, String adresa, String opis, Set<AdministratorKlinike> administratori,
