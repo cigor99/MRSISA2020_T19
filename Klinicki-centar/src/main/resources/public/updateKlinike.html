@@ -2,24 +2,49 @@
     <head>
         <meta charset="utf-8">
         <title>Izmena klinike</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+        <script src="updateKlinike.js"></script>
     </head>
     <body>
+    <nav class="navbar navbar-default">
+	  <div class="container-fluid">
+	    <div class="navbar-header">
+	      <a class="navbar-brand" href="#">Klinicki centar</a>
+	    </div>
+	    <ul class="nav navbar-nav">
+	      <li><a href="index.html">Home</a></li>
+	      <li><a href="dodajNovogLekara.html">Dodaj lekara</a></li>
+	      <li class="active"><a href="Klinike.html">Klinika</a></li>
+	      <li><a href="pacijenti.html">Izmeni pacijenta</a></li>
+	    </ul>
+	  </div>
+	</nav>
+	<div class="container">
         <h1>Izmena klinike</h1>
         <form action="">
             <table>
                 <tr>
-                    <td>Naziv klinike:</td>
-                    <td><input type="text" name="naziv" id="naziv"></td>
+                	<div class="form-group">
+                    	<td>Naziv klinike:</td>
+                    	<td><input type="text" class="form-control" name="naziv" id="naziv"></td>
+                  	</div>
                 </tr>
     
                 <tr>
-                    <td>Adresa:</td>
-                    <td><input type="text" name="adresa" id="adresa"></td>
+                	<div class="form-group">
+	                    <td>Adresa:</td>
+	                    <td><input type="text" class="form-control" name="adresa" id="adresa"></td>
+	                </div>
                 </tr>
     
                 <tr>
-                    <td>Opis:</td>
-                    <td><input type="text" name="opis" id="opis"></td>
+                	<div class="form-group">
+                    	<td>Opis:</td>
+                    	<td><input type="text" class="form-control" name="opis" id="opis"></td>
+                    </div>
                 </tr>
                 <tr>
                     <td><input type="button" value="Izmeni kliniku" id="izmeniBtn"></td>
@@ -27,5 +52,6 @@
                 </tr>
             </table>
         </form>
+        </div>
     </body>
 </html>

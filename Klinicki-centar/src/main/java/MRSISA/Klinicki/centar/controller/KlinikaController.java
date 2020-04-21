@@ -1,8 +1,12 @@
 package MRSISA.Klinicki.centar.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,12 +34,33 @@ public class KlinikaController {
 	@Autowired
 	private KlinikaService klinikaService;
 	
-//	@GetMapping
-//	public ModelAndView getKlinike() {
-//		ArrayList<Klinika>klinike = klinikaService.getKlinike();
-//		return new ModelAndView("klinika", "klinika", klinike);
-//	}
+	@GetMapping("/klinika/all")
+	public ResponseEntity<List<KlinikaDTO>> getAllKlinike(){
+		
+		List<Klinika> klinike =  klinikaService.findAll();
+		
+		List<KlinikaDTO> klinikeDTO = new ArrayList<KlinikaDTO>();
+		for(Klinika k : klinike) {
+			klinikeDTO.add(new KlinikaDTO(k));
+		}
+		
+		return new ResponseEntity<>(klinikeDTO, HttpStatus.OK);
+	}
 
+	
+	@GetMapping("/klinika/page")
+	public ResponseEntity<List<KlinikaDTO>> getKlinikaPage(){
+		//AKO TREBA DA SE MENJA MOZE SE PROSLEDITI Pageable pageable
+		Pageable prvihDeset = PageRequest.of(0, 10);
+		Page<Klinika> klinike =  klinikaService.findAll(prvihDeset);
+		
+		List<KlinikaDTO> klinikeDTO = new ArrayList<KlinikaDTO>();
+		for(Klinika k : klinike) {
+			klinikeDTO.add(new KlinikaDTO(k));
+		}
+		
+		return new ResponseEntity<>(klinikeDTO, HttpStatus.OK);
+	}
 	@PostMapping("/klinika/add")
 	public ResponseEntity<KlinikaDTO> addKlinika(@RequestBody KlinikaDTO klinikaDTO) {
 		System.out.println("USAO");
@@ -55,6 +80,8 @@ public class KlinikaController {
 		System.out.println("CONTROLER");
 		System.out.println(id);
 		Klinika klinika = klinikaService.findOne(id);
+		System.out.println("VRATIO se");
+		System.out.println(klinika != null);
 		
 		if (klinika != null) {
 			klinikaService.remove(id);
@@ -64,6 +91,17 @@ public class KlinikaController {
 		}
 	}
 	
+	
+	@GetMapping("/klinika/getUpdate/{id}")
+	public ResponseEntity<KlinikaDTO> getUpdate(@PathVariable Integer id){
+		Klinika klinika = klinikaService.findOne(id);
+		if (klinika != null) {
+			
+			return new ResponseEntity<>(new KlinikaDTO(klinika),HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 	@PutMapping("/klinika/update")
 	public ResponseEntity<KlinikaDTO> updateklinika(@RequestBody KlinikaDTO klinikaDTO){
 		Klinika klinika = klinikaService.findOne(klinikaDTO.getId());
@@ -74,6 +112,8 @@ public class KlinikaController {
 		klinika.setAdresa(klinikaDTO.getAdresa());
 		klinika.setOpis(klinikaDTO.getOpis());
 		klinika.setNaziv(klinikaDTO.getNaziv());
+		
+		klinika = klinikaService.save(klinika);
 		
 		return new ResponseEntity<>(new KlinikaDTO(klinika), HttpStatus.OK);
 	}
