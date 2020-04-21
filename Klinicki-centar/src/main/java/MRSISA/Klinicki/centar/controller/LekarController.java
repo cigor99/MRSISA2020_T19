@@ -41,17 +41,8 @@ public class LekarController {
 	@Autowired
 	private LekarService lekarService;
 
-	/*@GetMapping("/dobaviKlinike")
-	public List<Klinika> dobaviKlinike() {
-		ArrayList<Klinika> klinike = new ArrayList<Klinika>();
-		Klinika k1 = new Klinika(1, "klinika 1", "adresa klinike 1", "opis", null, null, null, null);
-		klinike.add(k1);
-		//templateInputStream = resourceResolver.getResourceAsStream(templateProcessingParameters, resourceName);
-		//return servletContext.getResourceAsStream(resourceName);
-		return klinike;
-	}*/
 	
-	@GetMapping("/dobaviKlinike")
+	/*@GetMapping("/dobaviKlinike")
 	public ResponseEntity<List<Klinika>> dobaviKlinike() {
 		ArrayList<Klinika> klinike = new ArrayList<Klinika>();
 		Klinika k1 = new Klinika(1, "klinika 1", "adresa klinike 1", "opis", null, null, null, null);
@@ -59,24 +50,8 @@ public class LekarController {
 		klinike.add(k1);
 		klinike.add(k2);
 		
-		/*Class.forName("org.h2.Driver");
-		Connection conn = DriverManager.getConnection("jdbc:h2:mem:testdb", "sa", "");
-		
-		Klinika k = null;
-	    Statement s = (Statement) conn.createStatement();
-	    ResultSet r = ((java.sql.Statement) s).executeQuery(
-	        "SELECT ID_Klinike, naziv, adresa, opis FROM Klinike");
-	    /*if (r.next()) {
-	      user = new User();
-	      user.setUserID(r.getInt(1));
-	      user.setUsername(r.getString(2));
-	      user.setPassword(r.getString(3));
-	    }
-	    r.close();
-	    ((Connection) s).close();
-	    conn.close();*/
 		return new ResponseEntity<List<Klinika>>(klinike, HttpStatus.OK);
-	}
+	}*/
 	
 
 	

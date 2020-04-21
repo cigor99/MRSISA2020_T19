@@ -35,13 +35,13 @@ public class LekarServiceImpl implements LekarService {
 			Connection conn = DriverManager.getConnection("jdbc:h2:mem:testdb", "sa", "");
 			
 			PreparedStatement p = conn.prepareStatement(
-					"INSERT INTO Lekar (ID_lekara, email, lozinka, ime, prezime, klinika) VALUES (?, ?, ?, ?, ?, ?)");
+					"INSERT INTO Lekar (ID_lekara, email, lozinka, ime, prezime) VALUES (?, ?, ?, ?, ?)");
 			p.setInt(1, lekar.getId());
 			p.setString(2, lekar.getEmail());
 			p.setString(3, lekar.getLozinka());
 			p.setString(4, lekar.getIme());
 			p.setString(5, lekar.getPrezime());
-			p.setInt(6, lekar.getKlinika());
+			//p.setInt(6, lekar.getKlinika());
 			p.executeUpdate();
 			System.out.println("inserted: "+lekar);
 			p.close();

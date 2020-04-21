@@ -4,15 +4,15 @@ function dodajLekara() {
         var lozinka = $('#lozinka').val()
         var ime = $('#ime').val()
         var prezime = $('#prezime').val()
-        var klinika = document.getElementById("klinikaSelect");
-        var k = klinika.options[klinika.selectedIndex].value;
-        console.log(k);
+        //var klinika = document.getElementById("klinikaSelect");
+        //var k = klinika.options[klinika.selectedIndex].value;
+        //console.log(k);
         var data = JSON.stringify({
             email: $('#email').val(),
             lozinka: $('#lozinka').val(),
             ime: $('#ime').val(),
             prezime: $('#prezime').val(),
-            klinika: k
+            //klinika: k
         });
         $.ajax({
             type: "POST",
@@ -24,7 +24,7 @@ function dodajLekara() {
                 lozinka: $('#lozinka').val(),
                 ime: $('#ime').val(),
                 prezime: $('#prezime').val(),
-                klinika: k
+                //klinika: k
             }),
             complete : function () {
     			alert("Uspesno ste dodali lekara.")
@@ -36,7 +36,7 @@ function dodajLekara() {
 
 
 function dodavanjeNovogLekara(){
-	postaviKlinike();
+	//postaviKlinike();
 }
 
 function postaviKlinike(){
