@@ -42,9 +42,11 @@ public class Lekar {
 	@Column(name = "prezime", unique = false, nullable = false)
 	private String prezime;
 
-	@ManyToOne
-	@JoinColumn(name = "klinika", referencedColumnName = "ID_Klinike", nullable = false)
-	private Klinika klinika;
+	//@ManyToOne
+	//@JoinColumn(name = "klinika", referencedColumnName = "ID_Klinike", nullable = false)
+	//private Klinika klinika;
+	@Column(name = "klinika", unique = false)
+	private Integer klinika;
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "lekar")
 	private Set<Pregled> pregledi = new HashSet<Pregled>();
@@ -62,7 +64,7 @@ public class Lekar {
 
 	}
 
-	public Lekar(Integer id, String email, String lozinka, String ime, String prezime, Klinika klinika,
+	public Lekar(Integer id, String email, String lozinka, String ime, String prezime, Integer klinika,
 			Set<Pregled> pregledi, Set<IzvestajPregleda> izvestajiPregleda, Set<Operacija> operacije,
 			Set<ZahtevZaGodisnjiOdmor> zahteviZaGodisnji) {
 		super();
@@ -118,11 +120,11 @@ public class Lekar {
 		this.prezime = prezime;
 	}
 
-	public Klinika getKlinika() {
+	public Integer getKlinika() {
 		return klinika;
 	}
 
-	public void setKlinika(Klinika klinika) {
+	public void setKlinika(Integer klinika) {
 		this.klinika = klinika;
 	}
 
