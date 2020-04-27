@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import MRSISA.Klinicki.centar.domain.Pacijent;
+import MRSISA.Klinicki.centar.domain.StanjeZahteva;
+import MRSISA.Klinicki.centar.domain.ZahtevZaRegistraciju;
 import MRSISA.Klinicki.centar.dto.PacijentDTO;
 import MRSISA.Klinicki.centar.service.PacijentService;
 
@@ -60,6 +62,16 @@ public class PacijentController {
 		}
 		
 		return new ResponseEntity<List<PacijentDTO>>(pacijentiDTO, HttpStatus.OK);
+		
+	}
+	
+	@PostMapping("/register")
+	public ResponseEntity<Void> register(@RequestBody PacijentDTO pacijentDTO){
+		System.out.println("PacijentController-register");
+		System.out.println(pacijentDTO);
+		//ZahtevZaRegistraciju zzr = new ZahtevZaRegistraciju(0, StanjeZahteva.NA_CEKANJU, pacijent, klinickiCentar)
+		
+		return new ResponseEntity<Void>(HttpStatus.OK);
 		
 	}
 	
