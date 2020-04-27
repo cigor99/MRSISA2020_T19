@@ -20,11 +20,11 @@ public class KlinikaService {
 	@Autowired
 	private KlinikaRepository klinikaRepository;
 	
-	ArrayList<Klinika> klinike = new ArrayList<Klinika>();
-	
-	public ArrayList<Klinika> getKlinike(){
-		return klinike;
-	}
+//	ArrayList<Klinika> klinike = new ArrayList<Klinika>();
+//	
+//	public ArrayList<Klinika> getKlinike(){
+//		return klinike;
+//	}
 
 	public Klinika addKlinika(Klinika klinika) {
 		return klinikaRepository.save(klinika);

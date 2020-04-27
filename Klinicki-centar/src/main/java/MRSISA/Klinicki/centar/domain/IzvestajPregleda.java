@@ -26,7 +26,7 @@ public class IzvestajPregleda {
 //	private Set<Integer> recepti = new HashSet<Integer>();
 
 	@ManyToOne
-	@JoinColumn(name = "zdravstevniKarton", referencedColumnName = "ID_Pregleda", nullable = false)
+	@JoinColumn(name = "zdravstevniKarton", referencedColumnName = "ID_Zdravstvenog_kartona", nullable = false)
 	private ZdravstveniKarton zdravstveniKarton;
 	
 	@ManyToOne
