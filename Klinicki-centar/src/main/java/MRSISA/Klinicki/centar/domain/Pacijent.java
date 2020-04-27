@@ -34,6 +34,9 @@ public class Pacijent {
 	@Column(name = "ime", unique = false, nullable = false)
 	private String ime;
 
+	@Column(name = "Pol", unique = false, nullable = false)
+	private Pol pol;
+
 	@NotEmpty(message = "Prezime je obavezno")
 	@Column(name = "prezime", unique = false, nullable = false)
 	private String prezime;
@@ -50,7 +53,7 @@ public class Pacijent {
 	private String lozinka;
 
 	@OneToOne(cascade = { CascadeType.ALL })
-	@JoinColumn(name = "zdravsteni_karton", referencedColumnName = "ID_Pregleda")
+	@JoinColumn(name = "zdravsteni_karton", referencedColumnName = "ID_Zdravstvenog_kartona", unique = true)
 	private ZdravstveniKarton zdravstveniKarton;
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "pacijent")
@@ -105,7 +108,7 @@ public class Pacijent {
 			@NotEmpty(message = "Email je obavezan") String email,
 			@NotEmpty(message = "Lozinka je obavezna") String lozinka, ZdravstveniKarton zdravstveniKarton,
 			List<Pregled> istorijaPregleda, List<Operacija> istorijaOperacija, Set<Operacija> operacije,
-			ZahtevZaRegistraciju zahtevZaRegistraciju) {
+			ZahtevZaRegistraciju zahtevZaRegistraciju, Pol pol) {
 		super();
 		this.id = id;
 		this.ime = ime;
@@ -118,6 +121,15 @@ public class Pacijent {
 		this.istorijaOperacija = istorijaOperacija;
 		Operacije = operacije;
 		this.zahtevZaRegistraciju = zahtevZaRegistraciju;
+		this.pol = pol;
+	}
+
+	public Pol getPol() {
+		return pol;
+	}
+
+	public void setPol(Pol pol) {
+		this.pol = pol;
 	}
 
 	public ZahtevZaRegistraciju getZahtevZaRegistraciju() {
