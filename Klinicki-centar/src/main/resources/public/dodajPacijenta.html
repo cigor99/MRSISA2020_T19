@@ -1,0 +1,63 @@
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Dodavanje pacijenta</title>
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="js/pacijent.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">Klinički centar</a>
+				</div>
+				<ul class="nav navbar-nav">
+					<li><a href="index.html">Home</a></li>
+					<li><a href="dodajNovogLekara.html">Dodaj lekara</a></li>
+					<li><a href="Klinike.html">Klinika</a></li>
+					<li class="active"><a href="pacijenti.html">Pacijenti</a></li>
+				</ul>
+			</div>
+		</nav>
+	
+	<div class="container">
+	  <h2>Dodavanje pacijenta</h2>
+	  <form action="">
+	    <div class="form-group">
+	      <label for="ime">Ime pacijenta:</label>
+		  <input type="text" class="form-control" id="ime" placeholder="Unesite ime pacijenta" name="ime">
+		  <p id="imeError" style="display:hidden"></p>
+	    </div>
+	    <div class="form-group">
+	      <label for="prezime">Prezime pacijenta:</label>
+		  <input type="text" class="form-control" id="prezime" placeholder="Unesite prezime pacijenta" name="prezime">
+		  <p id="prezimeError" style="display:hidden"></p>
+	    </div>
+	    <div class="form-group">
+	      <label for="jmbg">JMBG pacijenta:</label>
+		  <input type="text" class="form-control" id="jmbg" placeholder="Unesite JMBG pacijenta" name="jmbg">
+		  <p id="jmbgError" style="display:hidden"></p>
+	    </div>
+	    <div class="form-group">
+	      <label for="email">Email pacijenta:</label>
+		  <input type="text" class="form-control" id="email" placeholder="Unesite email pacijenta" name="email">
+		  <p id="emailError" style="display:hidden"></p>
+	    </div>
+	    <div class="form-group">
+	      <label for="ime">Lozinka pacijenta:</label>
+		  <input type="text" class="form-control" id="lozinka" placeholder="Unesite lozinku pacijenta" name="lozinka">
+		  <p id="lozinkaError" style="display:hidden"></p>
+	    </div>
+	    <input type="button" value="Dodaj pacijenta" id="dodajBtn">
+	  </form>
+	</div>
+    
+</body>
+
+</html>

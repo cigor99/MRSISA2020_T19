@@ -1,4 +1,4 @@
-package MRSISA.Klinicki.centar.repository;
+/*package MRSISA.Klinicki.centar.repository;
 
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
@@ -35,3 +35,4 @@ public class InMemoryPacijentRepository implements PacijentRepository{
 	}
 
 }
+*/

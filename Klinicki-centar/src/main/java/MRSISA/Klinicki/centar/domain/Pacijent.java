@@ -1,6 +1,5 @@
 package MRSISA.Klinicki.centar.domain;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,13 +12,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 @Entity
 @Table(name = "Pacijenti")
@@ -65,39 +63,20 @@ public class Pacijent {
 	@OneToOne(mappedBy = "pacijent")
 	private ZahtevZaRegistraciju zahtevZaRegistraciju;
 
-	public Pacijent() {
-		super();
-	}
-
-//	public Pacijent(@NotEmpty(message = "Ime je obavezno") @JsonProperty("ime") String ime,
-//			@NotEmpty(message = "Prezime je obavezno") @JsonProperty("prezime") String prezime,
-//			@NotEmpty(message = "Email je obavezan") @JsonProperty("email") String email,
-//			@NotEmpty(message = "Lozinka je obavezna") @JsonProperty("lozinka") String lozinka) {
-//		this.ime = ime;
-//		this.prezime = prezime;
-//		this.email = email;
-//		this.lozinka = lozinka;
-//	}
-//
-//	public Pacijent(Integer id, @NotEmpty(message = "Ime je obavezno") String ime,
-//			@NotEmpty(message = "Prezime je obavezno") String prezime, String jmbg,
-//			@NotEmpty(message = "Email je obavezan") String email,
-//			@NotEmpty(message = "Lozinka je obavezna") String lozinka, Integer karton, List<Integer> istorijaPregleda,
-//			List<Integer> istorijaOperacija) {
-//		super();
-//		this.id = id;
-//		this.ime = ime;
-//		this.prezime = prezime;
-//		this.jmbg = jmbg;
-//		this.email = email;
-//		this.lozinka = lozinka;
-//		this.karton = karton;
-//		this.istorijaPregleda = istorijaPregleda;
-//		this.istorijaOperacija = istorijaOperacija;
-//	}
+	public Pacijent() {}
 
 	public Integer getId() {
 		return id;
+	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "Pacijent [id=" + id + ", ime=" + ime + ", prezime=" + prezime + ", jmbg=" + jmbg + ", email=" + email
+				+ ", lozinka=" + lozinka + ", zdravstveniKarton=" + zdravstveniKarton + ", istorijaPregleda="
+				+ istorijaPregleda + ", istorijaOperacija=" + istorijaOperacija + ", Operacije=" + Operacije
+				+ ", zahtevZaRegistraciju=" + zahtevZaRegistraciju + "]";
 	}
 
 	public Pacijent(Integer id, @NotEmpty(message = "Ime je obavezno") String ime,
@@ -106,7 +85,6 @@ public class Pacijent {
 			@NotEmpty(message = "Lozinka je obavezna") String lozinka, ZdravstveniKarton zdravstveniKarton,
 			List<Pregled> istorijaPregleda, List<Operacija> istorijaOperacija, Set<Operacija> operacije,
 			ZahtevZaRegistraciju zahtevZaRegistraciju) {
-		super();
 		this.id = id;
 		this.ime = ime;
 		this.prezime = prezime;
@@ -119,7 +97,7 @@ public class Pacijent {
 		Operacije = operacije;
 		this.zahtevZaRegistraciju = zahtevZaRegistraciju;
 	}
-
+	
 	public ZahtevZaRegistraciju getZahtevZaRegistraciju() {
 		return zahtevZaRegistraciju;
 	}
