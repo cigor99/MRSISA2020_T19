@@ -27,9 +27,17 @@ public class PacijentDTO {
 		this.id = pacijent.getId();
 		this.ime = pacijent.getIme();
 		this.prezime = pacijent.getPrezime();
-		this.email = pacijent.getLozinka();
+		this.email = pacijent.getEmail();
 		this.lozinka = pacijent.getLozinka();
 		this.jmbg = pacijent.getJmbg();
+	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "PacijentDTO [id=" + id + ", ime=" + ime + ", prezime=" + prezime + ", jmbg=" + jmbg + ", email=" + email
+				+ ", lozinka=" + lozinka + "]";
 	}
 
 	public int getId() {

@@ -53,9 +53,11 @@ public class PacijentController {
 		}
 		List<PacijentDTO> pacijentiDTO = new ArrayList<PacijentDTO>();
 		
-		for(Pacijent p : pacijenti)
+		for(Pacijent p : pacijenti) {
+			System.out.println("---------");
+			System.out.println(p);
 			pacijentiDTO.add(new PacijentDTO(p));
-		
+		}
 		
 		return new ResponseEntity<List<PacijentDTO>>(pacijentiDTO, HttpStatus.OK);
 		
@@ -105,7 +107,9 @@ public class PacijentController {
 	@PutMapping("/update")
 	public ResponseEntity<PacijentDTO> updatePacijent(@RequestBody PacijentDTO pacijentDTO){
 		System.out.println("PacijentController-updatePacijent");
+		System.out.println(pacijentDTO);
 		Pacijent pacijent = pacijentService.findOne(pacijentDTO.getId());
+		System.out.println(pacijent);
 		if(pacijent == null) 
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		if(!pacijent.getEmail().equals(pacijentDTO.getEmail())) {
@@ -115,7 +119,7 @@ public class PacijentController {
 		pacijent.setIme(pacijentDTO.getIme());
 		pacijent.setPrezime(pacijentDTO.getPrezime());
 		pacijent.setLozinka(pacijentDTO.getLozinka());
-		
+		System.out.println(pacijent);
 		pacijent = pacijentService.save(pacijent);
 		return new ResponseEntity<PacijentDTO>(new PacijentDTO(pacijent), HttpStatus.OK);
 	}

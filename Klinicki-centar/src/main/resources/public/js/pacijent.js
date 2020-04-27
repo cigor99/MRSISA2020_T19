@@ -4,6 +4,7 @@ $(document).ready(function(){
 		url: "/klinicki-centar/pacijent/page",
 		success: function(data){
 			for (let pacijent of data){
+				console.log(pacijent)
 				var table = $("#pacijenti")
 				let tr = $("<tr id=\"tr" + pacijent.id +"\"></tr>")
 				
@@ -13,12 +14,14 @@ $(document).ready(function(){
 				let jmbgTD = $("<td>" + pacijent.jmbg + "</td>")
 				let emailTD = $("<td>" + pacijent.email + "</td>")
 				let lozinkaTD = $("<td>" + pacijent.lozinka + "</td>")
+				let izmeniTD = $("<td>" + "<a href=\"pacijentProfil.html?id=" + pacijent.id + "\">Izmeni</a></td>")
 				tr.append(idTD)
 				tr.append(imeTD)
 				tr.append(prezimeTD)
 				tr.append(jmbgTD)
 				tr.append(emailTD)
 				tr.append(lozinkaTD)
+				tr.append(izmeniTD)
 				table.append(tr)
 			}
 		},
@@ -110,7 +113,7 @@ $(document).ready(function(){
 				lozinka: $("#lozinka").val()
 			}),
 			success: function(){
-				window.location.replace("Pacijenti.html")
+				window.location.replace("pacijenti.html")
 			},
 			error: function(){
 				alert("Error in call /pacijenti/add")

@@ -1,18 +1,41 @@
 $(document).ready(function() {
+	
+	var imeCoded = window.location.href.split("?")[1];
+    var imeJednako = imeCoded.split("&")[0];
+    var imeParam = imeJednako.split("=")[1];
+    
+    $.ajax({
+        type: "get",
 
-	kreiraj();
+        url: "/klinicki-centar/pacijent/getUpdate/" + imeParam,
+        success: function (data) {
+        	console.log(data)
+            $("#ime").val(data.ime);
+            $("#prezime").val(data.prezime);
+            $("#jmbg").val(data.jmbg);
+            $("#email").val(data.email);
+            $("#lozinka").val(data.lozinka);
+
+        },
+        error: function (jqXHR) {
+            alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+        },
+    })
+	
 	
 	$("#potvrdi").click(function(){
 		$.ajax({
-			type : 'POST',
-			url : "pacijent/izmeniPacijenta",
+			type : 'PUT',
+			url : "/klinicki-centar/pacijent/update",
 			dataType : "json",
 			contentType:"application/json",
 			data : JSON.stringify({
+				id: imeParam,
 				ime : $("#ime").val(),
 				prezime : $("#prezime").val(),
+				jmbg: $("#jmbg").val(),
 				email : $("#email").val(),
-				lozinka : $("#lozinka").val(),
+				lozinka : $("#lozinka").val()
 			}),
 
 			success : function(response) {
@@ -27,53 +50,11 @@ $(document).ready(function() {
 
 });
 
-function kreiraj(){
-	var ime = $("#ime").val();
-	var prezime = $("#prezime").val();
-	var email = $("#email").val();
-	var lozinka = $("#lozinka").val();
-	$.ajax({
-		type : 'POST',
-		url : "pacijent/dodaj",
-		dataType : "json",
-		contentType:"application/json",
-		data : JSON.stringify({
-			ime : "Privremeni",
-			prezime : "Privremeni",
-			email : "Privremeni",
-			lozinka : "Privremeni",
-		}),
-
-		success : function(response) {
-			console.log(response.ime);
-			pronadji();
-		},
-		error : function(response) {
-			alert("Greska pri pravljenju privremenog")
-		}
-	});
-}
-
-function pronadji(){
-	$.ajax({
-		type : 'POST',
-		url : "pacijent/pronadjiPacijenta",
-		dataType : "json",
-		contentType:"text/plain",
-		data: "Privremeni",
-		success : function(response) {
-			printPacijent(response);
-		},
-		error : function(response) {
-			alert("Greska pri pronalasku pacijenta")
-		}
-	});
-}
-
 
 function printPacijent(pacijent) {
 	var ime = $("#ime").val(pacijent.ime);
 	var prezime = $("#prezime").val(pacijent.prezime);
+	var jmbg = $("#jmbg").val(pacijent.jmbg);
 	var email = $("#email").val(pacijent.email);
 	var lozinka = $("#lozinka").val(pacijent.lozinka);
 
