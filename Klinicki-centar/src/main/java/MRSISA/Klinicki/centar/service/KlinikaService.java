@@ -50,6 +50,6 @@ public class KlinikaService {
 		System.err.println(ID);
 		System.out.println("USAO U FINDONE");
 		//System.out.println(klinikaRepository.findById(ID).orElseGet(null));
-		return klinikaRepository.findById(ID).orElseGet(null);
+		return klinikaRepository.findById(ID).orElse(null);
 	}
 }

@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Zahtevi za operaciju")
+@Table(name = "Zahtevi_za_operaciju")
 public class ZahtevZaOperaciju {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,7 @@ public class ZahtevZaOperaciju {
 	@JoinColumn(name = "operacija", referencedColumnName = "ID_Operacije", nullable = false)
 	private Operacija operacija;
 
-	@Column(name = "stanje zahteva", unique = false, nullable = false)
+	@Column(name = "stanje_zahteva", unique = false, nullable = false)
 	private StanjeZahteva stanjeZahteva;
 
 	public ZahtevZaOperaciju() {

@@ -10,14 +10,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Zahtevi za pregled")
+@Table(name = "Zahtevi_za_pregled")
 public class ZahtevZaPregled {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID_ZZP", unique = true, nullable = false)
 	private Integer id;
 
-	@Column(name = "stanje zahteva", unique = false, nullable = false)
+	@Column(name = "stanje_zahteva", unique = false, nullable = false)
 	private StanjeZahteva stanjeZahteva;
 
 	@ManyToOne
