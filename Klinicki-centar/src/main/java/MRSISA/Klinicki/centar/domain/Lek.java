@@ -34,7 +34,7 @@ public class Lek {
 	@ManyToMany(mappedBy = "lekovi")
 	private Set<Recept> recepti = new HashSet<Recept>();
 
-	@JsonIgnoreProperties("sifranikLekova")
+	@JsonIgnoreProperties({"sifarnikDijagnoza", "sifranikLekova", "zahteviZaReg","adminiKC" })
 	@ManyToOne
 	@JoinColumn(name = "klinicki_centar", referencedColumnName = "ID_KC")
 	private KlinickiCentar klinickiCentar;

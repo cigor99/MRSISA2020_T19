@@ -1,0 +1,47 @@
+<html>
+
+<head>
+    <title>Šifranik dijagnoza</title>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="dijagnoze.js"></script>
+</head>
+
+<body>
+    <h1>Šifarnik dijagnoza</h1>
+    <table id="dijagnoze" border="1">
+        <th>ID dijagnoze</th>
+        <th>Naziv dijagnose</th>
+        <th>Sifra dijagnoze</th>
+        <th>Opis dijagnoze</th>
+        <th>Izmeni</th>
+    </table>
+    <h1>Dodavanje nove dijagnoze u šifarnik</h1>
+    <table>
+        <tr>
+            <td>
+                <input type="button" value="Dodaj dijagnozu" id="dodaj">
+            </td>
+        </tr>
+    </table>
+
+    <h1>Brisanje dijagnoze</h1>
+    <table>
+        <tr>
+            <td>
+                Unesite ID dijagnoze koju želite da obrišete
+            </td>
+            <td>
+                <input type="text" id="IDBrisanja">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="button" value="Obriši dijagnozu" id="obrisi">
+            </td>
+        </tr>
+
+    </table>
+</body>
+
+</html>

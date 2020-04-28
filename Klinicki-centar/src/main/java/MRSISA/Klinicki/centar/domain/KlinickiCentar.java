@@ -34,6 +34,7 @@ public class KlinickiCentar {
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "klinickiCentar")
 	private Set<Lek> sifranikLekova = new HashSet<Lek>();
 
+	@JsonIgnoreProperties("klinickiCentar")
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "klinickiCentar")
 	private Set<Dijagnoza> sifarnikDijagnoza = new HashSet<Dijagnoza>();
 

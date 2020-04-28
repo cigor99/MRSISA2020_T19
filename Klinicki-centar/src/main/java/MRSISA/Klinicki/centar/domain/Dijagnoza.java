@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "Dijagnoze")
 public class Dijagnoza {
@@ -33,8 +35,9 @@ public class Dijagnoza {
 	@Column(name = "opis", unique = false, nullable = false)
 	private String opis;
 
+	@JsonIgnoreProperties({"sifarnikDijagnoza", "sifranikLekova", "zahteviZaReg","adminiKC" })
 	@ManyToOne
-	@JoinColumn(name = "klinicki_centar", referencedColumnName = "ID_KC", nullable = false)
+	@JoinColumn(name = "klinicki_centar", referencedColumnName = "ID_KC")
 	private KlinickiCentar klinickiCentar;
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "dijagnoza")
@@ -42,6 +45,13 @@ public class Dijagnoza {
 
 	public Dijagnoza() {
 		super();
+	}
+	public Dijagnoza(Integer id, String sifra, String naziv, String opis) {
+		super();
+		this.id = id;
+		this.sifra = sifra;
+		this.naziv = naziv;
+		this.opis = opis;
 	}
 
 	public Dijagnoza(Integer id, String sifra, String naziv, String opis, KlinickiCentar klinickiCentar,

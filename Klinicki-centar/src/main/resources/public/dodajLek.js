@@ -11,11 +11,11 @@ $(document).ready(function () {
                 sifra: $("#sifra").val()
             }),
             success: function (data) {
-                $.ajax({
-                    url:"",
-                    type:"",
+                // $.ajax({
+                //     url:"",
+                //     type:"",
                 
-                });
+                // });
 
                 window.location.replace("sifarnikLekova.html")
             },

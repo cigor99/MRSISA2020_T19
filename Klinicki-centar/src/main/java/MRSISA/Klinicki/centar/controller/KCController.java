@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import MRSISA.Klinicki.centar.domain.Dijagnoza;
 import MRSISA.Klinicki.centar.domain.KlinickiCentar;
 import MRSISA.Klinicki.centar.domain.Klinika;
 import MRSISA.Klinicki.centar.domain.Lek;
@@ -25,13 +26,19 @@ public class KCController {
 	@GetMapping("/KC/sifarnikLekova/getAll")
 	public ResponseEntity<List<Lek>> getAllLekovi(){
 		KlinickiCentar kc = kcService.findOne(1);
-		System.out.println(kc.getId());
-		System.out.println("GET ALL METODA");
-		System.out.println(kc.getSifranikLekova().size());
 		List<Lek> lekovi = kcService.getLekovi(kc);
 		
 		return new ResponseEntity<>(lekovi, HttpStatus.OK);
 	}
+	
+	@GetMapping("/KC/sifarnikDijagnoza/getAll")
+	public ResponseEntity<List<Dijagnoza>> getAllDijagnoze(){
+		KlinickiCentar kc = kcService.findOne(1);
+		List<Dijagnoza> dijagnoze = kcService.getDijagnoze(kc);
+		
+		return new ResponseEntity<>(dijagnoze, HttpStatus.OK);
+	}
+	
 	
 	
 //	@PostMapping("/KC/sifarnikLekova/addLek")

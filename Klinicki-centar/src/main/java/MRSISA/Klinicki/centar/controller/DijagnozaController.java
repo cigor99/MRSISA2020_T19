@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import MRSISA.Klinicki.centar.domain.Dijagnoza;
+import MRSISA.Klinicki.centar.domain.KlinickiCentar;
 import MRSISA.Klinicki.centar.dto.DijagnozaDTO;
 import MRSISA.Klinicki.centar.service.DijagnozaService;
 
@@ -29,7 +30,8 @@ public class DijagnozaController {
 		dijagnoza.setNaziv(dijagnozaDTO.getNaziv());
 		dijagnoza.setOpis(dijagnozaDTO.getOpis());
 		dijagnoza.setSifra(dijagnozaDTO.getSifra());
-
+		dijagnoza.setKlinickiCentar(new KlinickiCentar(1));
+		
 		dijagnoza = dijaService.addDijagnoza(dijagnoza);
 
 		return new ResponseEntity<>(new DijagnozaDTO(dijagnoza), HttpStatus.OK);

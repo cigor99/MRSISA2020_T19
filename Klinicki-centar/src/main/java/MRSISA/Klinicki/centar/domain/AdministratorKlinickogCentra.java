@@ -37,8 +37,23 @@ public class AdministratorKlinickogCentra {
 	private String jmbg;
 
 	@ManyToOne
-	@JoinColumn(name = "klinicki_centar", referencedColumnName = "ID_KC", nullable = false)
+	@JoinColumn(name = "klinicki_centar", referencedColumnName = "ID_KC")
 	private KlinickiCentar klinickiCentar;
+
+	public AdministratorKlinickogCentra() {
+
+	}
+
+	public AdministratorKlinickogCentra(Integer id, String email, String lozinka, String ime, String prezime,
+			String jmbg) {
+		super();
+		this.id = id;
+		this.email = email;
+		this.lozinka = lozinka;
+		this.ime = ime;
+		this.prezime = prezime;
+		this.jmbg = jmbg;
+	}
 
 	public AdministratorKlinickogCentra(Integer id, String email, String lozinka, String ime, String prezime,
 			String jmbg, KlinickiCentar klinickiCentar) {

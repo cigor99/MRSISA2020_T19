@@ -9,6 +9,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import MRSISA.Klinicki.centar.domain.Dijagnoza;
 import MRSISA.Klinicki.centar.domain.KlinickiCentar;
 import MRSISA.Klinicki.centar.domain.Lek;
 import MRSISA.Klinicki.centar.repository.KCRepository;
@@ -29,6 +30,17 @@ public class KCService {
 		}
 		return lekovi;
 	}
+	
+	public List<Dijagnoza> getDijagnoze(KlinickiCentar kc){
+		Set<Dijagnoza> set = kc.getSifarnikDijagnoza();
+		List<Dijagnoza> dijagnoze = new ArrayList<Dijagnoza>();
+		Iterator<Dijagnoza> iter = set.iterator();
+		while(iter.hasNext()) {
+			dijagnoze.add(iter.next());
+		}
+		return dijagnoze;
+	}
+	
 
 	
 	
