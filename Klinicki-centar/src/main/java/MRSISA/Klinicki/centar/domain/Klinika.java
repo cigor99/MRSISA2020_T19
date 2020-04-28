@@ -55,6 +55,15 @@ public class Klinika {
 	public Klinika() {
 		
 	}
+	public Klinika(Integer id, String naziv, String adresa, String opis, Cenovnik cenovnik) {
+		super();
+		this.id = id;
+		this.naziv = naziv;
+		this.adresa = adresa;
+		this.opis = opis;
+		this.cenovnik = cenovnik;
+	}
+
 	
 	public Klinika(Integer id, String naziv, String adresa, String opis) {
 		super();

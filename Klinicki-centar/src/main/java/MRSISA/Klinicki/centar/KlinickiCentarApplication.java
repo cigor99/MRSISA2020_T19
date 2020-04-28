@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.HashSet;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,8 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import MRSISA.Klinicki.centar.domain.KlinickiCentar;
 import MRSISA.Klinicki.centar.domain.Klinika;
 import MRSISA.Klinicki.centar.domain.KrvnaGrupa;
+import MRSISA.Klinicki.centar.domain.Lek;
 import MRSISA.Klinicki.centar.domain.Pacijent;
 import MRSISA.Klinicki.centar.domain.Pol;
 import MRSISA.Klinicki.centar.domain.ZdravstveniKarton;
@@ -28,14 +31,28 @@ public class KlinickiCentarApplication {
 
 		Class.forName("org.h2.Driver");
 		Connection conn = DriverManager.getConnection("jdbc:h2:mem:testdb", "sa", "");
+		KlinickiCentar KC = new KlinickiCentar(1);
+		
+		Lek l1 = new Lek(1, "lek1", "1");
+		l1.setKlinickiCentar(KC);
+		Lek l2 = new Lek(2, "lek2", "2");
+		l2.setKlinickiCentar(KC);
+		Lek l3 = new Lek(3, "lek3", "3");
+		l3.setKlinickiCentar(KC);
+		Lek l4 = new Lek(4, "lek4", "4");
+		l4.setKlinickiCentar(KC);
+		KC.getSifranikLekova().add(l1);
+		KC.getSifranikLekova().add(l2);
+		KC.getSifranikLekova().add(l3);
+		KC.getSifranikLekova().add(l4);
+		System.out.println("FORMIRANJE");
+		System.out.println(KC.getSifranikLekova().size());
+		Klinika k1 = new Klinika(1, "klinika 1", "adresa klinike 1", "opis", null);
+		Klinika k2 = new Klinika(2, "klinika 2", "adresa klinike 2", "opis", null);
 
-		Klinika k1 = new Klinika(1, "klinika 1", "adresa klinike 1", "opis", null, null, null, null);
-		Klinika k2 = new Klinika(2, "klinika 2", "adresa klinike 2", "opis", null, null, null, null);
-
-		Pacijent p1 = new Pacijent(1, "neko", "neko", "1", "neko@gmail.com", "password", null, null, null, null,
-				null, Pol.MUSKI);
-		Pacijent p2 = new Pacijent(2, "neko2", "neko2", "2", "neko2@gmail.com", "password2", null, null, null,
-				null, null, Pol.ZENSKI);
+		System.out.println();
+		Pacijent p1 = new Pacijent(1, "neko", "neko", "1", "neko@gmail.com", "password", null,Pol.MUSKI);
+		Pacijent p2 = new Pacijent(2, "neko2", "neko2", "2", "neko2@gmail.com", "password2", null, Pol.ZENSKI);
 		ZdravstveniKarton zk1 = new ZdravstveniKarton(1, 180.0, 80.0, KrvnaGrupa.ABNEGATIVNA, 0, null, p1);
 		ZdravstveniKarton zk2 = new ZdravstveniKarton(2, 160.0, 50.0, KrvnaGrupa.NULTANEGATIVNA, 0.75, null, p2);
 		zk1.setPacijent(p1);
@@ -43,8 +60,8 @@ public class KlinickiCentarApplication {
 		p1.setZdravstveniKarton(zk1);
 		p2.setZdravstveniKarton(zk2);
 
-		PreparedStatement ps1 = conn
-				.prepareStatement("INSERT INTO ZDRAVSTEVNI_KARTONI (ID_ZDRAVSTVENOG_KARTONA, DIOPTRIJA, KRVNA_GRUPA, TEZINA, VISINA) VALUES (?, ?, ?, ?, ?)");
+		PreparedStatement ps1 = conn.prepareStatement(
+				"INSERT INTO ZDRAVSTEVNI_KARTONI (ID_ZDRAVSTVENOG_KARTONA, DIOPTRIJA, KRVNA_GRUPA, TEZINA, VISINA) VALUES (?, ?, ?, ?, ?)");
 		ps1.setInt(1, zk1.getId());
 		ps1.setDouble(2, zk1.getDioptrija());
 		ps1.setInt(3, zk1.getKrvnaGrupa().ordinal());
@@ -104,7 +121,41 @@ public class KlinickiCentarApplication {
 		System.out.println("inserted: " + k2);
 
 		p.close();
-
+		
+		PreparedStatement ps2 = conn.prepareStatement(
+				"INSERT INTO KLINICKI_CENTAR (ID_KC) VALUES (?)");
+		ps2.setInt(1, KC.getId());
+		ps2.executeUpdate();
+		ps2.close();
+		
+		PreparedStatement ps3 = conn.prepareStatement(
+				"INSERT INTO LEKOVI (ID_LEKA, NAZIV, SIFRA, klinicki_centar) VALUES (?, ?, ?, ?)");
+		ps3.setInt(1, l1.getId());
+		ps3.setString(2, l1.getNaziv());
+		ps3.setString(3, l1.getSifra());
+		ps3.setInt(4, l1.getKlinickiCentar().getId());
+		ps3.executeUpdate();
+		
+		ps3.setInt(1, l2.getId());
+		ps3.setString(2, l2.getNaziv());
+		ps3.setString(3, l2.getSifra());
+		ps3.setInt(4, l2.getKlinickiCentar().getId());
+		ps3.executeUpdate();
+		
+		ps3.setInt(1, l3.getId());
+		ps3.setString(2, l3.getNaziv());
+		ps3.setString(3, l3.getSifra());
+		ps3.setInt(4, l3.getKlinickiCentar().getId());
+		ps3.executeUpdate();
+		
+		ps3.setInt(1, l4.getId());
+		ps3.setString(2, l4.getNaziv());
+		ps3.setString(3, l4.getSifra());
+		ps3.setInt(4, l4.getKlinickiCentar().getId());
+		ps3.executeUpdate();
+		ps3.close();
+		
+		
 		conn.close();
 
 	}

@@ -1,5 +1,6 @@
 package MRSISA.Klinicki.centar.domain;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -57,10 +58,10 @@ public class Pacijent {
 	private ZdravstveniKarton zdravstveniKarton;
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "pacijent")
-	private List<Pregled> istorijaPregleda;
+	private List<Pregled> istorijaPregleda = new ArrayList<Pregled>();
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "pacijent")
-	private List<Operacija> istorijaOperacija;
+	private List<Operacija> istorijaOperacija = new ArrayList<Operacija>();
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "pacijent")
 	private Set<Operacija> Operacije = new HashSet<Operacija>();
@@ -70,6 +71,21 @@ public class Pacijent {
 
 	public Pacijent() {
 		super();
+	}
+
+	public Pacijent(Integer id, @NotEmpty(message = "Ime je obavezno") String ime,
+			@NotEmpty(message = "Prezime je obavezno") String prezime, String jmbg,
+			@NotEmpty(message = "Email je obavezan") String email,
+			@NotEmpty(message = "Lozinka je obavezna") String lozinka, ZdravstveniKarton zdravstveniKarton, Pol pol) {
+		super();
+		this.id = id;
+		this.ime = ime;
+		this.prezime = prezime;
+		this.jmbg = jmbg;
+		this.email = email;
+		this.lozinka = lozinka;
+		this.zdravstveniKarton = zdravstveniKarton;
+		this.pol = pol;
 	}
 
 //	public Pacijent(@NotEmpty(message = "Ime je obavezno") @JsonProperty("ime") String ime,

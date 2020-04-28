@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import MRSISA.Klinicki.centar.domain.Klinika;
+import MRSISA.Klinicki.centar.domain.Lek;
 import MRSISA.Klinicki.centar.repository.KlinikaRepository;
 
 
@@ -30,6 +31,7 @@ public class KlinikaService {
 		return klinikaRepository.save(klinika);
 	}
 	
+
 	public void remove(Integer ID) {
 		klinikaRepository.deleteById(ID);
 	}

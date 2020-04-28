@@ -12,8 +12,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Sort;
+import org.hibernate.annotations.SortType;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "Klinicki_Centar")
@@ -24,13 +30,14 @@ public class KlinickiCentar {
 	@Column(name = "ID_KC", unique = true, nullable = false)
 	private Integer id;
 
-	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy = "klinickiCentar" )
+	@JsonIgnoreProperties("klinickiCentar")
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "klinickiCentar")
 	private Set<Lek> sifranikLekova = new HashSet<Lek>();
 
-	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy = "klinickiCentar" )
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "klinickiCentar")
 	private Set<Dijagnoza> sifarnikDijagnoza = new HashSet<Dijagnoza>();
 
-	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy = "klinickiCentar")
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "klinickiCentar")
 	private Set<ZahtevZaRegistraciju> zahteviZaReg = new HashSet<ZahtevZaRegistraciju>();
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "klinickiCentar")
@@ -38,6 +45,10 @@ public class KlinickiCentar {
 
 	public KlinickiCentar() {
 
+	}
+	public KlinickiCentar(Integer id) {
+		super();
+		this.id = id;
 	}
 
 	public KlinickiCentar(Integer id, Set<Lek> sifranikLekova, Set<Dijagnoza> sifarnikDijagnoza,

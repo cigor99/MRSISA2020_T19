@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +14,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@Embeddable
 @Entity
 @Table(name = "Lekovi")
 public class Lek {
@@ -30,12 +34,20 @@ public class Lek {
 	@ManyToMany(mappedBy = "lekovi")
 	private Set<Recept> recepti = new HashSet<Recept>();
 
+	@JsonIgnoreProperties("sifranikLekova")
 	@ManyToOne
-	@JoinColumn(name = "klinicki_centar", referencedColumnName = "ID_KC", nullable = false)
+	@JoinColumn(name = "klinicki_centar", referencedColumnName = "ID_KC")
 	private KlinickiCentar klinickiCentar;
 
 	public Lek() {
 		super();
+	}
+
+	public Lek(Integer id, String naziv, String sifra) {
+		super();
+		this.id = id;
+		this.naziv = naziv;
+		this.sifra = sifra;
 	}
 
 	public Lek(Integer id, String naziv, String sifra, Set<Recept> recepti, KlinickiCentar klinickiCentar) {

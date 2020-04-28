@@ -1,0 +1,42 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Šifarnik lekova</title>
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="sifarnikLekova.js"></script>
+</head>
+
+<body>
+    <h1>Šifarnik lekova</h1>
+    <table id="lekovi" border="1">
+        <th>ID leka</th>
+        <th>Naziv leka</th>
+        <th>Šifra leka</th>
+        <th>Izmeni</th>
+    </table>
+    <table>
+        <tr>
+            <td><input type="button" value="Dodaj novi lek" id="dodaj"></td>
+        </tr>
+    </table>
+
+    <h1>Brisanje leka iz šifarnika</h1>
+    <table>
+        <tr>
+            <td>
+                Unesite ID leka kojeg želite da obrišete:
+            </td>
+            <td>
+                <input type="text" id="IDBrisanja">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="button" value="Obriši lek" id="obrisi">
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

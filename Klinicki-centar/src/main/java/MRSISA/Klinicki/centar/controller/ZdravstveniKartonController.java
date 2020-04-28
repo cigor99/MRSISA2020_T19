@@ -55,6 +55,7 @@ public class ZdravstveniKartonController {
 
 		zk = zdService.save(zk);
 		return new ResponseEntity<>(new ZdravsteniKartonDTO(zk),HttpStatus.OK);
+		//ZASTO MORA DA VRATI 
 
 	}
 
