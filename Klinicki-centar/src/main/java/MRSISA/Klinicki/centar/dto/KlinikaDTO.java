@@ -27,6 +27,13 @@ public class KlinikaDTO {
 		this.opis = opis;
 		this.adresa = adresa;
 	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "KlinikaDTO [id=" + id + ", naziv=" + naziv + ", opis=" + opis + ", adresa=" + adresa + "]";
+	}
 
 	public int getId() {
 		return id;

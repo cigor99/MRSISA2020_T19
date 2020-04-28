@@ -64,6 +64,7 @@ public class KlinikaController {
 	@PostMapping("/klinika/add")
 	public ResponseEntity<KlinikaDTO> addKlinika(@RequestBody KlinikaDTO klinikaDTO) {
 		System.out.println("USAO");
+		System.out.println(klinikaDTO);
 		Klinika klinika = new Klinika();
 		klinika.setNaziv(klinikaDTO.getNaziv());
 		klinika.setAdresa(klinikaDTO.getAdresa());
