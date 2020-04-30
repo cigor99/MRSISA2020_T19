@@ -77,7 +77,13 @@ public class LekarController {
 	@PostMapping("/lekar/add")
 	public ResponseEntity<LekarDTO> addLekar(@RequestBody LekarDTO lekarDTO){
 		Lekar lekar = new Lekar();
-		lekar.setEmail(lekarDTO.getEmail());
+		String email = lekarDTO.getEmail();
+		for(Lekar l : lekarService.getLekari()) {
+			if(email.equals(l.getEmail())) {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
+		}					
+		lekar.setEmail(email);
 		lekar.setLozinka(lekarDTO.getLozinka());
 		lekar.setIme(lekarDTO.getIme());
 		lekar.setPrezime(lekarDTO.getPrezime());
@@ -98,7 +104,7 @@ public class LekarController {
 		}
 	}
 	
-	@GetMapping("/lekar/getUpdate/{id}")
+	/*@GetMapping("/lekar/getUpdate/{id}")
 	public ResponseEntity<LekarDTO> getUpdate(@PathVariable Integer id){
 		Lekar lekar = lekarService.findOne(id);
 		if(lekar != null) {
@@ -120,7 +126,7 @@ public class LekarController {
 		lekar.setPrezime(lekarDTO.getPrezime());
 		;
 		return new ResponseEntity<>(new LekarDTO(lekar), HttpStatus.OK);
-	}
+	}*/
 	
 
 	

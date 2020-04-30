@@ -99,18 +99,6 @@ function dodajTipPregleda() {
 function ukloniTipPregleda(id) {
 	
     $.ajax({
-        type: "get",
-        url: "/klinicki-centar/tipPregleda/getUpdate/" + id,
-        success: function (data) {
-            $("#naziv").val(data.naziv);
-            $("#trajanje").val(data.naziv);
-            $("#cena").val(data.naziv);
-        },
-        error: function (jqXHR) {
-            alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
-        },
-    });
-    $.ajax({
         type: "DELETE",
 
         url: "/klinicki-centar/tipPregleda/delete/" + id,

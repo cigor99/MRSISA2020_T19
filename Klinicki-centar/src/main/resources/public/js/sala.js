@@ -74,18 +74,6 @@ function dodajSalu() {
 function ukloniSalu(imeParam) {
 	
     $.ajax({
-        type: "get",
-        url: "/klinicki-centar/sala/getUpdate/" + imeParam,
-        success: function (data) {
-            $("#naziv").val(data.naziv);
-            var tipSelected = document.getElementById("tipSaleSelect");
-        	tipSelected.options[tipSelected.selectedIndex].value = data.tip;
-        },
-        error: function (jqXHR) {
-            alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
-        },
-    });
-    $.ajax({
         type: "DELETE",
 
         url: "/klinicki-centar/sala/delete/" + imeParam,
