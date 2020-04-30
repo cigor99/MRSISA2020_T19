@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 function ucitajTabelu() {
     $.ajax({
         type: "get",
@@ -128,9 +128,6 @@ function izmenaSale() {
 }
 
 
-
-
-=======
 function ucitajTabelu() {
     $.ajax({
         type: "get",
@@ -285,4 +282,3 @@ function izmenaSale() {
 
 
 
->>>>>>> branch 'master' of https://github.com/cigor99/MRSISA2020_T19.git

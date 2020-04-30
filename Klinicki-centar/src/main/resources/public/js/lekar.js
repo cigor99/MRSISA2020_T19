@@ -13,13 +13,8 @@ function ucitajTabelu() {
                 let ukloni = $(`<td><button  type="button" id="ukloniBtn" onclick="ukloniLekara('${lekar.id}')">Ukloni</button></td>`)
                 tr.append(id);
                 tr.append(email);
-<<<<<<< HEAD
                 tr.append(ime);
                 tr.append(prezime);               
-=======
-                tr.append(ime); 
-                tr.append(prezime); 
->>>>>>> branch 'master' of https://github.com/cigor99/MRSISA2020_T19.git
                 tr.append(ukloni);
                 table.append(tr);
             }
@@ -61,15 +56,9 @@ function dodajLekara() {
     			alert("Uspesno ste dodali lekara.")
     			window.location.replace("/klinicki-centar/lekari.html");
     		},
-<<<<<<< HEAD
     		error: function() {
     			alert("Email adresa nije dostupna!");
     		},
-=======
-	        error: function () {
-	            alert("Error");
-	        },
->>>>>>> branch 'master' of https://github.com/cigor99/MRSISA2020_T19.git
             
         });
 }
