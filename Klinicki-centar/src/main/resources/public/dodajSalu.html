@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dodaj salu</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="js/sala.js"></script>
+<script src="js/main.js"></script>
+<script>
+	$(document).ready( function() {
+		ucitajZaglavlje();
+		//dodavanjeNoveSale();		
+	});
+</script>
+</head>
+
+<body>
+	<div id="navbardiv"></div>
+	
+	<div class="container">
+	  <h2>Dodavanje nove sale</h2>
+	  <form action="">
+	  	<div class="form-group">
+	      <label for="naziv">Naziv:</label>
+	      <input type="text" class="form-control" id="naziv" placeholder="Unesite naziv sale" name="naziv">
+	      <p id="nazivError" style="display:hidden"></p>
+	    </div>
+	    <div class="form-group">
+	    	<label for="tip">Tip:</label>
+	    	<select class="form-control" id="tipSaleSelect" >
+	    		<option value="ZA_PREGLED">sala za pregled</option>
+				<option value="OPERACIONA">operaciona sala</option>
+			</select>
+	    	<p id="tipError" style="display:hidden"></p>
+	    </div>    
+	    <button  type="button" id="dodajBtn" onclick="javascript:dodajSalu()">Dodaj</button>
+	  </form>
+	</div>
+
+</body>
+
+</html>

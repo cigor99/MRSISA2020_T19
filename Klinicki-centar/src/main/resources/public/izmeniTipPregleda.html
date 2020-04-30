@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Izmena tipa pregleda</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="js/tipPregleda.js"></script>
+<script src="js/main.js"></script>
+<script>
+	$(document).ready( function() {
+		ucitajZaglavlje();
+		izmenaTipaPregleda();
+	});
+</script>
+</head>
+
+<body>
+<div id="navbardiv"></div>
+<div class="container">
+    <h1>Izmena tipa pregleda</h1>
+    <form action="">
+    <div class="form-group">
+      <label for="naziv">Naziv:</label>
+      <input type="text" class="form-control" id="naziv" name="naziv">
+      <p id="nazivError" style="display:hidden"></p>
+    </div>
+    <div class="form-group">
+      <label for="trajanje">Trajanje:</label>
+	  <input type="text" class="form-control" id="trajanje" name="trajanje">
+	  <p id="trajanjeError" style="display:hidden"></p>
+    </div>
+    <div class="form-group">
+      <label for="cena">Cena:</label>
+      <input type="text" class="form-control" id="cena" name="cena">
+      <p id="cenaError" style="display:hidden"></p>
+    </div>
+    <input type="button" value="Sacuvaj izmene" id="izmeniBtn">
+    <!-- <button  type="button" id="izmeniBtn">Izmeni</button>   --> 
+    </form>
+     
+</div>
+</body>
+</html>

@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import MRSISA.Klinicki.centar.domain.AdministratorKlinickogCentra;
+import MRSISA.Klinicki.centar.domain.Cena;
+import MRSISA.Klinicki.centar.domain.Cenovnik;
 import MRSISA.Klinicki.centar.domain.Dijagnoza;
 import MRSISA.Klinicki.centar.domain.KlinickiCentar;
 import MRSISA.Klinicki.centar.domain.Klinika;
@@ -47,6 +50,12 @@ public class KlinickiCentarApplication {
 		KC.getAdminiKC().add(akc1);
 		KC.getAdminiKC().add(akc2);
 		KC.getAdminiKC().add(akc3);
+		
+		HashSet<Cena> cene = new HashSet<>();
+		HashSet<Klinika> klinike = new HashSet<>();
+		Cenovnik cenovnik = new Cenovnik(1, cene, klinike);
+		
+		
 		
 		Dijagnoza d1 = new Dijagnoza(1, "1", "prva", "prva dijagnoza");
 		Dijagnoza d2 = new Dijagnoza(2, "2", "druga", "druga dijagnoza");
@@ -242,7 +251,10 @@ public class KlinickiCentarApplication {
 		ps5.setInt(7, akc3.getKlinickiCentar().getId());
 		ps5.executeUpdate();
 		
-		
+		PreparedStatement ps6 = conn.prepareStatement(
+				"INSERT INTO CENOVNIK (ID_CENOVNIKA) VALUES (?)");
+		ps6.setInt(1, cenovnik.getId());
+		ps6.executeUpdate();
 		
 		conn.close();
 

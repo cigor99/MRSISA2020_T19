@@ -1,0 +1,143 @@
+function ucitajTabelu() {
+    $.ajax({
+        type: "get",
+        url: "/klinicki-centar/sala/page",
+        success: function (data) {
+        	var table = $("#sale")
+            for (var sala of data) {               
+                let tr = $("<tr id=\"tr" + sala.id + "\"></tr>");
+                let id = $("<td>" + sala.id + "</td>")
+                let naziv = $("<td>" + sala.naziv + "</td>")
+                let tip = $("<td>" + sala.tip + "</td>")                
+                let izmeni = $("<td>" + "<a href=\"izmeniSalu.html?id=" + sala.id + "\">Izmeni</a></td>")
+                let ukloni = $(`<td><button  type="button" id="ukloniBtn" onclick="ukloniSalu('${sala.id}')">Ukloni</button></td>`)
+                tr.append(id);
+                tr.append(naziv);
+                tr.append(tip);               
+                tr.append(izmeni);
+                tr.append(ukloni);
+                table.append(tr);
+            }
+
+        }
+    });
+}
+
+
+
+function dodajSalu() {
+    $("#nazivError").css('visibility', 'hidden');
+    $("#tipError").css('visibility', 'hidden');
+    
+    var tipSelected = document.getElementById("tipSaleSelect");
+	var tipSale = tipSelected.options[tipSelected.selectedIndex].value;
+
+    var regex = /^[a-zA-Z0-9]{1,20}$/;
+    alert($("#naziv").val().length)
+    if ($("#naziv").val().length > 20) {
+        $("#nazivError").text("Naziv moze da sadrzi maksimalno 20 karaktera!").css('visibility', 'visible').css('color', 'red');
+        return;
+    }        
+
+    if ($("#naziv").val() == "") {
+        $("#nazivError").text("Naziv je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+        return;
+    }
+    if (tipSale == "") {
+        $("#tipError").text("Tip je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+        return;
+    }
+    
+    if (!regex.test($("#naziv").val())) {
+        $("#nazivError").text("Naziv moze da sadrzi samo mala, velika slova i brojeve.").css('visibility', 'visible').css('color', 'red');
+        return;
+    }
+    
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/klinicki-centar/sala/add",
+        dataType: 'json',
+        data: JSON.stringify({
+            naziv: $('#naziv').val(),
+            tip: tipSale, 
+        }),
+        success: function () {
+            window.location.replace("sale.html")
+            // alert("Uspesno dodavanje klinike!")
+        }
+    })
+}
+
+
+function ukloniSalu(imeParam) {
+	
+    $.ajax({
+        type: "get",
+        url: "/klinicki-centar/sala/getUpdate/" + imeParam,
+        success: function (data) {
+            $("#naziv").val(data.naziv);
+            var tipSelected = document.getElementById("tipSaleSelect");
+        	tipSelected.options[tipSelected.selectedIndex].value = data.tip;
+        },
+        error: function (jqXHR) {
+            alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+        },
+    });
+    $.ajax({
+        type: "DELETE",
+
+        url: "/klinicki-centar/sala/delete/" + imeParam,
+        success: function () {
+            $("#tr" + imeParam).remove();
+            alert("USPESNO BRISANJE SALE");
+        },
+        error: function (jqXHR) {
+            alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+        },
+    });
+}
+
+
+function izmenaSale() {
+    var imeCoded = window.location.href.split("?")[1];
+    var imeJednako = imeCoded.split("&")[0];
+    var imeParam = imeJednako.split("=")[1];
+    $.ajax({
+        type: "get",
+        url: "/klinicki-centar/sala/getUpdate/" + imeParam,
+        success: function (data) {
+            $("#naziv").val(data.naziv);
+            var tipSelected = document.getElementById("tipSaleSelect");
+        	tipSelected.options[tipSelected.selectedIndex].value = data.tip;
+        },
+        error: function (jqXHR) {
+            alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+        },
+    });
+    
+    
+    $('#izmeniBtn').click(function () {
+    	var tipSelected = document.getElementById("tipSaleSelect");
+    	var tipSale = tipSelected.options[tipSelected.selectedIndex].value;
+        $.ajax({
+            type: "PUT",
+            contentType: "application/json",
+            url: "/klinicki-centar/sala/update",
+            dataType: 'json',
+            data: JSON.stringify({
+                id: imeParam,
+                naziv: $('#naziv').val(),
+                tip: tipSale,
+            }),
+            success: function () {
+                window.location.replace("sale.html")
+            }
+        });
+    });
+}
+
+
+
+
