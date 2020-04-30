@@ -1,7 +1,7 @@
 function ucitajTabelu() {
     $.ajax({
         type: "get",
-        url: "/klinicki-centar/lekari/page",
+        url: "/klinicki-centar/lekar/page",
         success: function (data) {
         	var table = $("#lekari")
             for (var lekar of data) {               
@@ -12,8 +12,9 @@ function ucitajTabelu() {
                 let prezime = $("<td>" + lekar.prezime + "</td>")
                 let ukloni = $(`<td><button  type="button" id="ukloniBtn" onclick="ukloniLekara('${lekar.id}')">Ukloni</button></td>`)
                 tr.append(id);
-                tr.append(naziv);
-                tr.append(tip);               
+                tr.append(email);
+                tr.append(ime); 
+                tr.append(prezime); 
                 tr.append(ukloni);
                 table.append(tr);
             }
@@ -42,7 +43,7 @@ function dodajLekara() {
         $.ajax({
             type: "POST",
             contentType: "application/json",
-            url: "/klinicki-centar/dodajNovogLekara",
+            url: "/klinicki-centar/lekar/add",
             dataType: 'json',
             data: JSON.stringify({
                 email: $('#email').val(),
@@ -51,10 +52,13 @@ function dodajLekara() {
                 prezime: $('#prezime').val(),
                 //klinika: k
             }),
-            complete : function () {
+            success : function () {
     			alert("Uspesno ste dodali lekara.")
-    			window.location.replace("/klinicki-centar");
-    		}
+    			window.location.replace("/klinicki-centar/lekari.html");
+    		},
+	        error: function () {
+	            alert("Error");
+	        },
             
         });
 }
@@ -63,21 +67,9 @@ function dodajLekara() {
 function ukloniLekara(id) {
 	
     $.ajax({
-        type: "get",
-        url: "/klinicki-centar/lekar/getUpdate/" + id,
-        success: function (data) {
-            $("#email").val(data.naziv);
-            $("#ime").val(data.naziv);
-            $("#prezime").val(data.naziv);
-        },
-        error: function (jqXHR) {
-            alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
-        },
-    });
-    $.ajax({
         type: "DELETE",
 
-        url: "/klinicki-centar/sala/delete/" + id,
+        url: "/klinicki-centar/lekar/delete/" + id,
         success: function () {
             $("#tr" + id).remove();
             alert("USPESNO BRISANJE LEKARA");

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dodaj lekara</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="js/lekar.js"></script>
+<script src="js/main.js"></script>
+<script>
+	$(document).ready( function() {
+		ucitajZaglavlje();
+		//dodavanjeNovogLekara();		
+	});
+</script>
+</head>
+<body>
+	<div id="navbardiv"></div>
+	
+	<div class="container">
+	  <h2>Dodavanje novog lekara</h2>
+	  <form action="">
+	  	<div class="form-group">
+	      <label for="ime">Ime:</label>
+	      <input type="text" class="form-control" id="ime" placeholder="Unesite ime" name="ime">
+	    </div>
+	    <div class="form-group">
+	      <label for="prezime">Prezime:</label>
+	      <input type="text" class="form-control" id="prezime" placeholder="Unesite prezime" name="prezime">
+	    </div>
+	    <div class="form-group">
+	      <label for="email">Email:</label>
+	      <input type="email" class="form-control" id="email" placeholder="Unesite email" name="email">
+	    </div>
+	    <div class="form-group">
+	      <label for="lozinka">Lozinka:</label>
+	      <input type="password" class="form-control" id="lozinka" placeholder="Unesite lozinku" name="lozinka">
+	    </div>
+	    <!-- <div class="form-group">
+	    	<label for="klinika">Klinika:</label>
+	    	<select class="form-control" id="klinikaSelect" ></select>
+	    </div> -->
+	    <button  type="button" id="dodajLekaraBtn" onclick="javascript:dodajLekara()">Dodaj</button>
+	  </form>
+	</div>
+
+</body>
+
+</html>
