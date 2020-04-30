@@ -73,18 +73,7 @@ function dodajSalu() {
 
 function ukloniSalu(imeParam) {
 	
-    $.ajax({
-        type: "get",
-        url: "/klinicki-centar/sala/getUpdate/" + imeParam,
-        success: function (data) {
-            $("#naziv").val(data.naziv);
-            var tipSelected = document.getElementById("tipSaleSelect");
-        	tipSelected.options[tipSelected.selectedIndex].value = data.tip;
-        },
-        error: function (jqXHR) {
-            alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
-        },
-    });
+    
     $.ajax({
         type: "DELETE",
 
@@ -109,8 +98,30 @@ function izmenaSale() {
         url: "/klinicki-centar/sala/getUpdate/" + imeParam,
         success: function (data) {
             $("#naziv").val(data.naziv);
-            var tipSelected = document.getElementById("tipSaleSelect");
-        	tipSelected.options[tipSelected.selectedIndex].value = data.tip;
+            //var tipSelected = document.getElementById("tipSaleSelect");
+        	//tipSelected.options[tipSelected.selectedIndex].value = data.tip;
+            var $selekt = document.getElementById("tipSaleSelect");			
+			
+		    var option1 = document.createElement("option");
+		    var option2 = document.createElement("option");
+		    option1.value = data.tip;
+		    if(data.tip == "OPERACIONA"){
+		    	option1.text = "operaciona sala";
+			    $selekt.appendChild(option1);
+			    option2.value = "ZA_PREGLED";
+			    option2.text = "sala za pregled";
+			    $selekt.appendChild(option2);
+		    }
+		    else{
+		    	option1.text = "sala za pregled";
+			    $selekt.appendChild(option1);
+			    option2.value = "OPERACIONA";
+			    option2.text = "operaciona sala";
+			    $selekt.appendChild(option2);
+		    }
+		    
+				
+        	//$("#tipSaleSelect").val(data.tip);
         },
         error: function (jqXHR) {
             alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
