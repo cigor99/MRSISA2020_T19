@@ -1,3 +1,28 @@
+function ucitajTabelu() {
+    $.ajax({
+        type: "get",
+        url: "/klinicki-centar/lekari/page",
+        success: function (data) {
+        	var table = $("#lekari")
+            for (var lekar of data) {               
+                let tr = $("<tr id=\"tr" + lekar.id + "\"></tr>");
+                let id = $("<td>" + lekar.id + "</td>")
+                let email = $("<td>" + lekar.email + "</td>")
+                let ime = $("<td>" + lekar.ime + "</td>")
+                let prezime = $("<td>" + lekar.prezime + "</td>")
+                let ukloni = $(`<td><button  type="button" id="ukloniBtn" onclick="ukloniLekara('${lekar.id}')">Ukloni</button></td>`)
+                tr.append(id);
+                tr.append(naziv);
+                tr.append(tip);               
+                tr.append(ukloni);
+                table.append(tr);
+            }
+
+        }
+    });
+}
+
+
 function dodajLekara() {
     	console.log("dodavanje lekara");
         var email = $('#email').val()
@@ -32,6 +57,35 @@ function dodajLekara() {
     		}
             
         });
+}
+
+
+function ukloniLekara(id) {
+	
+    $.ajax({
+        type: "get",
+        url: "/klinicki-centar/lekar/getUpdate/" + id,
+        success: function (data) {
+            $("#email").val(data.naziv);
+            $("#ime").val(data.naziv);
+            $("#prezime").val(data.naziv);
+        },
+        error: function (jqXHR) {
+            alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+        },
+    });
+    $.ajax({
+        type: "DELETE",
+
+        url: "/klinicki-centar/sala/delete/" + id,
+        success: function () {
+            $("#tr" + id).remove();
+            alert("USPESNO BRISANJE LEKARA");
+        },
+        error: function (jqXHR) {
+            alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+        },
+    });
 }
 
 

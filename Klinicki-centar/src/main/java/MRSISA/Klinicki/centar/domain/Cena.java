@@ -25,7 +25,7 @@ public class Cena {
 	private TipPregleda tipPregleda;
 	
 	@ManyToOne
-	@JoinColumn(name = "cenovnik", referencedColumnName = "ID_Cenovnika", nullable = false)
+	@JoinColumn(name = "cenovnik", referencedColumnName = "ID_Cenovnika", nullable = true)
 	private Cenovnik cenovnik;
 
 	public Cena() {
@@ -62,5 +62,15 @@ public class Cena {
 	public void setIznos(Double iznos) {
 		this.iznos = iznos;
 	}
+
+	public Cenovnik getCenovnik() {
+		return cenovnik;
+	}
+
+	public void setCenovnik(Cenovnik cenovnik) {
+		this.cenovnik = cenovnik;
+	}
+	
+	
 
 }

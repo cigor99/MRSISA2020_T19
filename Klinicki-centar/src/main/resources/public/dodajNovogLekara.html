@@ -7,28 +7,16 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="js/lekar.js"></script>
+<script src="js/main.js"></script>
 <script>
 	$(document).ready( function() {
-		dodavanjeNovogLekara();
-		
+		ucitajZaglavlje();
+		//dodavanjeNovogLekara();		
 	});
 </script>
 </head>
 <body>
-
-	<nav class="navbar navbar-default">
-	  <div class="container-fluid">
-	    <div class="navbar-header">
-	      <a class="navbar-brand" href="#">Klinicki centar</a>
-	    </div>
-	    <ul class="nav navbar-nav">
-	      <li class="active"><a href="index.html">Home</a></li>
-	      <li><a href="dodajNovogLekara.html">Dodaj lekara</a></li>
-	      <li><a href="klinike.html">Klinika</a></li>
-	      <li><a href="pacijenti.html">Pacijent</a></li>
-	    </ul>
-	  </div>
-	</nav>
+	<div id="navbardiv"></div>
 	
 	<div class="container">
 	  <h2>Dodavanje novog lekara</h2>
