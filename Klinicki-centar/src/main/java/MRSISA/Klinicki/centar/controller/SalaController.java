@@ -1,3 +1,4 @@
+
 package MRSISA.Klinicki.centar.controller;
 
 import java.util.ArrayList;
@@ -100,6 +101,7 @@ public class SalaController {
 		}
 		sala.setNaziv(salaDTO.getNaziv());
 		sala.setTip(salaDTO.getTip());
+		System.out.println(salaDTO.getTip());
 		sala = salaService.save(sala);
 		return new ResponseEntity<>(new SalaDTO(sala), HttpStatus.OK);
 	}
@@ -107,3 +109,4 @@ public class SalaController {
 	
 
 }
+
