@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import MRSISA.Klinicki.centar.domain.Dijagnoza;
 import MRSISA.Klinicki.centar.domain.KlinickiCentar;
 import MRSISA.Klinicki.centar.domain.Lek;
+import MRSISA.Klinicki.centar.domain.ZahtevZaRegistraciju;
 import MRSISA.Klinicki.centar.repository.KCRepository;
 
 @Service
@@ -46,6 +47,28 @@ public class KCService {
 	
 	public KlinickiCentar findOne(Integer ID) {
 		return kcRepository.findById(ID).orElse(null);
+	}
+
+	public List<ZahtevZaRegistraciju> getZahteviZaReg(KlinickiCentar kc) {
+		List<ZahtevZaRegistraciju> zahtevi = new ArrayList<ZahtevZaRegistraciju>();
+		Set<ZahtevZaRegistraciju> set = kc.getZahteviZaReg();
+		Iterator<ZahtevZaRegistraciju> iter = set.iterator();
+		while(iter.hasNext()) {
+			zahtevi.add(iter.next());
+		}
+		return zahtevi;
+	}
+
+	public ZahtevZaRegistraciju findZahtevZaReg(KlinickiCentar kc, Integer id) {
+		Set<ZahtevZaRegistraciju> set = kc.getZahteviZaReg();
+		Iterator<ZahtevZaRegistraciju> iter = set.iterator();
+
+		while(iter.hasNext()) {
+			if(iter.next().getId() == id) {
+				return iter.next();
+			}
+		}
+		return null;
 	}
 
 

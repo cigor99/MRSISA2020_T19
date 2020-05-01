@@ -26,6 +26,9 @@
             <td>
                 <input type="text" id="ime">
             </td>
+            <td>
+                <p id="imeERROR" style="visibility: hidden;"></p>
+            </td>
         </tr>
         <tr>
             <td></td>
@@ -34,13 +37,19 @@
             <td>
                 <input type="text" id="prezime">
             </td>
+            <td>
+                <p id="prezimeERROR" style="visibility: hidden;"></p>
+            </td>
         </tr>
         <tr>
             <td>
                 Email
             </td>
             <td>
-                <input type="text" id="email">
+                <input type="text" id="email">            
+            </td>
+            <td>
+                <p id="emailERROR" style="visibility: hidden;"></p>
             </td>
         </tr>
         <tr>
@@ -48,7 +57,10 @@
                 JMBG
             </td>
             <td>
-                <input type="text" id="jmbg">
+                <input type="number" id="jmbg">            
+            </td>
+            <td>
+                <p id="jmbgERROR" style="visibility: hidden;"></p>
             </td>
         </tr>
         <tr>
@@ -56,17 +68,20 @@
                 Lozinka
             </td>
             <td>
-                <input type="password" id="lozinka">
+                <input type="password" id="lozinka">              
+            </td>
+            <td>
+                <p id="lozinkaERROR" style="visibility: hidden;"></p>
             </td>
         </tr>
-        <tr>
+        <!-- <tr>
             <td>
                 Ponovite lozinku
             </td>
             <td>
                 <input type="password" id="ponovo">
             </td>
-        </tr>
+        </tr> -->
         <tr>
             <td>
                 <input type="button" value="Sačuvaj izmene" id="sacuvaj">

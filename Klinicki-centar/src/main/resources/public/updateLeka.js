@@ -15,6 +15,29 @@ $(document).ready(function () {
     })
 
     $("#izmeniBtn").click(function () {
+        var regex;
+        regex = /^[a-zA-Z0-9]{1,20}$/;
+        $("#nazivERROR").css('visibility', 'hidden')
+        $("#sifraERROR").css('visibility', 'hidden')
+
+        if ($("#naziv").val() == "") {
+            $("#nazivERROR").html("Naziv je obavezno polje").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+        if ($("#sifra").val() == "") {
+            $("#sifraERROR").html("Šifra je obavezno polje").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if (!regex.test($("#naziv").val())) {
+            $("#nazivERROR").html("Naziv može da sadrži samo slova i brojeve").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+        if (!regex.test($("#sifra").val())) {
+            $("#sifraERROR").html("Šifra može da sadrži samo slova i brojeve").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
         $.ajax({
             type: "PUT",
             contentType: "application/json",

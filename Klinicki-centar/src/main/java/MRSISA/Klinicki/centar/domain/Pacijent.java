@@ -52,6 +52,9 @@ public class Pacijent {
 	@NotEmpty(message = "Lozinka je obavezna")
 	@Column(name = "lozinka", unique = false, nullable = false)
 	private String lozinka;
+	
+	@Column(name = "stanje_pacijenta", nullable = false)
+	private StanjePacijenta stanjePacijenta = StanjePacijenta.NA_CEKANJU;
 
 	@OneToOne(cascade = { CascadeType.ALL })
 	@JoinColumn(name = "zdravsteni_karton", referencedColumnName = "ID_Zdravstvenog_kartona", unique = true)
@@ -138,6 +141,15 @@ public class Pacijent {
 		Operacije = operacije;
 		this.zahtevZaRegistraciju = zahtevZaRegistraciju;
 		this.pol = pol;
+	}
+	
+
+	public StanjePacijenta getStanjePacijenta() {
+		return stanjePacijenta;
+	}
+
+	public void setStanjePacijenta(StanjePacijenta stanjePacijenta) {
+		this.stanjePacijenta = stanjePacijenta;
 	}
 
 	public Pol getPol() {

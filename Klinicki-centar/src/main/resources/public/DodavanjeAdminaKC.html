@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>Dodavanje admina KC</title>
+    <title>Dodavanje admina kliničkog centra</title>
     <meta charset="utf-8">
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="DodavanjeAdminaKC.js"></script>
@@ -17,6 +17,9 @@
             <td>
                 <input type="text" id="email" required autofocus>
             </td>
+            <td>
+                <p id="emailERROR" style="visibility: hidden;"></p>
+            </td>
         </tr>
         <tr>
             <td>
@@ -24,6 +27,9 @@
             </td>
             <td>
                 <input type="text" id="ime" required>
+            </td>
+            <td>
+                <p id="imeERROR" style="visibility: hidden;"></p>
             </td>
         </tr>
         <tr>
@@ -33,6 +39,9 @@
             <td>
                 <input type="text" id="prezime" required>
             </td>
+            <td>
+                <p id="prezimeERROR" style="visibility: hidden;"></p>
+            </td>
         </tr>
         <tr>
             <td>
@@ -40,6 +49,9 @@
             </td>
             <td>
                 <input type="number" required id="JMBG">
+            </td>
+            <td>
+                <p id="jmbgERROR" style="visibility: hidden;"></p>
             </td>
         </tr>
         <tr>
@@ -49,8 +61,11 @@
             <td>
                 <input type="password" id="sifra">
             </td>
+            <td>
+                <p id="lozinkaERROR" style="visibility: hidden;"></p>
+            </td>
         </tr>
-        <tr>
+        <!-- <tr>
             <td>
                 Ponovite lozinku 
             </td>
@@ -58,7 +73,7 @@
                 <input type="password" id="sifraPonovo">
             </td>
         </tr>
-        <tr>
+        <tr> -->
             <td>
                 <input type="button" value="Dodaj admina" id="dodaj">
             </td>
