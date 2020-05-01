@@ -24,6 +24,7 @@ import MRSISA.Klinicki.centar.domain.KrvnaGrupa;
 import MRSISA.Klinicki.centar.domain.Lek;
 import MRSISA.Klinicki.centar.domain.Pacijent;
 import MRSISA.Klinicki.centar.domain.Pol;
+import MRSISA.Klinicki.centar.domain.StanjePacijenta;
 import MRSISA.Klinicki.centar.domain.ZdravstveniKarton;
 
 @SpringBootApplication
@@ -86,8 +87,8 @@ public class KlinickiCentarApplication {
 		Klinika k1 = new Klinika(1, "klinika 1", "adresa klinike 1", "opis", null);
 		Klinika k2 = new Klinika(2, "klinika 2", "adresa klinike 2", "opis", null);
 
-		Pacijent p1 = new Pacijent(1, "neko", "neko", "1", "neko@gmail.com", "password", null, Pol.MUSKI);
-		Pacijent p2 = new Pacijent(2, "neko2", "neko2", "2", "neko2@gmail.com", "password2", null, Pol.ZENSKI);
+		Pacijent p1 = new Pacijent(1, "neko", "neko", "1", "neko@gmail.com", "passwordP1", null, Pol.MUSKI);
+		Pacijent p2 = new Pacijent(2, "nekodva", "nekodva", "2", "neko2@gmail.com", "passwordP2", null, Pol.ZENSKI);
 
 		ZdravstveniKarton zk1 = new ZdravstveniKarton(1, 180.0, 80.0, KrvnaGrupa.ABNEGATIVNA, 0, null, p1);
 		ZdravstveniKarton zk2 = new ZdravstveniKarton(2, 160.0, 50.0, KrvnaGrupa.NULTANEGATIVNA, 0.75, null, p2);
@@ -117,7 +118,7 @@ public class KlinickiCentarApplication {
 		ps1.close();
 
 		PreparedStatement ps = conn.prepareStatement(
-				"INSERT INTO Pacijenti (ID_PACIJENTA, EMAIL, IME, JMBG, LOZINKA, PREZIME ,ZDRAVSTENI_KARTON, POL ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+				"INSERT INTO Pacijenti (ID_PACIJENTA, EMAIL, IME, JMBG, LOZINKA, PREZIME ,ZDRAVSTENI_KARTON, POL, STANJE_PACIJENTA ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 		ps.setInt(1, p1.getId());
 		ps.setString(2, p1.getEmail());
@@ -127,6 +128,7 @@ public class KlinickiCentarApplication {
 		ps.setString(6, p1.getPrezime());
 		ps.setInt(7, p1.getZdravstveniKarton().getId());
 		ps.setInt(8, p1.getPol().ordinal());
+		ps.setInt(9, p1.getStanjePacijenta().ordinal());
 		ps.executeUpdate();
 		System.out.println("inserted: " + p1);
 
@@ -138,6 +140,7 @@ public class KlinickiCentarApplication {
 		ps.setString(6, p2.getPrezime());
 		ps.setInt(7, p2.getZdravstveniKarton().getId());
 		ps.setObject(8, p2.getPol().ordinal());
+		ps.setInt(9, p1.getStanjePacijenta().ordinal());
 		ps.executeUpdate();
 		System.out.println("inserted: " + p2);
 		ps.close();

@@ -1,39 +1,31 @@
-$(document).ready(function(){
-	$.ajax({
-		type: "get",
-		url: "/klinicki-centar/pacijent/page",
-		success: function(data){
-			for (let pacijent of data){
-				console.log(pacijent)
-				var table = $("#pacijenti")
-				let tr = $("<tr id=\"tr" + pacijent.id +"\"></tr>")
-				
-				let idTD = $("<td>" + pacijent.id + "</td>")
-				let imeTD = $("<td>" + pacijent.ime + "</td>")
-				let prezimeTD = $("<td>" + pacijent.prezime + "</td>")
-				let polTD = $("<td>" + pacijent.pol + "</td>")
-				let jmbgTD = $("<td>" + pacijent.jmbg + "</td>")
-				let emailTD = $("<td>" + pacijent.email + "</td>")
-				let lozinkaTD = $("<td>" + pacijent.lozinka + "</td>")
-				let izmeniTD = $("<td>" + "<a href=\"pacijentProfil.html?id=" + pacijent.id + "\">Izmeni</a></td>")
-				tr.append(idTD)
-				tr.append(imeTD)
-				tr.append(prezimeTD)
-				tr.append(polTD)
-				tr.append(jmbgTD)
-				tr.append(emailTD)
-				tr.append(lozinkaTD)
-				tr.append(izmeniTD)
-				table.append(tr)
-			}
-		},
-		error: function(response){
-			alert("Error when pacijent/page called")
-		}
-	});
+$(document).ready(function() {
+	
+	var imeCoded = window.location.href.split("?")[1];
+    var imeJednako = imeCoded.split("&")[0];
+    var imeParam = imeJednako.split("=")[1];
+    
+    $.ajax({
+        type: "get",
+
+        url: "/klinicki-centar/pacijent/getUpdate/" + imeParam,
+        success: function (data) {
+        	console.log(data)
+            $("#ime").val(data.ime);
+            $("#prezime").val(data.prezime);
+            $("#jmbg").val(data.jmbg);
+            $("#email").val(data.email);
+            $("#lozinka").val(data.lozinka);
+            $("#pol").val(data.pol);
+
+        },
+        error: function (jqXHR) {
+            alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+        },
+    })
 	
 	
-	$("#dodajBtn").click(function(){
+	$("#potvrdi").click(function(){
+		
 		$("#imeError").css('visibility', 'hidden')
 		$("#prezimeError").css('visibility', 'hidden')
 		$("#jmbgError").css('visibility', 'hidden')
@@ -135,48 +127,40 @@ $(document).ready(function(){
 			return;
 		}
 		
-		
 		$.ajax({
-			type: "POST",
-			contentType: "application/json",
-			url: "/klinicki-centar/pacijent/add",
-			dataType: 'json',
-			data: JSON.stringify({
-				ime: $("#ime").val(),
-				prezime: $("#prezime").val(),
+			type : 'PUT',
+			url : "/klinicki-centar/pacijent/update",
+			dataType : "json",
+			contentType:"application/json",
+			data : JSON.stringify({
+				id: imeParam,
+				ime : $("#ime").val(),
+				prezime : $("#prezime").val(),
 				jmbg: $("#jmbg").val(),
-				email: $("#email").val(),
-				lozinka: $("#lozinka").val(),
+				email : $("#email").val(),
+				lozinka : $("#lozinka").val(),
 				pol: $("#pol").val()
 			}),
-			success: function(){
-				window.location.replace("pacijenti.html")
+
+			success : function(response) {
+				alert("Uspesno promenjeno")
+				printPacijent(response);
 			},
-			error: function(){
-				alert("Error in call /pacijenti/add")
+			error : function(response) {
+				alert("Greska pri kliku potvrdi")
 			}
 		});
-		
 	});
-	
-	
-	
-	
-	$("#obrisiBtn").click(function () {
-        $.ajax({
-            type: "DELETE",
 
-            url: "/klinicki-centar/pacijent/delete/" + $("#IDbrisanje").val(),
-            success: function () {
-                $("#tr" + $("#IDbrisanje").val()).remove();
-                $("#IDbrisanje").val("");
-                alert("USPESNO BRISANJE PACIJENTA");
-            },
-            error: function (jqXHR) {
-                alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
-            },
-        });
-    });
-	
-	
 });
+
+
+function printPacijent(pacijent) {
+	var ime = $("#ime").val(pacijent.ime);
+	var prezime = $("#prezime").val(pacijent.prezime);
+	var jmbg = $("#jmbg").val(pacijent.jmbg);
+	var pol = $("#pol").val(pacijent.pol);
+	var email = $("#email").val(pacijent.email);
+	var lozinka = $("#lozinka").val(pacijent.lozinka);
+
+}

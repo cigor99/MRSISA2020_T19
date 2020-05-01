@@ -1,6 +1,7 @@
 package MRSISA.Klinicki.centar.dto;
 
 import MRSISA.Klinicki.centar.domain.Pacijent;
+import MRSISA.Klinicki.centar.domain.Pol;
 
 public class PacijentDTO {
 	private int id;
@@ -9,8 +10,9 @@ public class PacijentDTO {
 	private String jmbg;
 	private String email;
 	private String lozinka;
+	private Pol pol;
 
-	public PacijentDTO(int id, String ime, String prezime, String jmbg, String email, String lozinka) {
+	public PacijentDTO(int id, String ime, String prezime, String jmbg, String email, String lozinka, Pol pol) {
 
 		this.id = id;
 		this.ime = ime;
@@ -18,6 +20,7 @@ public class PacijentDTO {
 		this.jmbg = jmbg;
 		this.email = email;
 		this.lozinka = lozinka;
+		this.pol = pol;
 	}
 
 	public PacijentDTO() {
@@ -30,14 +33,16 @@ public class PacijentDTO {
 		this.email = pacijent.getEmail();
 		this.lozinka = pacijent.getLozinka();
 		this.jmbg = pacijent.getJmbg();
+		this.pol = pacijent.getPol();
 	}
 	
 	
 
+
 	@Override
 	public String toString() {
 		return "PacijentDTO [id=" + id + ", ime=" + ime + ", prezime=" + prezime + ", jmbg=" + jmbg + ", email=" + email
-				+ ", lozinka=" + lozinka + "]";
+				+ ", lozinka=" + lozinka + ", pol=" + pol + "]";
 	}
 
 	public int getId() {
@@ -87,5 +92,15 @@ public class PacijentDTO {
 	public void setLozinka(String lozinka) {
 		this.lozinka = lozinka;
 	}
+
+	public Pol getPol() {
+		return pol;
+	}
+
+	public void setPol(Pol pol) {
+		this.pol = pol;
+	}
+	
+	
 
 }

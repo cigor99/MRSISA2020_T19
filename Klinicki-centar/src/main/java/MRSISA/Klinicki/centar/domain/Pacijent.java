@@ -54,7 +54,7 @@ public class Pacijent {
 	private String lozinka;
 	
 	@Column(name = "stanje_pacijenta", nullable = false)
-	private StanjePacijenta stanjePacijenta = StanjePacijenta.NA_CEKANJU;
+	private StanjePacijenta stanjePacijenta;
 
 	@OneToOne(cascade = { CascadeType.ALL })
 	@JoinColumn(name = "zdravsteni_karton", referencedColumnName = "ID_Zdravstvenog_kartona", unique = true)
@@ -89,6 +89,7 @@ public class Pacijent {
 		this.lozinka = lozinka;
 		this.zdravstveniKarton = zdravstveniKarton;
 		this.pol = pol;
+		this.stanjePacijenta = StanjePacijenta.NA_CEKANJU;
 	}
 
 //	public Pacijent(@NotEmpty(message = "Ime je obavezno") @JsonProperty("ime") String ime,
@@ -141,6 +142,7 @@ public class Pacijent {
 		Operacije = operacije;
 		this.zahtevZaRegistraciju = zahtevZaRegistraciju;
 		this.pol = pol;
+		this.stanjePacijenta =StanjePacijenta.NA_CEKANJU;
 	}
 	
 

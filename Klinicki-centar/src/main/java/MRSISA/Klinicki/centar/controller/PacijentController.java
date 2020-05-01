@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import MRSISA.Klinicki.centar.domain.Pacijent;
+import MRSISA.Klinicki.centar.domain.StanjePacijenta;
 import MRSISA.Klinicki.centar.domain.StanjeZahteva;
 import MRSISA.Klinicki.centar.domain.ZahtevZaRegistraciju;
 import MRSISA.Klinicki.centar.dto.PacijentDTO;
@@ -86,6 +87,8 @@ public class PacijentController {
 		pacijent.setEmail(pacijentDTO.getEmail());
 		pacijent.setLozinka(pacijentDTO.getLozinka());
 		pacijent.setJmbg(pacijentDTO.getJmbg());
+		pacijent.setPol(pacijentDTO.getPol());
+		pacijent.setStanjePacijenta(StanjePacijenta.NA_CEKANJU);
 		
 		pacijent = pacijentService.addPacijent(pacijent);
 		
@@ -131,34 +134,12 @@ public class PacijentController {
 		pacijent.setIme(pacijentDTO.getIme());
 		pacijent.setPrezime(pacijentDTO.getPrezime());
 		pacijent.setLozinka(pacijentDTO.getLozinka());
+		pacijent.setPol(pacijentDTO.getPol());
 		System.out.println(pacijent);
 		pacijent = pacijentService.save(pacijent);
 		return new ResponseEntity<PacijentDTO>(new PacijentDTO(pacijent), HttpStatus.OK);
 	}
 	
-	/*
-	@PostMapping("/dodaj")
-	public Pacijent dodajPacijenta(@RequestBody Pacijent pacijent) {
-		pacijentService.dodajPacijenta(pacijent);
-		return pacijent;
-	}
-	
-	@GetMapping("/preuzmiSve")
-	public List<Pacijent> preuzmiPacijente(){
-		return pacijentService.vratiPacijente();
-	}
-	
-	@PostMapping(path = "/pronadjiPacijenta", consumes = "text/plain", produces = "application/json")
-	public Pacijent pronadjiPacijenta(@RequestBody String email) {
-		return pacijentService.pronadjiPacijenta(email);
-	}
-	
-	@PostMapping(path="/izmeniPacijenta", consumes="application/json", produces="application/json")
-	public Pacijent izmeniPacijenta(@RequestBody Pacijent pacijent) {
-		pacijentService.izmeniPacijenta(pacijent);
-		return pacijent;
-	}
-	*/
 	
 	
 	

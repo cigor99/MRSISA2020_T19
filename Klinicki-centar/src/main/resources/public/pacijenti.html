@@ -1,53 +1,59 @@
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title>Pacijenti</title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-        <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-        <script src="js/pacijent.js"></script>
-	</head>
-	<body>
-		<nav class="navbar navbar-default">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="#">Klinički centar</a>
-				</div>
-				<ul class="nav navbar-nav">
-					<li><a href="index.html">Home</a></li>
-					<li><a href="dodajNovogLekara.html">Dodaj lekara</a></li>
-					<li><a href="Klinike.html">Klinika</a></li>
-					<li class="active"><a href="pacijenti.html">Pacijenti</a></li>
-				</ul>
+<head>
+<meta charset="utf-8">
+<title>Pacijenti</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="js/pacijent.js"></script>
+</head>
+<body>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">Klinički centar</a>
 			</div>
-		</nav>
-		
-		<h1>Pacijenti</h1>
-		<table id="pacijenti" name="pacijenti" border="1">
-			<th id="ID">ID</th>
-			<th id="ime">Ime</th>
-			<th id="prezime">Prezime</th>
-			<th id="jmbg">JMBG</th>
-			<th id="email">Email</th>
-			<th id="lozinka">Lozinka</th>
-			<th>Izmeni</th>
-		</table>
-		<table>
-			<tr>
-				<td><input type="button" onclick="location.href='dodajPacijenta.html'" value="Dodavanje pacijenta"></td>
-			</tr>
-		</table>
-		
-		<h1>Brisanje pacijenta</h1>
-		<table>
-			<tr>
-				<td>Unesite ID pacijenta kojeg želite da obrišete:</td>
-				<td><input type="text" name="ID" id="IDbrisanje"></td>
-			</tr>
-			<tr>
-				<td><input type="button" value="Obrisi pacijenta" id="obrisiBtn"></td>
-			</tr>
-		</table>
-	</body>
+			<ul class="nav navbar-nav">
+				<li><a href="index.html">Home</a></li>
+				<li><a href="dodajNovogLekara.html">Dodaj lekara</a></li>
+				<li><a href="Klinike.html">Klinika</a></li>
+				<li class="active"><a href="pacijenti.html">Pacijenti</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<h1>Pacijenti</h1>
+	<table id="pacijenti" name="pacijenti" border="1">
+		<th id="ID">ID</th>
+		<th id="ime">Ime</th>
+		<th id="prezime">Prezime</th>
+		<th id="pol">Pol</th>
+		<th id="jmbg">JMBG</th>
+		<th id="email">Email</th>
+		<th id="lozinka">Lozinka</th>
+		<th>Izmeni</th>
+	</table>
+	<table>
+		<tr>
+			<td><input type="button"
+				onclick="location.href='dodajPacijenta.html'"
+				value="Dodavanje pacijenta"></td>
+		</tr>
+	</table>
+
+	<h1>Brisanje pacijenta</h1>
+	<table>
+		<tr>
+			<td>Unesite ID pacijenta kojeg želite da obrišete:</td>
+			<td><input type="text" name="ID" id="IDbrisanje"></td>
+		</tr>
+		<tr>
+			<td><input type="button" value="Obrisi pacijenta" id="obrisiBtn"></td>
+		</tr>
+	</table>
+</body>
 </html>
