@@ -7,5 +7,5 @@ public class ZahtevZaRegDTO {
 	
 	private Integer id;
 	private StanjeZahteva stanje;
-//	private Pacijent pacijent;
+	private Pacijent pacijent;
 }

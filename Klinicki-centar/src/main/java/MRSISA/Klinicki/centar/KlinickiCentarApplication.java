@@ -24,6 +24,9 @@ import MRSISA.Klinicki.centar.domain.KrvnaGrupa;
 import MRSISA.Klinicki.centar.domain.Lek;
 import MRSISA.Klinicki.centar.domain.Pacijent;
 import MRSISA.Klinicki.centar.domain.Pol;
+import MRSISA.Klinicki.centar.domain.StanjePacijenta;
+import MRSISA.Klinicki.centar.domain.StanjeZahteva;
+import MRSISA.Klinicki.centar.domain.ZahtevZaRegistraciju;
 import MRSISA.Klinicki.centar.domain.ZdravstveniKarton;
 
 @SpringBootApplication
@@ -42,6 +45,8 @@ public class KlinickiCentarApplication {
 		AdministratorKlinickogCentra akc1 = new AdministratorKlinickogCentra(1, "admin@nesto.com", "lozinka", "neko", "prezimenko", "123");
 		AdministratorKlinickogCentra akc2 = new AdministratorKlinickogCentra(2, "admin2@nesto.com", "password", "ime", "prezimenko", "213");
 		AdministratorKlinickogCentra akc3 = new AdministratorKlinickogCentra(3, "admin3@nesto.com", "sifra", "imenko", "neko", "321");
+		
+//		ZahtevZaRegistraciju
 		
 		akc1.setKlinickiCentar(KC);
 		akc2.setKlinickiCentar(KC);
@@ -88,6 +93,9 @@ public class KlinickiCentarApplication {
 
 		Pacijent p1 = new Pacijent(1, "neko", "neko", "1", "neko@gmail.com", "password", null, Pol.MUSKI);
 		Pacijent p2 = new Pacijent(2, "neko2", "neko2", "2", "neko2@gmail.com", "password2", null, Pol.ZENSKI);
+//		p1.setStanjePacijenta(StanjePacijenta.NA_CEKANJU);
+//		p2.setStanjePacijenta(StanjePacijenta.NA_CEKANJU);
+		
 
 		ZdravstveniKarton zk1 = new ZdravstveniKarton(1, 180.0, 80.0, KrvnaGrupa.ABNEGATIVNA, 0, null, p1);
 		ZdravstveniKarton zk2 = new ZdravstveniKarton(2, 160.0, 50.0, KrvnaGrupa.NULTANEGATIVNA, 0.75, null, p2);
@@ -117,7 +125,7 @@ public class KlinickiCentarApplication {
 		ps1.close();
 
 		PreparedStatement ps = conn.prepareStatement(
-				"INSERT INTO Pacijenti (ID_PACIJENTA, EMAIL, IME, JMBG, LOZINKA, PREZIME ,ZDRAVSTENI_KARTON, POL ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+				"INSERT INTO Pacijenti (ID_PACIJENTA, EMAIL, IME, JMBG, LOZINKA, PREZIME ,ZDRAVSTENI_KARTON, POL, STANJE_PACIJENTA) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 		ps.setInt(1, p1.getId());
 		ps.setString(2, p1.getEmail());
@@ -127,6 +135,7 @@ public class KlinickiCentarApplication {
 		ps.setString(6, p1.getPrezime());
 		ps.setInt(7, p1.getZdravstveniKarton().getId());
 		ps.setInt(8, p1.getPol().ordinal());
+		ps.setInt(9, p1.getStanjePacijenta().ordinal());
 		ps.executeUpdate();
 		System.out.println("inserted: " + p1);
 
@@ -138,6 +147,7 @@ public class KlinickiCentarApplication {
 		ps.setString(6, p2.getPrezime());
 		ps.setInt(7, p2.getZdravstveniKarton().getId());
 		ps.setObject(8, p2.getPol().ordinal());
+		ps.setInt(9, p2.getStanjePacijenta().ordinal());
 		ps.executeUpdate();
 		System.out.println("inserted: " + p2);
 		ps.close();
