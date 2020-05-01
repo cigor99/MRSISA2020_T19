@@ -11,12 +11,18 @@ $(document).ready(function () {
                 let idTD = $("<td>" + zahtev.id + "</td>");
                 let stanjeTd = $("<td>" + zahtev.stanje + "</td>");
                 let emailTD = $("<td>" + zahtev.email + "</td>");
-                let prihvatiTD = $("<td>" + "<a onclick=\"prihvati(zahtev.id)\">Prihvati</a></td>")
+                let prihvatiTD = $("<td></td>");
+                let a = $("<a>Prihvati</a>");
+                a.attr("onclick", "prihvati("+zahtev.id+");");
+                // a.click(prihvati(zahtev.id))
+                // a.attr('href',"prihvati(zahtev.id);");
+                prihvatiTD.append(a);    
+            
                 let odbijTD = $("<td>" + "<a href=\"odbij.html?id=" + zahtev.id + "\">Odbij</a></td>")
                 tr.append(idTD);
                 tr.append(stanjeTd);
                 tr.append(emailTD);
-                tr.append(opisTD);
+
                 tr.append(prihvatiTD);
                 tr.append(odbijTD);
                 table.append(tr);
@@ -27,9 +33,10 @@ $(document).ready(function () {
         }
 
     });
-    function prihvati(IDZahteva){
-
-    }
+    
 
 
 });
+function prihvati(IDZahteva){
+    alert("RADI")
+}

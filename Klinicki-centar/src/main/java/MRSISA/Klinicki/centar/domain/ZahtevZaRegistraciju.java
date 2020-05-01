@@ -3,6 +3,7 @@ package MRSISA.Klinicki.centar.domain;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -10,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "Zahtevi_za_registraciju")
@@ -22,13 +25,20 @@ public class ZahtevZaRegistraciju {
 	@Column(name = "stanje_zahteva", unique = false, nullable = false)
 	private StanjeZahteva stanje;
 
-	@OneToOne(cascade = {CascadeType.ALL})
-	@JoinColumn(name = "pacijent", referencedColumnName = "ID_Pacijenta")
+	@JsonIgnoreProperties({ "zahtevZaRegistraciju", "zdravstveniKarton", "istorijaPregleda", "istorijaOperacija",
+			"Operacije" })
+	@OneToOne(cascade = { CascadeType.ALL })
+	@JoinColumn(name = "pacijent", referencedColumnName = "ID_Pacijenta", unique = true)
 	private Pacijent pacijent;
 
+	@JsonIgnoreProperties({"sifarnikDijagnoza", "sifranikLekova", "zahteviZaReg","adminiKC" })
 	@ManyToOne
 	@JoinColumn(name = "klinicki_centar", referencedColumnName = "ID_KC", nullable = false)
 	private KlinickiCentar klinickiCentar;
+
+	public ZahtevZaRegistraciju() {
+
+	}
 
 	public ZahtevZaRegistraciju(Integer id, StanjeZahteva stanje, Pacijent pacijent, KlinickiCentar klinickiCentar) {
 		super();

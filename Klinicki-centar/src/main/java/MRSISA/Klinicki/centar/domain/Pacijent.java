@@ -20,6 +20,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
@@ -53,9 +54,25 @@ public class Pacijent {
 	@Column(name = "lozinka", unique = false, nullable = false)
 	private String lozinka;
 	
+	@Column(name = "grad", nullable = false)
+	private String grad;
+	
+	@Column(name = "adresa", nullable = false)
+	private String adresa;
+	
+	@Column(name = "drzava", nullable = false)
+	private String drzava;
+	
+	@Column(name = "broj_telefona", nullable = false)
+	private String brojTelefona;
+	
+	@Column(name = "jedinstveni_broj_osiguranika", unique = true, nullable = false)
+	private int jedinstveniBrOsig;
+	
 	@Column(name = "stanje_pacijenta")
 	private StanjePacijenta stanjePacijenta;
 
+//	@JsonIgnoreProperties("pacijent")
 	@OneToOne(cascade = { CascadeType.ALL })
 	@JoinColumn(name = "zdravsteni_karton", referencedColumnName = "ID_Zdravstvenog_kartona", unique = true)
 	private ZdravstveniKarton zdravstveniKarton;
@@ -69,6 +86,7 @@ public class Pacijent {
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "pacijent")
 	private Set<Operacija> Operacije = new HashSet<Operacija>();
 
+	@JsonIgnoreProperties("pacijent")
 	@OneToOne(mappedBy = "pacijent")
 	private ZahtevZaRegistraciju zahtevZaRegistraciju;
 
