@@ -20,6 +20,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
@@ -52,10 +53,26 @@ public class Pacijent {
 	@NotEmpty(message = "Lozinka je obavezna")
 	@Column(name = "lozinka", unique = false, nullable = false)
 	private String lozinka;
-	
-	@Column(name = "stanje_pacijenta", nullable = false)
+
+	@Column(name = "grad", nullable = false)
+	private String grad;
+
+	@Column(name = "adresa", nullable = false)
+	private String adresa;
+
+	@Column(name = "drzava", nullable = false)
+	private String drzava;
+
+	@Column(name = "broj_telefona", nullable = false)
+	private String brojTelefona;
+
+	@Column(name = "jedinstveni_broj_osiguranika", unique = true, nullable = false)
+	private int jedinstveniBrOsig;
+
+	@Column(name = "stanje_pacijenta")
 	private StanjePacijenta stanjePacijenta;
 
+//	@JsonIgnoreProperties("pacijent")
 	@OneToOne(cascade = { CascadeType.ALL })
 	@JoinColumn(name = "zdravsteni_karton", referencedColumnName = "ID_Zdravstvenog_kartona", unique = true)
 	private ZdravstveniKarton zdravstveniKarton;
@@ -69,6 +86,7 @@ public class Pacijent {
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "pacijent")
 	private Set<Operacija> Operacije = new HashSet<Operacija>();
 
+	@JsonIgnoreProperties("pacijent")
 	@OneToOne(mappedBy = "pacijent")
 	private ZahtevZaRegistraciju zahtevZaRegistraciju;
 
@@ -79,7 +97,8 @@ public class Pacijent {
 	public Pacijent(Integer id, @NotEmpty(message = "Ime je obavezno") String ime,
 			@NotEmpty(message = "Prezime je obavezno") String prezime, String jmbg,
 			@NotEmpty(message = "Email je obavezan") String email,
-			@NotEmpty(message = "Lozinka je obavezna") String lozinka, ZdravstveniKarton zdravstveniKarton, Pol pol) {
+			@NotEmpty(message = "Lozinka je obavezna") String lozinka, ZdravstveniKarton zdravstveniKarton, Pol pol,
+			String grad, String drzava, String adresa, String brojTelefona, int jedinstveniBrOsig) {
 		super();
 		this.id = id;
 		this.ime = ime;
@@ -90,6 +109,11 @@ public class Pacijent {
 		this.zdravstveniKarton = zdravstveniKarton;
 		this.pol = pol;
 		this.stanjePacijenta = StanjePacijenta.NA_CEKANJU;
+		this.adresa = adresa;
+		this.drzava = drzava;
+		this.grad = grad;
+		this.brojTelefona = brojTelefona;
+		this.jedinstveniBrOsig = jedinstveniBrOsig;
 	}
 
 //	public Pacijent(@NotEmpty(message = "Ime je obavezno") @JsonProperty("ime") String ime,
@@ -119,6 +143,34 @@ public class Pacijent {
 //		this.istorijaOperacija = istorijaOperacija;
 //	}
 
+	public Pacijent(Integer id, @NotEmpty(message = "Ime je obavezno") String ime, Pol pol,
+			@NotEmpty(message = "Prezime je obavezno") String prezime, String jmbg,
+			@NotEmpty(message = "Email je obavezan") String email,
+			@NotEmpty(message = "Lozinka je obavezna") String lozinka, String grad, String adresa, String drzava,
+			String brojTelefona, int jedinstveniBrOsig, StanjePacijenta stanjePacijenta,
+			ZdravstveniKarton zdravstveniKarton, List<Pregled> istorijaPregleda, List<Operacija> istorijaOperacija,
+			Set<Operacija> operacije, ZahtevZaRegistraciju zahtevZaRegistraciju) {
+		super();
+		this.id = id;
+		this.ime = ime;
+		this.pol = pol;
+		this.prezime = prezime;
+		this.jmbg = jmbg;
+		this.email = email;
+		this.lozinka = lozinka;
+		this.grad = grad;
+		this.adresa = adresa;
+		this.drzava = drzava;
+		this.brojTelefona = brojTelefona;
+		this.jedinstveniBrOsig = jedinstveniBrOsig;
+		this.stanjePacijenta = stanjePacijenta;
+		this.zdravstveniKarton = zdravstveniKarton;
+		this.istorijaPregleda = istorijaPregleda;
+		this.istorijaOperacija = istorijaOperacija;
+		Operacije = operacije;
+		this.zahtevZaRegistraciju = zahtevZaRegistraciju;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -142,9 +194,49 @@ public class Pacijent {
 		Operacije = operacije;
 		this.zahtevZaRegistraciju = zahtevZaRegistraciju;
 		this.pol = pol;
-		this.stanjePacijenta =StanjePacijenta.NA_CEKANJU;
+		this.stanjePacijenta = StanjePacijenta.NA_CEKANJU;
+		
 	}
-	
+
+	public String getGrad() {
+		return grad;
+	}
+
+	public void setGrad(String grad) {
+		this.grad = grad;
+	}
+
+	public String getAdresa() {
+		return adresa;
+	}
+
+	public void setAdresa(String adresa) {
+		this.adresa = adresa;
+	}
+
+	public String getDrzava() {
+		return drzava;
+	}
+
+	public void setDrzava(String drzava) {
+		this.drzava = drzava;
+	}
+
+	public String getBrojTelefona() {
+		return brojTelefona;
+	}
+
+	public void setBrojTelefona(String brojTelefona) {
+		this.brojTelefona = brojTelefona;
+	}
+
+	public int getJedinstveniBrOsig() {
+		return jedinstveniBrOsig;
+	}
+
+	public void setJedinstveniBrOsig(int jedinstveniBrOsig) {
+		this.jedinstveniBrOsig = jedinstveniBrOsig;
+	}
 
 	public StanjePacijenta getStanjePacijenta() {
 		return stanjePacijenta;
