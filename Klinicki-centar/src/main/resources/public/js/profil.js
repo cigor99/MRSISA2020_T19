@@ -16,6 +16,11 @@ $(document).ready(function() {
             $("#email").val(data.email);
             $("#lozinka").val(data.lozinka);
             $("#pol").val(data.pol);
+            $("#grad").val(data.grad);
+            $("#adresa").val(data.adresa);
+            $("#drzava").val(data.drzava);
+            $("#telefon").val(data.brojTelefona);
+            $("#jedinstveniBrOsig").val(data.jedinstveniBrOsig)
 
         },
         error: function (jqXHR) {
@@ -32,10 +37,20 @@ $(document).ready(function() {
 		$("#emailError").css('visibility', 'hidden')
 		$("#lozinkaError").css('visibility', 'hidden')
 		$("#lozinkaConfError").css('visibility', 'hidden')
+		$("#gradError").css('visibility', 'hidden')
+		$("#adresaError").css('visibility', 'hidden')
+		$("#drzavaError").css('visibility', 'hidden')
+		$("#telefonError").css('visibility', 'hidden')
+		$("#jedinstveniBrOsigError").css('visibility', 'hidden')
 		
-		var regex = /^[a-zA-Z]{1,20}$/;
+		var regName = /^[A-Z]{1}[a-z]{1,20}$/;
 		var regPass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 		var regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		var regPhone = /^[+]{1}[0-9]{1,12}$/;
+		//var regDrzava = /^[A-Z]{1}[a-z]+([ ][A-Z]{1}[a-z]+)*$/;
+		var regGrad = /^([A-Z]{1}[a-z]+[ ]*)+$/;
+		var regAdresa = /^([A-Z]{1}[a-z]+[ ]*)+[0-9]+$/;
+		var regJmbg = /^[0-9]{1,20}$/;
 		
 		if($("#ime").val().length >20){
 			$("#imeError").text("Ime moze da sadrzi maksimalno 20 karaktera!").css('visibility', 'visible').css('color', 'red');
@@ -49,6 +64,31 @@ $(document).ready(function() {
 		
 		if($("#jmbg").val().length >20){
 			$("#jmbgError").text("JMBG moze da sadrzi maksimalno 20 karaktera!").css('visibility', 'visible').css('color', 'red');
+			return;
+		}
+		
+		if($("#grad").val().length >256){
+			$("#gradError").text("Grad moze da sadrzi maksimalno 256 karaktera!").css('visibility', 'visible').css('color', 'red');
+			return;
+		}
+		
+		if($("#drzava").val().length >256){
+			$("#drzavaError").text("Drzava moze da sadrzi maksimalno 256 karaktera!").css('visibility', 'visible').css('color', 'red');
+			return;
+		}
+		
+		if($("#jedinstveniBrOsig").val().length >20){
+			$("#jedinstveniBrOsigError").text("Broj osiguranika moze da sadrzi maksimalno 20 karaktera!").css('visibility', 'visible').css('color', 'red');
+			return;
+		}
+		
+		if($("#adresa").val().length >256){
+			$("#adresaError").text("Adresa moze da sadrzi maksimalno 20 karaktera!").css('visibility', 'visible').css('color', 'red');
+			return;
+		}
+		
+		if($("#telefon").val().length >20){
+			$("#telefonError").text("Broj telefona moze da sadrzi maksimalno 20 karaktera!").css('visibility', 'visible').css('color', 'red');
 			return;
 		}
 		
@@ -97,12 +137,37 @@ $(document).ready(function() {
             return;
         }
 		
-		if (!regex.test($("#ime").val())) {
+		if($("#grad").val() == ""){
+			$("#gradError").text("Grad je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+			return;
+		}
+		
+		if($("#drzava").val() == ""){
+			$("#drzavaError").text("Drzava je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+			return;
+		}
+		
+		if($("#jedinstveniBrOsig").val() == ""){
+			$("#jedinstveniBrOsigError").text("Broj osiguranika je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+			return;
+		}
+		
+		if($("#adresa").val() == ""){
+			$("#adresaError").text("Adresa je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+			return;
+		}
+		
+		if($("#telefon").val() == ""){
+			$("#telefonError").text("Broj telefona je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+			return;
+		}
+		
+		if (!regName.test($("#ime").val())) {
             $("#imeError").text("Ime moze da sadrzi samo mala ili velika slova").css('visibility', 'visible').css('color', 'red');
             return;
         }
 		
-		if (!regex.test($("#prezime").val())) {
+		if (!regName.test($("#prezime").val())) {
             $("#prezimeError").text("Prezime moze da sadrzi samo mala ili velika slova").css('visibility', 'visible').css('color', 'red');
             return;
         }
@@ -110,6 +175,36 @@ $(document).ready(function() {
 		if(!regEmail.test($("#email").val())){
 			$("#emailError").text("Neispravan format email-a").css('visibility', 'visible').css('color', 'red');
 			return;
+		}
+		
+		if(!regPhone.test($("#telefon").val())){
+    		$("telefonError").text("Neispravan unos broja telefona").css('visibility', 'visible').css('color', 'red');
+    		return;
+    	}
+    
+    	if(!regGrad.test($("#grad").val())){
+			$("#gradError").text("Neispravan unos grada").css('visibility', 'visible').css('color', 'red');
+    		return;
+		}
+		
+		if(!regGrad.test($("#drzava").val())){
+			$("#drzavaError").text("Neispravan unos drzave").css('visibility', 'visible').css('color', 'red');
+    		return;
+		}
+		
+		if(!regAdresa.test($("#adresa").val())){
+			$("#adresaError").text("Neispravan unos adrese").css('visibility', 'visible').css('color', 'red');
+    		return;
+		}
+		
+		if(!regJmbg.test($("#jedinstveniBrOsig").val())){
+			$("#jedinstveniBrOsigError").text("Neispravan unos broja osiguranika").css('visibility', 'visible').css('color', 'red');
+    		return;
+		}
+		
+		if(!regJmbg.test($("#jmbg").val())){
+			$("#jmbg").text("Neispravan unos JMBG-a").css('visibility', 'visible').css('color', 'red');
+    		return;
 		}
 		
 		if (!regPass.test($("#lozinka").val())){
@@ -139,7 +234,12 @@ $(document).ready(function() {
 				jmbg: $("#jmbg").val(),
 				email : $("#email").val(),
 				lozinka : $("#lozinka").val(),
-				pol: $("#pol").val()
+				pol: $("#pol").val(),
+				grad: $("#grad").val(),
+				brojTelefona: $("#telefon").val(),
+				drzava: $("#drzava").val(),
+				adresa: $("#adresa").val(),
+				jedinstveniBrOsig: $("#jedinstveniBrOsig").val()
 			}),
 
 			success : function(response) {

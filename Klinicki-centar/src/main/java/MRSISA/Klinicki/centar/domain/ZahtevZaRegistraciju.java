@@ -30,6 +30,10 @@ public class ZahtevZaRegistraciju {
 	@JoinColumn(name = "klinicki_centar", referencedColumnName = "ID_KC", nullable = false)
 	private KlinickiCentar klinickiCentar;
 
+	public ZahtevZaRegistraciju() {
+		
+	}
+	
 	public ZahtevZaRegistraciju(Integer id, StanjeZahteva stanje, Pacijent pacijent, KlinickiCentar klinickiCentar) {
 		super();
 		this.id = id;

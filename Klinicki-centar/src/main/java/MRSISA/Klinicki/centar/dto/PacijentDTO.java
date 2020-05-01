@@ -11,9 +11,17 @@ public class PacijentDTO {
 	private String email;
 	private String lozinka;
 	private Pol pol;
-
-	public PacijentDTO(int id, String ime, String prezime, String jmbg, String email, String lozinka, Pol pol) {
-
+	private String grad;
+	private String adresa;
+	private String drzava;
+	private String brojTelefona;
+	private int jedinstveniBrOsig;
+	public PacijentDTO() {
+		super();
+	}
+	public PacijentDTO(int id, String ime, String prezime, String jmbg, String email, String lozinka, Pol pol,
+			String grad, String adresa, String drzava, String brojTelefona, int jedinstveniBrOsig) {
+		super();
 		this.id = id;
 		this.ime = ime;
 		this.prezime = prezime;
@@ -21,85 +29,107 @@ public class PacijentDTO {
 		this.email = email;
 		this.lozinka = lozinka;
 		this.pol = pol;
+		this.grad = grad;
+		this.adresa = adresa;
+		this.drzava = drzava;
+		this.brojTelefona = brojTelefona;
+		this.jedinstveniBrOsig = jedinstveniBrOsig;
 	}
-
-	public PacijentDTO() {
+	public PacijentDTO(Pacijent p) {
+		super();
+		this.id = p.getId();
+		this.ime = p.getIme();
+		this.prezime = p.getPrezime();
+		this.jmbg = p.getJmbg();
+		this.email = p.getEmail();
+		this.lozinka = p.getLozinka();
+		this.pol = p.getPol();
+		this.grad = p.getGrad();
+		this.adresa = p.getAdresa();
+		this.drzava = p.getDrzava();
+		this.brojTelefona = p.getBrojTelefona();
+		this.jedinstveniBrOsig = p.getJedinstveniBrOsig();
 	}
-
-	public PacijentDTO(Pacijent pacijent) {
-		this.id = pacijent.getId();
-		this.ime = pacijent.getIme();
-		this.prezime = pacijent.getPrezime();
-		this.email = pacijent.getEmail();
-		this.lozinka = pacijent.getLozinka();
-		this.jmbg = pacijent.getJmbg();
-		this.pol = pacijent.getPol();
-	}
-	
-	
-
-
-	@Override
-	public String toString() {
-		return "PacijentDTO [id=" + id + ", ime=" + ime + ", prezime=" + prezime + ", jmbg=" + jmbg + ", email=" + email
-				+ ", lozinka=" + lozinka + ", pol=" + pol + "]";
-	}
-
 	public int getId() {
 		return id;
 	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
 	public String getIme() {
 		return ime;
 	}
-
 	public void setIme(String ime) {
 		this.ime = ime;
 	}
-
 	public String getPrezime() {
 		return prezime;
 	}
-
 	public void setPrezime(String prezime) {
 		this.prezime = prezime;
 	}
-
 	public String getJmbg() {
 		return jmbg;
 	}
-
 	public void setJmbg(String jmbg) {
 		this.jmbg = jmbg;
 	}
-
 	public String getEmail() {
 		return email;
 	}
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 	public String getLozinka() {
 		return lozinka;
 	}
-
 	public void setLozinka(String lozinka) {
 		this.lozinka = lozinka;
 	}
-
 	public Pol getPol() {
 		return pol;
 	}
-
 	public void setPol(Pol pol) {
 		this.pol = pol;
 	}
+	public String getGrad() {
+		return grad;
+	}
+	public void setGrad(String grad) {
+		this.grad = grad;
+	}
+	public String getAdresa() {
+		return adresa;
+	}
+	public void setAdresa(String adresa) {
+		this.adresa = adresa;
+	}
+	public String getDrzava() {
+		return drzava;
+	}
+	public void setDrzava(String drzava) {
+		this.drzava = drzava;
+	}
+	public String getBrojTelefona() {
+		return brojTelefona;
+	}
+	public void setBrojTelefona(String brojTelefona) {
+		this.brojTelefona = brojTelefona;
+	}
+	public int getJedinstveniBrOsig() {
+		return jedinstveniBrOsig;
+	}
+	public void setJedinstveniBrOsig(int jedinstveniBrOsig) {
+		this.jedinstveniBrOsig = jedinstveniBrOsig;
+	}
+	@Override
+	public String toString() {
+		return "PacijentDTO [id=" + id + ", ime=" + ime + ", prezime=" + prezime + ", jmbg=" + jmbg + ", email=" + email
+				+ ", lozinka=" + lozinka + ", pol=" + pol + ", grad=" + grad + ", adresa=" + adresa + ", drzava="
+				+ drzava + ", brojTelefona=" + brojTelefona + ", jedinstveniBrOsig=" + jedinstveniBrOsig + "]";
+	}
+	
+	
 	
 	
 

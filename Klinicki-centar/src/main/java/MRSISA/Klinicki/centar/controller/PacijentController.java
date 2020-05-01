@@ -89,6 +89,11 @@ public class PacijentController {
 		pacijent.setJmbg(pacijentDTO.getJmbg());
 		pacijent.setPol(pacijentDTO.getPol());
 		pacijent.setStanjePacijenta(StanjePacijenta.NA_CEKANJU);
+		pacijent.setAdresa(pacijentDTO.getAdresa());
+		pacijent.setGrad(pacijentDTO.getGrad());
+		pacijent.setDrzava(pacijentDTO.getDrzava());
+		pacijent.setBrojTelefona(pacijentDTO.getBrojTelefona());
+		pacijent.setJedinstveniBrOsig(pacijentDTO.getJedinstveniBrOsig());
 		
 		pacijent = pacijentService.addPacijent(pacijent);
 		
@@ -135,6 +140,12 @@ public class PacijentController {
 		pacijent.setPrezime(pacijentDTO.getPrezime());
 		pacijent.setLozinka(pacijentDTO.getLozinka());
 		pacijent.setPol(pacijentDTO.getPol());
+		pacijent.setAdresa(pacijentDTO.getAdresa());
+		pacijent.setGrad(pacijentDTO.getGrad());
+		pacijent.setDrzava(pacijentDTO.getDrzava());
+		pacijent.setBrojTelefona(pacijentDTO.getBrojTelefona());
+		pacijent.setJedinstveniBrOsig(pacijentDTO.getJedinstveniBrOsig());
+		
 		System.out.println(pacijent);
 		pacijent = pacijentService.save(pacijent);
 		return new ResponseEntity<PacijentDTO>(new PacijentDTO(pacijent), HttpStatus.OK);
