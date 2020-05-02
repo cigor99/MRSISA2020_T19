@@ -94,7 +94,7 @@ public class KlinickiCentarApplication {
 				"Srbija", "Bul. Oslobodjenja 12.", "062222222", 1);
 		Pacijent p2 = new Pacijent(2, "neko2", "neko2", "2", "neko2@gmail.com", "password2", null, Pol.ZENSKI,
 				"Novi Sad", "Srbija", "Bul. Oslobodjenja 15.", "0623333333", 2);
-		Pacijent p3 = new Pacijent(3, "neko3", "neko3", "3", "neko3@yahoo.com", "sifra", null, Pol.ZENSKI, "Beograd",
+		Pacijent p3 = new Pacijent(3, "neko3", "neko3", "3", "ilijag@hotmail.com", "sifra", null, Pol.ZENSKI, "Beograd",
 				"Srbija", "Nemanjina 15.", "0623332533", 3);
 		Pacijent p4 = new Pacijent(4, "neko4", "neko4", "4", "neko4@hotmail.com", "lozinka", null, Pol.ZENSKI,
 				"Beograd", "Srbija", "Nemanjina 20.", "0623653333", 4);
@@ -106,6 +106,10 @@ public class KlinickiCentarApplication {
 		z2.setPacijent(p4);
 		p3.setZahtevZaRegistraciju(z1);
 		p4.setZahtevZaRegistraciju(z2);
+		p1.setStanjePacijenta(StanjePacijenta.AKTIVAN);
+		p2.setStanjePacijenta(StanjePacijenta.AKTIVAN);
+		p3.setStanjePacijenta(StanjePacijenta.NA_CEKANJU);
+		p4.setStanjePacijenta(StanjePacijenta.NA_CEKANJU);
 
 		ZdravstveniKarton zk1 = new ZdravstveniKarton(1, 180.0, 80.0, KrvnaGrupa.ABNEGATIVNA, 0, null, p1);
 		ZdravstveniKarton zk2 = new ZdravstveniKarton(2, 160.0, 50.0, KrvnaGrupa.NULTANEGATIVNA, 0.75, null, p2);

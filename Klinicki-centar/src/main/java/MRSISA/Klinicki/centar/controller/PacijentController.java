@@ -116,6 +116,17 @@ public class PacijentController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
+	@GetMapping("/getOnePacijent/{id}")
+	public ResponseEntity<PacijentDTO> getPacijent(@PathVariable Integer id){
+		Pacijent pacijent = pacijentService.findOne(id);
+		System.out.println("USAO U GET");
+		if(pacijent == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}else {
+			return new ResponseEntity<>(new PacijentDTO(pacijent), HttpStatus.OK);
+		}
+	}
+	
 	@PutMapping("/update")
 	public ResponseEntity<PacijentDTO> updatePacijent(@RequestBody PacijentDTO pacijentDTO){
 		System.out.println("PacijentController-updatePacijent");
