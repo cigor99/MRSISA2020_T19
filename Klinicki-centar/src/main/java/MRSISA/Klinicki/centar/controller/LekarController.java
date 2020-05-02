@@ -93,6 +93,22 @@ public class LekarController {
 		return new ResponseEntity<>(new LekarDTO(lekar), HttpStatus.CREATED);		
 	}
 	
+	@PostMapping("/lekar/search")
+	public ResponseEntity<List<LekarDTO>> searchLekar(@RequestBody String pretraga){
+		List<LekarDTO> retVal = new ArrayList<LekarDTO>();
+		System.out.println(pretraga);
+		for(Lekar l : lekarService.findAll()) {
+			System.out.println(l.getIme());
+			if(l.getIme().contains(pretraga) || l.getPrezime().contains(pretraga) || l.getEmail().contains(pretraga)) {
+				System.out.println(l.getPrezime());
+				LekarDTO lekar = new LekarDTO(l);
+				retVal.add(lekar);
+			}
+		}
+		return new ResponseEntity<>(retVal, HttpStatus.OK);
+	
+	}
+	
 	@DeleteMapping("/lekar/delete/{id}")
 	public ResponseEntity<Void> deleteSala(@PathVariable Integer id){
 		Lekar lekar = lekarService.findOne(id);
