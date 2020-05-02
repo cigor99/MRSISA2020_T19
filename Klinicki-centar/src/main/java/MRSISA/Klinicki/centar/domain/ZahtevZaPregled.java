@@ -1,5 +1,6 @@
 package MRSISA.Klinicki.centar.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,7 +21,7 @@ public class ZahtevZaPregled {
 	@Column(name = "stanje_zahteva", unique = false, nullable = false)
 	private StanjeZahteva stanjeZahteva;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "pregled", referencedColumnName = "ID_Pregleda", nullable = false)
 	private Pregled pregled;
 

@@ -3,6 +3,7 @@ package MRSISA.Klinicki.centar.domain;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
@@ -31,11 +32,11 @@ public class Lek {
 	@Column(name = "sifra", unique = true, nullable = false)
 	private String sifra;
 
-	@ManyToMany(mappedBy = "lekovi")
+	@ManyToMany(mappedBy = "lekovi", cascade = CascadeType.ALL)
 	private Set<Recept> recepti = new HashSet<Recept>();
 
 	@JsonIgnoreProperties({"sifarnikDijagnoza", "sifranikLekova", "zahteviZaReg","adminiKC" })
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "klinicki_centar", referencedColumnName = "ID_KC")
 	private KlinickiCentar klinickiCentar;
 

@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,23 +26,23 @@ public class IzvestajPregleda {
 //	@JoinColumn(name = "recepti", referencedColumnName = "ID_Recepta", nullable = false)
 //	private Set<Integer> recepti = new HashSet<Integer>();
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "zdravstevniKarton", referencedColumnName = "ID_Zdravstvenog_kartona", nullable = false)
 	private ZdravstveniKarton zdravstveniKarton;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "dijagnoza", referencedColumnName = "ID_Dijagnoza", nullable = false)
 	private Dijagnoza dijagnoza;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "pregled", referencedColumnName = "ID_Pregleda", nullable = false)
 	private Pregled pregled;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "lekar", referencedColumnName = "ID_lekara", nullable = false)
 	private Lekar lekar;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "recept", referencedColumnName = "ID_Recepta", nullable = false)
 	private Recept recept;
 

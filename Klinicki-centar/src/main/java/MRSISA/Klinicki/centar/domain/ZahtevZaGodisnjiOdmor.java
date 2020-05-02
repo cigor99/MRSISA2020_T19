@@ -2,6 +2,7 @@ package MRSISA.Klinicki.centar.domain;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,11 +27,11 @@ public class ZahtevZaGodisnjiOdmor {
 	@Column(name = "krajnji_datum", unique = false, nullable = false)
 	private Date krajnjiDatum;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "lekar", referencedColumnName = "ID_lekara", nullable = false)
 	private Lekar lekar;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "medicinska_sestra", referencedColumnName = "ID_MedSes", nullable = false)
 	private MedicinskaSestra medicinskaSestra;
 

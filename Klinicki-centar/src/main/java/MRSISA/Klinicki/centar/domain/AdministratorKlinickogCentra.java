@@ -1,5 +1,6 @@
 package MRSISA.Klinicki.centar.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,7 +37,7 @@ public class AdministratorKlinickogCentra {
 	@Column(name = "JMBG", unique = true, nullable = false)
 	private String jmbg;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "klinicki_centar", referencedColumnName = "ID_KC")
 	private KlinickiCentar klinickiCentar;
 

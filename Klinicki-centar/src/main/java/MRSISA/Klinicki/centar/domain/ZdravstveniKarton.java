@@ -40,7 +40,7 @@ public class ZdravstveniKarton {
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "zdravstveniKarton")
 	private Set<IzvestajPregleda> izvestaji;
 
-	@OneToOne(mappedBy = "zdravstveniKarton")
+	@OneToOne(mappedBy = "zdravstveniKarton", cascade = CascadeType.ALL)
 	private Pacijent pacijent;
 
 	public ZdravstveniKarton() {

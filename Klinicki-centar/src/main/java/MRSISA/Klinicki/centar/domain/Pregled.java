@@ -28,19 +28,19 @@ public class Pregled {
 	@Column(name = "date", unique = false, nullable = false)
 	private Date datum;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "sala", referencedColumnName = "ID_Sale", nullable = false)
 	private Sala sala;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "lekar", referencedColumnName = "ID_lekara", nullable = false)
 	private Lekar lekar;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "tip_pregleda", referencedColumnName = "ID_TipaPregleda", nullable = false)
 	private TipPregleda tipPregleda;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "pacijent", referencedColumnName = "ID_Pacijenta", nullable = false)
 	private Pacijent pacijent;
 

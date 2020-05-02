@@ -1,5 +1,6 @@
 package MRSISA.Klinicki.centar.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +18,7 @@ public class ZahtevZaOperaciju {
 	@Column(name = "ID_ZZO", unique = true, nullable = false)
 	private Integer id;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "operacija", referencedColumnName = "ID_Operacije", nullable = false)
 	private Operacija operacija;
 

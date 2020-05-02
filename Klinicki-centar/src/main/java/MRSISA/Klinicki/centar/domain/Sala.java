@@ -32,7 +32,7 @@ public class Sala {
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "sala")
 	private Set<Pregled> pregledi = new HashSet<Pregled>();
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "klinika", referencedColumnName = "ID_Klinike", nullable = false)
 	private Klinika klinika;
 

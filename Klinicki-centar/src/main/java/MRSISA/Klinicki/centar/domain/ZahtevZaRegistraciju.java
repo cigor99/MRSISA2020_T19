@@ -35,7 +35,7 @@ public class ZahtevZaRegistraciju {
 	@ManyToOne
 	@JoinColumn(name = "klinicki_centar", referencedColumnName = "ID_KC", nullable = false)
 	private KlinickiCentar klinickiCentar;
-
+	
 	public ZahtevZaRegistraciju() {
 
 	}

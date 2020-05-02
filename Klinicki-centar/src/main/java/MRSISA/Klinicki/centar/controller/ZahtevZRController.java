@@ -40,13 +40,27 @@ public class ZahtevZRController {
 		}
 	}
 	
-	@PutMapping("/KC/ZZR/Update/{id}")
-	public ResponseEntity<ZahtevZaRegDTO> updateZZR(@PathVariable Integer id){
+	@PutMapping("/KC/ZZR/Prihvati/{id}")
+	public ResponseEntity<ZahtevZaRegDTO> prihvatiZZR(@PathVariable Integer id){
 		ZahtevZaRegistraciju zahtev = zzrService.findOne(id);
 		
 		if (zahtev != null) {
 			zahtev.setStanje(StanjeZahteva.PRIHVACEN);
 			zahtev.getPacijent().setStanjePacijenta(StanjePacijenta.PRIHVACEN);
+			zahtev = zzrService.save(zahtev);
+			return new ResponseEntity<>(new ZahtevZaRegDTO(zahtev), HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@PutMapping("/KC/ZZR/Odbij/{id}")
+	public ResponseEntity<ZahtevZaRegDTO> odbijZZR(@PathVariable Integer id){
+		ZahtevZaRegistraciju zahtev = zzrService.findOne(id);
+		
+		if (zahtev != null) {
+			zahtev.setStanje(StanjeZahteva.ODBIJEN);
+//			zahtev.getPacijent().setStanjePacijenta(StanjePacijenta.);
 			zahtev = zzrService.save(zahtev);
 			return new ResponseEntity<>(new ZahtevZaRegDTO(zahtev), HttpStatus.OK);
 		}else {

@@ -30,7 +30,7 @@ public class Operacija {
 	@Column(name = "datum", unique = false, nullable = false)
 	private Date datum;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "sala", referencedColumnName = "ID_Sale", nullable = false)
 	private Sala sala;
 
@@ -39,11 +39,11 @@ public class Operacija {
 	@JoinTable(name = "lekari", joinColumns = @JoinColumn(name = "ID_Leka"), inverseJoinColumns = @JoinColumn(name = "ID_Operacije"))
 	private Set<Lekar> lekari = new HashSet<Lekar>();
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "tip_pregleda", referencedColumnName = "ID_TipaPregleda", nullable = false)
 	private TipPregleda tipPregleda;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "pacijent", referencedColumnName = "ID_Pacijenta", nullable = false)
 	private Pacijent pacijent;
 
