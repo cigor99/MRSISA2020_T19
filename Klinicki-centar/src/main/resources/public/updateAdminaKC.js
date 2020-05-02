@@ -59,10 +59,15 @@ $(document).ready(function () {
             return;
         }
 
-        // if ($("#lozinka").val() != $("#ponovo").val()) {
-        //     $("#lozinkaERROR").html("Lozinke se ne podudaraju").css('visibility', 'visible').css('color', 'red');
-        //     return;
-        // }
+        if ($("#lozinka").val() != $("#ponovo").val()) {
+            $("#lozinkaERROR").html("Lozinke se ne podudaraju").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if ($("#lozinka").val() == ""){
+            $("#lozinkaERROR").html("Potvrdite lozinku").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
 
         $.ajax({
             type: "PUT",

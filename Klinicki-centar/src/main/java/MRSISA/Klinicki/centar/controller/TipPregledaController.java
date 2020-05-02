@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import MRSISA.Klinicki.centar.domain.Cena;
+import MRSISA.Klinicki.centar.domain.Sala;
 import MRSISA.Klinicki.centar.domain.TipPregleda;
+import MRSISA.Klinicki.centar.dto.SalaDTO;
 import MRSISA.Klinicki.centar.dto.TipPregledaDTO;
 import MRSISA.Klinicki.centar.service.CenaService;
 import MRSISA.Klinicki.centar.service.TipPregledaService;
@@ -73,6 +75,21 @@ public class TipPregledaController {
 		
 		return new ResponseEntity<>(new TipPregledaDTO(tipPregleda), HttpStatus.CREATED);
 	}
+	
+	@PostMapping("/tipPregleda/search")
+	public ResponseEntity<List<TipPregledaDTO>> searchLekar(@RequestBody String pretraga){
+		List<TipPregledaDTO> retVal = new ArrayList<TipPregledaDTO>();
+		System.out.println(pretraga);
+		for(TipPregleda t : tipPregledaService.findAll()) {
+			if(t.getNaziv().contains(pretraga)) {
+				TipPregledaDTO tip = new TipPregledaDTO(t);
+				retVal.add(tip);
+			}
+		}
+		return new ResponseEntity<>(retVal, HttpStatus.OK);
+	
+	}
+	
 	
 	@DeleteMapping("/tipPregleda/delete/{id}")
 	public ResponseEntity<Void> deleteTipPregleda(@PathVariable Integer id){

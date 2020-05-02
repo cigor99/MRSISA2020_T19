@@ -41,6 +41,10 @@ $(document).ready(function () {
             $("#lozinkaERROR").html("Lozinka mora da sadži najmanje 8 karaktera").css('visibility', 'visible').css('color', 'red');
             return;
         }
+        if($("#lozinka").val() != $("#sifraPonovo").val()){
+            $("#lozinkaERROR").html("Lozinke se ne podudaraju").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
         $.ajax({
             url: "/klinicki-centar/adminKC/add",
             type: "POST",
@@ -51,7 +55,7 @@ $(document).ready(function () {
                 ime: $("#ime").val(),
                 prezime: $("#prezime").val(),
                 jmbg: $("#JMBG").val(),
-                lozinka: $("#sifra").val(),
+                lozinka: $("#lozinka").val(),
                 email: $("#email").val()
             }),
             success: function () {

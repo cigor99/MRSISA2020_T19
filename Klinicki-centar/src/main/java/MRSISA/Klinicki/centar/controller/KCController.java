@@ -1,5 +1,6 @@
 package MRSISA.Klinicki.centar.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,8 +17,11 @@ import MRSISA.Klinicki.centar.domain.Dijagnoza;
 import MRSISA.Klinicki.centar.domain.KlinickiCentar;
 import MRSISA.Klinicki.centar.domain.Klinika;
 import MRSISA.Klinicki.centar.domain.Lek;
+import MRSISA.Klinicki.centar.domain.StanjePacijenta;
+import MRSISA.Klinicki.centar.domain.StanjeZahteva;
 import MRSISA.Klinicki.centar.domain.ZahtevZaRegistraciju;
 import MRSISA.Klinicki.centar.dto.LekDTO;
+import MRSISA.Klinicki.centar.dto.ZahtevZaRegDTO;
 import MRSISA.Klinicki.centar.service.KCService;
 
 @RestController
@@ -42,24 +47,18 @@ public class KCController {
 	}
 
 	@GetMapping("/KC/ZZR/getAll")
-	public ResponseEntity<List<ZahtevZaRegistraciju>> getAllZahteviZaReg() {
+	public ResponseEntity<List<ZahtevZaRegDTO>> getAllZahteviZaReg() {
 		KlinickiCentar kc = kcService.findOne(1);
 		List<ZahtevZaRegistraciju> zahtevi = kcService.getZahteviZaReg(kc);
-
-		return new ResponseEntity<>(zahtevi, HttpStatus.OK);
-	}
-
-	@GetMapping("/KC/ZZR/getOne/{id}")
-	public ResponseEntity<ZahtevZaRegistraciju> getOne(@PathVariable Integer id) {
-		KlinickiCentar kc = kcService.findOne(1);
-		ZahtevZaRegistraciju zahtev = kcService.findZahtevZaReg(kc, id);
-
-		if (zahtev != null) {
-			return new ResponseEntity<>(zahtev, HttpStatus.OK);
-		}else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		List<ZahtevZaRegDTO> ret = new ArrayList<ZahtevZaRegDTO>();
+		for (ZahtevZaRegistraciju zahtevZaReg : zahtevi) {
+			ret.add(new ZahtevZaRegDTO(zahtevZaReg));
 		}
+
+		return new ResponseEntity<>(ret, HttpStatus.OK);
 	}
+
+
 
 //	@PostMapping("/KC/sifarnikLekova/addLek")
 //	public ResponseEntity<KlinickiCentarDTO> addLek(@RequestBody LekDTO lekDTO){

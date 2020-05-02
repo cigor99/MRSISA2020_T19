@@ -9,16 +9,41 @@ $(document).ready(function () {
                 let tr = $("<tr id=\"tr" + zahtev.id + "\"></tr>");
 
                 let idTD = $("<td>" + zahtev.id + "</td>");
-                let stanjeTd = $("<td>" + zahtev.stanje + "</td>");
-                let emailTD = $("<td>" + zahtev.email + "</td>");
-                let prihvatiTD = $("<td>" + "<a onclick=\"prihvati(zahtev.id)\">Prihvati</a></td>")
-                let odbijTD = $("<td>" + "<a href=\"odbij.html?id=" + zahtev.id + "\">Odbij</a></td>")
+                let stanjeTd = $("<td id=\"td" + zahtev.id + "\">" + zahtev.stanje + "</td>");
+                let emailTD;
+                $.ajax({
+                    url: "/klinicki-centar/pacijent/getOnePacijent/" + zahtev.pacijent,
+                    type: 'get',
+                    success: function (data) {
+                        emailTD = $("<td >" + data.email + "</td>");
+                    },
+                    error: function (jqXHR) {
+                        alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+                    },async:false,
+                })
+               
+                let prihvatiTD = $("<td id=\"prihvatiTD" + zahtev.id + "\"></td>");
+                let a = $("<a>Prihvati</a>");
+                a.attr("onclick", "prihvati(" + zahtev.id + ");");
+                a.attr("href", '#')
+                // a.click(prihvati(zahtev.id))
+                // a.attr('href',"prihvati(zahtev.id);");
+                prihvatiTD.append(a);
+
+                let odbijTD = $("<td  id=\"odbij" + zahtev.id + "\"></td>")
+                let a2 = $("<a>Odbij</a>");
+                alert(zahtev.pacijent)
+                a2.attr("onclick", "odbij(" + zahtev.id +"," + zahtev.pacijent+ ");");
+                a2.attr("href", '#')
+                // a2.attr("target", '_blank')
+                odbijTD.append(a2)
                 tr.append(idTD);
                 tr.append(stanjeTd);
                 tr.append(emailTD);
-                tr.append(opisTD);
-                tr.append(prihvatiTD);
-                tr.append(odbijTD);
+                if (zahtev.stanje == "NA_CEKANJU") {
+                    tr.append(prihvatiTD);
+                    tr.append(odbijTD);
+                }
                 table.append(tr);
             }
         },
@@ -27,9 +52,35 @@ $(document).ready(function () {
         }
 
     });
-    function prihvati(IDZahteva){
 
-    }
+
 
 
 });
+function prihvati(IDZahteva) {
+   
+    $.ajax({
+        url: "/klinicki-centar/KC/ZZR/Update/" + IDZahteva,
+        contentType: "application/json",
+        dataType: 'json',
+        type: "put",
+        success: function () {
+            $("#td" + IDZahteva).html("PRIHVACEN")
+            
+            $("#prihvatiTD" + IDZahteva).remove()
+        }
+    });
+    // $("#td" + IDZahteva).html("PRIHVACEN")
+
+}
+
+
+function odbij(IDZahteva, idPacijenta) {
+    $("#odbij" + IDZahteva).remove()
+    $("#prihvatiTD" + IDZahteva).remove()
+    window.open("odbijeno.html?id=" + idPacijenta,
+        'newwindow',
+        'width=700,height=400');
+    $("#td" + IDZahteva).html("PRIHVACEN")
+
+}

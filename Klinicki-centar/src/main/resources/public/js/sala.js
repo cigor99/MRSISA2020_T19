@@ -24,6 +24,40 @@ function ucitajTabelu() {
     });
 }
 
+function pretraga(){
+	var trazi = $('#trazi').val();
+	console.log(trazi);
+	
+	$.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/klinicki-centar/sala/search",
+        dataType: 'json',
+        data: trazi,
+        success : function (sale) {
+        	console.log(sale);
+        	$("#table_body").empty();
+        	var table = $("#sale")
+            for (var sala of sale) {               
+                let tr = $("<tr id=\"tr" + sala.id + "\"></tr>");
+                let id = $("<td>" + sala.id + "</td>")
+                let naziv = $("<td>" + sala.naziv + "</td>")
+                let tip = $("<td>" + sala.tip + "</td>")                
+                let izmeni = $("<td>" + "<a href=\"izmeniSalu.html?id=" + sala.id + "\">Izmeni</a></td>")
+                let ukloni = $(`<td><button  type="button" id="ukloniBtn" onclick="ukloniSalu('${sala.id}')">Ukloni</button></td>`)
+                tr.append(id);
+                tr.append(naziv);
+                tr.append(tip);               
+                tr.append(izmeni);
+                tr.append(ukloni);
+                table.append(tr);
+            }
+
+		},
+        
+    });
+} 
+
 
 
 function dodajSalu() {

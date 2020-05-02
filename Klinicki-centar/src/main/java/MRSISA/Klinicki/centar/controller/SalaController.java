@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import MRSISA.Klinicki.centar.domain.Klinika;
+import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.Sala;
+import MRSISA.Klinicki.centar.dto.LekarDTO;
 import MRSISA.Klinicki.centar.dto.SalaDTO;
 import MRSISA.Klinicki.centar.service.KlinikaService;
 import MRSISA.Klinicki.centar.service.SalaService;
@@ -70,6 +72,20 @@ public class SalaController {
 		sala = salaService.addSala(sala);
 		
 		return new ResponseEntity<>(new SalaDTO(sala), HttpStatus.CREATED);
+	}
+	
+	@PostMapping("/sala/search")
+	public ResponseEntity<List<SalaDTO>> searchLekar(@RequestBody String pretraga){
+		List<SalaDTO> retVal = new ArrayList<SalaDTO>();
+		System.out.println(pretraga);
+		for(Sala s : salaService.findAll()) {
+			if(s.getNaziv().contains(pretraga)) {
+				SalaDTO sala = new SalaDTO(s);
+				retVal.add(sala);
+			}
+		}
+		return new ResponseEntity<>(retVal, HttpStatus.OK);
+	
 	}
 	
 	@DeleteMapping("/sala/delete/{id}")

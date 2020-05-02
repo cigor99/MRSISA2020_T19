@@ -23,6 +23,40 @@ function ucitajTabelu() {
     });
 }
 
+function pretraga(){
+	var trazi = $('#trazi').val();
+	console.log(trazi);
+	
+	$.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/klinicki-centar/lekar/search",
+        dataType: 'json',
+        data: trazi,
+        success : function (lekari) {
+        	console.log(lekari);
+        	var table = $("#lekari");
+        	$("#table_body").empty();
+        	//table.empty();
+            for (var lekar of lekari) {               
+                let tr = $("<tr id=\"tr" + lekar.id + "\"></tr>");
+                let id = $("<td>" + lekar.id + "</td>")
+                let email = $("<td>" + lekar.email + "</td>")
+                let ime = $("<td>" + lekar.ime + "</td>")
+                let prezime = $("<td>" + lekar.prezime + "</td>")
+                let ukloni = $(`<td><button  type="button" id="ukloniBtn" onclick="ukloniLekara('${lekar.id}')">Ukloni</button></td>`)
+                tr.append(id);
+                tr.append(email);
+                tr.append(ime);
+                tr.append(prezime);               
+                tr.append(ukloni);
+                table.append(tr);
+            }
+
+		},
+        
+    });
+} 
 
 function dodajLekara() {
     	console.log("dodavanje lekara");
