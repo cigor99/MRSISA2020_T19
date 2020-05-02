@@ -26,6 +26,43 @@ function ucitajTabelu() {
     });
 }
 
+
+function pretraga(){
+	var trazi = $('#trazi').val();
+	console.log(trazi);
+	
+	$.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/klinicki-centar/tipPregleda/search",
+        dataType: 'json',
+        data: trazi,
+        success : function (tipovi) {
+        	console.log(tipovi);
+        	$("#table_body").empty();
+        	var table = $("#tipoviPregleda")
+            for (var tip of tipovi) {               
+                let tr = $("<tr id=\"tr" + tip.id + "\"></tr>");
+                let id = $("<td>" + tip.id + "</td>");
+                let naziv = $("<td>" + tip.naziv + "</td>");
+                let trajanje = $("<td>" + tip.trajanje + "</td>")  ;
+                let cena = $("<td>" + tip.cena + "</td>");
+                let izmeni = $("<td>" + "<a href=\"izmeniTipPregleda.html?id=" + tip.id + "\">Izmeni</a></td>");
+                let ukloni = $(`<td><button  type="button" id="ukloniBtn" onclick="ukloniTipPregleda('${tip.id}')">Ukloni</button></td>`);
+                tr.append(id);
+                tr.append(naziv);
+                tr.append(trajanje);
+                tr.append(cena);
+                tr.append(izmeni);
+                tr.append(ukloni);
+                table.append(tr);
+            }
+		},
+        
+    });
+} 
+
+
 function provera(){
 	$("#nazivError").css('visibility', 'hidden');
     $("#trajanjeError").css('visibility', 'hidden');
