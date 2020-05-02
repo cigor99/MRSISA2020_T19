@@ -11,6 +11,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import MRSISA.Klinicki.centar.domain.AdministratorKlinickogCentra;
 import MRSISA.Klinicki.centar.domain.KlinickiCentar;
 import MRSISA.Klinicki.centar.domain.Pacijent;
 import MRSISA.Klinicki.centar.domain.Pol;
@@ -28,6 +32,7 @@ import MRSISA.Klinicki.centar.domain.StanjeZahteva;
 import MRSISA.Klinicki.centar.domain.ZahtevZaRegistraciju;
 import MRSISA.Klinicki.centar.domain.ZdravstveniKarton;
 import MRSISA.Klinicki.centar.dto.PacijentDTO;
+import MRSISA.Klinicki.centar.service.AdminKCSerivce;
 import MRSISA.Klinicki.centar.service.PacijentService;
 
 @RestController
@@ -36,6 +41,12 @@ public class PacijentController {
 	
 	@Autowired
 	private PacijentService pacijentService;
+	
+	@Autowired
+    private JavaMailSender javaMailSender;
+	
+	@Autowired
+	private AdminKCSerivce adminKCService;
 	
 	
 	@GetMapping("/all")
@@ -79,8 +90,20 @@ public class PacijentController {
 		}
 		System.out.println(pacijentDTO);
 		Pacijent novi = new Pacijent(0, pacijentDTO.getIme(), pacijentDTO.getPrezime(), pacijentDTO.getJmbg(), pacijentDTO.getEmail(), pacijentDTO.getLozinka(), null, pacijentDTO.getPol(), pacijentDTO.getGrad(), pacijentDTO.getDrzava(), pacijentDTO.getAdresa(),pacijentDTO.getBrojTelefona(), pacijentDTO.getJedinstveniBrOsig() );
-
-		ZahtevZaRegistraciju zzr = new ZahtevZaRegistraciju(0, StanjeZahteva.NA_CEKANJU, novi, new KlinickiCentar());
+		List<AdministratorKlinickogCentra> admini = adminKCService.findAll();
+		SimpleMailMessage msg = new SimpleMailMessage();
+		for(AdministratorKlinickogCentra adm : admini) {
+			msg.setTo(adm.getEmail());
+			msg.setSubject("Registracija korisnika");
+			msg.setText(pacijentDTO.toString());
+			try {
+		       	 javaMailSender.send(msg);
+				} catch (MailException e) {
+					e.printStackTrace();
+					return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				}
+		}
+		ZahtevZaRegistraciju zzr = new ZahtevZaRegistraciju(0, StanjeZahteva.NA_CEKANJU, novi, new KlinickiCentar(1));
 		return new ResponseEntity<PacijentDTO>(new PacijentDTO(), HttpStatus.CREATED);
 		
 	}

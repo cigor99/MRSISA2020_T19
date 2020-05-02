@@ -42,9 +42,9 @@ public class KlinickiCentarApplication {
 
 		KlinickiCentar KC = new KlinickiCentar(1);
 
-		AdministratorKlinickogCentra akc1 = new AdministratorKlinickogCentra(1, "admin@nesto.com", "lozinka", "neko",
+		AdministratorKlinickogCentra akc1 = new AdministratorKlinickogCentra(1, "losakaunt1234@gmail.com", "lozinka", "neko",
 				"prezimenko", "123");
-		AdministratorKlinickogCentra akc2 = new AdministratorKlinickogCentra(2, "admin2@nesto.com", "password", "ime",
+		AdministratorKlinickogCentra akc2 = new AdministratorKlinickogCentra(2, "apprentice.magic99@gmail.com", "password", "ime",
 				"prezimenko", "213");
 		AdministratorKlinickogCentra akc3 = new AdministratorKlinickogCentra(3, "admin3@nesto.com", "sifra", "imenko",
 				"neko", "321");
