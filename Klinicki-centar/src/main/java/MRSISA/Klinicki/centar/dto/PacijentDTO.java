@@ -50,6 +50,14 @@ public class PacijentDTO {
 		this.brojTelefona = p.getBrojTelefona();
 		this.jedinstveniBrOsig = p.getJedinstveniBrOsig();
 	}
+	
+	public boolean proveraPolja() {
+		if(this.ime == null || this.prezime == null || this.jmbg == null || this.email == null || this.lozinka == null || this.pol == null || this.grad  == null || this.adresa == null || this.drzava == null || this.brojTelefona == null || this.jedinstveniBrOsig == 0) {
+			return false;
+		}
+		return true;
+	}
+	
 	public int getId() {
 		return id;
 	}

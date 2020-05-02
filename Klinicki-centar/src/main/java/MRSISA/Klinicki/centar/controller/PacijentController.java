@@ -3,6 +3,8 @@ package MRSISA.Klinicki.centar.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.NotEmpty;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,10 +20,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import MRSISA.Klinicki.centar.domain.KlinickiCentar;
 import MRSISA.Klinicki.centar.domain.Pacijent;
+import MRSISA.Klinicki.centar.domain.Pol;
 import MRSISA.Klinicki.centar.domain.StanjePacijenta;
 import MRSISA.Klinicki.centar.domain.StanjeZahteva;
 import MRSISA.Klinicki.centar.domain.ZahtevZaRegistraciju;
+import MRSISA.Klinicki.centar.domain.ZdravstveniKarton;
 import MRSISA.Klinicki.centar.dto.PacijentDTO;
 import MRSISA.Klinicki.centar.service.PacijentService;
 
@@ -67,18 +72,25 @@ public class PacijentController {
 	}
 	
 	@PostMapping("/register")
-	public ResponseEntity<Void> register(@RequestBody PacijentDTO pacijentDTO){
+	public ResponseEntity<PacijentDTO> register(@RequestBody PacijentDTO pacijentDTO){
 		System.out.println("PacijentController-register");
+		if(!pacijentDTO.proveraPolja()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 		System.out.println(pacijentDTO);
-		//ZahtevZaRegistraciju zzr = new ZahtevZaRegistraciju(0, StanjeZahteva.NA_CEKANJU, pacijent, klinickiCentar)
-		
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		Pacijent novi = new Pacijent(0, pacijentDTO.getIme(), pacijentDTO.getPrezime(), pacijentDTO.getJmbg(), pacijentDTO.getEmail(), pacijentDTO.getLozinka(), null, pacijentDTO.getPol(), pacijentDTO.getGrad(), pacijentDTO.getDrzava(), pacijentDTO.getAdresa(),pacijentDTO.getBrojTelefona(), pacijentDTO.getJedinstveniBrOsig() );
+
+		ZahtevZaRegistraciju zzr = new ZahtevZaRegistraciju(0, StanjeZahteva.NA_CEKANJU, novi, new KlinickiCentar());
+		return new ResponseEntity<PacijentDTO>(new PacijentDTO(), HttpStatus.CREATED);
 		
 	}
 	
 	@PostMapping("/add")
 	public ResponseEntity<PacijentDTO> addPacijent(@RequestBody PacijentDTO pacijentDTO){
 		System.out.println("PacijentController-addPacijent");
+		if(!pacijentDTO.proveraPolja()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 		System.out.println(pacijentDTO);
 		Pacijent pacijent = new Pacijent();
 		pacijent.setId(pacijentDTO.getId());
@@ -127,6 +139,9 @@ public class PacijentController {
 	@PutMapping("/update")
 	public ResponseEntity<PacijentDTO> updatePacijent(@RequestBody PacijentDTO pacijentDTO){
 		System.out.println("PacijentController-updatePacijent");
+		if(!pacijentDTO.proveraPolja()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 		System.out.println(pacijentDTO);
 		Pacijent pacijent = pacijentService.findOne(pacijentDTO.getId());
 		System.out.println(pacijent);

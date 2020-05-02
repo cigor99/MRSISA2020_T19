@@ -74,4 +74,12 @@ public class ZahtevZaRegistraciju {
 		this.pacijent = pacijent;
 	}
 
+	@Override
+	public String toString() {
+		return "ZahtevZaRegistraciju [id=" + id + ", stanje=" + stanje + ", pacijent=" + pacijent + ", klinickiCentar="
+				+ klinickiCentar + "]";
+	}
+	
+	
+
 }
