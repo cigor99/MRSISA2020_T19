@@ -1,84 +1,59 @@
+<!DOCTYPE html>
 <html>
-
 <head>
-    <title>Dodavanje admina kliničkog centra</title>
-    <meta charset="utf-8">
-    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script src="DodavanjeAdminaKC.js"></script>
+<title>Dodavanje admina kliničkog centra</title>
+<meta charset="utf-8">    
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="js/main.js"></script>
+<script src="DodavanjeAdminaKC.js"></script>
+<link href="style.css" rel="stylesheet">
+<script>
+	$(document).ready( function() {
+		ucitajZaglavlje();
+	});
+</script>
 </head>
 
 <body>
-    <h1>Dodavanje administratora kliničkog centra</h1>
-    <table>
-        <tr>
-            <td>
-                Email 
-            </td>
-            <td>
-                <input type="text" id="email" required autofocus>
-            </td>
-            <td>
-                <p id="emailERROR" style="visibility: hidden;"></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Ime 
-            </td>
-            <td>
-                <input type="text" id="ime" required>
-            </td>
-            <td>
-                <p id="imeERROR" style="visibility: hidden;"></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-               Prezime 
-            </td>
-            <td>
-                <input type="text" id="prezime" required>
-            </td>
-            <td>
-                <p id="prezimeERROR" style="visibility: hidden;"></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-               JMBG 
-            </td>
-            <td>
-                <input type="number" required id="JMBG">
-            </td>
-            <td>
-                <p id="jmbgERROR" style="visibility: hidden;"></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Lozinka
-            </td>
-            <td>
-                <input type="password" id="lozinka">
-            </td>
-            <td>
-                <p id="lozinkaERROR" style="visibility: hidden;"></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Ponovite lozinku 
-            </td>
-            <td>
-                <input type="password" id="sifraPonovo">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <input type="button" value="Dodaj admina" id="dodaj">
-            </td>
-        </tr>
-    </table>
+	<div id="navbardiv"></div>
+	<div class="naslov"><h1>Dodavanje administratora kliničkog centra</h1></div>
+	<div class="forma-za-dodavanje">
+	<form>
+		<div class="form-group">
+	      <label for="email">Email:</label>
+	      <input type="text" class="form-control" id="email" required autofocus>
+	      <p id="emailERROR" style="visibility: hidden;"></p>
+	    </div>
+	    <div class="form-group">
+	      <label for="ime">Ime:</label>
+	      <input type="text" class="form-control" id="ime" required>
+	      <p id="imeERROR" style="visibility: hidden;"></p>
+	    </div>
+	    <div class="form-group">
+	      <label for="prezime">Prezime:</label>
+	      <input type="text" class="form-control" id="prezime" required>
+	      <p id="prezimeERROR" style="visibility: hidden;"></p>
+	    </div>
+	    <div class="form-group">
+	      <label for="jmbg">JMBG:</label>
+	      <input type="number" class="form-control" required id="JMBG">
+	      <p id="jmbgERROR" style="visibility: hidden;"></p>
+	    </div>	    
+	    <div class="form-group">
+	      <label for="lozinka">Lozinka:</label>
+	      <input type="password" class="form-control" id="lozinka">
+	      <p id="lozinkaERROR" style="visibility: hidden;"></p>
+	    </div>
+	    <div class="form-group">
+	      <label>Ponovite lozinku</label>
+	      <input type="password" class="form-control" id="sifraPonovo">
+	    </div>
+	    <input class="button" type="button" value="Dodaj admina" id="dodaj">
+	  </form>
+	</div>
 
 </body>
 

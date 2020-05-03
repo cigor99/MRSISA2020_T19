@@ -1,93 +1,64 @@
+<!DOCTYPE html>
 <html>
-
 <head>
-    <meta charset="utf-8">
-    <title>Izmena admina kliničkog centra</title>
-    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script src="updateAdminaKC.js"></script>
-
+<meta charset="utf-8">
+<title>Izmena admina kliničkog centra</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="js/main.js"></script>
+<script src="updateAdminaKC.js"></script>
+<script src="DodavanjeAdminaKC.js"></script>
+<link href="style.css" rel="stylesheet">
+<script>
+	$(document).ready( function() {
+		ucitajZaglavlje();
+	});
+</script>
 </head>
 
 <body>
-    <h1>Izmena admina kliničkog centra</h1>
-    <table>
-        <tr>
-            <td>
-                ID
-            </td>
-            <td>
-                <input type="text" id="id" readonly>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Ime
-            </td>
-            <td>
-                <input type="text" id="ime">
-            </td>
-            <td>
-                <p id="imeERROR" style="visibility: hidden;"></p>
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-                Prezime
-            </td>
-            <td>
-                <input type="text" id="prezime">
-            </td>
-            <td>
-                <p id="prezimeERROR" style="visibility: hidden;"></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Email
-            </td>
-            <td>
-                <input type="text" id="email">            
-            </td>
-            <td>
-                <p id="emailERROR" style="visibility: hidden;"></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                JMBG
-            </td>
-            <td>
-                <input type="number" id="jmbg">            
-            </td>
-            <td>
-                <p id="jmbgERROR" style="visibility: hidden;"></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Lozinka
-            </td>
-            <td>
-                <input type="password" id="lozinka">              
-            </td>
-            <td>
-                <p id="lozinkaERROR" style="visibility: hidden;"></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Ponovite lozinku
-            </td>
-            <td>
-                <input type="password" id="ponovo">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <input type="button" value="Sačuvaj izmene" id="sacuvaj">
-            </td>
-        </tr>
-    </table>
+    <div id="navbardiv"></div>
+	<div class="naslov"><h1>Izmena admina kliničkog centra</h1></div>
+		<div class="forma-za-dodavanje">
+	<form>
+		<div class="form-group">
+	      <label>ID:</label>
+	      <input class="form-control" type="text" id="id" readonly>
+	    </div>
+	    <div class="form-group">
+	      <label for="ime">Ime:</label>
+	      <input type="text" class="form-control" id="ime">
+	      <p id="imeERROR" style="visibility: hidden;"></p>
+	    </div>
+	    <div class="form-group">
+	      <label for="prezime">Prezime:</label>
+	      <input type="text" class="form-control" id="prezime">
+	      <p id="prezimeERROR" style="visibility: hidden;"></p>
+	    </div>
+	    <div class="form-group">
+	      <label for="email">Email:</label>
+	      <input type="text" class="form-control" id="email">
+	      <p id="emailERROR" style="visibility: hidden;"></p>
+	    </div>
+	    <div class="form-group">
+	      <label for="jmbg">JMBG:</label>
+	      <input type="number" class="form-control" id="jmbg">
+	      <p id="jmbgERROR" style="visibility: hidden;"></p>
+	    </div>	    
+	    <div class="form-group">
+	      <label for="lozinka">Lozinka:</label>
+	      <input type="password" class="form-control" id="lozinka">
+	      <p id="lozinkaERROR" style="visibility: hidden;"></p>
+	    </div>
+	    <div class="form-group">
+	      <label>Ponovite lozinku</label>
+	      <input type="password" class="form-control" id="ponovo">
+	    </div>
+	    <input class="button" type="button" value="Sačuvaj izmene" id="sacuvaj">
+	  </form>
+	</div>
 
 </body>
 
