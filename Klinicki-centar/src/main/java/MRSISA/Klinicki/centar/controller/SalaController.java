@@ -75,11 +75,24 @@ public class SalaController {
 	}
 	
 	@PostMapping("/sala/search")
-	public ResponseEntity<List<SalaDTO>> searchLekar(@RequestBody String pretraga){
+	public ResponseEntity<List<SalaDTO>> searchSala(@RequestBody String pretraga){
 		List<SalaDTO> retVal = new ArrayList<SalaDTO>();
 		System.out.println(pretraga);
 		for(Sala s : salaService.findAll()) {
 			if(s.getNaziv().contains(pretraga)) {
+				SalaDTO sala = new SalaDTO(s);
+				retVal.add(sala);
+			}
+		}
+		return new ResponseEntity<>(retVal, HttpStatus.OK);
+	
+	}
+	
+	@PostMapping("/sala/filter")
+	public ResponseEntity<List<SalaDTO>> filterSala(@RequestBody String filter){
+		List<SalaDTO> retVal = new ArrayList<SalaDTO>();
+		for(Sala s : salaService.findAll()) {
+			if(s.getTip().toString().equals(filter)) {
 				SalaDTO sala = new SalaDTO(s);
 				retVal.add(sala);
 			}

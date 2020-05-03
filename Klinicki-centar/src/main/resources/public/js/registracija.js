@@ -217,8 +217,14 @@ $(document).ready(function(){
 				//window.location.replace("pacijenti.html")
 				alert("uspesno registrovan")
 			},
-			error: function(){
-				alert("Error in call /pacijenti/register")
+			error: function(jqXHR){
+				if(jqXHR.status == 406){
+					$("#emailError").text("Email koji ste uneli vec postoji").css('visibility', 'visible').css('color', 'red');
+					alert("Email koji ste uneli vec postoji")
+				}else{
+					alert("Error in call /pacijenti/register")
+				}
+				
 			}
 		});
 	

@@ -8,6 +8,7 @@
 <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="js/lekar.js"></script>
 <script src="js/main.js"></script>
+<link href="style.css" rel="stylesheet">
 <script>
 	$(document).ready( function() {
 		ucitajZaglavlje();	
@@ -16,10 +17,9 @@
 </head>
 <body>
 	<div id="navbardiv"></div>
-	
-	<div class="container">
-	  <h2>Dodavanje novog lekara</h2>
-	  <form action="">
+	<div class="naslov"><h1>Dodavanje novog lekara</h1></div>
+	<div class="forma-za-dodavanje">
+	  <form>
 	  	<div class="form-group">
 	      <label for="ime">Ime:</label>
 	      <input type="text" class="form-control" id="ime" placeholder="Unesite ime" name="ime">
@@ -40,7 +40,7 @@
 	    	<label for="klinika">Klinika:</label>
 	    	<select class="form-control" id="klinikaSelect" ></select>
 	    </div> -->
-	    <button  type="button" id="dodajLekaraBtn" onclick="javascript:dodajLekara()">Dodaj</button>
+	    <button class="button" type="button" id="dodajLekaraBtn" onclick="javascript:dodajLekara()">Dodaj</button>
 	  </form>
 	</div>
 

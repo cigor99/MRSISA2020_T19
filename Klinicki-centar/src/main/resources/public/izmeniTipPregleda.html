@@ -9,6 +9,7 @@
 <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="js/tipPregleda.js"></script>
 <script src="js/main.js"></script>
+<link href="style.css" rel="stylesheet">
 <script>
 	$(document).ready( function() {
 		ucitajZaglavlje();
@@ -19,7 +20,8 @@
 
 <body>
 <div id="navbardiv"></div>
-<div class="container">
+<div class="naslov"><h1>Izmena tipa pregleda</h1></div>
+<div class="forma-za-dodavanje">
     <h1>Izmena tipa pregleda</h1>
     <form action="">
     <div class="form-group">
@@ -37,7 +39,7 @@
       <input type="text" class="form-control" id="cena" name="cena">
       <p id="cenaError" style="display:hidden"></p>
     </div>
-    <input type="button" value="Sacuvaj izmene" id="izmeniBtn">
+    <input class="button" type="button" value="Sacuvaj izmene" id="izmeniBtn">
     <!-- <button  type="button" id="izmeniBtn">Izmeni</button>   --> 
     </form>
      

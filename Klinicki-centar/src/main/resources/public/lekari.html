@@ -10,6 +10,7 @@
 <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="js/lekar.js"></script>
 <script src="js/main.js"></script>
+<link href="style.css" rel="stylesheet">
 <script>
 	$(document).ready( function() {
 		ucitajZaglavlje();		
@@ -20,20 +21,9 @@
 
 <body>
 <div id="navbardiv"></div>
-
-<div class="container">
-  <!-- <div class="row">
-  <h2 class="col-sm-8">Lekari</h2>
-  <input class="col-sm-4" type="text" placeholder="Search..">
-  </div> -->
-  <div>
-  <h2 style="float:left">Lekari</h2>
-  <form style="float:right" action="javascript:pretraga()">
-      <input type="text" id="trazi" placeholder="Pretraga.." name="search">
-      <button type="submit"><i class="fa fa-search"></i></button>
-  </form>
-  <!-- <input style="float:right" type="text" placeholder="Pretraga.."> -->
-  </div>      
+<div class="naslov"><h1>Lekari</h1></div>
+<div class="main_div">
+<div class="table-holder">     
   <table id="lekari" name="lekari" class="table">
     <thead>
       <tr>
@@ -41,18 +31,23 @@
 		<th id="email">Email</th>
 		<th id="ime">Ime</th>
 		<th id="prezime">Prezime</th>
-		<th>Ukloni</th>
+		<th></th>
       </tr>
     </thead>
     <tbody id="table_body">
     </tbody>
   </table>
-  
-  <table class="table">
-	<tr>
-	<td><input type="button" onclick="location.href='dodajLekara.html'" value="Dodaj lekara"></td>
-	</tr>
-</table>	
+</div>
+<input type="button" style="margin: 10px;" class= "button" onclick="location.href='dodajLekara.html'" value="Dodaj lekara">
+</div>
+
+<div class="pretraga">
+<form>
+	<div class="form-group">
+	<input style="width: 220px;" type="text" id="trazi" placeholder="Pretraga.." name="search">
+	<button type="submit"><i class="fa fa-search"></i></button>
+	</div>
+</form>
 </div>
 
 

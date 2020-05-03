@@ -10,6 +10,7 @@
 <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="js/sala.js"></script>
 <script src="js/main.js"></script>
+<link href="style.css" rel="stylesheet">
 <script>
 	$(document).ready( function() {
 		ucitajZaglavlje();
@@ -20,9 +21,9 @@
 
 <body>
 <div id="navbardiv"></div>
-<div class="container">
-    <h1>Izmena sale</h1>
-    <form action="">
+<div class="naslov"><h1>Izmena sale</h1></div>
+<div class="forma-za-dodavanje">
+    <form>
     <div class="form-group">
       <label for="naziv">Naziv:</label>
       <input type="text" class="form-control" id="naziv" name="naziv">
@@ -36,7 +37,7 @@
 		</select>
     	<p id="tipError" style="display:hidden"></p>
     </div>
-    <input type="button" value="Sacuvaj izmene" id="izmeniBtn">
+    <input type="button" class="button" value="Sacuvaj izmene" id="izmeniBtn">
     <!-- <button  type="button" id="izmeniBtn">Izmeni</button>   --> 
     </form>
      
