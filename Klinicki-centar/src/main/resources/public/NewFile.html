@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>New File</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="js/main.js"></script>
+<script>
+	$(document).ready( function() {
+		ucitajZaglavlje();		
+	});
+</script>
+<style>
+table{
+	background: #d4f7ee; 
+	/*background: rgba(155, 155, 51, 0.9);*/
+	/*border-radius: 10px;
+	border-collapse: separate; 
+	overflow: hidden;*/
+}
+.table-holder{
+	/*margin:0 auto; 
+	/*background: rgba(255, 255, 255, 0.7);*/
+	/*background: #e2e9e7;  #ecf2f8 #ffebe6 */
+	background: #e6ffe6;
+	padding: 20px; margin: 10px; border-radius: 10px; 
+	/*max-width: 80%; min-width: 400px;
+	/* display: inline-block; */
+	 margin-top: 30px;
+	 overflow: hidden;
+	 display: block;
+	 float: left;
+	  width: 60%;
+}
+.pretraga{
+	/*margin:0 auto; 
+	/*background: rgba(255, 255, 255, 0.7);*/
+	/*background: #d4f7ee; background: #ff9980;*/
+	background: #e6ffe6;
+	padding: 20px; margin: 10px; border-radius: 10px; 
+	/* display: inline-block; */
+	 margin-top: 30px;
+	 overflow: hidden;
+	 display: block;
+}
+.filter{
+	/*margin:0 auto; 
+	/*background: rgba(255, 255, 255, 0.7);*/
+	/*background: #d4f7ee; background: #ff9980;*/
+	background: #e6ffe6;
+	padding: 20px; margin: 10px; border-radius: 10px; 
+	/* display: inline-block; */
+	 margin-top: 30px;
+	 overflow: hidden;
+	 display: block;
+}
+.button {
+  background-color: #ed5e5e;
+  border: none;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+</style>
+</head>
+<body style="background: #b3e6b3;">
+<div id="navbardiv" style="background-color: #ff6666;"></div>
+<div style="padding: 10px;">
+<h1>Naslov</h1>
+
+</div>
+
+<div class="table-holder">
+  <table class="table">
+    <thead>
+      <tr>
+        <th id="id">ID</th>
+		<th id="naziv">Naziv</th>
+		<th id="tip">Tip sale</th>
+		<th>Izmeni</th>
+		<th>Ukloni</th>
+      </tr>
+    </thead>
+    <tbody id="table_body">
+    	<tr>
+    	<td id="id">ID</td>
+		<td id="naziv">Naziv</td>
+		<td id="tip">Tip sale</td>
+		<td>Izmeni</td>
+		<td>Ukloni</td>
+		</tr>
+    </tbody>
+  </table>  
+</div>
+
+<div class="pretraga">
+<form>
+	<div class="form-group">
+	<input style="width: 220px;" type="text" id="trazi" placeholder="Pretraga.." name="search">
+	<button type="submit"><i class="fa fa-search"></i></button>
+	</div>
+</form>
+</div>
+
+<div class="filter" >
+	<form>
+	<div class="form-group">
+	<label for="meeting-time">Datum i vreme:</label>
+	<input class="form-control" style="max-width: 250px;" type="datetime-local" id="meeting-time"
+	      name="meeting-time" value="2018-06-12T19:30"
+	      min="2018-06-07T00:00" max="2018-06-14T00:00">
+	</div>
+	<div class="form-group">
+		<label for="tip">Tip:</label>
+		<select style="max-width: 250px;" class="form-control" id="tipSaleSelect" >
+	   		<option value="ZA_PREGLED">sala za pregled</option>
+			<option value="OPERACIONA">operaciona sala</option>
+		</select>
+	</div>
+	<button class="button" type="button">Filtriraj</button>
+	</form>
+</div>
+
+  
+  
+
+
+</body>
+</html>

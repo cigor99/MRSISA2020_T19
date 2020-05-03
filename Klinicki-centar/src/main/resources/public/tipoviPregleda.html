@@ -10,6 +10,7 @@
 <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="js/tipPregleda.js"></script>
 <script src="js/main.js"></script>
+<link href="style.css" rel="stylesheet">
 <script>
 	$(document).ready( function() {
 		ucitajZaglavlje();		
@@ -20,15 +21,10 @@
 
 <body>
 <div id="navbardiv"></div>
+<div class="naslov"><h1>Tipovi pregleda</h1></div>
 
-<div class="container">
-  <div>
-  <h2 style="float:left">Tipovi pregleda</h2>
-  <form style="float:right" action="javascript:pretraga()">
-      <input type="text" id="trazi" placeholder="Pretraga.." name="search">
-      <button type="submit"><i class="fa fa-search"></i></button>
-  </form>
-  </div>              
+<div class="main_div">
+<div class="table-holder">         
   <table id="tipoviPregleda" name="tipoviPregleda" class="table">
     <thead>
       <tr>
@@ -36,21 +32,25 @@
 		<th id="naziv">Naziv</th>
 		<th id="trajanje">Trajanje (u minutima)</th>
 		<th id="cena">Cena</th>
-		<th>Izmeni</th>
-		<th>Ukloni</th>
+		<th></th>
+		<th></th>
       </tr>
     </thead>
     <tbody id="table_body">
     </tbody>
   </table>
-  
-  <table class="table">
-	<tr>
-	<td><input type="button" onclick="location.href='dodajTipPregleda.html'" value="Dodaj tip pregleda"></td>
-	</tr>
-</table>	
+</div>
+<input type="button" style="margin: 10px;" class= "button" onclick="location.href='dodajTipPregleda.html'" value="Dodaj tip pregleda">
 </div>
 
+<div class="pretraga">
+<form>
+	<div class="form-group">
+	<input style="width: 220px;" type="text" id="trazi" placeholder="Pretraga.." name="search">
+	<button type="submit"><i class="fa fa-search"></i></button>
+	</div>
+</form>
+</div>
 
 </body>
 </html>

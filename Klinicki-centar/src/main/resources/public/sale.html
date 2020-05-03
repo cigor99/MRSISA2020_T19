@@ -9,6 +9,7 @@
 <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="js/sala.js"></script>
 <script src="js/main.js"></script>
+<link href="style.css" rel="stylesheet">
 <script>
 	$(document).ready( function() {
 		ucitajZaglavlje();		
@@ -19,34 +20,55 @@
 
 <body>
 <div id="navbardiv"></div>
+<div class="naslov">
+<h1>Sale</h1>
+</div>
 
-<div class="container">
-  <div>
-  <h2 style="float:left">Sale</h2>
-  <form style="float:right" action="javascript:pretraga()">
-      <input type="text" id="trazi" placeholder="Pretraga.." name="search">
-      <button type="submit"><i class="fa fa-search"></i></button>
-  </form>
-  </div>         
+<div class="main_div">
+<div class="table-holder">      
   <table id="sale" name="sale" class="table">
     <thead>
       <tr>
         <th id="id">ID</th>
 		<th id="naziv">Naziv</th>
 		<th id="tip">Tip sale</th>
-		<th>Izmeni</th>
-		<th>Ukloni</th>
+		<th></th>
+		<th></th>
       </tr>
     </thead>
     <tbody id="table_body">
     </tbody>
-  </table>
-  
-  <table class="table">
-	<tr>
-	<td><input type="button" onclick="location.href='dodajSalu.html'" value="Dodaj salu"></td>
-	</tr>
-</table>	
+  </table>	
+</div>
+<input type="button" style="margin: 10px;" class= "button" onclick="location.href='dodajSalu.html'" value="Dodaj salu">
+</div>
+
+<div class="pretraga">
+<form>
+	<div class="form-group">
+	<input style="width: 220px;" type="text" id="trazi" placeholder="Pretraga.." name="search">
+	<button type="submit"><i class="fa fa-search"></i></button>
+	</div>
+</form>
+</div>
+
+<div class="filter" >
+	<form>
+	<div class="form-group">
+	<label for="meeting-time">Datum i vreme:</label>
+	<input class="form-control" style="max-width: 250px;" type="datetime-local" id="meeting-time"
+	      name="meeting-time" value="2018-06-12T19:30"
+	      min="2018-06-07T00:00" max="2018-06-14T00:00">
+	</div>
+	<div class="form-group">
+		<label for="tip">Tip:</label>
+		<select style="max-width: 250px;" class="form-control" id="tipSaleSelect" >
+	   		<option value="ZA_PREGLED">sala za pregled</option>
+			<option value="OPERACIONA">operaciona sala</option>
+		</select>
+	</div>
+	<button class="button" type="button">Filtriraj</button>
+	</form>
 </div>
 
 
