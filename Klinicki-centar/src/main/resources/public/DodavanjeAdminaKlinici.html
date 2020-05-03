@@ -1,0 +1,51 @@
+<html>
+
+<head>
+    <title>Dodavanje/izmena admina klinike</title>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="DodavanjeAdminaKlinici.js"></script>
+</head>
+
+<body>
+    <h1>Dodavanje/izmena admina klinike</h1>
+    <table id="tabela" border="1">
+        <!-- ID_ADMINK  	EMAIL  	IME  	JMBG  	LOZINKA  	PREZIME  	KLINIKA  
+         -->
+         <th>ID Admina</th>
+         <th>Ime</th>
+         <th>Prezime</th>
+         <th>Email</th>
+         <th>JMBG</th>
+         <th>ID klinike</th>
+    </table>
+    <table>
+        <tr>
+            <td>
+                Izaberite admina
+            </td>
+            <td>
+                <input type="text" id="inputAdmin" list="admini" size="50" />
+                <datalist id="admini">
+                </datalist>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Izaberite kliniku
+            </td>
+            <td>
+                <input type="text" id="inputKlinika" list="klinike" size="50" />
+                <datalist id="klinike">
+                </datalist>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="button" value="Dodaj" id="dodaj">
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

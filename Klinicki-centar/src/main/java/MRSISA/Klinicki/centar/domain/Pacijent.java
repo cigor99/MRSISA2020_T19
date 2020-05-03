@@ -87,7 +87,7 @@ public class Pacijent {
 	private Set<Operacija> Operacije = new HashSet<Operacija>();
 
 	@JsonIgnoreProperties("pacijent")
-	@OneToOne(mappedBy = "pacijent", cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "pacijent")
 	private ZahtevZaRegistraciju zahtevZaRegistraciju;
 
 	public Pacijent() {

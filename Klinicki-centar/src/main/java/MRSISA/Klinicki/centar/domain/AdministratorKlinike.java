@@ -36,9 +36,13 @@ public class AdministratorKlinike {
 	@Column(name = "JMBG", unique = false, nullable = false)
 	private String jmbg;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "klinika", referencedColumnName = "ID_Klinike", nullable = false)
+	@ManyToOne
+	@JoinColumn(name = "klinika", referencedColumnName = "ID_Klinike")
 	private Klinika klinika;
+
+	public AdministratorKlinike() {
+
+	}
 
 	public AdministratorKlinike(Integer id, String email, String lozinka, String ime, String prezime, String jmbg,
 			Klinika klinika) {

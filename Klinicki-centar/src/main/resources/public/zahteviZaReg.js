@@ -32,7 +32,7 @@ $(document).ready(function () {
 
                 let odbijTD = $("<td  id=\"odbij" + zahtev.id + "\"></td>")
                 let a2 = $("<a>Odbij</a>");
-                alert(zahtev.pacijent)
+                // alert(zahtev.pacijent)
                 a2.attr("onclick", "odbij(" + zahtev.id + "," + zahtev.pacijent + ");");
                 a2.attr("href", '#')
                 // a2.attr("target", '_blank')
@@ -60,7 +60,7 @@ $(document).ready(function () {
 function prihvati(IDZahteva) {
     $.confirm({
         title: 'Zahtev za registraciju',
-        content: 'Da li ste sigurni da želite da potrvdite zahtev za registraciju br.' + IDZahteva +"?",
+        content: 'Da li ste sigurni da želite da potrvdite zahtev za registraciju br.' + IDZahteva + "?",
         buttons: {
             potvrdi: function () {
                 $.ajax({
@@ -70,7 +70,7 @@ function prihvati(IDZahteva) {
                     type: "put",
                     success: function () {
                         $("#td" + IDZahteva).html("PRIHVACEN")
-            
+
                         // $("#prihvatiTD" + IDZahteva).remove()
                         $("#odbij" + IDZahteva).remove()
                         $("#prihvatiTD" + IDZahteva).remove()
@@ -83,7 +83,7 @@ function prihvati(IDZahteva) {
         }
     });
 
-   
+
     // $("#td" + IDZahteva).html("PRIHVACEN")
 
 }
@@ -92,7 +92,7 @@ function prihvati(IDZahteva) {
 function odbij(IDZahteva, idPacijenta) {
     $.confirm({
         title: 'Zahtev za registraciju',
-        content: 'Da li ste sigurni da želite da odbijete zahtev za registraciju br.' + IDZahteva +"?",
+        content: 'Da li ste sigurni da želite da odbijete zahtev za registraciju br.' + IDZahteva + "?",
         buttons: {
             potvrdi: function () {
                 $("#odbij" + IDZahteva).remove()
@@ -107,19 +107,16 @@ function odbij(IDZahteva, idPacijenta) {
                         $("#td" + IDZahteva).html("ODBIJEN")
                         $("#odbij" + IDZahteva).remove()
                         $("#prihvatiTD" + IDZahteva).remove()
-                    }
+                    }, async: false,
                 });
-                $.ajax({
-                    url: "klinicki-centar/pacijent/delete/" + idPacijenta,
-                    type: "DELETE",
-                })
+
 
                 window.open("odbijeno.html?id=" + idPacijenta,
                     'newwindow',
                     'width=700,height=400');
-            
                
-                
+
+
             },
             odustani: function () {
                 return;
@@ -127,6 +124,6 @@ function odbij(IDZahteva, idPacijenta) {
         }
     });
 
-    
+
 }
 

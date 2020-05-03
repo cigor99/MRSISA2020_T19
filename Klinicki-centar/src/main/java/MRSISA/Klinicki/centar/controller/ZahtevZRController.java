@@ -60,7 +60,7 @@ public class ZahtevZRController {
 		
 		if (zahtev != null) {
 			zahtev.setStanje(StanjeZahteva.ODBIJEN);
-//			zahtev.getPacijent().setStanjePacijenta(StanjePacijenta.);
+			zahtev.getPacijent().setStanjePacijenta(StanjePacijenta.ODBIJEN);
 			zahtev = zzrService.save(zahtev);
 			return new ResponseEntity<>(new ZahtevZaRegDTO(zahtev), HttpStatus.OK);
 		}else {

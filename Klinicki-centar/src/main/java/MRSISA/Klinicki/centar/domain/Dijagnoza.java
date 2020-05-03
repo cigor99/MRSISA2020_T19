@@ -36,7 +36,7 @@ public class Dijagnoza {
 	private String opis;
 
 	@JsonIgnoreProperties({"sifarnikDijagnoza", "sifranikLekova", "zahteviZaReg","adminiKC" })
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "klinicki_centar", referencedColumnName = "ID_KC")
 	private KlinickiCentar klinickiCentar;
 

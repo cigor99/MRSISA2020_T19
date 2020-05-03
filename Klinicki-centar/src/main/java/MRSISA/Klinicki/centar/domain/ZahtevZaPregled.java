@@ -21,7 +21,7 @@ public class ZahtevZaPregled {
 	@Column(name = "stanje_zahteva", unique = false, nullable = false)
 	private StanjeZahteva stanjeZahteva;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "pregled", referencedColumnName = "ID_Pregleda", nullable = false)
 	private Pregled pregled;
 

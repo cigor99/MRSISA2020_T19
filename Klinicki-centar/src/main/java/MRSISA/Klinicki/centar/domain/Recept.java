@@ -28,18 +28,18 @@ public class Recept {
 	@Column(name = "ID_Recepta", unique = true, nullable = false)
 	private Integer id;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "pregled", referencedColumnName = "ID_Pregleda", nullable = false)
 	private Pregled pregled;
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 //	(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	@JoinTable(name = "lek_recept", 
 	joinColumns = {@JoinColumn(name = "ID_Recepta")}, 
 	inverseJoinColumns = {@JoinColumn(name = "ID_Leka")})
 	private Set<Lek> lekovi = new HashSet<Lek>();
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "medicinska_sestra", referencedColumnName = "ID_MedSes", nullable = false)
 	private MedicinskaSestra medicinskaSestra;
 

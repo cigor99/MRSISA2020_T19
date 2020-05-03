@@ -32,11 +32,11 @@ public class Lek {
 	@Column(name = "sifra", unique = true, nullable = false)
 	private String sifra;
 
-	@ManyToMany(mappedBy = "lekovi", cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "lekovi")
 	private Set<Recept> recepti = new HashSet<Recept>();
 
 	@JsonIgnoreProperties({"sifarnikDijagnoza", "sifranikLekova", "zahteviZaReg","adminiKC" })
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "klinicki_centar", referencedColumnName = "ID_KC")
 	private KlinickiCentar klinickiCentar;
 

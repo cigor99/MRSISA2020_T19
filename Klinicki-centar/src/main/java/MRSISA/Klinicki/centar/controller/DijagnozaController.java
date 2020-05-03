@@ -41,6 +41,7 @@ public class DijagnozaController {
 	public ResponseEntity<Void> deleteDijagnoza(@PathVariable Integer id){
 		Dijagnoza dijagnoza = dijaService.findOne(id);
 		if(dijagnoza != null) {
+			dijaService.remove(id);
 			return new ResponseEntity<>(HttpStatus.OK);
 		}else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);

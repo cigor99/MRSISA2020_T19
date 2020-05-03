@@ -18,7 +18,7 @@ public class ZahtevZaOperaciju {
 	@Column(name = "ID_ZZO", unique = true, nullable = false)
 	private Integer id;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "operacija", referencedColumnName = "ID_Operacije", nullable = false)
 	private Operacija operacija;
 

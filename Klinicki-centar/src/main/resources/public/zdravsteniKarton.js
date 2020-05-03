@@ -1,7 +1,5 @@
 $(document).ready(function () {
     $("#traziJMBG").click(function () {
-        // alert($("#JBMG").val());
-
 
         $.ajax({
             url: "/klinicki-centar/karton/get/" + $("#JBMG").val(),
@@ -129,8 +127,7 @@ $(document).ready(function () {
             $("#tezinaERROR").text("Tezina moze da sadrzi samo cifre!").css('visibility', 'visible').css('color', 'red');
             return;
         }
-        alert($("#krv").val().toUpperCase())
-        alert($("#krv").val().toUpperCase() == "ABNEGATIVNA")
+
         if ($("#krv").val().toUpperCase() != "NULTAPOZITIVNA" && $("#krv").val().toUpperCase() != "NULTANEGATIVNA"
             && $("#krv").val().toUpperCase() != "APOZITIVNA" && $("#krv").val().toUpperCase() != "ANEGATIVNA"
             && $("#krv").val().toUpperCase() != "BPOZITIVNA" && $("#krv").val().toUpperCase() != "BNEGATIVNA"
@@ -140,7 +137,6 @@ $(document).ready(function () {
         }
 
 
-        alert("RADi")
         $.ajax({
             type: 'put',
             contentType: "application/json",
@@ -154,7 +150,7 @@ $(document).ready(function () {
             }),
             success: function () {
                 alert("USPESNO STE SACUVALI IZMENE")
-                // window.location.replace("index.html")
+                window.location.replace("index.html")
             },
             error: function (jqXHR) {
                 alert("Error: " + jqXHR.status + " " + jqXHR.responseText);

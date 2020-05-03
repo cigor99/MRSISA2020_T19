@@ -22,10 +22,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import MRSISA.Klinicki.centar.domain.AdministratorKlinike;
 import MRSISA.Klinicki.centar.domain.Klinika;
 import MRSISA.Klinicki.centar.domain.Lek;
+import MRSISA.Klinicki.centar.dto.Admin_klinikaDTO;
 import MRSISA.Klinicki.centar.dto.KlinikaDTO;
 import MRSISA.Klinicki.centar.dto.LekDTO;
+import MRSISA.Klinicki.centar.service.AdminKService;
 import MRSISA.Klinicki.centar.service.KlinikaService;
 
 @RestController
@@ -33,6 +36,9 @@ public class KlinikaController {
 
 	@Autowired
 	private KlinikaService klinikaService;
+	
+	@Autowired
+	private AdminKService adminService;
 
 	@GetMapping("/klinika/all")
 	public ResponseEntity<List<KlinikaDTO>> getAllKlinike() {
@@ -117,6 +123,28 @@ public class KlinikaController {
 		klinika = klinikaService.save(klinika);
 
 		return new ResponseEntity<>(new KlinikaDTO(klinika), HttpStatus.OK);
+	}
+	
+	@PutMapping("/klinika/addAdmin")
+	public ResponseEntity<Admin_klinikaDTO> addAdmin(@RequestBody Admin_klinikaDTO admin_klinika){
+		System.out.println("ADMIN_KLINIKA");
+		System.out.println(admin_klinika.getAdminID());
+		System.out.println(admin_klinika.getKlinikaID());
+		System.out.println("ADMIN_KLINIKA");
+		AdministratorKlinike admin = adminService.findOne(admin_klinika.getAdminID());
+		Klinika klinika = klinikaService.findOne(admin_klinika.getKlinikaID());
+		System.out.println(admin);
+		System.out.println(klinika);
+		if(klinika != null && admin != null) {
+			klinika.getAdministratori().add(admin);
+			admin.setKlinika(klinika);
+			klinika = klinikaService.save(klinika);
+			admin = adminService.save(admin);
+			return new ResponseEntity<>(new Admin_klinikaDTO(admin.getId(), klinika.getId()), HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
 	}
 
 }

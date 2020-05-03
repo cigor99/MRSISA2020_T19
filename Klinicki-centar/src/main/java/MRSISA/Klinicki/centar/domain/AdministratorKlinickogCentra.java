@@ -37,7 +37,7 @@ public class AdministratorKlinickogCentra {
 	@Column(name = "JMBG", unique = true, nullable = false)
 	private String jmbg;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "klinicki_centar", referencedColumnName = "ID_KC")
 	private KlinickiCentar klinickiCentar;
 

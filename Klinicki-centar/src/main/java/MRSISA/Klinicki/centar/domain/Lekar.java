@@ -42,7 +42,7 @@ public class Lekar {
 	@Column(name = "prezime", unique = false, nullable = false)
 	private String prezime;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "klinika", referencedColumnName = "ID_Klinike", nullable = false)
 	private Klinika klinika;
 	//@Column(name = "klinika", unique = false)
@@ -54,7 +54,7 @@ public class Lekar {
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "lekar")
 	private Set<IzvestajPregleda> izvestajiPregleda = new HashSet<IzvestajPregleda>();
 
-	@ManyToMany(mappedBy = "lekari", cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "lekari")
 	private Set<Operacija> operacije = new HashSet<Operacija>();
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "lekar")

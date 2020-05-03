@@ -27,11 +27,11 @@ public class ZahtevZaGodisnjiOdmor {
 	@Column(name = "krajnji_datum", unique = false, nullable = false)
 	private Date krajnjiDatum;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "lekar", referencedColumnName = "ID_lekara", nullable = false)
 	private Lekar lekar;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "medicinska_sestra", referencedColumnName = "ID_MedSes", nullable = false)
 	private MedicinskaSestra medicinskaSestra;
 

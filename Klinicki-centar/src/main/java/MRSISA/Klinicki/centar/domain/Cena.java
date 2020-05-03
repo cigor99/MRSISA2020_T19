@@ -22,10 +22,10 @@ public class Cena {
 	@Column(name = "iznos", unique = false, nullable = false)
 	private Double iznos;
 
-	@OneToOne(mappedBy = "cena", cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "cena")
 	private TipPregleda tipPregleda;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "cenovnik", referencedColumnName = "ID_Cenovnika", nullable = true)
 	private Cenovnik cenovnik;
 

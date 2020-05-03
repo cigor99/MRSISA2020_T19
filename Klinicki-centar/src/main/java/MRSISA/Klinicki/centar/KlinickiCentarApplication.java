@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import MRSISA.Klinicki.centar.domain.AdministratorKlinickogCentra;
+import MRSISA.Klinicki.centar.domain.AdministratorKlinike;
 import MRSISA.Klinicki.centar.domain.Cena;
 import MRSISA.Klinicki.centar.domain.Cenovnik;
 import MRSISA.Klinicki.centar.domain.Dijagnoza;
@@ -48,6 +49,10 @@ public class KlinickiCentarApplication {
 				"prezimenko", "213");
 		AdministratorKlinickogCentra akc3 = new AdministratorKlinickogCentra(3, "admin3@nesto.com", "sifra", "imenko",
 				"neko", "321");
+		
+		AdministratorKlinike a1 = new AdministratorKlinike(1, "staznam@nesto.com", "nemam", "Marko", "Markovic", "1234567891011", null);
+		AdministratorKlinike a2 = new AdministratorKlinike(2, "stam@nesto.com", "nema", "Mirko", "Mirkovic", "1234567891012", null);
+	
 
 		akc1.setKlinickiCentar(KC);
 		akc2.setKlinickiCentar(KC);
@@ -89,6 +94,8 @@ public class KlinickiCentarApplication {
 
 		Klinika k1 = new Klinika(1, "klinika 1", "adresa klinike 1", "opis", null);
 		Klinika k2 = new Klinika(2, "klinika 2", "adresa klinike 2", "opis", null);
+		a1.setKlinika(k1);
+		k1.getAdministratori().add(a1);
 
 		Pacijent p1 = new Pacijent(1, "neko", "neko", "1", "neko@gmail.com", "password", null, Pol.MUSKI, "Novi Sad",
 				"Srbija", "Bul. Oslobodjenja 12.", "062222222", 1);
@@ -355,7 +362,31 @@ public class KlinickiCentarApplication {
 
 		ps7.executeUpdate();
 		ps7.close();
-
+		
+		PreparedStatement ps8 = conn.prepareStatement(
+				"INSERT INTO  ADMINI_KLINIKE  (ID_ADMINK, EMAIL, IME, JMBG, LOZINKA, PREZIME, KLINIKA) VALUES (?, ?, ?, ?, ?, ?, ?)");
+		ps8.setInt(1, a1.getId());
+		ps8.setString(2, a1.getEmail());
+		ps8.setString(3, a1.getIme());
+		ps8.setString(4, a1.getJmbg());
+		ps8.setString(5, a1.getLozinka());
+		ps8.setString(6, a1.getPrezime());
+		ps8.setInt(7, a1.getKlinika().getId());
+		ps8.executeUpdate();
+		
+		ps8.setInt(1, a2.getId());
+		ps8.setString(2, a2.getEmail());
+		ps8.setString(3, a2.getIme());
+		ps8.setString(4, a2.getJmbg());
+		ps8.setString(5, a2.getLozinka());
+		ps8.setString(6, a2.getPrezime());
+		ps8.setNull(7, java.sql.Types.INTEGER);
+		ps8.executeUpdate();
+		
+		ps8.close();
+		
+		
+		
 		conn.close();
 
 	}

@@ -42,7 +42,7 @@ public class Klinika {
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "klinika")
 	private Set<Lekar> lekari = new HashSet<Lekar>();
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "cenovnik", referencedColumnName = "ID_Cenovnika")
 	private Cenovnik cenovnik;
 

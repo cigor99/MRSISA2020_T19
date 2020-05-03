@@ -26,23 +26,23 @@ public class IzvestajPregleda {
 //	@JoinColumn(name = "recepti", referencedColumnName = "ID_Recepta", nullable = false)
 //	private Set<Integer> recepti = new HashSet<Integer>();
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "zdravstevniKarton", referencedColumnName = "ID_Zdravstvenog_kartona", nullable = false)
 	private ZdravstveniKarton zdravstveniKarton;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "dijagnoza", referencedColumnName = "ID_Dijagnoza", nullable = false)
 	private Dijagnoza dijagnoza;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "pregled", referencedColumnName = "ID_Pregleda", nullable = false)
 	private Pregled pregled;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "lekar", referencedColumnName = "ID_lekara", nullable = false)
 	private Lekar lekar;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "recept", referencedColumnName = "ID_Recepta", nullable = false)
 	private Recept recept;
 
