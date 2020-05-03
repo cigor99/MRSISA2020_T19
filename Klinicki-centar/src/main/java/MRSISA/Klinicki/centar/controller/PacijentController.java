@@ -89,6 +89,13 @@ public class PacijentController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		System.out.println(pacijentDTO);
+		List<Pacijent> pacijenti = pacijentService.findAll();
+		for(Pacijent p: pacijenti) {
+			if(p.getEmail().equals(pacijentDTO.getEmail())) {
+				return new ResponseEntity<PacijentDTO>(HttpStatus.NOT_ACCEPTABLE);
+			}
+		}
+		
 		Pacijent novi = new Pacijent(0, pacijentDTO.getIme(), pacijentDTO.getPrezime(), pacijentDTO.getJmbg(), pacijentDTO.getEmail(), pacijentDTO.getLozinka(), null, pacijentDTO.getPol(), pacijentDTO.getGrad(), pacijentDTO.getDrzava(), pacijentDTO.getAdresa(),pacijentDTO.getBrojTelefona(), pacijentDTO.getJedinstveniBrOsig() );
 		List<AdministratorKlinickogCentra> admini = adminKCService.findAll();
 		SimpleMailMessage msg = new SimpleMailMessage();
