@@ -1,81 +1,116 @@
-body{
-	background: #b3e6b3;
+body {
+    background: #b3e6b3;
+    background-image: url('pozadina50.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: 50% 80%;
+    background-size: 500px 500px;
 }
-table{
-	background: #e6ffe6; 
-	/*border-collapse: separate; */
-	/*overflow: hidden;*/
-	border-collapse: collapse;
+
+table {
+    background: #e6ffe6;
+    /*border-collapse: separate; */
+    /*overflow: hidden;*/
+    border-collapse: collapse;
     border-spacing: 0;
     width: 100%;
 }
-.naslov{
-	width: 100%;
-	/*background: #ed5e5e;*/
-	padding-left: 10px;
-	text-align: center;
-	color: #004d1a;
-	/*color: #ed5e5e;*/
+
+.naslov {
+    width: 100%;
+    /*background: #ed5e5e;*/
+    padding-left: 10px;
+    text-align: center;
+    color: black;
+    /*color: #ed5e5e;*/
 }
-.table-holder{	
-	background: #e6ffe6;
-	padding: 20px; margin: 10px; border-radius: 10px; 
-	margin-top: 20px;
-	/*overflow: hidden;*/
-	overflow-x:auto
+
+.naslov h1,
+h2,
+h3 {
+    background: #e6ffe6;
+    display: inline-block;
+    padding: 10px;
+    border-radius: 10px;
 }
-.forma-za-dodavanje{
-	background: #e6ffe6;
-	padding: 20px; border-radius: 10px; 
-	margin-top: 20px;
-	margin-left: 20%;
-	margin-right: 20%;
-	margin-bottom: 20px;
-	overflow: hidden;
-	display: block;
+
+.table-holder {
+    background: #e6ffe6;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+    margin-top: 20px;
+    /*overflow: hidden;*/
+    overflow-x: auto
 }
-.main_div{
-	overflow: hidden;
-	float: left;
-	width: 70%;
+
+.forma-za-dodavanje {
+    background: #e6ffe6;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-bottom: 20px;
+    overflow: hidden;
+    display: block;
 }
-.pretraga{
-	background: #e6ffe6;
-	padding: 20px; margin: 10px; border-radius: 10px; 
-	margin-top: 30px;
-	overflow: hidden;
-	display: block;
+
+.main_div {
+    overflow: hidden;
+    float: left;
+    width: 70%;
 }
-.filter{
-	background: #e6ffe6;
-	padding: 20px; margin: 10px; border-radius: 10px; 
-	margin-top: 30px;
-	overflow: hidden;
-	display: block;
+
+.pretraga {
+    background: #e6ffe6;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+    margin-top: 30px;
+    overflow: hidden;
+    display: block;
 }
-.brisanje{
-	background: #e6ffe6;
-	padding: 20px; margin: 10px; border-radius: 10px; 
-	margin-top: 30px;
-	overflow: hidden;
-	display: block;
+
+.filter {
+    background: #e6ffe6;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+    margin-top: 30px;
+    overflow: hidden;
+    display: block;
 }
-.dodavanje{
-	background: #e6ffe6;
-	padding: 20px; margin: 10px; border-radius: 10px; 
-	margin-top: 30px;
-	overflow: hidden;
-	display: block;
+
+.brisanje {
+    background: #e6ffe6;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+    margin-top: 30px;
+    overflow: hidden;
+    display: block;
 }
+
+.dodavanje {
+    background: #e6ffe6;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+    margin-top: 30px;
+    overflow: hidden;
+    display: block;
+}
+
 .button {
-  background-color: #ed5e5e;
-  border: none;
-  color: white;
-  padding: 10px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
+    background-color: #ed5e5e;
+    border: none;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
 }

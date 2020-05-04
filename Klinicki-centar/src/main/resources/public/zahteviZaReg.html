@@ -1,47 +1,78 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Zahtevi za registraciju</title>
     <meta charset="utf-8">
+
+    <!-- <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script> -->
     <script src="jquery-3.5.0.min.js"></script>
     <link rel="stylesheet" href="jquery-confirm.min.css">
-    <script src="jquery-confirm.min.js"></script>  
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script src="js/main.js"></script>
-<script src="zahteviZaReg.js"></script>
-<link href="style.css" rel="stylesheet">
-<script>
-	$(document).ready( function() {
-		ucitajZaglavlje();		
-	});
-</script>
+    <script src="jquery-confirm.min.js"></script>
+    <script src="zahteviZaReg.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+
+    <link href="style.css" rel="stylesheet">
+
 </head>
+<!-- <style>
+    body {
+			background-image: url('pozadina50.png');
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+			background-position: 50% 80%;
+			
+			background-size: 500px 500px;
+			/* background-blend-mode: screen; */
+		}
+</style> -->
 
 <body>
-<div id="navbardiv"></div>
-<div class="naslov">
-<h1>Zahtevi za registraciju</h1>
-</div>
+    <nav class="navbar navbar-default" style="background: #e6ffe6;">
+        <div class="container-fluid" style="background: #e6ffe6;">
+            <div class="navbar-header" style="background: #e6ffe6;">
+                <a class="navbar-brand" href="#">Klinički centar</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="lekari.html">Lekari</a></li>
+                <li><a href="klinike.html">Klinika</a></li>
+                <li><a href="pacijenti.html">Pacijenti</a></li>
+                <li><a href="sale.html">Sale</a></li>
+                <li><a href="tipoviPregleda.html">Tipovi pregleda</a></li>
+                <li><a href="sifarnikLekova.html">Šifarnik lekova</a></li>
+                <li><a href="dijagnoze.html">Šifarnik dijagnoza</a></li>
+                <li><a href="zdravsteniKarton.html">Izmeni zdravstenog kartona</a></li>
+                <li><a href="adminiKC.html">Administratori Kliničkog centra</a></li>
+                <li><a href="zahteviZaReg.html">Zahtevi za registraciju</a></li>
+                <li><a href="DodavanjeAdminaKlinici.html">Dodavanje/izmena admina klinike</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="naslov">
+        <h1>Zahtevi za registraciju</h1>
+    </div>
 
-<div class="main_div">
-<div class="table-holder">
-    <table class="table" id="zahtevi">
-    <thead>
-    	<tr>
-        <th>ID zahteva</th>
-        <th>Stanje zahtev</th>
-        <th>Email potencijalnog pacijenta</th>
-        <th>Prihvati</th>
-        <th>Odbij</th>
-        </tr>
-    </thead>
-    </table>
-</div>
-</div>
+    <div class="main_div">
+        <div class="table-holder">
+            <table class="table" id="zahtevi">
+                <thead>
+                    <tr>
+                        <th>ID zahteva</th>
+                        <th>Stanje zahtev</th>
+                        <th>Email potencijalnog pacijenta</th>
+                        <th>Prihvati</th>
+                        <th>Odbij</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
 </body>
 
 

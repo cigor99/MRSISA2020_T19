@@ -50,9 +50,10 @@ $(document).ready(function () {
             success: function () {
                 alert("USPESNO STE POSLALI EMAIL")
                 window.close()
-            }, error: function (jqXHR) {
-                alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
-            },
+            }
+            // }, error: function (jqXHR) {
+            //     alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+            // },
 
         })
      }
