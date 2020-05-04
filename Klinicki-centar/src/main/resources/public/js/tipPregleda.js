@@ -30,6 +30,9 @@ function ucitajTabelu() {
 function pretraga(){
 	var trazi = $('#trazi').val();
 	console.log(trazi);
+	if(trazi == ""){
+		return;
+	}
 	
 	$.ajax({
         type: "POST",
@@ -70,67 +73,92 @@ function provera(){
    
 
     var regex = /^[a-zA-Z0-9]{1,20}$/;
-    alert($("#naziv").val().length)
+    //alert($("#naziv").val().length)
     if ($("#naziv").val().length > 20) {
         $("#nazivError").text("Naziv moze da sadrzi maksimalno 20 karaktera!").css('visibility', 'visible').css('color', 'red');
-        return;
-    }        
-
+        return false;
+    }
+    else{
+    	$("#nazivError").css('visibility','hidden');
+    }
+    
     if ($("#naziv").val() == "") {
         $("#nazivError").text("Naziv je obavezno polje!").css('visibility', 'visible').css('color', 'red');
-        return;
+        return false;
     }
+    else{
+    	$("#nazivError").css('visibility','hidden');
+    }
+    
     if ($("#trajanje").val() == "") {
         $("#trajanjeError").text("Trajanje je obavezno polje!").css('visibility', 'visible').css('color', 'red');
-        return;
+        return false;
     }
+    else{
+    	$("#trajanjeError").css('visibility','hidden');
+    }
+    
     if ($("#cena").val() == "") {
         $("#cenaError").text("Cena je obavezno polje!").css('visibility', 'visible').css('color', 'red');
-        return;
+        return false;
+    }
+    else{
+    	$("#cenaError").css('visibility','hidden');
     }
     
     if (isNaN($("#trajanje").val()) ){
     	$("#trajanjeError").text("Trajanje je celobrojna vrednost!").css('visibility', 'visible').css('color', 'red');
-        return;
+        return false;
     }
 	else {
 	   var vr = parseFloat($("#trajanje").val());
 	   if (!Number.isInteger(vr)){
 	       $("#trajanjeError").text("Trajanje je celobrojna vrednost!").css('visibility', 'visible').css('color', 'red');
-		   return;
+		   return false;
 	   }
+	   else{
+	    	$("#trajanjeError").css('visibility','hidden');
+	    }
 	 }
     
     if (isNaN($("#cena").val()) ){
     	$("#cenaError").text("Cena je brojna vrednost!").css('visibility', 'visible').css('color', 'red');
-        return;
+        return false;
     }
-    
+    else{
+    	$("#cenaError").css('visibility','hidden');
+    }
     if (!regex.test($("#naziv").val())) {
         $("#nazivError").text("Naziv moze da sadrzi samo mala, velika slova i brojeve.").css('visibility', 'visible').css('color', 'red');
-        return;
+        return false;
     }
+    else{
+    	$("#nazivError").css('visibility','hidden');
+    }
+    return true;
 }
 
-function dodajTipPregleda() {
-    provera();
-    
 
-    $.ajax({
-        type: "POST",
-        contentType: "application/json",
-        url: "/klinicki-centar/tipPregleda/add",
-        dataType: 'json',
-        data: JSON.stringify({
-            naziv: $('#naziv').val(),
-            trajanje: $('#trajanje').val(),
-            cena: $('#cena').val(),
-        }),
-        success: function () {
-            window.location.replace("tipoviPregleda.html")
-            // alert("Uspesno dodavanje klinike!")
-        }
-    })
+function dodajTipPregleda() {
+	console.log("MRS");
+	console.log(provera())
+	if(provera()){
+		$.ajax({
+	        type: "POST",
+	        contentType: "application/json",
+	        url: "/klinicki-centar/tipPregleda/add",
+	        dataType: 'json',
+	        data: JSON.stringify({
+	            naziv: $('#naziv').val(),
+	            trajanje: $('#trajanje').val(),
+	            cena: $('#cena').val(),
+	        }),
+	        success: function () {
+	            window.location.replace("tipoviPregleda.html")
+	        }
+	    })
+	}
+
 }
 
 
@@ -168,32 +196,34 @@ function izmenaTipaPregleda() {
             alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
         },
     });
-    
+
     
     $('#izmeniBtn').click(function () {
-    	provera();
+    	if(provera()){
+    		$.ajax({
+                type: "PUT",
+                contentType: "application/json",
+                url: "/klinicki-centar/tipPregleda/update",
+                dataType: 'json',
+                data: JSON.stringify({
+                    id: imeParam,
+                    naziv: $('#naziv').val(),
+                    trajanje: $('#trajanje').val(),
+                    cena: $('#cena').val(),
+                }),
+                success: function () {
+                    window.location.replace("tipoviPregleda.html")
+                }
+            });
+    	}
     	
-        $.ajax({
-            type: "PUT",
-            contentType: "application/json",
-            url: "/klinicki-centar/tipPregleda/update",
-            dataType: 'json',
-            data: JSON.stringify({
-                id: imeParam,
-                naziv: $('#naziv').val(),
-                trajanje: $('#trajanje').val(),
-                cena: $('#cena').val(),
-            }),
-            success: function () {
-                window.location.replace("tipoviPregleda.html")
-            }
-        });
+        
     });
 }
 
 
 
-function ucitajTabelu() {
+function ucitajTabelu1() {
     $.ajax({
         type: "get",
         url: "/klinicki-centar/tipPregleda/page",
@@ -220,7 +250,7 @@ function ucitajTabelu() {
     });
 }
 
-function provera(){
+function provera1(){
 	$("#nazivError").css('visibility', 'hidden');
     $("#trajanjeError").css('visibility', 'hidden');
     $("#cenaError").css('visibility', 'hidden');
@@ -269,7 +299,7 @@ function provera(){
     }
 }
 
-function dodajTipPregleda() {
+function dodajTipPregleda1() {
     provera();
     
 
@@ -291,7 +321,7 @@ function dodajTipPregleda() {
 }
 
 
-function ukloniTipPregleda(id) {
+function ukloniTipPregleda1(id) {
 
     $.ajax({
         type: "DELETE",
@@ -307,7 +337,7 @@ function ukloniTipPregleda(id) {
 }
 
 
-function izmenaTipaPregleda() {
+function izmenaTipaPregleda1() {
 	
     var imeCoded = window.location.href.split("?")[1];
     var imeJednako = imeCoded.split("&")[0];

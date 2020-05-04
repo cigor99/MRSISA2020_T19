@@ -27,6 +27,9 @@ function ucitajTabelu() {
 function pretraga(){
 	var trazi = $('#trazi').val();
 	console.log(trazi);
+	if(trazi == ""){
+		return;
+	}
 	
 	$.ajax({
         type: "POST",
@@ -96,50 +99,75 @@ function filtriranje(){
 
 
 function dodajSalu() {
-    $("#nazivError").css('visibility', 'hidden');
+	var tipSelected = document.getElementById("tipSaleSelect");
+	var tipSale = tipSelected.options[tipSelected.selectedIndex].value;
+
+	if(provera()){
+		$.ajax({
+	        type: "POST",
+	        contentType: "application/json",
+	        url: "/klinicki-centar/sala/add",
+	        dataType: 'json',
+	        data: JSON.stringify({
+	            naziv: $('#naziv').val(),
+	            tip: tipSale, 
+	        }),
+	        success: function () {
+	            window.location.replace("sale.html")
+	            // alert("Uspesno dodavanje klinike!")
+	        }
+	    })
+	}
+    
+
+}
+
+function provera(){
+	$("#nazivError").css('visibility', 'hidden');
     $("#tipError").css('visibility', 'hidden');
     
     var tipSelected = document.getElementById("tipSaleSelect");
 	var tipSale = tipSelected.options[tipSelected.selectedIndex].value;
 
     var regex = /^[a-zA-Z0-9]{1,20}$/;
-    alert($("#naziv").val().length)
+    //alert($("#naziv").val().length)
     if ($("#naziv").val().length > 20) {
         $("#nazivError").text("Naziv moze da sadrzi maksimalno 20 karaktera!").css('visibility', 'visible').css('color', 'red');
-        return;
-    }        
+        return false;
+    }  
+    else{
+    	$("#nazivError").css('visibility', 'hidden')
+    }
 
     if ($("#naziv").val() == "") {
         $("#nazivError").text("Naziv je obavezno polje!").css('visibility', 'visible').css('color', 'red');
-        return;
+        return false;
     }
+    else{
+    	$("#nazivError").css('visibility', 'hidden')
+    }
+
     if (tipSale == "") {
         $("#tipError").text("Tip je obavezno polje!").css('visibility', 'visible').css('color', 'red');
-        return;
+        return false;
     }
+    else{
+    	$("#tipError").css('visibility', 'hidden')
+    }
+
     
     if (!regex.test($("#naziv").val())) {
         $("#nazivError").text("Naziv moze da sadrzi samo mala, velika slova i brojeve.").css('visibility', 'visible').css('color', 'red');
-        return;
+        return false;
     }
+    else{
+    	$("#nazivError").css('visibility', 'hidden')
+    }
+
     
+    return true;
 
-    $.ajax({
-        type: "POST",
-        contentType: "application/json",
-        url: "/klinicki-centar/sala/add",
-        dataType: 'json',
-        data: JSON.stringify({
-            naziv: $('#naziv').val(),
-            tip: tipSale, 
-        }),
-        success: function () {
-            window.location.replace("sale.html")
-            // alert("Uspesno dodavanje klinike!")
-        }
-    })
 }
-
 
 function ukloniSalu(imeParam) {
 	
@@ -158,7 +186,7 @@ function ukloniSalu(imeParam) {
 }
 
 
-function izmenaSale() {
+function izmenaSale1() {
     var imeCoded = window.location.href.split("?")[1];
     var imeJednako = imeCoded.split("&")[0];
     var imeParam = imeJednako.split("=")[1];
@@ -177,27 +205,31 @@ function izmenaSale() {
     
     
     $('#izmeniBtn').click(function () {
-    	var tipSelected = document.getElementById("tipSaleSelect");
-    	var tipSale = tipSelected.options[tipSelected.selectedIndex].value;
-        $.ajax({
-            type: "PUT",
-            contentType: "application/json",
-            url: "/klinicki-centar/sala/update",
-            dataType: 'json',
-            data: JSON.stringify({
-                id: imeParam,
-                naziv: $('#naziv').val(),
-                tip: tipSale,
-            }),
-            success: function () {
-                window.location.replace("sale.html")
-            }
-        });
+    	var tipSelected1 = document.getElementById("tipSaleSelect");
+    	var tipSale1 = tipSelected1.options[tipSelected1.selectedIndex].value;
+    	
+    	if(provera()){
+    		$.ajax({
+                type: "PUT",
+                contentType: "application/json",
+                url: "/klinicki-centar/sala/update",
+                dataType: 'json',
+                data: JSON.stringify({
+                    id: imeParam,
+                    naziv: $('#naziv').val(),
+                    tip: tipSale1,
+                }),
+                success: function () {
+                    window.location.replace("sale.html")
+                }
+            });
+    	}
+        
     });
 }
 
 
-function ucitajTabelu() {
+function ucitajTabelu1() {
     $.ajax({
         type: "get",
         url: "/klinicki-centar/sala/page",
@@ -224,7 +256,7 @@ function ucitajTabelu() {
 
 
 
-function dodajSalu() {
+function dodajSalu1() {
     $("#nazivError").css('visibility', 'hidden');
     $("#tipError").css('visibility', 'hidden');
     
@@ -270,7 +302,7 @@ function dodajSalu() {
 }
 
 
-function ukloniSalu(imeParam) {
+function ukloniSalu1(imeParam) {
 	
     
     $.ajax({
@@ -331,20 +363,23 @@ function izmenaSale() {
     $('#izmeniBtn').click(function () {
     	var tipSelected = document.getElementById("tipSaleSelect");
     	var tipSale = tipSelected.options[tipSelected.selectedIndex].value;
-        $.ajax({
-            type: "PUT",
-            contentType: "application/json",
-            url: "/klinicki-centar/sala/update",
-            dataType: 'json',
-            data: JSON.stringify({
-                id: imeParam,
-                naziv: $('#naziv').val(),
-                tip: tipSale,
-            }),
-            success: function () {
-                window.location.replace("sale.html")
-            }
-        });
+    	if(provera()){
+    		$.ajax({
+                type: "PUT",
+                contentType: "application/json",
+                url: "/klinicki-centar/sala/update",
+                dataType: 'json',
+                data: JSON.stringify({
+                    id: imeParam,
+                    naziv: $('#naziv').val(),
+                    tip: tipSale,
+                }),
+                success: function () {
+                    window.location.replace("sale.html")
+                }
+            });
+    	}
+        
     });
 }
 

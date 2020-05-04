@@ -97,6 +97,7 @@ public class LekarController {
 	public ResponseEntity<List<LekarDTO>> searchLekar(@RequestBody String pretraga){
 		List<LekarDTO> retVal = new ArrayList<LekarDTO>();
 		System.out.println(pretraga);
+		
 		for(Lekar l : lekarService.findAll()) {
 			System.out.println(l.getIme());
 			if(l.getIme().contains(pretraga) || l.getPrezime().contains(pretraga) || l.getEmail().contains(pretraga)) {

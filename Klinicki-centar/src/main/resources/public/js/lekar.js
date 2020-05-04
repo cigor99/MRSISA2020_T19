@@ -26,6 +26,9 @@ function ucitajTabelu() {
 function pretraga(){
 	var trazi = $('#trazi').val();
 	console.log(trazi);
+	if(trazi==""){
+		return;
+	}
 	
 	$.ajax({
         type: "POST",
@@ -58,7 +61,56 @@ function pretraga(){
     });
 } 
 
+function validacija(){
+	//$("#nazivError").css('visibility', 'hidden');
+    //$("#tipError").css('visibility', 'hidden');        
+
+    if ($("#ime").val() == "") {
+        $("#imeError").text("Ime je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+        return;
+    }
+    if ($("#prezime").val() == "") {
+        $("#prezimeError").text("Prezime je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+        return;
+    }
+    if ($("#email").val() == "") {
+        $("#emailError").text("Email je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+        return;
+    }
+
+    
+}
+
 function dodajLekara() {
+
+	    if ($("#ime").val() == "") {
+	        $("#imeError").text("Ime je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+	        return;
+	    }
+	    else{
+	    	$("#imeError").css('visibility', 'hidden');
+	    }
+	    if ($("#prezime").val() == "") {
+	        $("#prezimeError").text("Prezime je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+	        return;
+	    }
+	    else{
+	    	$("#prezimeError").css('visibility', 'hidden');
+	    }
+	    if ($("#email").val() == "") {
+	        $("#emailError").text("Email je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+	        return;
+	    }
+	    else{
+	    	$("#emailError").css('visibility', 'hidden');
+	    }
+	    if($("#lozinka").val() != $("#lozinkaPonovo").val()){
+	        $("#lozinkaError").text("Lozinke se ne poklapaju!").css('visibility', 'visible').css('color', 'red');	
+	        return;
+	    }
+	    else{
+	    	$("#lozinkaError").css('visibility', 'hidden');
+	    }
     	console.log("dodavanje lekara");
         var email = $('#email').val()
         var lozinka = $('#lozinka').val()
