@@ -123,34 +123,34 @@ $(document).ready(function(){
 		}
 		
 		if ($("#ime").val() == "") {
-            $("#imeError").text("Ime je obavezno polje!").css('visibility', 'visible').css('color', 'red');
-            return;
-        }
+	        $("#imeError").text("Ime je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+	        return;
+	    }
 		
 		if ($("#prezime").val() == "") {
-            $("#prezimeError").text("Prezime je obavezno polje!").css('visibility', 'visible').css('color', 'red');
-            return;
-        }
+	        $("#prezimeError").text("Prezime je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+	        return;
+	    }
 		
 		if ($("#jmbg").val() == "") {
-            $("#jmbgError").text("JMBG je obavezno polje!").css('visibility', 'visible').css('color', 'red');
-            return;
-        }
+	        $("#jmbgError").text("JMBG je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+	        return;
+	    }
 		
 		if ($("#email").val() == "") {
-            $("#emailError").text("Email je obavezno polje!").css('visibility', 'visible').css('color', 'red');
-            return;
-        }
+	        $("#emailError").text("Email je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+	        return;
+	    }
 		
 		if ($("#lozinka").val() == "") {
-            $("#lozinkaError").text("Lozinka je obavezno polje!").css('visibility', 'visible').css('color', 'red');
-            return;
-        }
+	        $("#lozinkaError").text("Lozinka je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+	        return;
+	    }
 		
 		if ($("#lozinka_conf").val() == "") {
-            $("#lozinkaConfError").text("Morate potvrditi lozinku!").css('visibility', 'visible').css('color', 'red');
-            return;
-        }
+	        $("#lozinkaConfError").text("Morate potvrditi lozinku!").css('visibility', 'visible').css('color', 'red');
+	        return;
+	    }
 		
 		if($("#grad").val() == ""){
 			$("#gradError").text("Grad je obavezno polje!").css('visibility', 'visible').css('color', 'red');
@@ -178,14 +178,14 @@ $(document).ready(function(){
 		}
 		
 		if (!regName.test($("#ime").val())) {
-            $("#imeError").text("Ime moze da sadrzi samo mala ili velika slova").css('visibility', 'visible').css('color', 'red');
-            return;
-        }
+	        $("#imeError").text("Ime moze da sadrzi samo mala ili velika slova").css('visibility', 'visible').css('color', 'red');
+	        return;
+	    }
 		
 		if (!regName.test($("#prezime").val())) {
-            $("#prezimeError").text("Prezime moze da sadrzi samo mala ili velika slova").css('visibility', 'visible').css('color', 'red');
-            return;
-        }
+	        $("#prezimeError").text("Prezime moze da sadrzi samo mala ili velika slova").css('visibility', 'visible').css('color', 'red');
+	        return;
+	    }
 		
 		if(!regEmail.test($("#email").val())){
 			$("#emailError").text("Neispravan format email-a").css('visibility', 'visible').css('color', 'red');
@@ -193,33 +193,33 @@ $(document).ready(function(){
 		}
 		
 		if(!regPhone.test($("#telefon").val())){
-    		$("telefonError").text("Neispravan unos broja telefona").css('visibility', 'visible').css('color', 'red');
-    		return;
-    	}
-    
-    	if(!regGrad.test($("#grad").val())){
+			$("#telefonError").text("Neispravan unos broja telefona!").css('visibility', 'visible').css('color', 'red');
+			return;
+		}
+	
+		if(!regGrad.test($("#grad").val())){
 			$("#gradError").text("Neispravan unos grada").css('visibility', 'visible').css('color', 'red');
-    		return;
+			return;
 		}
 		
 		if(!regGrad.test($("#drzava").val())){
 			$("#drzavaError").text("Neispravan unos drzave").css('visibility', 'visible').css('color', 'red');
-    		return;
+			return;
 		}
 		
 		if(!regAdresa.test($("#adresa").val())){
 			$("#adresaError").text("Neispravan unos adrese").css('visibility', 'visible').css('color', 'red');
-    		return;
+			return;
 		}
 		
 		if(!regJmbg.test($("#jedinstveniBrOsig").val())){
 			$("#jedinstveniBrOsigError").text("Neispravan unos broja osiguranika").css('visibility', 'visible').css('color', 'red');
-    		return;
+			return;
 		}
 		
 		if(!regJmbg.test($("#jmbg").val())){
 			$("#jmbg").text("Neispravan unos JMBG-a").css('visibility', 'visible').css('color', 'red');
-    		return;
+			return;
 		}
 		
 		if (!regPass.test($("#lozinka").val())){

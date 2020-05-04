@@ -148,7 +148,7 @@ $(document).ready(function(){
 		}
 		
 		if(!regPhone.test($("#telefon").val())){
-			$("telefonError").text("Neispravan unos broja telefona").css('visibility', 'visible').css('color', 'red');
+			$("#telefonError").text("Neispravan unos broja telefona!").css('visibility', 'visible').css('color', 'red');
 			return;
 		}
 	
@@ -221,7 +221,8 @@ $(document).ready(function(){
 				if(jqXHR.status == 406){
 					$("#emailError").text("Email koji ste uneli vec postoji").css('visibility', 'visible').css('color', 'red');
 					alert("Email koji ste uneli vec postoji")
-				}else{
+				}
+				else{
 					alert("Error in call /pacijenti/register")
 				}
 				

@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailAuthenticationException;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -105,9 +106,12 @@ public class PacijentController {
 			msg.setText(pacijentDTO.toString());
 			try {
 		       	 javaMailSender.send(msg);
+				}catch (MailAuthenticationException e) {
+					e.printStackTrace();
+					return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 				} catch (MailException e) {
 					e.printStackTrace();
-					return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+					return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 				}
 		}
 		ZahtevZaRegistraciju zzr = new ZahtevZaRegistraciju(0, StanjeZahteva.NA_CEKANJU, novi, new KlinickiCentar(1));
