@@ -23,10 +23,14 @@ import MRSISA.Klinicki.centar.domain.KlinickiCentar;
 import MRSISA.Klinicki.centar.domain.Klinika;
 import MRSISA.Klinicki.centar.domain.KrvnaGrupa;
 import MRSISA.Klinicki.centar.domain.Lek;
+import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.Pacijent;
 import MRSISA.Klinicki.centar.domain.Pol;
+import MRSISA.Klinicki.centar.domain.Sala;
 import MRSISA.Klinicki.centar.domain.StanjePacijenta;
 import MRSISA.Klinicki.centar.domain.StanjeZahteva;
+import MRSISA.Klinicki.centar.domain.TipPregleda;
+import MRSISA.Klinicki.centar.domain.TipSale;
 import MRSISA.Klinicki.centar.domain.ZahtevZaRegistraciju;
 import MRSISA.Klinicki.centar.domain.ZdravstveniKarton;
 
@@ -96,6 +100,26 @@ public class KlinickiCentarApplication {
 		Klinika k2 = new Klinika(2, "klinika 2", "adresa klinike 2", "opis", null);
 		a1.setKlinika(k1);
 		k1.getAdministratori().add(a1);
+		
+		Lekar lekar1 = new Lekar(1, "lekar1@gmail.com", "123", "imel1", "prezimel1", k1, null, null, null, null);
+		Lekar lekar2 = new Lekar(2, "lekar2@gmail.com", "123", "imel2", "prezimel2", k2, null, null, null, null);
+		Lekar lekar3 = new Lekar(3, "lekar3@gmail.com", "123", "imel3", "prezimel3", k1, null, null, null, null);
+
+		Sala s1 = new Sala(1, "sala1", TipSale.ZA_PREGLED, null, k1, null);
+		Sala s2 = new Sala(2, "sala2", TipSale.OPERACIONA, null, k1, null);
+		Sala s3 = new Sala(3, "sala3", TipSale.OPERACIONA, null, k2, null);
+		
+		Cena c1 = new Cena();
+		c1.setId(1);
+		c1.setIznos((double) 1000);
+		TipPregleda tp1 = new TipPregleda(1, 30, "tip1", null, c1, null);
+		c1.setTipPregleda(tp1);
+		
+		Cena c2 = new Cena();
+		c2.setId(2);
+		c2.setIznos((double) 800);
+		TipPregleda tp2 = new TipPregleda(2, 15, "tip2", null, c2, null);
+		c2.setTipPregleda(tp2);
 
 		Pacijent p1 = new Pacijent(1, "neko", "neko", "1", "neko@gmail.com", "password", null, Pol.MUSKI, "Novi Sad",
 				"Srbija", "Bul. Oslobodjenja 12.", "062222222", "1");
@@ -385,6 +409,75 @@ public class KlinickiCentarApplication {
 		
 		ps8.close();
 		
+		PreparedStatement ps9 = conn.prepareStatement(
+				"INSERT INTO  LEKAR  (ID_LEKARA, EMAIL, LOZINKA, IME, PREZIME, KLINIKA) VALUES (?, ?, ?, ?, ?, ?)");
+		ps9.setInt(1, lekar1.getId());
+		ps9.setString(2, lekar1.getEmail());
+		ps9.setString(3, lekar1.getLozinka());
+		ps9.setString(4, lekar1.getIme());		
+		ps9.setString(5, lekar1.getPrezime());
+		ps9.setInt(6, lekar1.getKlinika().getId());
+		ps9.executeUpdate();
+		
+		ps9.setInt(1, lekar2.getId());
+		ps9.setString(2, lekar2.getEmail());
+		ps9.setString(3, lekar2.getLozinka());
+		ps9.setString(4, lekar2.getIme());		
+		ps9.setString(5, lekar2.getPrezime());
+		ps9.setInt(6, lekar2.getKlinika().getId());
+		ps9.executeUpdate();
+		
+		ps9.setInt(1, lekar3.getId());
+		ps9.setString(2, lekar3.getEmail());
+		ps9.setString(3, lekar3.getLozinka());
+		ps9.setString(4, lekar3.getIme());		
+		ps9.setString(5, lekar3.getPrezime());
+		ps9.setInt(6, lekar3.getKlinika().getId());
+		ps9.executeUpdate();
+		
+		PreparedStatement ps10 = conn.prepareStatement(
+				"INSERT INTO  SALE  (ID_SALE, NAZIV, TIP_SALE, KLINIKA) VALUES (?, ?, ?, ?)");
+		ps10.setInt(1, s1.getId());
+		ps10.setString(2, s1.getNaziv());
+		ps10.setInt(3, s1.getTip().ordinal());
+		ps10.setInt(4, s1.getKlinika().getId());
+		ps10.executeUpdate();
+		
+		ps10.setInt(1, s2.getId());
+		ps10.setString(2, s2.getNaziv());
+		ps10.setInt(3, s2.getTip().ordinal());
+		ps10.setInt(4, s2.getKlinika().getId());
+		ps10.executeUpdate();
+		
+		ps10.setInt(1, s3.getId());
+		ps10.setString(2, s3.getNaziv());
+		ps10.setInt(3, s3.getTip().ordinal());
+		ps10.setInt(4, s3.getKlinika().getId());
+		ps10.executeUpdate();
+		
+		PreparedStatement ps12 = conn.prepareStatement(
+				"INSERT INTO  CENE  (ID_CENE, IZNOS) VALUES (?, ?)");
+		ps12.setInt(1, c1.getId());
+		ps12.setDouble(2, c1.getIznos());
+		ps12.executeUpdate();
+		
+		ps12.setInt(1, c2.getId());
+		ps12.setDouble(2, c2.getIznos());
+		ps12.executeUpdate();
+		
+		PreparedStatement ps11 = conn.prepareStatement(
+				"INSERT INTO  Tipovi_Pregleda  (ID_Tipa_Pregleda, TRAJANJE, NAZIV, CENA) VALUES (?, ?, ?, ?)");
+		ps11.setInt(1, tp1.getId());
+		ps11.setInt(2, tp1.getTrajanje());
+		ps11.setString(3, tp1.getNaziv());
+		ps11.setInt(4, tp1.getCena().getId());
+		ps11.executeUpdate();
+		
+		ps11.setInt(1, tp2.getId());
+		ps11.setInt(2, tp2.getTrajanje());
+		ps11.setString(3, tp2.getNaziv());
+		ps11.setInt(4, tp2.getCena().getId());
+		ps11.executeUpdate();
 		
 		
 		conn.close();
