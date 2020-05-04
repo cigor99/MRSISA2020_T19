@@ -1,64 +1,67 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Dodavanje/izmena admina klinike</title>
-<meta charset="utf-8">
-<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>   
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script src="js/main.js"></script>
-<script src="DodavanjeAdminaKlinici.js"></script>
-<link href="style.css" rel="stylesheet">
-<script>
-	$(document).ready( function() {
-		ucitajZaglavlje();
-	});
-</script>
+    <title>Dodavanje/izmena admina klinike</title>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="DodavanjeAdminaKlinici.js"></script>
+    <link href="style.css" rel="stylesheet">
+    <script>
+        $(document).ready(function() {
+            ucitajZaglavlje();
+        });
+    </script>
 </head>
 
 <body>
 
-<div id="navbardiv"></div>
-<div class="naslov">
-<h1>Dodavanje/izmena admina klinike</h1>
-</div>
+    <div id="navbardiv"></div>
+    <div class="naslov">
+        <h1>Dodavanje/izmena admina klinike</h1>
+    </div>
 
-<div class="main_div">
-<div class="table-holder">
-    <table id="tabela" class="table">
-        <!-- ID_ADMINK  	EMAIL  	IME  	JMBG  	LOZINKA  	PREZIME  	KLINIKA  
+    <div class="main_div">
+        <div class="table-holder">
+            <table id="tabela" class="table">
+                <!-- ID_ADMINK  	EMAIL  	IME  	JMBG  	LOZINKA  	PREZIME  	KLINIKA  
          -->
-      <thead>
-         <tr>
-         <th>ID Admina</th>
-         <th>Ime</th>
-         <th>Prezime</th>
-         <th>Email</th>
-         <th>JMBG</th>
-         <th>ID klinike</th>
-         </tr>
-      </thead>
-    </table>
-</div>
-</div>
+                <thead>
+                    <tr>
+                        <th>ID Admina</th>
+                        <th>Ime</th>
+                        <th>Prezime</th>
+                        <th>Email</th>
+                        <th>JMBG</th>
+                        <th>ID klinike</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
 
-<div class="dodavanje">
-	<div class="form-group">
-		<label>Izaberite admina</label>
-		<input style="max-width: 250px;" class="form-control" id="inputAdmin" list="admini" size="50">
-		<datalist id="admini"></datalist>
-	</div>
-	<div class="form-group">
-		<label>Izaberite kliniku</label>
-		<input style="max-width: 250px;" class="form-control" id="inputKlinika" list="klinike" size="50">
-		<datalist id="klinike"></datalist>
-	</div>
-	<input class="button" type="button" value="Dodaj" id="dodaj">
-</div>
+    <div class="dodavanje">
+        <div class="form-group">
+            <label>Izaberite admina</label>
+            <input style="max-width: 250px;" class="form-control" id="inputAdmin" list="admini" size="50">
+            <p id="adminERROR"></p>
+            <datalist id="admini"></datalist>
+        </div>
+        <div class="form-group">
+            <label>Izaberite kliniku</label>
+            <input style="max-width: 250px;" class="form-control" id="inputKlinika" list="klinike" size="50">
+            <p id="klinikaERROR"></p>
+            <datalist id="klinike"></datalist>
+        </div>
+        <input class="button" type="button" value="Dodaj" id="dodaj">
+    </div>
 
-    
+
 </body>
 
 </html>

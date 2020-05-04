@@ -1,9 +1,9 @@
-$(document).ready(function () {
+$(document).ready(function() {
 
     $.ajax({
         url: "/klinicki-centar/KC/ZZR/getAll",
         type: "get",
-        success: function (data) {
+        success: function(data) {
             for (let zahtev of data) {
                 let table = $("#zahtevi");
                 let tr = $("<tr id=\"tr" + zahtev.id + "\"></tr>");
@@ -14,20 +14,21 @@ $(document).ready(function () {
                 $.ajax({
                     url: "/klinicki-centar/pacijent/getOnePacijent/" + zahtev.pacijent,
                     type: 'get',
-                    success: function (data) {
+                    success: function(data) {
                         emailTD = $("<td >" + data.email + "</td>");
                     },
-                    error: function (jqXHR) {
+                    error: function(jqXHR) {
                         alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
-                    }, async: false,
+                    },
+                    async: false,
                 })
 
                 let prihvatiTD = $("<td id=\"prihvatiTD" + zahtev.id + "\"></td>");
                 let a = $("<a>Prihvati</a>");
                 a.attr("onclick", "prihvati(" + zahtev.id + ");");
                 a.attr("href", '#')
-                // a.click(prihvati(zahtev.id))
-                // a.attr('href',"prihvati(zahtev.id);");
+                    // a.click(prihvati(zahtev.id))
+                    // a.attr('href',"prihvati(zahtev.id);");
                 prihvatiTD.append(a);
 
                 let odbijTD = $("<td  id=\"odbij" + zahtev.id + "\"></td>")
@@ -35,7 +36,7 @@ $(document).ready(function () {
                 // alert(zahtev.pacijent)
                 a2.attr("onclick", "odbij(" + zahtev.id + "," + zahtev.pacijent + ");");
                 a2.attr("href", '#')
-                // a2.attr("target", '_blank')
+                    // a2.attr("target", '_blank')
                 odbijTD.append(a2)
                 tr.append(idTD);
                 tr.append(stanjeTd);
@@ -47,28 +48,28 @@ $(document).ready(function () {
                 table.append(tr);
             }
         },
-        error: function (jqXHR) {
-            alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+        error: function(jqXHR) {
+            alert("Error: " + jqXHR.status + ", " + JSON.parse(jqXHR.responseText).error);
         }
-
     });
 
 
 
 
 });
+
 function prihvati(IDZahteva) {
     $.confirm({
         title: 'Zahtev za registraciju',
         content: 'Da li ste sigurni da želite da potrvdite zahtev za registraciju br.' + IDZahteva + "?",
         buttons: {
-            potvrdi: function () {
+            potvrdi: function() {
                 $.ajax({
                     url: "/klinicki-centar/KC/ZZR/Prihvati/" + IDZahteva,
                     contentType: "application/json",
                     dataType: 'json',
                     type: "put",
-                    success: function () {
+                    success: function() {
                         $("#td" + IDZahteva).html("PRIHVACEN")
 
                         // $("#prihvatiTD" + IDZahteva).remove()
@@ -77,7 +78,7 @@ function prihvati(IDZahteva) {
                     }
                 });
             },
-            odustani: function () {
+            odustani: function() {
                 return;
             },
         }
@@ -94,7 +95,7 @@ function odbij(IDZahteva, idPacijenta) {
         title: 'Zahtev za registraciju',
         content: 'Da li ste sigurni da želite da odbijete zahtev za registraciju br.' + IDZahteva + "?",
         buttons: {
-            potvrdi: function () {
+            potvrdi: function() {
                 $("#odbij" + IDZahteva).remove()
                 $("#prihvatiTD" + IDZahteva).remove()
                 $("#td" + IDZahteva).html("ODBIJEN")
@@ -103,22 +104,23 @@ function odbij(IDZahteva, idPacijenta) {
                     contentType: "application/json",
                     dataType: 'json',
                     type: "put",
-                    success: function () {
+                    success: function() {
                         $("#td" + IDZahteva).html("ODBIJEN")
                         $("#odbij" + IDZahteva).remove()
                         $("#prihvatiTD" + IDZahteva).remove()
-                    }, async: false,
+                    },
+                    async: false
                 });
 
 
                 window.open("odbijeno.html?id=" + idPacijenta,
                     'newwindow',
                     'width=700,height=400');
-               
+
 
 
             },
-            odustani: function () {
+            odustani: function() {
                 return;
             },
         }
@@ -126,4 +128,3 @@ function odbij(IDZahteva, idPacijenta) {
 
 
 }
-
