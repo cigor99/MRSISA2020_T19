@@ -1,33 +1,34 @@
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
 <title>Pacijenti</title>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="js/main.js"></script>
 <script src="js/pacijent.js"></script>
+<link href="style.css" rel="stylesheet">
+<script>
+	$(document).ready( function() {
+		ucitajZaglavlje();		
+	});
+</script>
 </head>
-<body>
-	<nav class="navbar navbar-default">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="#">Klinički centar</a>
-			</div>
-			<ul class="nav navbar-nav">
-				<li><a href="index.html">Home</a></li>
-				<li><a href="dodajNovogLekara.html">Dodaj lekara</a></li>
-				<li><a href="Klinike.html">Klinika</a></li>
-				<li class="active"><a href="pacijenti.html">Pacijenti</a></li>
-			</ul>
-		</div>
-	</nav>
 
-	<h1>Pacijenti</h1>
-	<table id="pacijenti" name="pacijenti" border="1">
+<body>
+<div id="navbardiv"></div>
+<div class="naslov">
+<h1>Pacijenti</h1>
+</div>
+
+<div class="main_div">
+<div class="table-holder">
+	<table id="pacijenti" name="pacijenti" class="table">
+	<thead>
+		<tr>
 		<th id="ID">ID</th>
 		<th id="ime">Ime</th>
 		<th id="prezime">Prezime</th>
@@ -40,26 +41,24 @@
 		<th id="adresa">Adresa</th>
 		<th id="grad">Grad</th>
 		<th id="drzava">Drzava</th>
-		
 		<th>Izmeni</th>
-	</table>
-	<table>
-		<tr>
-			<td><input type="button"
-				onclick="location.href='dodajPacijenta.html'"
-				value="Dodavanje pacijenta"></td>
 		</tr>
+	</thead>	
 	</table>
+</div>
+<input type="button" style="margin: 10px;" class= "button" onclick="location.href='dodajPacijenta.html'"
+				value="Dodavanje pacijenta">
+</div>
 
-	<h1>Brisanje pacijenta</h1>
-	<table>
-		<tr>
-			<td>Unesite ID pacijenta kojeg želite da obrišete:</td>
-			<td><input type="text" name="ID" id="IDbrisanje"></td>
-		</tr>
-		<tr>
-			<td><input type="button" value="Obrisi pacijenta" id="obrisiBtn"></td>
-		</tr>
-	</table>
+<div class="brisanje">
+Brisanje pacijenta
+<div class="form-group">
+	<label>Unesite ID pacijenta kojeg želite da obrišete:</label>
+	<input style="max-width: 250px;" class="form-control" type="text" name="ID" id="IDbrisanje">
+</div>
+<input class="button" type="button" value="Obrisi pacijenta" id="obrisiBtn">
+</div>
+
+
 </body>
 </html>

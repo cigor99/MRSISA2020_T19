@@ -1,20 +1,38 @@
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
         <title>Zdravsteni karton</title>
-        <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-        <script src="zdravsteniKarton.js"></script>
-    </head>
-    <body>
-        <h1>Izmena zdravstenog kartona</h1>
-        <div id="div">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="zdravsteniKarton.js"></script>
+<script src="js/main.js"></script>
+<link href="style.css" rel="stylesheet">
+<script>
+	$(document).ready( function() {
+		ucitajZaglavlje();		
+	});
+</script>
+</head>
+
+<body>
+<div id="navbardiv"></div>
+<div class="naslov">
+<h1>Izmena zdravstenog kartona</h1>
+</div>
+
+<div id="div" class="forma-za-dodavanje">
+
         <table id="tabela">
             <tr>
                 <td>Unesite JBMG pacijenta: </td>
                 <td><input type="text" id="JBMG" required autofocus ></td>
             </tr>
             <tr>
-                <td><input type="button" value="Pretrazi" id="traziJMBG"></td>
+                <td><input  class="button" type="button" value="Pretrazi" id="traziJMBG"></td>
             </tr>
         </table>
     </div>

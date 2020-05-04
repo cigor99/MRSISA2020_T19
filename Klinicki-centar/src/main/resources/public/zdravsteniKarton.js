@@ -86,6 +86,7 @@ $(document).ready(function () {
                 dugme.attr("type", 'button')
                 dugme.attr("id", 'izmeni')
                 dugme.attr('value', 'Sacuvaj')
+                dugme.attr('class', 'button')
                 dugmeTD.append(dugme)
                 tr5.append(dugmeTD)
 

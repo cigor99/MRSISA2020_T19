@@ -1,42 +1,56 @@
+<!DOCTYPE html>
 <html>
-
 <head>
-    <meta charset="utf-8">
-    <title>Šifarnik lekova</title>
-    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script src="sifarnikLekova.js"></script>
+<meta charset="utf-8">
+<title>Šifarnik lekova</title>    
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="js/main.js"></script>
+<script src="sifarnikLekova.js"></script>
+<link href="style.css" rel="stylesheet">
+<script>
+	$(document).ready( function() {
+		ucitajZaglavlje();		
+	});
+</script>
 </head>
 
 <body>
-    <h1>Šifarnik lekova</h1>
-    <table id="lekovi" border="1">
+
+<div id="navbardiv"></div>
+<div class="naslov">
+<h1>Šifarnik lekova</h1>
+</div>
+
+<div class="main_div">
+<div class="table-holder">
+    <table id="lekovi" class="table">
+    <thead>
+    	<tr>
         <th>ID leka</th>
         <th>Naziv leka</th>
         <th>Šifra leka</th>
         <th>Izmeni</th>
-    </table>
-    <table>
-        <tr>
-            <td><input type="button" value="Dodaj novi lek" id="dodaj"></td>
         </tr>
+    </thead>
     </table>
+</div>
+<input class="button" style="margin: 10px;" type="button" value="Dodaj novi lek" id="dodaj">
+</div>
 
-    <h1>Brisanje leka iz šifarnika</h1>
-    <table>
-        <tr>
-            <td>
-                Unesite ID leka kojeg želite da obrišete:
-            </td>
-            <td>
-                <input type="text" id="IDBrisanja">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <input type="button" value="Obriši lek" id="obrisi">
-            </td>
-        </tr>
-    </table>
+<div class="brisanje">
+Brisanje leka iz šifarnika
+<div class="form-group">
+	<label>Unesite ID leka kojeg želite da obrišete:</label>
+	<input style="max-width: 250px;" class="form-control" type="text" id="IDBrisanja">
+</div>
+<input class="button" type="button" value="Obriši lek" id="obrisi">
+</div>
+
+
 </body>
 
 </html>
