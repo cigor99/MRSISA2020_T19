@@ -203,7 +203,7 @@ $(document).ready(function() {
 		}
 		
 		if(!regJmbg.test($("#jmbg").val())){
-			$("#jmbg").text("Neispravan unos JMBG-a").css('visibility', 'visible').css('color', 'red');
+			$("#jmbgError").text("Neispravan unos JMBG-a").css('visibility', 'visible').css('color', 'red');
 			return;
 		}
 		

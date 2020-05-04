@@ -98,13 +98,13 @@ public class KlinickiCentarApplication {
 		k1.getAdministratori().add(a1);
 
 		Pacijent p1 = new Pacijent(1, "neko", "neko", "1", "neko@gmail.com", "password", null, Pol.MUSKI, "Novi Sad",
-				"Srbija", "Bul. Oslobodjenja 12.", "062222222", 1);
+				"Srbija", "Bul. Oslobodjenja 12.", "062222222", "1");
 		Pacijent p2 = new Pacijent(2, "neko2", "neko2", "2", "neko2@gmail.com", "password2", null, Pol.ZENSKI,
-				"Novi Sad", "Srbija", "Bul. Oslobodjenja 15.", "0623333333", 2);
+				"Novi Sad", "Srbija", "Bul. Oslobodjenja 15.", "0623333333", "2");
 		Pacijent p3 = new Pacijent(3, "neko3", "neko3", "3", "ilijag@hotmail.com", "sifra", null, Pol.ZENSKI, "Beograd",
-				"Srbija", "Nemanjina 15.", "0623332533", 3);
+				"Srbija", "Nemanjina 15.", "0623332533", "3");
 		Pacijent p4 = new Pacijent(4, "neko4", "neko4", "4", "neko4@hotmail.com", "lozinka", null, Pol.ZENSKI,
-				"Beograd", "Srbija", "Nemanjina 20.", "0623653333", 4);
+				"Beograd", "Srbija", "Nemanjina 20.", "0623653333", "4");
 
 		ZahtevZaRegistraciju z1 = new ZahtevZaRegistraciju(1, StanjeZahteva.NA_CEKANJU, null, KC);
 		ZahtevZaRegistraciju z2 = new ZahtevZaRegistraciju(2, StanjeZahteva.NA_CEKANJU, null, KC);
@@ -175,7 +175,7 @@ public class KlinickiCentarApplication {
 		ps.setString(5, p1.getEmail());
 		ps.setString(6, p1.getGrad());
 		ps.setString(7, p1.getIme());
-		ps.setInt(8, p1.getJedinstveniBrOsig());
+		ps.setString(8, p1.getJedinstveniBrOsig());
 		ps.setString(9, p1.getJmbg());
 		ps.setString(10, p1.getLozinka());
 		ps.setInt(11, p1.getPol().ordinal());
@@ -192,7 +192,7 @@ public class KlinickiCentarApplication {
 		ps.setString(5, p2.getEmail());
 		ps.setString(6, p2.getGrad());
 		ps.setString(7, p2.getIme());
-		ps.setInt(8, p2.getJedinstveniBrOsig());
+		ps.setString(8, p2.getJedinstveniBrOsig());
 		ps.setString(9, p2.getJmbg());
 		ps.setString(10, p2.getLozinka());
 		ps.setInt(11, p2.getPol().ordinal());
@@ -209,7 +209,7 @@ public class KlinickiCentarApplication {
 		ps.setString(5, p3.getEmail());
 		ps.setString(6, p3.getGrad());
 		ps.setString(7, p3.getIme());
-		ps.setInt(8, p3.getJedinstveniBrOsig());
+		ps.setString(8, p3.getJedinstveniBrOsig());
 		ps.setString(9, p3.getJmbg());
 		ps.setString(10, p3.getLozinka());
 		ps.setInt(11, p3.getPol().ordinal());
@@ -226,7 +226,7 @@ public class KlinickiCentarApplication {
 		ps.setString(5, p4.getEmail());
 		ps.setString(6, p4.getGrad());
 		ps.setString(7, p4.getIme());
-		ps.setInt(8, p4.getJedinstveniBrOsig());
+		ps.setString(8, p4.getJedinstveniBrOsig());
 		ps.setString(9, p4.getJmbg());
 		ps.setString(10, p4.getLozinka());
 		ps.setInt(11, p4.getPol().ordinal());

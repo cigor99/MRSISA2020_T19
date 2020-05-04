@@ -25,7 +25,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import MRSISA.Klinicki.centar.domain.AdministratorKlinickogCentra;
+import MRSISA.Klinicki.centar.domain.AdministratorKlinike;
 import MRSISA.Klinicki.centar.domain.KlinickiCentar;
+import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.Pacijent;
 import MRSISA.Klinicki.centar.domain.Pol;
 import MRSISA.Klinicki.centar.domain.StanjePacijenta;
@@ -34,7 +36,10 @@ import MRSISA.Klinicki.centar.domain.ZahtevZaRegistraciju;
 import MRSISA.Klinicki.centar.domain.ZdravstveniKarton;
 import MRSISA.Klinicki.centar.dto.PacijentDTO;
 import MRSISA.Klinicki.centar.service.AdminKCSerivce;
+import MRSISA.Klinicki.centar.service.AdminKService;
+import MRSISA.Klinicki.centar.service.LekarService;
 import MRSISA.Klinicki.centar.service.PacijentService;
+import MRSISA.Klinicki.centar.service.ZahtevZRService;
 
 @RestController
 @RequestMapping("/pacijent")
@@ -49,6 +54,14 @@ public class PacijentController {
 	@Autowired
 	private AdminKCSerivce adminKCService;
 	
+	@Autowired
+	private AdminKService adminService;
+	
+	@Autowired
+	private ZahtevZRService zzrService;
+	
+	@Autowired
+	private LekarService lekarService;
 	
 	@GetMapping("/all")
 	public ResponseEntity<List<PacijentDTO>> getAllPacijenti(){
@@ -90,11 +103,17 @@ public class PacijentController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		System.out.println(pacijentDTO);
-		List<Pacijent> pacijenti = pacijentService.findAll();
-		for(Pacijent p: pacijenti) {
-			if(p.getEmail().equals(pacijentDTO.getEmail())) {
-				return new ResponseEntity<PacijentDTO>(HttpStatus.NOT_ACCEPTABLE);
-			}
+		
+		if(!jedinstvenEmail(pacijentDTO)) {
+			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+		}
+		
+		if(!jedinstvenJmbg(pacijentDTO)) {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
+		
+		if(!jedinstveniBrOsig(pacijentDTO)) {
+			return new ResponseEntity<>(HttpStatus.LOCKED);
 		}
 		
 		Pacijent novi = new Pacijent(0, pacijentDTO.getIme(), pacijentDTO.getPrezime(), pacijentDTO.getJmbg(), pacijentDTO.getEmail(), pacijentDTO.getLozinka(), null, pacijentDTO.getPol(), pacijentDTO.getGrad(), pacijentDTO.getDrzava(), pacijentDTO.getAdresa(),pacijentDTO.getBrojTelefona(), pacijentDTO.getJedinstveniBrOsig() );
@@ -114,7 +133,9 @@ public class PacijentController {
 					return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 				}
 		}
+		//pacijentService.addPacijent(novi);
 		ZahtevZaRegistraciju zzr = new ZahtevZaRegistraciju(0, StanjeZahteva.NA_CEKANJU, novi, new KlinickiCentar(1));
+		zzrService.save(zzr);
 		return new ResponseEntity<PacijentDTO>(new PacijentDTO(), HttpStatus.CREATED);
 		
 	}
@@ -126,6 +147,18 @@ public class PacijentController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		System.out.println(pacijentDTO);
+		
+		if(!jedinstvenEmail(pacijentDTO)) {
+			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+		}
+		
+		if(!jedinstvenJmbg(pacijentDTO)) {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
+		
+		if(!jedinstveniBrOsig(pacijentDTO)) {
+			return new ResponseEntity<>(HttpStatus.LOCKED);
+		}
 		Pacijent pacijent = new Pacijent();
 		pacijent.setId(pacijentDTO.getId());
 		pacijent.setIme(pacijentDTO.getIme());
@@ -212,6 +245,76 @@ public class PacijentController {
 	}
 	
 	
+	private boolean jedinstvenEmail(PacijentDTO pacijentDTO) {
+		List<Pacijent> pacijenti = pacijentService.findAll();
+		for(Pacijent p: pacijenti) {
+			if(!p.getStanjePacijenta().equals(StanjePacijenta.ODBIJEN)) {
+				if(p.getEmail().equals(pacijentDTO.getEmail())) {
+					return false;
+				}
+			}
+		}
+		
+		List<Lekar> lekari = lekarService.findAll();
+		for(Lekar l: lekari) {
+			if(l.getEmail().equals(pacijentDTO.getEmail())) {
+				return false;
+			}
+		}
+		
+		List<AdministratorKlinike> adminiKlinika = adminService.findAll();
+		for(AdministratorKlinike ak: adminiKlinika) {
+			if(ak.getEmail().equals(pacijentDTO.getEmail())) {
+				return false;
+			}
+		}
+		
+		List<AdministratorKlinickogCentra> admini = adminKCService.findAll();
+		for(AdministratorKlinickogCentra adm : admini) {
+			if(adm.getEmail().equals(pacijentDTO.getEmail())) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private boolean jedinstvenJmbg(PacijentDTO pacijentDTO) {
+		List<Pacijent> pacijenti = pacijentService.findAll();
+		for(Pacijent p: pacijenti) {
+			if(!p.getStanjePacijenta().equals(StanjePacijenta.ODBIJEN)) {
+				if(p.getJmbg().equals(pacijentDTO.getJmbg())) {
+					return false;
+				}
+			}
+		}
+		
+		List<AdministratorKlinike> adminiKlinika = adminService.findAll();
+		for(AdministratorKlinike ak: adminiKlinika) {
+			if(ak.getJmbg().equals(pacijentDTO.getJmbg())) {
+				return false;
+			}
+		}
+		
+		List<AdministratorKlinickogCentra> admini = adminKCService.findAll();
+		for(AdministratorKlinickogCentra adm : admini) {
+			if(adm.getJmbg().equals(pacijentDTO.getJmbg())) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private boolean jedinstveniBrOsig(PacijentDTO pacijentDTO) {
+		List<Pacijent> pacijenti = pacijentService.findAll();
+		for(Pacijent p: pacijenti) {
+			if(!p.getStanjePacijenta().equals(StanjePacijenta.ODBIJEN)) {
+				if(p.getJedinstveniBrOsig().equals(pacijentDTO.getJedinstveniBrOsig())) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 	
 	
 	

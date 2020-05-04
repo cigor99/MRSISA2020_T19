@@ -15,12 +15,12 @@ public class PacijentDTO {
 	private String adresa;
 	private String drzava;
 	private String brojTelefona;
-	private int jedinstveniBrOsig;
+	private String jedinstveniBrOsig;
 	public PacijentDTO() {
 		super();
 	}
 	public PacijentDTO(int id, String ime, String prezime, String jmbg, String email, String lozinka, Pol pol,
-			String grad, String adresa, String drzava, String brojTelefona, int jedinstveniBrOsig) {
+			String grad, String adresa, String drzava, String brojTelefona, String jedinstveniBrOsig) {
 		super();
 		this.id = id;
 		this.ime = ime;
@@ -52,7 +52,7 @@ public class PacijentDTO {
 	}
 	
 	public boolean proveraPolja() {
-		if(this.ime == null || this.prezime == null || this.jmbg == null || this.email == null || this.lozinka == null || this.pol == null || this.grad  == null || this.adresa == null || this.drzava == null || this.brojTelefona == null || this.jedinstveniBrOsig == 0) {
+		if(this.ime == null || this.prezime == null || this.jmbg == null || this.email == null || this.lozinka == null || this.pol == null || this.grad  == null || this.adresa == null || this.drzava == null || this.brojTelefona == null || this.jedinstveniBrOsig == null) {
 			return false;
 		}
 		return true;
@@ -124,10 +124,10 @@ public class PacijentDTO {
 	public void setBrojTelefona(String brojTelefona) {
 		this.brojTelefona = brojTelefona;
 	}
-	public int getJedinstveniBrOsig() {
+	public String getJedinstveniBrOsig() {
 		return jedinstveniBrOsig;
 	}
-	public void setJedinstveniBrOsig(int jedinstveniBrOsig) {
+	public void setJedinstveniBrOsig(String jedinstveniBrOsig) {
 		this.jedinstveniBrOsig = jedinstveniBrOsig;
 	}
 	@Override

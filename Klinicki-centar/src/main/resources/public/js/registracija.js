@@ -173,7 +173,7 @@ $(document).ready(function(){
 		}
 		
 		if(!regJmbg.test($("#jmbg").val())){
-			$("#jmbg").text("Neispravan unos JMBG-a").css('visibility', 'visible').css('color', 'red');
+			$("#jmbgError").text("Neispravan unos JMBG-a").css('visibility', 'visible').css('color', 'red');
 			return;
 		}
 		
@@ -221,6 +221,12 @@ $(document).ready(function(){
 				if(jqXHR.status == 406){
 					$("#emailError").text("Email koji ste uneli vec postoji").css('visibility', 'visible').css('color', 'red');
 					alert("Email koji ste uneli vec postoji")
+				}else if(jqXHR.status == 409){
+					$("#jmbgError").text("JMBG koji ste uneli vec postoji").css('visibility', 'visible').css('color', 'red');
+					alert("JMBG koji ste uneli vec postoji")
+				}else if(jqXHR.status == 423){
+					$("#jedinstveniBrOsigError").text("Broj osiguranika koji ste uneli vec postoji").css('visibility', 'visible').css('color', 'red');
+					alert("Broj osiguranika koji ste uneli vec postoji")
 				}
 				else{
 					alert("Error in call /pacijenti/register")

@@ -67,7 +67,7 @@ public class Pacijent {
 	private String brojTelefona;
 
 	@Column(name = "jedinstveni_broj_osiguranika", unique = true, nullable = false)
-	private int jedinstveniBrOsig;
+	private String jedinstveniBrOsig;
 
 	@Column(name = "stanje_pacijenta")
 	private StanjePacijenta stanjePacijenta;
@@ -98,7 +98,7 @@ public class Pacijent {
 			@NotEmpty(message = "Prezime je obavezno") String prezime, String jmbg,
 			@NotEmpty(message = "Email je obavezan") String email,
 			@NotEmpty(message = "Lozinka je obavezna") String lozinka, ZdravstveniKarton zdravstveniKarton, Pol pol,
-			String grad, String drzava, String adresa, String brojTelefona, int jedinstveniBrOsig) {
+			String grad, String drzava, String adresa, String brojTelefona, String jedinstveniBrOsig) {
 		super();
 		this.id = id;
 		this.ime = ime;
@@ -147,7 +147,7 @@ public class Pacijent {
 			@NotEmpty(message = "Prezime je obavezno") String prezime, String jmbg,
 			@NotEmpty(message = "Email je obavezan") String email,
 			@NotEmpty(message = "Lozinka je obavezna") String lozinka, String grad, String adresa, String drzava,
-			String brojTelefona, int jedinstveniBrOsig, StanjePacijenta stanjePacijenta,
+			String brojTelefona, String jedinstveniBrOsig, StanjePacijenta stanjePacijenta,
 			ZdravstveniKarton zdravstveniKarton, List<Pregled> istorijaPregleda, List<Operacija> istorijaOperacija,
 			Set<Operacija> operacije, ZahtevZaRegistraciju zahtevZaRegistraciju) {
 		super();
@@ -230,11 +230,11 @@ public class Pacijent {
 		this.brojTelefona = brojTelefona;
 	}
 
-	public int getJedinstveniBrOsig() {
+	public String getJedinstveniBrOsig() {
 		return jedinstveniBrOsig;
 	}
 
-	public void setJedinstveniBrOsig(int jedinstveniBrOsig) {
+	public void setJedinstveniBrOsig(String jedinstveniBrOsig) {
 		this.jedinstveniBrOsig = jedinstveniBrOsig;
 	}
 
