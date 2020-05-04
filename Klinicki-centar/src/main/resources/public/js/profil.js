@@ -163,12 +163,12 @@ $(document).ready(function() {
 		}
 		
 		if (!regName.test($("#ime").val())) {
-	        $("#imeError").text("Ime moze da sadrzi samo mala ili velika slova").css('visibility', 'visible').css('color', 'red');
+	        $("#imeError").text("Ime mora da pocinje velikim slovom i ne sme da sadrzi brojeve").css('visibility', 'visible').css('color', 'red');
 	        return;
 	    }
 		
 		if (!regName.test($("#prezime").val())) {
-	        $("#prezimeError").text("Prezime moze da sadrzi samo mala ili velika slova").css('visibility', 'visible').css('color', 'red');
+	        $("#prezimeError").text("Prezime mora da pocinje velikim slovom i ne sme da sadrzi brojeve").css('visibility', 'visible').css('color', 'red');
 	        return;
 	    }
 		

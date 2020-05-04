@@ -47,12 +47,12 @@ public class KlinickiCentarApplication {
 
 		KlinickiCentar KC = new KlinickiCentar(1);
 
-		AdministratorKlinickogCentra akc1 = new AdministratorKlinickogCentra(1, "losakaunt1234@gmail.com", "lozinka", "neko",
-				"prezimenko", "123");
-		AdministratorKlinickogCentra akc2 = new AdministratorKlinickogCentra(2, "apprentice.magic99@gmail.com", "password", "ime",
-				"prezimenko", "213");
-		AdministratorKlinickogCentra akc3 = new AdministratorKlinickogCentra(3, "admin3@nesto.com", "sifra", "imenko",
-				"neko", "321");
+		AdministratorKlinickogCentra akc1 = new AdministratorKlinickogCentra(1, "losakaunt1234@gmail.com", "Lozinka1", "Neko",
+				"Prezimenko", "123");
+		AdministratorKlinickogCentra akc2 = new AdministratorKlinickogCentra(2, "apprentice.magic99@gmail.com", "Password1", "Ime",
+				"Prezimenko", "213");
+		AdministratorKlinickogCentra akc3 = new AdministratorKlinickogCentra(3, "admin3@nesto.com", "Sifra1", "Imenko",
+				"Neko", "321");
 		
 		AdministratorKlinike a1 = new AdministratorKlinike(1, "staznam@nesto.com", "nemam", "Marko", "Markovic", "1234567891011", null);
 		AdministratorKlinike a2 = new AdministratorKlinike(2, "stam@nesto.com", "nema", "Mirko", "Mirkovic", "1234567891012", null);
@@ -96,14 +96,14 @@ public class KlinickiCentarApplication {
 		KC.getSifranikLekova().add(l3);
 		KC.getSifranikLekova().add(l4);
 
-		Klinika k1 = new Klinika(1, "klinika 1", "adresa klinike 1", "opis", null);
-		Klinika k2 = new Klinika(2, "klinika 2", "adresa klinike 2", "opis", null);
+		Klinika k1 = new Klinika(1, "klinika 1", "Adresa Klinike 1", "opis", null);
+		Klinika k2 = new Klinika(2, "klinika 2", "Adresa Klinike 2", "opis", null);
 		a1.setKlinika(k1);
 		k1.getAdministratori().add(a1);
 		
-		Lekar lekar1 = new Lekar(1, "lekar1@gmail.com", "123", "imel1", "prezimel1", k1, null, null, null, null);
-		Lekar lekar2 = new Lekar(2, "lekar2@gmail.com", "123", "imel2", "prezimel2", k2, null, null, null, null);
-		Lekar lekar3 = new Lekar(3, "lekar3@gmail.com", "123", "imel3", "prezimel3", k1, null, null, null, null);
+		Lekar lekar1 = new Lekar(1, "lekar1@gmail.com", "123", "ImeLekara", "Prezime", k1, null, null, null, null);
+		Lekar lekar2 = new Lekar(2, "lekar2@gmail.com", "123", "ImeLekaraa", "Prezimee", k2, null, null, null, null);
+		Lekar lekar3 = new Lekar(3, "lekar3@gmail.com", "123", "ImeLekaraaa", "Prezimeee", k1, null, null, null, null);
 
 		Sala s1 = new Sala(1, "sala1", TipSale.ZA_PREGLED, null, k1, null);
 		Sala s2 = new Sala(2, "sala2", TipSale.OPERACIONA, null, k1, null);
@@ -121,14 +121,14 @@ public class KlinickiCentarApplication {
 		TipPregleda tp2 = new TipPregleda(2, 15, "tip2", null, c2, null);
 		c2.setTipPregleda(tp2);
 
-		Pacijent p1 = new Pacijent(1, "neko", "neko", "1", "neko@gmail.com", "password", null, Pol.MUSKI, "Novi Sad",
-				"Srbija", "Bul. Oslobodjenja 12.", "062222222", "1");
-		Pacijent p2 = new Pacijent(2, "neko2", "neko2", "2", "neko2@gmail.com", "password2", null, Pol.ZENSKI,
-				"Novi Sad", "Srbija", "Bul. Oslobodjenja 15.", "0623333333", "2");
-		Pacijent p3 = new Pacijent(3, "neko3", "neko3", "3", "ilijag@hotmail.com", "sifra", null, Pol.ZENSKI, "Beograd",
-				"Srbija", "Nemanjina 15.", "0623332533", "3");
-		Pacijent p4 = new Pacijent(4, "neko4", "neko4", "4", "neko4@hotmail.com", "lozinka", null, Pol.ZENSKI,
-				"Beograd", "Srbija", "Nemanjina 20.", "0623653333", "4");
+		Pacijent p1 = new Pacijent(1, "Neko", "Neko", "1", "neko@gmail.com", "Password1", null, Pol.MUSKI, "Novi Sad",
+				"Srbija", "Bul Oslobodjenja 12", "+381622222", "1");
+		Pacijent p2 = new Pacijent(2, "Nekoo", "Nekoo", "2", "neko2@gmail.com", "Password2", null, Pol.ZENSKI,
+				"Novi Sad", "Srbija", "Bul Oslobodjenja 15", "+3816233333", "2");
+		Pacijent p3 = new Pacijent(3, "Nekooo", "Nekooo", "3", "ilijag@hotmail.com", "Sifraaa1", null, Pol.ZENSKI, "Beograd",
+				"Srbija", "Nemanjina 15", "+352623332533", "3");
+		Pacijent p4 = new Pacijent(4, "Nekoooo", "Nekoooo", "4", "neko4@hotmail.com", "Lozinka1", null, Pol.ZENSKI,
+				"Beograd", "Srbija", "Nemanjina 20", "+352623653333", "4");
 
 		ZahtevZaRegistraciju z1 = new ZahtevZaRegistraciju(1, StanjeZahteva.NA_CEKANJU, null, KC);
 		ZahtevZaRegistraciju z2 = new ZahtevZaRegistraciju(2, StanjeZahteva.NA_CEKANJU, null, KC);
