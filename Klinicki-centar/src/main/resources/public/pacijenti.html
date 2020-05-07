@@ -1,33 +1,361 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<title>Pacijenti</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script src="js/main.js"></script>
-<script src="js/pacijent.js"></script>
-<link href="style.css" rel="stylesheet">
-<script>
-	$(document).ready( function() {
-		ucitajZaglavlje();		
-	});
-</script>
+    <meta charset="utf-8">
+    <title>Pacijenti</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <link href="PacijentiSearch.css" rel="stylesheet" />
+    <script src="js/main.js"></script>
+    <script src="js/pacijent.js"></script>
+    <link href="style.css" rel="stylesheet">
+    <link href="prekidac.css" rel="stylesheet">
+    <script>
+        $(document).ready(function() {
+            ucitajZaglavlje();
+        });
+    </script>
 </head>
+<style>
+    body {
+        /* padding: 20px; */
+        /* background: #f2f3f8; */
+        /* background: ghostwhite; */
+    }
+    
+    .main_div {
+        margin: auto;
+        padding-left: 11%;
+        padding-right: 10%;
+        padding-top: 0;
+        width: 100%;
+    }
+    
+    .container {
+        /* padding: 20px; */
+        margin: 10px;
+        border-radius: 10px;
+        margin-top: 20px;
+    }
+    
+    */ h1 {
+        text-shadow: 0 1px 1px #fff;
+        text-align: center;
+    }
+    /* Search Bar Section */
+    
+    a {
+        color: #3B97D6;
+    }
+    
+    a.btn {
+        color: #fff;
+    }
+    
+    a:hover {
+        text-decoration: none;
+    }
+    
+    a.btn:hover,
+    a.btn:active,
+    a.btn:focus {
+        color: #fff;
+    }
+    /* Grid */
+    
+    .row {
+        -moz-column-width: 25em;
+        -webkit-column-width: 25em;
+        -moz-column-gap: 1em;
+        -webkit-column-gap: 1em;
+    }
+    
+    .row>.col-md-4 {
+        display: inline-block;
+        padding: .33rem;
+        width: 100%;
+        float: none;
+    }
+    
+    .well {
+        position: relative;
+        display: block;
+        padding: 0;
+        background: #fff;
+        border-radius: 2px;
+        color: #333;
+        height: 100%;
+    }
+    
+    .well h3 {
+        padding: 0 10px;
+        margin-top: 10px;
+    }
+    
+    .well p {}
+    
+    .well blockquote {
+        margin-left: 20px;
+        padding: 0 10px 0 20px;
+    }
+    
+    .well cite {
+        text-align: right;
+        display: block;
+        padding: 0 10px 10px 10px;
+    }
+    
+    .well img {
+        width: 180px;
+        height: 200px;
+        float: left;
+        margin: 6px 6px 0 6px;
+        border-radius: 2px;
+    }
+    
+    .well ul {
+        width: 100%;
+        clear: left;
+        list-style: none;
+        height: 36px;
+        padding: 0;
+    }
+    
+    .well ul li {
+        display: inline-block;
+        float: left;
+        background: #3B97D6;
+        border-radius: 2px;
+        margin-right: 6px;
+        margin-top: 6px;
+    }
+    
+    .well ul li:hover {
+        background: #65addf;
+    }
+    
+    .well ul li.fb {
+        margin-left: 6px;
+    }
+    
+    .well ul li.getPosts {}
+    
+    .well ul li.del {
+        background: #04ba3e;
+        float: right;
+    }
+    
+    .well ul li.del:hover {
+        background: #07de4b;
+    }
+    
+    .well .fa-question-circle {
+        color: #999;
+    }
+    
+    .well .fa-question-circle:hover {
+        color: #000;
+        cursor: pointer;
+    }
+    
+    .well .fa {
+        position: relative;
+    }
+    
+    .well .fa span {
+        display: none;
+        position: absolute;
+        width: 140px;
+        left: -64px;
+        top: -38px;
+        background: #3B97D6;
+        color: #fff;
+        padding: 4px;
+        border-radius: 3px;
+        text-align: center;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    
+    .well .fa:hover span,
+    .well .fa span:hover {
+        display: inline-block;
+    }
+    
+    .well .fa span:after {
+        content: " ";
+        position: absolute;
+        left: 64px;
+        bottom: -5px;
+        border-top: 5px solid #3B97D6;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+    }
+    
+    .well .fa span.shiftLeft {
+        left: -110px;
+    }
+    
+    .well .fa span.shiftLeft:after {
+        left: 110px;
+    }
+    
+    .alert {
+        width: 160px;
+        background: #fff;
+        position: fixed;
+        left: 50%;
+        margin-left: -80px;
+        top: 200px;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+        text-align: center;
+    }
+    
+    .alert a {
+        display: inline-block;
+        width: 50px;
+        text-align: center;
+        margin-top: 10px
+    }
+    
+    .pagination {
+        text-align: center;
+        margin: 20px auto;
+        width: 600px;
+        display: block;
+    }
+    
+    .pagination a,
+    .pagination strong {
+        background: #fff;
+        display: inline-block;
+        margin-right: 3px;
+        padding: 4px 12px;
+        text-decoration: none;
+        line-height: 1.5em;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        border: solid 1px #e0e0e0;
+    }
+    
+    .pagination a:hover {
+        background-color: #3B97D6;
+        color: #fff;
+    }
+    
+    .pagination a:active {
+        background: rgba(190, 190, 190, 0.75);
+    }
+    
+    .pagination strong {
+        color: #fff;
+        background-color: #3B97D6;
+    }
+    
+    .stats {
+        margin-bottom: 0;
+    }
+    
+    .ocena {
+        border-radius: 5px;
+        display: inline-block;
+        background-color: aquamarine;
+        padding: 5px;
+    }
+    
+    .ocena img {
+        width: 10px;
+        height: 10px;
+        float: right;
+    }
+    
+    .search {
+        border-radius: 5px;
+        width: 100%;
+        height: 5%;
+    }
+    
+    .pretraga {
+        margin: auto;
+        width: 30%;
+        /* border: 3px solid green; */
+        padding: 20px;
+    }
+</style>
 
 <body>
-<div id="navbardiv"></div>
-<div class="naslov">
-<h1>Pacijenti</h1>
-</div>
+    <div id="navbardiv"></div>
+    <div class="naslov">
+        <h1>Pacijenti </h1>
 
-<div class="main_div">
-<div class="table-holder">
-	<table id="pacijenti" name="pacijenti" class="table">
-	<thead>
+    </div>
+    <!-- SEARCH -->
+    <div class="s003">
+        <form>
+            <div class="inner-form">
+                <div class="input-field first-wrap">
+                    <div class="input-select">
+                        <select data-trigger="" name="choices-single-defaul">
+							<option value="ime">Ime</option>
+							<option value="prezime">Prezime</option>
+							<option value="jedinstveniBrOsig">Jedinstveni broj pacijenta</option>
+						</select>
+                    </div>
+                </div>
+                <div class="input-field second-wrap">
+                    <input id="search" type="text" placeholder="Pretraži" />
+                </div>
+                <div class="input-field third-wrap">
+                    <button class="btn-search" type="button">
+						<svg class="svg-inline--fa fa-search fa-w-16" aria-hidden="true" data-prefix="fas"
+							data-icon="search" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+							<path fill="currentColor"
+								d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z">
+							</path>
+						</svg>
+					</button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <!-- PREKIDAC -->
+    <div class="divPrekidac">
+        <strong> Kartice</strong>
+        <label class="switch">
+
+			<input type="checkbox" id="idemo">
+			<span class="slider round"></span>
+
+		</label>
+        <strong>Tabela</strong>
+    </div>
+    <!-- UCITAVA POLJA SELECTBOX-A -->
+    <script src="js/choices.js"></script>
+    <script>
+        const choices = new Choices('[data-trigger]', {
+            searchEnabled: false,
+            itemSelectText: '',
+        });
+    </script>
+
+    <!-- <div class="table-holder"> -->
+    <div class="main_div">
+        <div class="container">
+            <div class="row" id="ROWDIV"></div>
+        </div>
+    </div>
+    </div>
+    <div id="tabela" class="table-holder" style="visibility: hidden;"></div>
+    <!-- <table id="pacijenti" name="pacijenti" class="table"> -->
+    <!-- </table> -->
+
+    <!-- <thead> 
 		<tr>
 		<th id="ID">ID</th>
 		<th id="ime">Ime</th>
@@ -44,21 +372,34 @@
 		<th>Izmeni</th>
 		</tr>
 	</thead>	
-	</table>
-</div>
-<input type="button" style="margin: 10px;" class= "button" onclick="location.href='dodajPacijenta.html'"
-				value="Dodavanje pacijenta">
-</div>
+	</table> 
+    </div> -->
+    <!-- <input type="button" style="margin: 10px;" class="button" onclick="location.href='dodajPacijenta.html'" value="Dodavanje pacijenta">
+    </div> -->
 
-<div class="brisanje">
-Brisanje pacijenta
-<div class="form-group">
-	<label>Unesite ID pacijenta kojeg želite da obrišete:</label>
-	<input style="max-width: 250px;" class="form-control" type="text" name="ID" id="IDbrisanje">
-</div>
-<input class="button" type="button" value="Obrisi pacijenta" id="obrisiBtn">
-</div>
+    <!-- <div class="brisanje">
+        Brisanje pacijenta
+        <div class="form-group">
+            <label>Unesite ID pacijenta kojeg želite da obrišete:</label>
+            <input style="max-width: 250px;" class="form-control" type="text" name="ID" id="IDbrisanje">
+        </div>
+        <input class="button" type="button" value="Obrisi pacijenta" id="obrisiBtn">
+	</div> -->
+    <div class="pagination clearfix">
+        <a href="#">First</a> &nbsp;
+        <a href="#">«</a>
+
+        <!-- <div id="stranice" class="pagination clearfix"> -->
+        <a href="#">1</a>
+        <strong>2</strong>
+        <a href="#">3</a>
+        <!-- </div> -->
+
+        <a href="#">»</a> &nbsp;
+        <a href="#">Last</a>
+    </div>
 
 
 </body>
+
 </html>

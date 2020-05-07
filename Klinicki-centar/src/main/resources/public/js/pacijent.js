@@ -1,302 +1,426 @@
-$(document).ready(function(){
-	$.ajax({
-		type: "get",
-		url: "/klinicki-centar/pacijent/page",
-		success: function(data){
-			for (let pacijent of data){
-				console.log(pacijent)
-				var table = $("#pacijenti")
-				let tr = $("<tr id=\"tr" + pacijent.id +"\"></tr>")
-				
-				let idTD = $("<td>" + pacijent.id + "</td>")
-				let imeTD = $("<td>" + pacijent.ime + "</td>")
-				let prezimeTD = $("<td>" + pacijent.prezime + "</td>")
-				let polTD = $("<td>" + pacijent.pol + "</td>")
-				let emailTD = $("<td>" + pacijent.email + "</td>")
-				let lozinkaTD = $("<td>" + pacijent.lozinka + "</td>")
-				let telefonTD = $("<td>" + pacijent.brojTelefona + "</td>")
-				let jmbgTD = $("<td>" + pacijent.jmbg + "</td>")
-				let osigTD = $("<td>" + pacijent.jedinstveniBrOsig + "</td>")
-				let adresaTD = $("<td>" + pacijent.adresa + "</td>")
-				let gradTD = $("<td>" + pacijent.grad+ "</td>")
-				let drzavaTD = $("<td>" + pacijent.drzava + "</td>")
-				
-				let izmeniTD = $("<td>" + "<a href=\"pacijentProfil.html?id=" + pacijent.id + "\">Izmeni</a></td>")
-				tr.append(idTD)
-				tr.append(imeTD)
-				tr.append(prezimeTD)
-				tr.append(polTD)
-				tr.append(emailTD)
-				tr.append(lozinkaTD)
-				tr.append(telefonTD)
-				tr.append(jmbgTD)
-				tr.append(osigTD)
-				tr.append(adresaTD)
-				tr.append(gradTD)
-				tr.append(drzavaTD)
-				tr.append(izmeniTD)
-				table.append(tr)
-			}
-		},
-		error: function(response){
-			alert("Error when pacijent/page called")
-		}
-	});
-	
-	
-	$("#dodajBtn").click(function(){
+$(document).ready(function() {
 
-		$("#imeError").css('visibility', 'hidden')
-		$("#prezimeError").css('visibility', 'hidden')
-		$("#jmbgError").css('visibility', 'hidden')
-		$("#emailError").css('visibility', 'hidden')
-		$("#lozinkaError").css('visibility', 'hidden')
-		$("#lozinkaConfError").css('visibility', 'hidden')
-		$("#gradError").css('visibility', 'hidden')
-		$("#adresaError").css('visibility', 'hidden')
-		$("#drzavaError").css('visibility', 'hidden')
-		$("#telefonError").css('visibility', 'hidden')
-		$("#jedinstveniBrOsigError").css('visibility', 'hidden')
-		
-		var regName = /^[A-Z]{1}[a-z]{1,20}$/;
-		var regPass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
-		var regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-		var regPhone = /^[+]{1}[0-9]{1,12}$/;
-		//var regDrzava = /^[A-Z]{1}[a-z]+([ ][A-Z]{1}[a-z]+)*$/;
-		var regGrad = /^([A-Z]{1}[a-z]+[ ]*)+$/;
-		var regAdresa = /^([A-Z]{1}[a-z]+[ ]*)+[0-9]+$/;
-		var regJmbg = /^[0-9]{1,20}$/;
-		
-		if($("#ime").val().length >20){
-			$("#imeError").text("Ime moze da sadrzi maksimalno 20 karaktera!").css('visibility', 'visible').css('color', 'red');
-			return;
-		}
-		
-		if($("#prezime").val().length >20){
-			$("#prezimeError").text("Prezime moze da sadrzi maksimalno 20 karaktera!").css('visibility', 'visible').css('color', 'red');
-			return;
-		}
-		
-		if($("#jmbg").val().length >20){
-			$("#jmbgError").text("JMBG moze da sadrzi maksimalno 20 karaktera!").css('visibility', 'visible').css('color', 'red');
-			return;
-		}
-		
-		if($("#grad").val().length >256){
-			$("#gradError").text("Grad moze da sadrzi maksimalno 256 karaktera!").css('visibility', 'visible').css('color', 'red');
-			return;
-		}
-		
-		if($("#drzava").val().length >256){
-			$("#drzavaError").text("Drzava moze da sadrzi maksimalno 256 karaktera!").css('visibility', 'visible').css('color', 'red');
-			return;
-		}
-		
-		if($("#jedinstveniBrOsig").val().length >20){
-			$("#jedinstveniBrOsigError").text("Broj osiguranika moze da sadrzi maksimalno 20 karaktera!").css('visibility', 'visible').css('color', 'red');
-			return;
-		}
-		
-		if($("#adresa").val().length >256){
-			$("#adresaError").text("Adresa moze da sadrzi maksimalno 20 karaktera!").css('visibility', 'visible').css('color', 'red');
-			return;
-		}
-		
-		if($("#telefon").val().length >20){
-			$("#telefonError").text("Broj telefona moze da sadrzi maksimalno 20 karaktera!").css('visibility', 'visible').css('color', 'red');
-			return;
-		}
-		
-		if($("#email").val().length >128){
-			$("#emailError").text("Email moze da sadrzi maksimalno 20 karaktera!").css('visibility', 'visible').css('color', 'red');
-			return;
-		}
-		
-		if($("#lozinka").val().length >256){
-			$("#lozinkaError").text("Lozinka moze da sadrzi maksimalno 256 karaktera!").css('visibility', 'visible').css('color', 'red');
-			return;
-		}
-		
-		if($("#lozinka_conf").val().length >256){
-			$("#lozinkaConfError").text("Lozinka moze da sadrzi maksimalno 256 karaktera!").css('visibility', 'visible').css('color', 'red');
-			return;
-		}
-		
-		if ($("#ime").val() == "") {
-	        $("#imeError").text("Ime je obavezno polje!").css('visibility', 'visible').css('color', 'red');
-	        return;
-	    }
-		
-		if ($("#prezime").val() == "") {
-	        $("#prezimeError").text("Prezime je obavezno polje!").css('visibility', 'visible').css('color', 'red');
-	        return;
-	    }
-		
-		if ($("#jmbg").val() == "") {
-	        $("#jmbgError").text("JMBG je obavezno polje!").css('visibility', 'visible').css('color', 'red');
-	        return;
-	    }
-		
-		if ($("#email").val() == "") {
-	        $("#emailError").text("Email je obavezno polje!").css('visibility', 'visible').css('color', 'red');
-	        return;
-	    }
-		
-		if ($("#lozinka").val() == "") {
-	        $("#lozinkaError").text("Lozinka je obavezno polje!").css('visibility', 'visible').css('color', 'red');
-	        return;
-	    }
-		
-		if ($("#lozinka_conf").val() == "") {
-	        $("#lozinkaConfError").text("Morate potvrditi lozinku!").css('visibility', 'visible').css('color', 'red');
-	        return;
-	    }
-		
-		if($("#grad").val() == ""){
-			$("#gradError").text("Grad je obavezno polje!").css('visibility', 'visible').css('color', 'red');
-			return;
-		}
-		
-		if($("#drzava").val() == ""){
-			$("#drzavaError").text("Drzava je obavezno polje!").css('visibility', 'visible').css('color', 'red');
-			return;
-		}
-		
-		if($("#jedinstveniBrOsig").val() == ""){
-			$("#jedinstveniBrOsigError").text("Broj osiguranika je obavezno polje!").css('visibility', 'visible').css('color', 'red');
-			return;
-		}
-		
-		if($("#adresa").val() == ""){
-			$("#adresaError").text("Adresa je obavezno polje!").css('visibility', 'visible').css('color', 'red');
-			return;
-		}
-		
-		if($("#telefon").val() == ""){
-			$("#telefonError").text("Broj telefona je obavezno polje!").css('visibility', 'visible').css('color', 'red');
-			return;
-		}
-		
-		if (!regName.test($("#ime").val())) {
-	        $("#imeError").text("Ime  mora da pocinje velikim slovom i ne sme da sadrzi brojeve").css('visibility', 'visible').css('color', 'red');
-	        return;
-	    }
-		
-		if (!regName.test($("#prezime").val())) {
-	        $("#prezimeError").text("Prezime  mora da pocinje velikim slovom i ne sme da sadrzi brojeve").css('visibility', 'visible').css('color', 'red');
-	        return;
-	    }
-		
-		if(!regEmail.test($("#email").val())){
-			$("#emailError").text("Neispravan format email-a").css('visibility', 'visible').css('color', 'red');
-			return;
-		}
-		
-		if(!regPhone.test($("#telefon").val())){
-			$("#telefonError").text("Neispravan unos broja telefona!").css('visibility', 'visible').css('color', 'red');
-			return;
-		}
-	
-		if(!regGrad.test($("#grad").val())){
-			$("#gradError").text("Neispravan unos grada").css('visibility', 'visible').css('color', 'red');
-			return;
-		}
-		
-		if(!regGrad.test($("#drzava").val())){
-			$("#drzavaError").text("Neispravan unos drzave").css('visibility', 'visible').css('color', 'red');
-			return;
-		}
-		
-		if(!regAdresa.test($("#adresa").val())){
-			$("#adresaError").text("Neispravan unos adrese").css('visibility', 'visible').css('color', 'red');
-			return;
-		}
-		
-		if(!regJmbg.test($("#jedinstveniBrOsig").val())){
-			$("#jedinstveniBrOsigError").text("Neispravan unos broja osiguranika").css('visibility', 'visible').css('color', 'red');
-			return;
-		}
-		
-		if(!regJmbg.test($("#jmbg").val())){
-			$("#jmbgError").text("Neispravan unos JMBG-a").css('visibility', 'visible').css('color', 'red');
-			return;
-		}
-		
-		if (!regPass.test($("#lozinka").val())){
-			$("#lozinkaError").text("Lozinka mora da sadrži najmanje 8 karaktera, bar jedno malo slovo, bar jedno veliko slovo i bar jedan broj").css('visibility', 'visible').css('color', 'red');
-			return;
-		}
-		
-		if (!regPass.test($("#lozinka_conf").val())){
-			$("#lozinkaConfError").text("Lozinka mora da sadrži najmanje 8 karaktera, bar jedno malo slovo, bar jedno veliko slovo i bar jedan broj").css('visibility', 'visible').css('color', 'red');
-			return;
-		}
-		
-		if($("#lozinka").val() != $("#lozinka_conf").val()){
-			$("#lozinkaConfError").text("Mora da se poklapa sa lozinkom").css('visibility', 'visible').css('color', 'red');
-			return;
-		}
-		
-		$.ajax({
-			type : 'POST',
-			url : "/klinicki-centar/pacijent/add",
-			dataType : "json",
-			contentType:"application/json",
-			data : JSON.stringify({
-				ime : $("#ime").val(),
-				prezime : $("#prezime").val(),
-				jmbg: $("#jmbg").val(),
-				email : $("#email").val(),
-				lozinka : $("#lozinka").val(),
-				pol: $("#pol").val(),
-				grad: $("#grad").val(),
-				brojTelefona: $("#telefon").val(),
-				drzava: $("#drzava").val(),
-				adresa: $("#adresa").val(),
-				jedinstveniBrOsig: $("#jedinstveniBrOsig").val()
-			}),
+    $('#idemo').checked = true;
+    $.ajax({
+        type: "get",
+        url: "/klinicki-centar/pacijent/page",
+        success: function(data) {
+            kartice(data);
+        },
+        error: function(response) {
+            alert("Error when pacijent/page called")
+        },
 
-			success: function(){
-				window.location.replace("pacijenti.html")
-			},
-			error: function(jqXHR){
-				if(jqXHR.status == 406){
-					$("#emailError").text("Email koji ste uneli vec postoji").css('visibility', 'visible').css('color', 'red');
-					alert("Email koji ste uneli vec postoji")
-				}else if(jqXHR.status == 409){
-					$("#jmbgError").text("JMBG koji ste uneli vec postoji").css('visibility', 'visible').css('color', 'red');
-					alert("JMBG koji ste uneli vec postoji")
-				}else if(jqXHR.status == 423){
-					$("#jedinstveniBrOsigError").text("Broj osiguranika koji ste uneli vec postoji").css('visibility', 'visible').css('color', 'red');
-					alert("Broj osiguranika koji ste uneli vec postoji")
-				}
-				else{
-					alert("Error in call /pacijenti/add")
-				}
-				
-			}
-		});
-		
-	});
-	
-	
-	
-	
-	$("#obrisiBtn").click(function () {
+    });
+    $('#idemo').change(function() {
+        if ($("#idemo").is(":checked") == true) {
+            $.ajax({
+                type: "get",
+                url: "/klinicki-centar/pacijent/page",
+                success: function(data) {
+                    tabela(data);
+                },
+                error: function(response) {
+                    alert("Error when pacijent/page called")
+                }
+            });
+            return;
+        }
+        $.ajax({
+            type: "get",
+            url: "/klinicki-centar/pacijent/page",
+            success: function(data) {
+                kartice(data);
+            },
+            error: function(response) {
+                alert("Error when pacijent/page called")
+            }
+        });
+        return;
+    });
+
+    function kartice(data) {
+        if (!$('#tabela').is(':empty')) {
+            $("#tabela").empty()
+            $("#tabela").css("visibility", 'hidden')
+        }
+        if ($("#ROWDIV").is(':empty')) {
+            $("#ROWDIV").css("visibility", 'visible')
+            let counter = 0;
+            for (let pacijent of data) {
+                for (let pacijent of data) {
+
+                    if (counter < 6) {
+                        let row = $(".row");
+                        let col = $("<div></div>");
+                        col.attr("class", 'col-md-4');
+                        row.append(col);
+                        let well = $("<div></div>");
+                        well.attr("class", 'well');
+                        col.append(well);
+                        let img = $("<img></img>");
+                        img.attr("class", 'avatar')
+                        img.attr("src", 'pacijent.png');
+                        let h4 = $("<h4>Pacijent</h4>");
+                        let ime = $("<p></p>");
+                        ime.append("<strong>Ime: </strong>");
+                        ime.append(pacijent.ime);
+                        let prezime = $("<p></p>");
+                        prezime.append("<strong>Prezime: </strong>");
+                        prezime.append(pacijent.prezime);
+                        let broj = $("<p></p>");
+                        broj.append("<strong>Jedinstevni broj osiguranika: </strong>")
+                        broj.append(pacijent.jedinstveniBrOsig);
+
+                        let ul = $("<ul></ul>")
+                        ul.attr("class", 'bottom')
+                        let karton = $("<li></li>")
+                        karton.attr("class", 'fb');
+                        let a = $("<a>Zdravstveni karton</a>")
+                        a.attr("class", 'btn');
+                        let pregled = $("<li></li>")
+                        pregled.attr('class', 'del');
+                        let a2 = $("<a>Započni pregled</a>");
+                        a2.attr("class", 'btn');
+                        pregled.append(a2);
+                        ul.append(pregled);
+                        karton.append(a);
+                        ul.append(karton)
+
+                        well.append(img);
+                        well.append(h4);
+                        well.append(ime);
+                        well.append(prezime);
+                        well.append(broj);
+                        well.append(ul);
+                    }
+                    counter = counter + 1;
+                }
+            }
+        }
+    }
+
+    function tabela(data) {
+        if (!$('#ROWDIV').is(':empty')) {
+            $("#ROWDIV").empty()
+            $("#ROWDIV").css("visibility", 'hidden')
+        }
+        if ($('#tabela').is(':empty')) {
+            var div = $("#tabela")
+            div.css("visibility", 'visible')
+            let table = $("<table></table>")
+            table.attr("class", 'table')
+            table.attr("id", "#pacijenti")
+            let imeTd = $("<td>Ime</td>")
+            let prezimeTd = $("<td>Prezime</td>")
+            let brojTd = $("<td>Jedinstveni broj pacijenta</td>")
+            let kartonTD = $("<td>Zdravstveni karton</td>")
+            let pregledTD = $("<td>Započni pregled</td>")
+            let head = $("<thead></thead>")
+            let trHead = $("<tr></tr>")
+            head.append(trHead)
+
+            trHead.append(imeTd);
+            trHead.append(prezimeTd);
+            trHead.append(brojTd);
+            trHead.append(kartonTD);
+            trHead.append(pregledTD);
+            table.append(head);
+            let tbody = $("<tbody></tbody>")
+            table.append(tbody);
+            div.append(table);
+            for (let pacijent of data) {
+                console.log(pacijent)
+
+                let tr = $("<tr id=\"tr" + pacijent.id + "\"></tr>")
+
+                // let idTD = $("<td>" + pacijent.id + "</td>")
+                let imeTD = $("<td>" + pacijent.ime + "</td>")
+                let prezimeTD = $("<td>" + pacijent.prezime + "</td>")
+                    // let polTD = $("<td>" + pacijent.pol + "</td>")
+                    // let emailTD = $("<td>" + pacijent.email + "</td>")
+                    // let lozinkaTD = $("<td>" + pacijent.lozinka + "</td>")
+                    // let telefonTD = $("<td>" + pacijent.brojTelefona + "</td>")
+                    // let jmbgTD = $("<td>" + pacijent.jmbg + "</td>")
+                let osigTD = $("<td>" + pacijent.jedinstveniBrOsig + "</td>")
+                    // let adresaTD = $("<td>" + pacijent.adresa + "</td>")
+                    // let gradTD = $("<td>" + pacijent.grad + "</td>")
+                    // let drzavaTD = $("<td>" + pacijent.drzava + "</td>")
+
+                // let TDkarton = $("<td>" + "<a href=\"pacijentProfil.html?id=" + pacijent.id + "\">Karton</a></td>")
+                let TDkarton = $("<td>" + "<a href=\"#" + pacijent.id + "\">Karton</a></td>")
+                let TDpregled = $("<td>" + "<a href=\"#" + pacijent.id + "\">Pregled</a></td>")
+                    // tr.append(idTD)
+                tr.append(imeTD)
+                tr.append(prezimeTD)
+                    // tr.append(polTD)
+                    // tr.append(emailTD)
+                    // tr.append(lozinkaTD)
+                    // tr.append(telefonTD)
+                    // tr.append(jmbgTD)
+                tr.append(osigTD)
+                    // tr.append(adresaTD)
+                    // tr.append(gradTD)
+                    // tr.append(drzavaTD)
+                tr.append(TDkarton)
+                tr.append(TDpregled)
+                tbody.append(tr)
+            }
+        }
+    }
+
+    $("#dodajBtn").click(function() {
+
+        $("#imeError").css('visibility', 'hidden')
+        $("#prezimeError").css('visibility', 'hidden')
+        $("#jmbgError").css('visibility', 'hidden')
+        $("#emailError").css('visibility', 'hidden')
+        $("#lozinkaError").css('visibility', 'hidden')
+        $("#lozinkaConfError").css('visibility', 'hidden')
+        $("#gradError").css('visibility', 'hidden')
+        $("#adresaError").css('visibility', 'hidden')
+        $("#drzavaError").css('visibility', 'hidden')
+        $("#telefonError").css('visibility', 'hidden')
+        $("#jedinstveniBrOsigError").css('visibility', 'hidden')
+
+        var regName = /^[A-Z]{1}[a-z]{1,20}$/;
+        var regPass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+        var regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var regPhone = /^[+]{1}[0-9]{1,12}$/;
+        //var regDrzava = /^[A-Z]{1}[a-z]+([ ][A-Z]{1}[a-z]+)*$/;
+        var regGrad = /^([A-Z]{1}[a-z]+[ ]*)+$/;
+        var regAdresa = /^([A-Z]{1}[a-z]+[ ]*)+[0-9]+$/;
+        var regJmbg = /^[0-9]{1,20}$/;
+
+        if ($("#ime").val().length > 20) {
+            $("#imeError").text("Ime moze da sadrzi maksimalno 20 karaktera!").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if ($("#prezime").val().length > 20) {
+            $("#prezimeError").text("Prezime moze da sadrzi maksimalno 20 karaktera!").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if ($("#jmbg").val().length > 20) {
+            $("#jmbgError").text("JMBG moze da sadrzi maksimalno 20 karaktera!").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if ($("#grad").val().length > 256) {
+            $("#gradError").text("Grad moze da sadrzi maksimalno 256 karaktera!").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if ($("#drzava").val().length > 256) {
+            $("#drzavaError").text("Drzava moze da sadrzi maksimalno 256 karaktera!").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if ($("#jedinstveniBrOsig").val().length > 20) {
+            $("#jedinstveniBrOsigError").text("Broj osiguranika moze da sadrzi maksimalno 20 karaktera!").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if ($("#adresa").val().length > 256) {
+            $("#adresaError").text("Adresa moze da sadrzi maksimalno 20 karaktera!").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if ($("#telefon").val().length > 20) {
+            $("#telefonError").text("Broj telefona moze da sadrzi maksimalno 20 karaktera!").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if ($("#email").val().length > 128) {
+            $("#emailError").text("Email moze da sadrzi maksimalno 20 karaktera!").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if ($("#lozinka").val().length > 256) {
+            $("#lozinkaError").text("Lozinka moze da sadrzi maksimalno 256 karaktera!").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if ($("#lozinka_conf").val().length > 256) {
+            $("#lozinkaConfError").text("Lozinka moze da sadrzi maksimalno 256 karaktera!").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if ($("#ime").val() == "") {
+            $("#imeError").text("Ime je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if ($("#prezime").val() == "") {
+            $("#prezimeError").text("Prezime je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if ($("#jmbg").val() == "") {
+            $("#jmbgError").text("JMBG je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if ($("#email").val() == "") {
+            $("#emailError").text("Email je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if ($("#lozinka").val() == "") {
+            $("#lozinkaError").text("Lozinka je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if ($("#lozinka_conf").val() == "") {
+            $("#lozinkaConfError").text("Morate potvrditi lozinku!").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if ($("#grad").val() == "") {
+            $("#gradError").text("Grad je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if ($("#drzava").val() == "") {
+            $("#drzavaError").text("Drzava je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if ($("#jedinstveniBrOsig").val() == "") {
+            $("#jedinstveniBrOsigError").text("Broj osiguranika je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if ($("#adresa").val() == "") {
+            $("#adresaError").text("Adresa je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if ($("#telefon").val() == "") {
+            $("#telefonError").text("Broj telefona je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if (!regName.test($("#ime").val())) {
+            $("#imeError").text("Ime  mora da pocinje velikim slovom i ne sme da sadrzi brojeve").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if (!regName.test($("#prezime").val())) {
+            $("#prezimeError").text("Prezime  mora da pocinje velikim slovom i ne sme da sadrzi brojeve").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if (!regEmail.test($("#email").val())) {
+            $("#emailError").text("Neispravan format email-a").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if (!regPhone.test($("#telefon").val())) {
+            $("#telefonError").text("Neispravan unos broja telefona!").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if (!regGrad.test($("#grad").val())) {
+            $("#gradError").text("Neispravan unos grada").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if (!regGrad.test($("#drzava").val())) {
+            $("#drzavaError").text("Neispravan unos drzave").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if (!regAdresa.test($("#adresa").val())) {
+            $("#adresaError").text("Neispravan unos adrese").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if (!regJmbg.test($("#jedinstveniBrOsig").val())) {
+            $("#jedinstveniBrOsigError").text("Neispravan unos broja osiguranika").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if (!regJmbg.test($("#jmbg").val())) {
+            $("#jmbgError").text("Neispravan unos JMBG-a").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if (!regPass.test($("#lozinka").val())) {
+            $("#lozinkaError").text("Lozinka mora da sadrži najmanje 8 karaktera, bar jedno malo slovo, bar jedno veliko slovo i bar jedan broj").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if (!regPass.test($("#lozinka_conf").val())) {
+            $("#lozinkaConfError").text("Lozinka mora da sadrži najmanje 8 karaktera, bar jedno malo slovo, bar jedno veliko slovo i bar jedan broj").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if ($("#lozinka").val() != $("#lozinka_conf").val()) {
+            $("#lozinkaConfError").text("Mora da se poklapa sa lozinkom").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: "/klinicki-centar/pacijent/add",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify({
+                ime: $("#ime").val(),
+                prezime: $("#prezime").val(),
+                jmbg: $("#jmbg").val(),
+                email: $("#email").val(),
+                lozinka: $("#lozinka").val(),
+                pol: $("#pol").val(),
+                grad: $("#grad").val(),
+                brojTelefona: $("#telefon").val(),
+                drzava: $("#drzava").val(),
+                adresa: $("#adresa").val(),
+                jedinstveniBrOsig: $("#jedinstveniBrOsig").val()
+            }),
+
+            success: function() {
+                window.location.replace("pacijenti.html")
+            },
+            error: function(jqXHR) {
+                if (jqXHR.status == 406) {
+                    $("#emailError").text("Email koji ste uneli vec postoji").css('visibility', 'visible').css('color', 'red');
+                    alert("Email koji ste uneli vec postoji")
+                } else if (jqXHR.status == 409) {
+                    $("#jmbgError").text("JMBG koji ste uneli vec postoji").css('visibility', 'visible').css('color', 'red');
+                    alert("JMBG koji ste uneli vec postoji")
+                } else if (jqXHR.status == 423) {
+                    $("#jedinstveniBrOsigError").text("Broj osiguranika koji ste uneli vec postoji").css('visibility', 'visible').css('color', 'red');
+                    alert("Broj osiguranika koji ste uneli vec postoji")
+                } else {
+                    alert("Error in call /pacijenti/add")
+                }
+
+            }
+        });
+
+    });
+
+
+
+
+    $("#obrisiBtn").click(function() {
         $.ajax({
             type: "DELETE",
 
             url: "/klinicki-centar/pacijent/delete/" + $("#IDbrisanje").val(),
-            success: function () {
+            success: function() {
                 $("#tr" + $("#IDbrisanje").val()).remove();
                 $("#IDbrisanje").val("");
                 alert("USPESNO BRISANJE PACIJENTA");
             },
-            error: function (jqXHR) {
+            error: function(jqXHR) {
                 alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
             },
         });
     });
-	
-	
+
+
 });
