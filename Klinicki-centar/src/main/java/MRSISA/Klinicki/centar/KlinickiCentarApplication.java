@@ -121,14 +121,22 @@ public class KlinickiCentarApplication {
 		TipPregleda tp2 = new TipPregleda(2, 15, "tip2", null, c2, null);
 		c2.setTipPregleda(tp2);
 
-		Pacijent p1 = new Pacijent(1, "Neko", "Neko", "1", "neko@gmail.com", "Password1", null, Pol.MUSKI, "Novi Sad",
+		Pacijent p1 = new Pacijent(1, "Marko", "Markovic", "1", "neko@gmail.com", "Password1", null, Pol.MUSKI, "Novi Sad",
 				"Srbija", "Bul Oslobodjenja 12", "+381622222", "1");
-		Pacijent p2 = new Pacijent(2, "Nekoo", "Nekoo", "2", "neko2@gmail.com", "Password2", null, Pol.ZENSKI,
+		Pacijent p2 = new Pacijent(2, "Marija", "Maric", "2", "neko2@gmail.com", "Password2", null, Pol.ZENSKI,
 				"Novi Sad", "Srbija", "Bul Oslobodjenja 15", "+3816233333", "2");
-		Pacijent p3 = new Pacijent(3, "Nekooo", "Nekooo", "3", "ilijag@hotmail.com", "Sifraaa1", null, Pol.ZENSKI, "Beograd",
-				"Srbija", "Nemanjina 15", "+352623332533", "3");
-		Pacijent p4 = new Pacijent(4, "Nekoooo", "Nekoooo", "4", "neko4@hotmail.com", "Lozinka1", null, Pol.ZENSKI,
-				"Beograd", "Srbija", "Nemanjina 20", "+352623653333", "4");
+		Pacijent p3 = new Pacijent(3, "Ana", "Anic", "3", "ilijag@hotmail.com", "Sifraaa1", null, Pol.ZENSKI, "Beograd",
+				"Srbija", "Nemanjina 15", "+378623332533", "3");
+		Pacijent p4 = new Pacijent(4, "Nemanja", "Nemanjic", "4", "neko4@hotmail.com", "Stolica12", null, Pol.MUSKI,
+				"Nis", "Srbija", "Nemanjina 20", "+345623653333", "4");
+		Pacijent p5 = new Pacijent(5, "Marina", "Maric", "5", "marinaMaric@hotmail.com", "Frizider1", null, Pol.ZENSKI,
+				"Kragujevac", "Srbija", "Narodnog fronta 76", "+352533653333", "5");
+		Pacijent p6 = new Pacijent(6, "Dusan", "Kostic", "6", "dusan6@hotmail.com", "Password2", null, Pol.MUSKI,
+				"Smederevo", "Srbija", "Jovana Ducica 12", "+352623696333", "6");
+		Pacijent p7 = new Pacijent(7, "Jovan", "Jovanovic", "7", "jovan7@hotmail.com", "Sifra1", null, Pol.MUSKI,
+				"Subotica", "Srbija", "Patrijarha Pavla 20", "+352623653333", "7");
+		Pacijent p8 = new Pacijent(8, "Jovana", "Jovic", "8", "jovanaj@hotmail.com", "Laptop43", null, Pol.ZENSKI,
+				"Uzice", "Srbija", "Kosovska 12", "+352623656633", "8");
 
 		ZahtevZaRegistraciju z1 = new ZahtevZaRegistraciju(1, StanjeZahteva.NA_CEKANJU, null, KC);
 		ZahtevZaRegistraciju z2 = new ZahtevZaRegistraciju(2, StanjeZahteva.NA_CEKANJU, null, KC);
@@ -141,21 +149,34 @@ public class KlinickiCentarApplication {
 		p2.setStanjePacijenta(StanjePacijenta.AKTIVAN);
 		p3.setStanjePacijenta(StanjePacijenta.NA_CEKANJU);
 		p4.setStanjePacijenta(StanjePacijenta.NA_CEKANJU);
+		p5.setStanjePacijenta(StanjePacijenta.AKTIVAN);
+		p6.setStanjePacijenta(StanjePacijenta.AKTIVAN);
+		p7.setStanjePacijenta(StanjePacijenta.NA_CEKANJU);
+		p8.setStanjePacijenta(StanjePacijenta.NA_CEKANJU);
 
 		ZdravstveniKarton zk1 = new ZdravstveniKarton(1, 180.0, 80.0, KrvnaGrupa.ABNEGATIVNA, 0, null, p1);
 		ZdravstveniKarton zk2 = new ZdravstveniKarton(2, 160.0, 50.0, KrvnaGrupa.NULTANEGATIVNA, 0.75, null, p2);
 		ZdravstveniKarton zk3 = new ZdravstveniKarton(3, 180.0, 80.0, KrvnaGrupa.ABNEGATIVNA, 0, null, p3);
 		ZdravstveniKarton zk4 = new ZdravstveniKarton(4, 150.0, 60.0, KrvnaGrupa.BNEGATIVNA, 0.55, null, p4);
-
-		zk1.setPacijent(p1);
-		zk2.setPacijent(p2);
-		zk3.setPacijent(p3);
-		zk4.setPacijent(p4);
+		ZdravstveniKarton zk5 = new ZdravstveniKarton(5, 200.0, 110.0, KrvnaGrupa.ABNEGATIVNA, 0, null, p5);
+		ZdravstveniKarton zk6 = new ZdravstveniKarton(6, 140.0, 50.0, KrvnaGrupa.NULTAPOZITIVNA, 1.0, null, p6);
+		ZdravstveniKarton zk7 = new ZdravstveniKarton(7, 167.0, 80.0, KrvnaGrupa.ABNEGATIVNA, 0.6, null, p7);
+		ZdravstveniKarton zk8 = new ZdravstveniKarton(8, 158.0, 60.0, KrvnaGrupa.BPOZITIVNA, 0.55, null, p8);
+		
+//		zk1.setPacijent(p1);
+//		zk2.setPacijent(p2);
+//		zk3.setPacijent(p3);
+//		zk4.setPacijent(p4);
+//		zk5.setPacijent(p5);
 
 		p1.setZdravstveniKarton(zk1);
 		p2.setZdravstveniKarton(zk2);
 		p3.setZdravstveniKarton(zk3);
 		p4.setZdravstveniKarton(zk4);
+		p5.setZdravstveniKarton(zk5);
+		p6.setZdravstveniKarton(zk6);
+		p7.setZdravstveniKarton(zk7);
+		p8.setZdravstveniKarton(zk8);
 
 		PreparedStatement ps1 = conn.prepareStatement(
 				"INSERT INTO ZDRAVSTEVNI_KARTONI (ID_ZDRAVSTVENOG_KARTONA, DIOPTRIJA, KRVNA_GRUPA, TEZINA, VISINA) VALUES (?, ?, ?, ?, ?)");
@@ -185,6 +206,34 @@ public class KlinickiCentarApplication {
 		ps1.setInt(3, zk4.getKrvnaGrupa().ordinal());
 		ps1.setDouble(4, zk4.getTezina());
 		ps1.setDouble(5, zk4.getVisina());
+		ps1.executeUpdate();
+		
+		ps1.setInt(1, zk5.getId());
+		ps1.setDouble(2, zk5.getDioptrija());
+		ps1.setInt(3, zk5.getKrvnaGrupa().ordinal());
+		ps1.setDouble(4, zk5.getTezina());
+		ps1.setDouble(5, zk5.getVisina());
+		ps1.executeUpdate();
+		
+		ps1.setInt(1, zk6.getId());
+		ps1.setDouble(2, zk6.getDioptrija());
+		ps1.setInt(3, zk6.getKrvnaGrupa().ordinal());
+		ps1.setDouble(4, zk6.getTezina());
+		ps1.setDouble(5, zk6.getVisina());
+		ps1.executeUpdate();
+		
+		ps1.setInt(1, zk7.getId());
+		ps1.setDouble(2, zk7.getDioptrija());
+		ps1.setInt(3, zk7.getKrvnaGrupa().ordinal());
+		ps1.setDouble(4, zk7.getTezina());
+		ps1.setDouble(5, zk7.getVisina());
+		ps1.executeUpdate();
+		
+		ps1.setInt(1, zk8.getId());
+		ps1.setDouble(2, zk8.getDioptrija());
+		ps1.setInt(3, zk8.getKrvnaGrupa().ordinal());
+		ps1.setDouble(4, zk8.getTezina());
+		ps1.setDouble(5, zk8.getVisina());
 		ps1.executeUpdate();
 
 		ps1.close();
@@ -243,6 +292,72 @@ public class KlinickiCentarApplication {
 		ps.executeUpdate();
 //		System.out.println("inserted: " + p3);
 
+		ps.setInt(1, p5.getId());
+		ps.setString(2, p5.getAdresa());
+		ps.setString(3, p5.getBrojTelefona());
+		ps.setString(4, p5.getDrzava());
+		ps.setString(5, p5.getEmail());
+		ps.setString(6, p5.getGrad());
+		ps.setString(7, p5.getIme());
+		ps.setString(8, p5.getJedinstveniBrOsig());
+		ps.setString(9, p5.getJmbg());
+		ps.setString(10, p5.getLozinka());
+		ps.setInt(11, p5.getPol().ordinal());
+		ps.setString(12, p5.getPrezime());
+		ps.setInt(13, p5.getZdravstveniKarton().getId());
+		ps.setInt(14, p5.getStanjePacijenta().ordinal());
+		ps.executeUpdate();
+//		System.out.println("inserted: " + p4);
+		
+		ps.setInt(1, p6.getId());
+		ps.setString(2, p6.getAdresa());
+		ps.setString(3, p6.getBrojTelefona());
+		ps.setString(4, p6.getDrzava());
+		ps.setString(5, p6.getEmail());
+		ps.setString(6, p6.getGrad());
+		ps.setString(7, p6.getIme());
+		ps.setString(8, p6.getJedinstveniBrOsig());
+		ps.setString(9, p6.getJmbg());
+		ps.setString(10, p6.getLozinka());
+		ps.setInt(11, p6.getPol().ordinal());
+		ps.setString(12, p6.getPrezime());
+		ps.setInt(13, p6.getZdravstveniKarton().getId());
+		ps.setInt(14, p6.getStanjePacijenta().ordinal());
+		ps.executeUpdate();
+		
+		ps.setInt(1, p7.getId());
+		ps.setString(2, p7.getAdresa());
+		ps.setString(3, p7.getBrojTelefona());
+		ps.setString(4, p7.getDrzava());
+		ps.setString(5, p7.getEmail());
+		ps.setString(6, p7.getGrad());
+		ps.setString(7, p7.getIme());
+		ps.setString(8, p7.getJedinstveniBrOsig());
+		ps.setString(9, p7.getJmbg());
+		ps.setString(10, p7.getLozinka());
+		ps.setInt(11, p7.getPol().ordinal());
+		ps.setString(12, p7.getPrezime());
+		ps.setInt(13, p7.getZdravstveniKarton().getId());
+		ps.setInt(14, p7.getStanjePacijenta().ordinal());
+		ps.executeUpdate();
+		
+		ps.setInt(1, p8.getId());
+		ps.setString(2, p8.getAdresa());
+		ps.setString(3, p8.getBrojTelefona());
+		ps.setString(4, p8.getDrzava());
+		ps.setString(5, p8.getEmail());
+		ps.setString(6, p8.getGrad());
+		ps.setString(7, p8.getIme());
+		ps.setString(8, p8.getJedinstveniBrOsig());
+		ps.setString(9, p8.getJmbg());
+		ps.setString(10, p8.getLozinka());
+		ps.setInt(11, p8.getPol().ordinal());
+		ps.setString(12, p8.getPrezime());
+		ps.setInt(13, p8.getZdravstveniKarton().getId());
+		ps.setInt(14, p8.getStanjePacijenta().ordinal());
+		ps.executeUpdate();
+		
+		
 		ps.setInt(1, p4.getId());
 		ps.setString(2, p4.getAdresa());
 		ps.setString(3, p4.getBrojTelefona());
@@ -258,7 +373,6 @@ public class KlinickiCentarApplication {
 		ps.setInt(13, p4.getZdravstveniKarton().getId());
 		ps.setInt(14, p4.getStanjePacijenta().ordinal());
 		ps.executeUpdate();
-//		System.out.println("inserted: " + p4);
 
 		ps.close();
 

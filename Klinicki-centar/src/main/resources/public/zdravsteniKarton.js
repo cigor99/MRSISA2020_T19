@@ -1,10 +1,12 @@
-$(document).ready(function () {
-    $("#traziJMBG").click(function () {
+$(document).ready(function() {
+    var imeCoded = window.location.href.split("?")[1];
+    var imeJednako = imeCoded.split("&")[0];
+    var imeParam = imeJednako.split("=")[1];
 
-        $.ajax({
-            url: "/klinicki-centar/karton/get/" + $("#JBMG").val(),
+    $.ajax({
+            url: "/klinicki-centar/karton/get/" + imeParam,
             type: 'GET',
-            success: function (data) {
+            success: function(data) {
                 $("#tabela").remove();
                 let div = $("#div")
                 let table = $("<table></table>")
@@ -97,14 +99,15 @@ $(document).ready(function () {
                 table.append(tr5)
                 div.append(table)
             },
-            error: function (jqXHR) {
+            error: function(jqXHR) {
                 alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
-            }, async: false,
+            },
+            async: false,
         })
-    });
+        // });
 
 
-    $("#div").on("click", "#izmeni", function () {
+    $("#div").on("click", "#izmeni", function() {
         $("#visinaERROR").css('visibility', 'hidden');
         $("#tezinaERROR").css('visibility', 'hidden');
         $("#krvERROR").css('visibility', 'hidden');
@@ -129,10 +132,10 @@ $(document).ready(function () {
             return;
         }
 
-        if ($("#krv").val().toUpperCase() != "NULTAPOZITIVNA" && $("#krv").val().toUpperCase() != "NULTANEGATIVNA"
-            && $("#krv").val().toUpperCase() != "APOZITIVNA" && $("#krv").val().toUpperCase() != "ANEGATIVNA"
-            && $("#krv").val().toUpperCase() != "BPOZITIVNA" && $("#krv").val().toUpperCase() != "BNEGATIVNA"
-            && $("#krv").val().toUpperCase() != "ABPOZITIVNA" && $("#krv").val().toUpperCase() != "ABNEGATIVNA") {
+        if ($("#krv").val().toUpperCase() != "NULTAPOZITIVNA" && $("#krv").val().toUpperCase() != "NULTANEGATIVNA" &&
+            $("#krv").val().toUpperCase() != "APOZITIVNA" && $("#krv").val().toUpperCase() != "ANEGATIVNA" &&
+            $("#krv").val().toUpperCase() != "BPOZITIVNA" && $("#krv").val().toUpperCase() != "BNEGATIVNA" &&
+            $("#krv").val().toUpperCase() != "ABPOZITIVNA" && $("#krv").val().toUpperCase() != "ABNEGATIVNA") {
             $("#krvERROR").text("Neispravan unos!(ispravno NULTAPOZITIVNA) ").css('visibility', 'visible').css('color', 'red');
             return;
         }
@@ -149,11 +152,11 @@ $(document).ready(function () {
                 tezina: $("#tezina").val(),
                 krvnaGrupa: $("#krv").val()
             }),
-            success: function () {
+            success: function() {
                 alert("USPESNO STE SACUVALI IZMENE")
                 window.location.replace("index.html")
             },
-            error: function (jqXHR) {
+            error: function(jqXHR) {
                 alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
             },
         })

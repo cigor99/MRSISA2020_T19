@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -74,15 +76,17 @@ public class PacijentController {
 		return new ResponseEntity<>(pacijentiDTO, HttpStatus.OK);
 	}
 	
-	@GetMapping("/page")
-	public ResponseEntity<List<PacijentDTO>> getPacijentPage(){
-		System.out.println("PacijentController-getPacijentPage");
-		Pageable prvihDeset = PageRequest.of(0, 10);
+	@GetMapping("/page/{stranica}/{koliko}")
+	public ResponseEntity<List<PacijentDTO>> getPacijentPage(@PathVariable Integer stranica, @PathVariable Integer koliko){
+		
+		System.out.println("STRANICA:" +stranica);
+		System.out.println("Koliko:" +koliko);
+		Pageable prvihDeset = PageRequest.of(stranica, koliko);
 		Page<Pacijent> pacijenti = null;
 		try {
 			pacijenti = pacijentService.findAll(prvihDeset);
 		}catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.OK);
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 		List<PacijentDTO> pacijentiDTO = new ArrayList<PacijentDTO>();
 		
@@ -244,6 +248,28 @@ public class PacijentController {
 		return new ResponseEntity<PacijentDTO>(new PacijentDTO(pacijent), HttpStatus.OK);
 	}
 	
+	@PostMapping("/search/{kriterijum}/{vrednost}")
+	public ResponseEntity<List<PacijentDTO>> searchPacijent(@PathVariable String kriterijum, @PathVariable String vrednost){
+		List<PacijentDTO> retVal = new ArrayList<PacijentDTO>();
+		System.out.println(kriterijum);
+		for (Pacijent pacijent : pacijentService.findAll()) {
+			if(kriterijum.equalsIgnoreCase("ime")) {
+				if(pacijent.getIme().equalsIgnoreCase(vrednost)) {
+					retVal.add(new PacijentDTO(pacijent));
+				}
+			}else if(kriterijum.equalsIgnoreCase("prezime")) {
+				if(pacijent.getPrezime().equalsIgnoreCase(vrednost)) {
+					retVal.add(new PacijentDTO(pacijent));
+				}
+			}else if(kriterijum.equalsIgnoreCase("Jedin. br. pacijenta")) {
+				if(pacijent.getJedinstveniBrOsig().equalsIgnoreCase(vrednost)) {
+					retVal.add(new PacijentDTO(pacijent));
+				}
+			}
+		}
+		
+		return new ResponseEntity<>(retVal, HttpStatus.OK);
+	}
 	
 	private boolean jedinstvenEmail(PacijentDTO pacijentDTO) {
 		List<Pacijent> pacijenti = pacijentService.findAll();

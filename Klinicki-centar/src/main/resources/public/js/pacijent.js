@@ -1,42 +1,47 @@
 $(document).ready(function() {
-
     $('#idemo').checked = true;
     $.ajax({
         type: "get",
-        url: "/klinicki-centar/pacijent/page",
+        url: "/klinicki-centar/pacijent/page/" + 0 + "/" + 6,
         success: function(data) {
+            window.search = false;
+            $("#stranice").css('visibility', 'hidden')
             kartice(data);
         },
-        error: function(response) {
-            alert("Error when pacijent/page called")
+        error: function(jqXHR) {
+            alert("Error: " + jqXHR.status + ", " + jqXHR.responseText);
         },
 
     });
     $('#idemo').change(function() {
-        if ($("#idemo").is(":checked") == true) {
+        if (window.search = false) {
+            if ($("#prviBr").hasClass("strong")) {
+                dobavi(parseInt($("#prviBr").text()) - 1, 6)
+            } else if ($("#drugiBr").hasClass("strong")) {
+                dobavi(parseInt($("#drugiBr").text()) - 1, 6)
+            } else if ($("#treciBr").hasClass("strong")) {
+                dobavi(parseInt($("#treciBr").text()) - 1, 6)
+            }
+        } else {
             $.ajax({
-                type: "get",
-                url: "/klinicki-centar/pacijent/page",
+                url: "/klinicki-centar/pacijent/search/" + $("#kriterijum option:selected").text() + "/" + $("#search").val(),
+                type: "post",
                 success: function(data) {
-                    tabela(data);
-                },
-                error: function(response) {
-                    alert("Error when pacijent/page called")
+                    window.search = true;
+                    $("#stranice").css('visibility', 'hidden');
+                    $("#tabela").css('visibility', 'hidden');
+                    $("#ROWDIV").empty();
+                    $("#tabela").empty();
+                    if ($("#idemo").is(":checked") == true) {
+                        tabela(data);
+
+                    } else {
+                        kartice(data);
+                    }
                 }
             });
-            return;
         }
-        $.ajax({
-            type: "get",
-            url: "/klinicki-centar/pacijent/page",
-            success: function(data) {
-                kartice(data);
-            },
-            error: function(response) {
-                alert("Error when pacijent/page called")
-            }
-        });
-        return;
+
     });
 
     function kartice(data) {
@@ -47,56 +52,53 @@ $(document).ready(function() {
         if ($("#ROWDIV").is(':empty')) {
             $("#ROWDIV").css("visibility", 'visible')
             let counter = 0;
+
             for (let pacijent of data) {
-                for (let pacijent of data) {
+                let row = $(".row");
+                let col = $("<div></div>");
+                col.attr("class", 'col-md-4');
+                row.append(col);
+                let well = $("<div></div>");
+                well.attr("class", 'well');
+                col.append(well);
+                let img = $("<img></img>");
+                img.attr("class", 'avatar')
+                img.attr("src", 'pacijent.png');
+                let h4 = $("<h4>Pacijent</h4>");
+                let ime = $("<p></p>");
+                ime.append("<strong>Ime: </strong>");
+                ime.append(pacijent.ime);
+                let prezime = $("<p></p>");
+                prezime.append("<strong>Prezime: </strong>");
+                prezime.append(pacijent.prezime);
+                let broj = $("<p></p>");
+                broj.append("<strong>Jedinstevni broj osiguranika: </strong>")
+                broj.append(pacijent.jedinstveniBrOsig);
 
-                    if (counter < 6) {
-                        let row = $(".row");
-                        let col = $("<div></div>");
-                        col.attr("class", 'col-md-4');
-                        row.append(col);
-                        let well = $("<div></div>");
-                        well.attr("class", 'well');
-                        col.append(well);
-                        let img = $("<img></img>");
-                        img.attr("class", 'avatar')
-                        img.attr("src", 'pacijent.png');
-                        let h4 = $("<h4>Pacijent</h4>");
-                        let ime = $("<p></p>");
-                        ime.append("<strong>Ime: </strong>");
-                        ime.append(pacijent.ime);
-                        let prezime = $("<p></p>");
-                        prezime.append("<strong>Prezime: </strong>");
-                        prezime.append(pacijent.prezime);
-                        let broj = $("<p></p>");
-                        broj.append("<strong>Jedinstevni broj osiguranika: </strong>")
-                        broj.append(pacijent.jedinstveniBrOsig);
+                let ul = $("<ul></ul>")
+                ul.attr("class", 'bottom')
+                let karton = $("<li></li>")
+                karton.attr("class", 'del');
+                let a = $("<a>Profil pacijenta</a>")
+                a.attr("class", 'btn');
+                a.attr("href", 'profilPacijenta.html?id=' + pacijent.id)
+                    // let pregled = $("<li></li>")
+                    // pregled.attr('class', 'del');
+                    // let a2 = $("<a>Započni pregled</a>");
+                    // a2.attr("class", 'btn');
+                    // pregled.append(a2);
+                    // ul.append(pregled);
+                karton.append(a);
+                ul.append(karton)
 
-                        let ul = $("<ul></ul>")
-                        ul.attr("class", 'bottom')
-                        let karton = $("<li></li>")
-                        karton.attr("class", 'fb');
-                        let a = $("<a>Zdravstveni karton</a>")
-                        a.attr("class", 'btn');
-                        let pregled = $("<li></li>")
-                        pregled.attr('class', 'del');
-                        let a2 = $("<a>Započni pregled</a>");
-                        a2.attr("class", 'btn');
-                        pregled.append(a2);
-                        ul.append(pregled);
-                        karton.append(a);
-                        ul.append(karton)
-
-                        well.append(img);
-                        well.append(h4);
-                        well.append(ime);
-                        well.append(prezime);
-                        well.append(broj);
-                        well.append(ul);
-                    }
-                    counter = counter + 1;
-                }
+                well.append(img);
+                well.append(h4);
+                well.append(ime);
+                well.append(prezime);
+                well.append(broj);
+                well.append(ul);
             }
+            counter = counter + 1;
         }
     }
 
@@ -114,8 +116,8 @@ $(document).ready(function() {
             let imeTd = $("<td>Ime</td>")
             let prezimeTd = $("<td>Prezime</td>")
             let brojTd = $("<td>Jedinstveni broj pacijenta</td>")
-            let kartonTD = $("<td>Zdravstveni karton</td>")
-            let pregledTD = $("<td>Započni pregled</td>")
+            let kartonTD = $("<td>Profil pacijenta</td>")
+                // let pregledTD = $("<td>Započni pregled</td>")
             let head = $("<thead></thead>")
             let trHead = $("<tr></tr>")
             head.append(trHead)
@@ -124,7 +126,7 @@ $(document).ready(function() {
             trHead.append(prezimeTd);
             trHead.append(brojTd);
             trHead.append(kartonTD);
-            trHead.append(pregledTD);
+            // trHead.append(pregledTD);
             table.append(head);
             let tbody = $("<tbody></tbody>")
             table.append(tbody);
@@ -148,9 +150,12 @@ $(document).ready(function() {
                     // let drzavaTD = $("<td>" + pacijent.drzava + "</td>")
 
                 // let TDkarton = $("<td>" + "<a href=\"pacijentProfil.html?id=" + pacijent.id + "\">Karton</a></td>")
-                let TDkarton = $("<td>" + "<a href=\"#" + pacijent.id + "\">Karton</a></td>")
-                let TDpregled = $("<td>" + "<a href=\"#" + pacijent.id + "\">Pregled</a></td>")
-                    // tr.append(idTD)
+                let TDkarton = $("<td></td>")
+                let karton = $("<a>Profil pacijenta</a>")
+                karton.attr("href", 'profilPacijenta.html?id=' + pacijent.id)
+                TDkarton.append(karton);
+
+                // tr.append(idTD)
                 tr.append(imeTD)
                 tr.append(prezimeTD)
                     // tr.append(polTD)
@@ -163,7 +168,6 @@ $(document).ready(function() {
                     // tr.append(gradTD)
                     // tr.append(drzavaTD)
                 tr.append(TDkarton)
-                tr.append(TDpregled)
                 tbody.append(tr)
             }
         }
@@ -422,5 +426,347 @@ $(document).ready(function() {
         });
     });
 
+    //////////////////////////////////////////////////////////////////////
+    //ZA ISPISIVANJE BROJA STRANICA
+    //////////////////////////////////////////////////////////////////////
+    let brojPacijenata;
+    let brStr;
+    $.ajax({
+        type: "get",
+        url: "/klinicki-centar/pacijent/all",
+        success: function(data) {
+            $("#stranice").css('visibility', 'hidden')
+            let div = $("#stranice")
+            $("#prviBr").attr("class", 'strong')
+            brojPacijenata = data.length;
+            brStr = parseInt(brojPacijenata / 6);
+            if (brojPacijenata % 6 > 0) {
+                brStr = brStr + 1;
+            }
+            if (brStr == 2) {
+                let drugiBr = $("<a>2</a>");
+                drugiBr.attr("id", 'drugiBr');
+                div.append(drugiBr);
+
+                let sledeca = $("<a>»</a>")
+                sledeca.attr('id', 'sledeci')
+                let poslednja = $("<a>Poslednja</a>")
+                poslednja.attr('id', 'poslednja')
+                div.append(sledeca);
+                div.append(poslednja);
+
+            } else {
+                let drugiBr = $("<a>2</a>");
+                drugiBr.attr("id", 'drugiBr');
+                div.append(drugiBr);
+                let treciBr = $("<a>3</a>");
+                treciBr.attr("id", 'treciBr');
+                div.append(treciBr);
+                let sledeca = $("<a>»</a>")
+                sledeca.attr('id', 'sledeci')
+                let poslednja = $("<a>Poslednja</a>")
+                poslednja.attr('id', 'poslednja')
+                div.append(sledeca);
+                div.append(poslednja);
+            }
+        },
+        error: function(response) {
+            alert("Error when pacijent/page called")
+        },
+        async: false,
+
+    });
+
+
+
+    $("#sledeci").click(function() {
+        $("#treciBr").css('visibility', 'visible');
+        if ($("#prviBr").hasClass("strong")) {
+            $("#prviBr").removeClass('strong');
+            $("#drugiBr").attr('class', 'strong');
+            $("#ROWDIV").empty();
+            $("#tabela").empty()
+            dobavi(parseInt($("#drugiBr").text()) - 1, 6)
+
+            if (parseInt($("#drugiBr").text()) == brStr) {
+                $("#sledeci").css('visibility', 'hidden');
+                $("#poslednja").css('visibility', 'hidden');
+            }
+            return;
+        }
+        let counter = 0;
+        for (let str of $('div#stranice').children()) {
+            if (counter == 2) {
+                if (parseInt(str.text) + 3 <= brStr) {
+                    str.text = parseInt(str.text) + 1
+                }
+            } else if (counter == 3) {
+                if (parseInt(str.text) + 2 <= brStr) {
+                    str.text = parseInt(str.text) + 1
+                    if ($("#drugiBr").hasClass("strong")) {
+                        $("#ROWDIV").empty();
+                        $("#tabela").empty()
+                        dobavi(parseInt(str.text) - 1, 6);
+                    }
+                }
+            } else if (counter == 4) {
+                if (parseInt(str.text) + 1 <= brStr) {
+                    str.text = parseInt(str.text) + 1
+                } else {
+                    $("#prviBr").text($("#drugiBr").text());
+                    $("#drugiBr").removeClass('strong');
+                    $("#drugiBr").text($("#treciBr").text());
+                    $("#drugiBr").attr('class', 'strong');
+                    $("#ROWDIV").empty();
+                    $("#tabela").empty();
+                    dobavi(parseInt($("#drugiBr").text()) - 1, 6)
+                    $("#treciBr").css('visibility', 'hidden');
+                    $("#sledeci").css('visibility', 'hidden');
+                    $("#poslednja").css('visibility', 'hidden');
+                }
+            }
+
+            counter = counter + 1;
+        }
+    });
+
+    $("#prethodni").click(function() {
+        if (brStr == 2) {
+            if ($("#prviBr").hasClass("strong")) {
+                return;
+            } else if ($("#drugiBr").hasClass("strong")) {
+                $("#drugiBr").removeClass('strong');
+                $("#prviBr").attr('class', 'strong');
+                $("#ROWDIV").empty();
+                $("#tabela").empty()
+                dobavi(parseInt($("#prviBr").text()) - 1, 6)
+                $("#sledeci").css('visibility', 'visible');
+                $("#poslednja").css('visibility', 'visible');
+            }
+        }
+        if ($("#treciBr").css("visibility") == "hidden") {
+            if (brStr >= 3) {
+                $("#treciBr").text(parseInt($("#drugiBr").text()) + 1);
+                $("#treciBr").attr('class', 'strong');
+                // $("#drugiBr").text($("#prviBr").text());
+                $("#drugiBr").removeClass('strong');
+                // $("#prviBr").text(parseInt($("#prviBr").text()) - 1);
+
+            }
+            $("#treciBr").css('visibility', 'visible');
+            $("#poslednja").css('visibility', 'visible');
+            $("#sledeci").css('visibility', 'visible');
+        }
+
+        let counter = 0;
+        for (let str of $('div#stranice').children()) {
+            // if (str.text != "0" && counter == 0) {
+            if (counter == 2) {
+                if (parseInt(str.text) - 1 > 0) {
+                    str.text = parseInt(str.text) - 1
+                } else if ($("#drugiBr").hasClass("strong")) {
+                    $("#drugiBr").removeClass('strong');
+                    $("#prviBr").attr('class', 'strong');
+                    $("#ROWDIV").empty();
+                    $("#tabela").empty()
+                    dobavi(parseInt($("#prviBr").text()) - 1, 6)
+
+                }
+            } else if (counter == 3) {
+                if (parseInt(str.text) - 1 > 1) {
+                    str.text = parseInt(str.text) - 1
+                    if ($("#drugiBr").hasClass("strong")) {
+                        $("#ROWDIV").empty();
+                        $("#tabela").empty()
+                        dobavi(parseInt(str.text) - 1, 6);
+                    }
+                }
+            } else if (counter == 4) {
+                if (parseInt(str.text) - 1 > 2) {
+                    str.text = parseInt(str.text) - 1
+                }
+                if ($("#treciBr").hasClass("strong")) {
+                    $("#treciBr").removeClass('strong');
+                    $("#drugiBr").attr('class', 'strong');
+                    $("#ROWDIV").empty();
+                    $("#tabela").empty()
+                    dobavi(parseInt($("#drugiBr").text()) - 1, 6)
+                }
+            }
+            // }
+
+            counter = counter + 1;
+        }
+    });
+
+    // $("#prva").click(function() {
+    //     // for (let str of $('div#stranice').children()) {
+    //     $("#prviBr").text("1");
+    //     $("#prviBr").attr("class", 'strong');
+    //     $("#drugiBr").text("2");
+    //     $("#drugiBr").removeClass("strong")
+    //     $("#treciBr").text("3");
+    //     $("#treciBr").removeClass("strong")
+    //     $("#sledeci").css('visibility', 'visible');
+    //     $("#poslednja").css('visibility', 'visible');
+    //     $("#treciBr").css('visibility', 'visible');
+
+    // });
+
+    $("#poslednja").click(function() {
+
+        $("#prviBr").removeClass('strong');
+        $("#treciBr").removeClass("strong");
+        $("#prviBr").text(brStr - 1);
+        $("#drugiBr").text(brStr);
+        $("#drugiBr").attr("class", 'strong');
+        $("#treciBr").css('visibility', 'hidden');
+        $("#sledeci").css('visibility', 'hidden');
+        $("#poslednja").css('visibility', 'hidden');
+        $("#ROWDIV").empty();
+        $("#tabela").empty()
+        dobavi(parseInt($("#drugiBr").text()) - 1, 6)
+
+    });
+
+
+    //////////////////////////////////////////////////////////////////////
+    function dobavi(od, dokle) {
+        if ($("#idemo").is(":checked") == true) {
+            $.ajax({
+                type: "get",
+                url: "/klinicki-centar/pacijent/page/" + od + "/" + dokle,
+                success: function(data) {
+                    tabela(data);
+                },
+                error: function(jqXHR) {
+                    alert("Error: " + jqXHR.status + ", " + jqXHR.responseText);
+                }
+            });
+            return;
+        }
+        $.ajax({
+            type: "get",
+            url: "/klinicki-centar/pacijent/page/" + od + "/" + dokle,
+            success: function(data) {
+                kartice(data);
+            },
+            error: function(jqXHR) {
+                alert("Error: " + jqXHR.status + ", " + jqXHR.responseText);
+            }
+        });
+        return;
+    }
+
+    //////////////////DUGMAD///////////////////////////////////////
+
+    $("#prviBr").click(function() {
+        $("#prviBr").attr('class', 'strong');
+        $("#drugiBr").removeClass("strong");
+        $("#treciBr").removeClass("strong");
+        $("#ROWDIV").empty();
+        $("#tabela").empty()
+        dobavi(parseInt($("#prviBr").text()) - 1, 6)
+        $("#sledeci").css('visibility', 'visible');
+        $("#poslednja").css('visibility', 'visible');
+        $("#treciBr").css('visibility', 'visible');
+    });
+
+    $("#drugiBr").click(function() {
+        $("#drugiBr").attr('class', 'strong');
+        $("#prviBr").removeClass("strong");
+        $("#treciBr").removeClass("strong");
+        $("#ROWDIV").empty();
+        $("#tabela").empty()
+        dobavi(parseInt($("#drugiBr").text()) - 1, 6)
+        if (brStr == 2) {
+            $("#sledeci").css('visibility', 'hidden');
+            $("#poslednja").css('visibility', 'hidden');
+            $("#treciBr").css('visibility', 'hidden');
+        } else if (brStr > 2) {
+            $("#sledeci").css('visibility', 'visible');
+            $("#poslednja").css('visibility', 'visible');
+            $("#treciBr").css('visibility', 'visible');
+        }
+
+    });
+
+    $("#treciBr").click(function() {
+        $("#treciBr").attr('class', 'strong');
+        $("#drugiBr").removeClass("strong");
+        $("#prviBr").removeClass("strong");
+        $("#ROWDIV").empty();
+        $("#tabela").empty()
+        dobavi(parseInt($("#treciBr").text()) - 1, 6)
+        if (brStr == 3) {
+            $("#sledeci").css('visibility', 'hidden');
+            $("#poslednja").css('visibility', 'hidden');
+            $("#treciBr").css('visibility', 'hidden');
+        } else if (brStr > 3) {
+            $("#sledeci").css('visibility', 'visible');
+            $("#poslednja").css('visibility', 'visible');
+            $("#treciBr").css('visibility', 'visible');
+        }
+    });
+
+    $("#prva").click(function() {
+        $("#prviBr").attr('class', 'strong');
+        $("#drugiBr").removeClass("strong");
+        $("#treciBr").removeClass("strong");
+        $("#ROWDIV").empty();
+        $("#tabela").empty()
+        dobavi(parseInt($("#prviBr").text()) - 1, 6)
+        $("#sledeci").css('visibility', 'visible');
+        $("#poslednja").css('visibility', 'visible');
+        $("#treciBr").css('visibility', 'visible');
+    });
+
+    // $("#poslednja").click(function() {
+    //     $("#prviBr").attr('class', 'strong');
+    //     $("#drugiBr").removeClass("strong");
+    //     $("#treciBr").removeClass("strong");
+    //     $("#ROWDIV").empty();
+    //     $("#tabela").empty()
+    //     dobavi(brStr - 1, 6)
+    // });
+
+    function search() {
+        $("#error").css('visibility', 'hidden')
+        if ($("#search").val() == "") {
+            $("#error").text("Polje pretrage ne sme biti prazno.").css("visibility", 'visible').css('color', 'red');
+            return;
+        }
+
+        $.ajax({
+            url: "/klinicki-centar/pacijent/search/" + $("#kriterijum option:selected").text() + "/" + $("#search").val(),
+            type: "post",
+            success: function(data) {
+                window.search = true;
+                $("#stranice").css('visibility', 'hidden')
+                $("#ROWDIV").empty();
+                $("#tabela").empty()
+
+                if ($("#idemo").is(":checked") == true) {
+                    tabela(data);
+
+                } else {
+                    kartice(data);
+                }
+            },
+            error: function(jqXHR) {
+                alert("Error: " + jqXHR.status + ", " + jqXHR.responseText);
+            }
+
+        })
+    }
+    $("#dugme").click(function() {
+        search();
+    });
+
+    // $("#search").keyup(function(event) {
+    //     if (event.keyCode == 13) {
+    //         $("#dugme").click();
+    //     }
+    // });
 
 });
