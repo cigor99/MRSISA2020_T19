@@ -78,9 +78,9 @@ public class PacijentController {
 	
 	@GetMapping("/page/{stranica}/{koliko}")
 	public ResponseEntity<List<PacijentDTO>> getPacijentPage(@PathVariable Integer stranica, @PathVariable Integer koliko){
-		
-		System.out.println("STRANICA:" +stranica);
-		System.out.println("Koliko:" +koliko);
+		System.out.println("PacijentController-getPacijentPage");
+//		System.out.println("STRANICA:" +stranica);
+//		System.out.println("Koliko:" +koliko);
 		Pageable prvihDeset = PageRequest.of(stranica, koliko);
 		Page<Pacijent> pacijenti = null;
 		try {
@@ -251,7 +251,7 @@ public class PacijentController {
 	@PostMapping("/search/{kriterijum}/{vrednost}")
 	public ResponseEntity<List<PacijentDTO>> searchPacijent(@PathVariable String kriterijum, @PathVariable String vrednost){
 		List<PacijentDTO> retVal = new ArrayList<PacijentDTO>();
-		System.out.println(kriterijum);
+//		System.out.println(kriterijum);s
 		for (Pacijent pacijent : pacijentService.findAll()) {
 			if(kriterijum.equalsIgnoreCase("ime")) {
 				if(pacijent.getIme().equalsIgnoreCase(vrednost)) {

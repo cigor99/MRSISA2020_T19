@@ -59,30 +59,36 @@ $(document).ready(function() {
 });
 
 function prihvati(IDZahteva) {
-    $.confirm({
-        title: 'Zahtev za registraciju',
-        content: 'Da li ste sigurni da želite da potrvdite zahtev za registraciju br.' + IDZahteva + "?",
-        buttons: {
-            potvrdi: function() {
-                $.ajax({
-                    url: "/klinicki-centar/KC/ZZR/Prihvati/" + IDZahteva,
-                    contentType: "application/json",
-                    dataType: 'json',
-                    type: "put",
-                    success: function() {
-                        $("#td" + IDZahteva).html("PRIHVACEN")
+    let conf = confirm('Da li ste sigurni da želite da potrvdite zahtev za registraciju br.' + IDZahteva + "?")
+        // $.confirm({
+        //     title: 'Zahtev za registraciju',
+        //     content: 'Da li ste sigurni da želite da potrvdite zahtev za registraciju br.' + IDZahteva + "?",
+        //     buttons: {
+        //         potvrdi: function() {
+    if (conf == true) {
+        $.ajax({
+            url: "/klinicki-centar/KC/ZZR/Prihvati/" + IDZahteva,
+            contentType: "application/json",
+            dataType: 'json',
+            type: "put",
+            success: function() {
+                $("#td" + IDZahteva).html("PRIHVACEN")
 
-                        // $("#prihvatiTD" + IDZahteva).remove()
-                        $("#odbij" + IDZahteva).remove()
-                        $("#prihvatiTD" + IDZahteva).remove()
-                    }
-                });
-            },
-            odustani: function() {
-                return;
-            },
-        }
-    });
+                // $("#prihvatiTD" + IDZahteva).remove()
+                $("#odbij" + IDZahteva).remove()
+                $("#prihvatiTD" + IDZahteva).remove()
+            }
+        });
+    } else {
+        return;
+    }
+
+    //     },
+    //     odustani: function() {
+    //         return;
+    //     },
+    // }
+    // });
 
 
     // $("#td" + IDZahteva).html("PRIHVACEN")
@@ -91,40 +97,45 @@ function prihvati(IDZahteva) {
 
 
 function odbij(IDZahteva, idPacijenta) {
-    $.confirm({
-        title: 'Zahtev za registraciju',
-        content: 'Da li ste sigurni da želite da odbijete zahtev za registraciju br.' + IDZahteva + "?",
-        buttons: {
-            potvrdi: function() {
+    let conf = confirm('Da li ste sigurni da želite da odbijete zahtev za registraciju br.' + IDZahteva + "?");
+    if (conf == true) {
+        $("#odbij" + IDZahteva).remove()
+        $("#prihvatiTD" + IDZahteva).remove()
+        $("#td" + IDZahteva).html("ODBIJEN")
+
+        $.ajax({
+            url: "/klinicki-centar/KC/ZZR/Odbij/" + IDZahteva,
+            contentType: "application/json",
+            dataType: 'json',
+            type: "put",
+            success: function() {
+                $("#td" + IDZahteva).html("ODBIJEN")
                 $("#odbij" + IDZahteva).remove()
                 $("#prihvatiTD" + IDZahteva).remove()
-                $("#td" + IDZahteva).html("ODBIJEN")
-                $.ajax({
-                    url: "/klinicki-centar/KC/ZZR/Odbij/" + IDZahteva,
-                    contentType: "application/json",
-                    dataType: 'json',
-                    type: "put",
-                    success: function() {
-                        $("#td" + IDZahteva).html("ODBIJEN")
-                        $("#odbij" + IDZahteva).remove()
-                        $("#prihvatiTD" + IDZahteva).remove()
-                    },
-                    async: false
-                });
-
-
-                window.open("odbijeno.html?id=" + idPacijenta,
-                    'newwindow',
-                    'width=700,height=400');
-
-
-
             },
-            odustani: function() {
-                return;
-            },
-        }
-    });
+            async: false
+        });
+        window.open("odbijeno.html?id=" + idPacijenta,
+            'newwindow',
+            'width=700,height=400');
+
+    } else {
+        return;
+    }
+    // $.confirm({
+    //     title: 'Zahtev za registraciju',
+    //     content: 'Da li ste sigurni da želite da odbijete zahtev za registraciju br.' + IDZahteva + "?",
+    //     buttons: {
+    //         potvrdi: function() {
+    //           
+
+
+    //         },
+    //         odustani: function() {
+    //             return;
+    //         },
+    //     }
+    // });
 
 
 }
