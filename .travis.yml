@@ -3,7 +3,6 @@ language: java
 jdk: oraclejdk8
 
 before_install:
-  -cd Klinicki-centar
   - chmod +x mvnw
 
 addons:
