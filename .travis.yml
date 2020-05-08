@@ -3,7 +3,7 @@ language: java
 jdk: oraclejdk8
 
 before_install:
-  - ./Klinicki-centar/chmod +x mvnw
+  - chmod +x ./Klinicki-centar/mvnw
 
 addons:
  sonarcloud:
