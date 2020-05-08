@@ -134,7 +134,7 @@ public class PacijentDTO {
 	public String toString() {
 		return "PacijentDTO [id=" + id + ", ime=" + ime + ", prezime=" + prezime + ", jmbg=" + jmbg + ", email=" + email
 				+ ", lozinka=" + lozinka + ", pol=" + pol + ", grad=" + grad + ", adresa=" + adresa + ", drzava="
-				+ drzava + ", brojTelefona=" + brojTelefona + ", jedinstveniBrOsig=" + jedinstveniBrOsig + "]";
+				+ drzava + ", brojTelefona=" + brojTelefona + ", jedinstveniBrOsig=" + jedinstveniBrOsig + "]]";
 	}
 	
 	
