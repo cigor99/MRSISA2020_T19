@@ -5,7 +5,7 @@ $(document).ready(function() {
         url: "/klinicki-centar/pacijent/page/" + 0 + "/" + 6,
         success: function(data) {
             window.search = false;
-            $("#stranice").css('visibility', 'hidden')
+            $("#stranice").css('visibility', 'visible')
             kartice(data);
         },
         error: function(jqXHR) {
@@ -14,7 +14,8 @@ $(document).ready(function() {
 
     });
     $('#idemo').change(function() {
-        if (window.search = false) {
+        if (window.search == false) {
+            $("#stranice").css('visibility', 'visible')
             if ($("#prviBr").hasClass("strong")) {
                 dobavi(parseInt($("#prviBr").text()) - 1, 6)
             } else if ($("#drugiBr").hasClass("strong")) {
@@ -435,7 +436,7 @@ $(document).ready(function() {
         type: "get",
         url: "/klinicki-centar/pacijent/all",
         success: function(data) {
-            $("#stranice").css('visibility', 'hidden')
+            $("#stranice").css('visibility', 'visible')
             let div = $("#stranice")
             $("#prviBr").attr("class", 'strong')
             brojPacijenata = data.length;
