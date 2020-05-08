@@ -1,0 +1,25 @@
+sudo: required
+language: java
+jdk: oraclejdk8
+
+services:
+  - h2
+
+before_install:
+  - chmod +x mvnw
+
+addons:
+  sonarcloud:
+  organization: "katarinaa94-github"
+  token: $SONAR_TOKEN
+
+script:
+  - ./mvnw clean install -DskipTests=false -B
+
+dist: trusty
+
+deploy:
+  provider: heroku
+  api_key: d067026a-edce-4d85-b8cb-6124fb854a8a
+  app: mrsisa2020-t19
+
