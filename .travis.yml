@@ -12,7 +12,7 @@ addons:
  
 script:
  - ./Klinicki-centar/mvnw clean install -DskipTests=false -B
- - ./Klinicki-centar/mvnw sonar:sonar -Dsonar.projectKey=$PROJECT_KEY -Dsonar.organization=stojkovm-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
+ - ./Klinicki-centar/mvnw sonar:sonar -Dsonar.projectKey=cigor99_MRSISA2020_T19 -Dsonar.organization=tim19 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=bd5e21c61e921f61bab61f7e27518c4810286ee8
 
 
 dist: trusty
