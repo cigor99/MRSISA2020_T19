@@ -10,10 +10,12 @@ before_install:
 
 addons:
   sonarcloud:
-  organization: "katarinaa94-github"
-  token: $SONAR_TOKEN
+  organization: "tim19"
+  token:
+      secure: "fe3c9381494203888d2c3e76fd9ec7167637c983" # encrypted value of your token
 
 script:
+   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=cigor99_MRSISA2020_T19
   - ./mvnw clean install -DskipTests=false -B
 
 dist: trusty
