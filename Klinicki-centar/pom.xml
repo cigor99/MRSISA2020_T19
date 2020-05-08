@@ -16,6 +16,10 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<sonar.projectKey>cigor99_MRSISA2020_T19</sonar.projectKey>
+		<sonar.organization>tim19</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.login>76ae784807fd0051aceb87b9c3e940c462d94d06</sonar.login>
 	</properties>
 
 	<dependencies>
@@ -76,6 +80,26 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.2</version>
+				<executions>
+				  <execution>
+					<id>default-prepare-agent</id>
+					<goals>
+					  <goal>prepare-agent</goal>
+					</goals>
+				  </execution>
+				  <execution>
+					<id>default-report</id>
+					<phase>prepare-package</phase>
+					<goals>
+					  <goal>report</goal>
+					</goals>
+				  </execution>
+				</executions>
+			 </plugin>
 		</plugins>
 	</build>
 

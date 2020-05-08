@@ -2,21 +2,18 @@ sudo: required
 language: java
 jdk: oraclejdk8
 
-services:
-  - h2
-
 before_install:
   - chmod +x mvnw
 
 addons:
-  sonarcloud:
-  organization: "tim19"
-  token:
-      secure: "fe3c9381494203888d2c3e76fd9ec7167637c983" # encrypted value of your token
-
+ sonarcloud:
+ organization: tim19
+  token: bd5e21c61e921f61bab61f7e27518c4810286ee8
+ 
 script:
-   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=cigor99_MRSISA2020_T19
-  - ./mvnw clean install -DskipTests=false -B
+ - ./mvnw clean install -DskipTests=false -B
+ - ./mvnw sonar:sonar -Dsonar.projectKey=$PROJECT_KEY -Dsonar.organization=stojkovm-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
+
 
 dist: trusty
 
