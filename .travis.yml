@@ -8,7 +8,7 @@ addons:
  token: bd5e21c61e921f61bab61f7e27518c4810286ee8
  
 script:
-./build.sh
+ - ./build.sh
 
 dist: trusty
 
