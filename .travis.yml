@@ -3,7 +3,7 @@ language: java
 jdk: oraclejdk8
 
 before_install:
-  - chmod +x mvnw
+  - ./Klinicki-centar/chmod +x mvnw
 
 addons:
  sonarcloud:
@@ -11,8 +11,8 @@ addons:
  token: bd5e21c61e921f61bab61f7e27518c4810286ee8
  
 script:
- - ./mvnw clean install -DskipTests=false -B
- - ./mvnw sonar:sonar -Dsonar.projectKey=$PROJECT_KEY -Dsonar.organization=stojkovm-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
+ - ./Klinicki-centar/mvnw clean install -DskipTests=false -B
+ - ./Klinicki-centar/mvnw sonar:sonar -Dsonar.projectKey=$PROJECT_KEY -Dsonar.organization=stojkovm-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
 
 
 dist: trusty
