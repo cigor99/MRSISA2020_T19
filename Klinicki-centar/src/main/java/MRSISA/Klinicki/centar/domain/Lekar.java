@@ -42,11 +42,14 @@ public class Lekar {
 	@Column(name = "prezime", unique = false, nullable = false)
 	private String prezime;
 
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "lekar")
+	private Set<Recept> recepti = new HashSet<Recept>();
+
 	@ManyToOne
 	@JoinColumn(name = "klinika", referencedColumnName = "ID_Klinike", nullable = false)
 	private Klinika klinika;
-	//@Column(name = "klinika", unique = false)
-	//private Integer klinika;
+	// @Column(name = "klinika", unique = false)
+	// private Integer klinika;
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "lekar")
 	private Set<Pregled> pregledi = new HashSet<Pregled>();
@@ -63,10 +66,8 @@ public class Lekar {
 	public Lekar() {
 
 	}
-
-	public Lekar(Integer id, String email, String lozinka, String ime, String prezime, Klinika klinika,
-			Set<Pregled> pregledi, Set<IzvestajPregleda> izvestajiPregleda, Set<Operacija> operacije,
-			Set<ZahtevZaGodisnjiOdmor> zahteviZaGodisnji) {
+	
+	public Lekar(Integer id, String email, String lozinka, String ime, String prezime, Klinika klinika) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -74,10 +75,31 @@ public class Lekar {
 		this.ime = ime;
 		this.prezime = prezime;
 		this.klinika = klinika;
+	}
+
+	public Lekar(Integer id, String email, String lozinka, String ime, String prezime, Set<Recept> recepti,
+			Klinika klinika, Set<Pregled> pregledi, Set<IzvestajPregleda> izvestajiPregleda, Set<Operacija> operacije,
+			Set<ZahtevZaGodisnjiOdmor> zahteviZaGodisnji) {
+		super();
+		this.id = id;
+		this.email = email;
+		this.lozinka = lozinka;
+		this.ime = ime;
+		this.prezime = prezime;
+		this.recepti = recepti;
+		this.klinika = klinika;
 		this.pregledi = pregledi;
 		this.izvestajiPregleda = izvestajiPregleda;
 		this.operacije = operacije;
 		this.zahteviZaGodisnji = zahteviZaGodisnji;
+	}
+
+	public Set<Recept> getRecepti() {
+		return recepti;
+	}
+
+	public void setRecepti(Set<Recept> recepti) {
+		this.recepti = recepti;
 	}
 
 	public Set<Pregled> getPregledi() {

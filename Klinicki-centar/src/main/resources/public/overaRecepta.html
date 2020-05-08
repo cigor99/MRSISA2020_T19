@@ -1,0 +1,42 @@
+<html>
+
+<head>
+    <title>Overa recepta</title>
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="js/overaRecepta.js"></script>
+    <script src="js/main.js"></script>
+    <link href="style.css" rel="stylesheet">
+    <script>
+        $(document).ready(function() {
+            ucitajZaglavlje();
+        });
+    </script>
+</head>
+
+<body>
+    <div id="navbardiv"></div>
+    <div class="naslov">
+        <h1>Overa recepta </h1>
+    </div>
+
+    <div class="main_div">
+        <div class="table-holder">
+            <table id="recepti" name="recepti" class="table">
+                <thead>
+                    <tr>
+                        <th id="ID">ID recepta</th>
+                        <th id="stanje">Stanje</th>
+                        <th id="datum">Datum izdavanja</th>
+                        <th id="lekar">ID lekara</th>
+                        <th id="pregled">ID pregleda</th>
+                        <th>Overi</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+</body>
+
+</html>

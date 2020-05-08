@@ -16,45 +16,18 @@
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
-
+    <script src="js/main.js"></script>
+    <script src="klinika.js"></script>
     <link href="style.css" rel="stylesheet">
-
+    <script>
+        $(document).ready(function() {
+            ucitajZaglavlje();
+        });
+    </script>
 </head>
-<!-- <style>
-    body {
-			background-image: url('pozadina50.png');
-			background-repeat: no-repeat;
-			background-attachment: fixed;
-			background-position: 50% 80%;
-			
-			background-size: 500px 500px;
-			/* background-blend-mode: screen; */
-		}
-</style> -->
 
 <body>
-    <nav class="navbar navbar-default" style="background: #e6ffe6;">
-        <div class="container-fluid" style="background: #e6ffe6;">
-            <div class="navbar-header" style="background: #e6ffe6;">
-                <a class="navbar-brand" href="#">Klinički centar</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="lekari.html">Lekari</a></li>
-                <li><a href="klinike.html">Klinika</a></li>
-                <li><a href="pacijenti.html">Pacijenti</a></li>
-                <li><a href="sale.html">Sale</a></li>
-                <li><a href="tipoviPregleda.html">Tipovi pregleda</a></li>
-                <li><a href="sifarnikLekova.html">Šifarnik lekova</a></li>
-                <li><a href="dijagnoze.html">Šifarnik dijagnoza</a></li>
-                <li><a href="zdravsteniKarton.html">Izmeni zdravstenog kartona</a></li>
-                <li><a href="adminiKC.html">Administratori Kliničkog centra</a></li>
-                <li><a href="zahteviZaReg.html">Zahtevi za registraciju</a></li>
-                <li><a href="DodavanjeAdminaKlinici.html">Dodavanje/izmena admina klinike</a></li>
-                <li><a href="registracija.html">Registracija</a></li>
-            </ul>
-        </div>
-    </nav>
+    <div id="navbardiv"></div>
     <div class="naslov">
         <h1>Zahtevi za registraciju</h1>
     </div>

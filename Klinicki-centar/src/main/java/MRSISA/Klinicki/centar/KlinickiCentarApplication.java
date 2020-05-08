@@ -1,12 +1,12 @@
 package MRSISA.Klinicki.centar;
 
-import java.io.Reader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
-import java.util.Set;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,8 +26,10 @@ import MRSISA.Klinicki.centar.domain.Lek;
 import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.Pacijent;
 import MRSISA.Klinicki.centar.domain.Pol;
+import MRSISA.Klinicki.centar.domain.Recept;
 import MRSISA.Klinicki.centar.domain.Sala;
 import MRSISA.Klinicki.centar.domain.StanjePacijenta;
+import MRSISA.Klinicki.centar.domain.StanjeRecepta;
 import MRSISA.Klinicki.centar.domain.StanjeZahteva;
 import MRSISA.Klinicki.centar.domain.TipPregleda;
 import MRSISA.Klinicki.centar.domain.TipSale;
@@ -101,9 +103,9 @@ public class KlinickiCentarApplication {
 		a1.setKlinika(k1);
 		k1.getAdministratori().add(a1);
 		
-		Lekar lekar1 = new Lekar(1, "lekar1@gmail.com", "123", "ImeLekara", "Prezime", k1, null, null, null, null);
-		Lekar lekar2 = new Lekar(2, "lekar2@gmail.com", "123", "ImeLekaraa", "Prezimee", k2, null, null, null, null);
-		Lekar lekar3 = new Lekar(3, "lekar3@gmail.com", "123", "ImeLekaraaa", "Prezimeee", k1, null, null, null, null);
+		Lekar lekar1 = new Lekar(1, "lekar1@gmail.com", "123", "ImeLekara", "Prezime", k1);
+		Lekar lekar2 = new Lekar(2, "lekar2@gmail.com", "123", "ImeLekaraa", "Prezimee", k2);
+		Lekar lekar3 = new Lekar(3, "lekar3@gmail.com", "123", "ImeLekaraaa", "Prezimeee", k1);
 
 		Sala s1 = new Sala(1, "sala1", TipSale.ZA_PREGLED, null, k1, null);
 		Sala s2 = new Sala(2, "sala2", TipSale.OPERACIONA, null, k1, null);
@@ -168,7 +170,47 @@ public class KlinickiCentarApplication {
 //		zk3.setPacijent(p3);
 //		zk4.setPacijent(p4);
 //		zk5.setPacijent(p5);
+//	    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
 
+		
+		Recept r1 = new Recept(1, "07/05/2020");
+		Recept r2 = new Recept(2, "06/05/2020");
+		Recept r3 = new Recept(3, "03/05/2020");
+		Recept r4 = new Recept(4, "04/05/2020");
+		Recept r5 = new Recept(5, "08/05/2020");
+		
+		lekar1.getRecepti().add(r1);
+		lekar2.getRecepti().add(r2);
+		lekar3.getRecepti().add(r3);
+		lekar3.getRecepti().add(r4);
+		lekar1.getRecepti().add(r5);
+		
+		r1.setStanjeRecepta(StanjeRecepta.OVEREN);
+		
+		r1.setLekar(lekar1);
+		r2.setLekar(lekar2);
+		r3.setLekar(lekar3);
+		r4.setLekar(lekar3);
+		r5.setLekar(lekar1);
+		
+		r1.getLekovi().add(l1);
+		r1.getLekovi().add(l2);
+		r2.getLekovi().add(l2);
+		r3.getLekovi().add(l3);
+		r4.getLekovi().add(l4);
+		r4.getLekovi().add(l3);
+		r4.getLekovi().add(l2);
+		
+		
+		l1.getRecepti().add(r1);
+		l2.getRecepti().add(r1);
+		l2.getRecepti().add(r2);
+		l3.getRecepti().add(r3);
+		l3.getRecepti().add(r4);
+		l4.getRecepti().add(r4);
+		l2.getRecepti().add(r4);
+		
+		
 		p1.setZdravstveniKarton(zk1);
 		p2.setZdravstveniKarton(zk2);
 		p3.setZdravstveniKarton(zk3);
@@ -594,6 +636,88 @@ public class KlinickiCentarApplication {
 		ps11.executeUpdate();
 		
 		
+		PreparedStatement ps13 = conn.prepareStatement(
+				"INSERT INTO  RECEPTI  (ID_RECEPTA, DATUM_IZDAVANJA_RECEPTA, STANJE_RECEPTA, LEKAR, MEDICINSKA_SESTRA, PREGLED) VALUES (?, ?, ?, ?, ?, ?)");
+		ps13.setInt(1, r1.getId());
+		ps13.setString(2, r1.getDatumIzdavanja());
+		ps13.setInt(3, r1.getStanjeRecepta().ordinal());
+		ps13.setInt(4, r1.getLekar().getId());
+		ps13.setNull(5, java.sql.Types.INTEGER);
+		ps13.setNull(6, java.sql.Types.INTEGER);
+		ps13.executeUpdate();
+		
+		
+		ps13.setInt(1, r2.getId());
+		ps13.setString(2, r2.getDatumIzdavanja());
+		ps13.setInt(3, r2.getStanjeRecepta().ordinal());
+		ps13.setInt(4, r2.getLekar().getId());
+		ps13.setNull(5, java.sql.Types.INTEGER);
+		ps13.setNull(6, java.sql.Types.INTEGER);
+		ps13.executeUpdate();
+		
+		ps13.setInt(1, r3.getId());
+		ps13.setString(2, r3.getDatumIzdavanja());
+		ps13.setInt(3, r3.getStanjeRecepta().ordinal());
+		ps13.setInt(4, r3.getLekar().getId());
+		ps13.setNull(5, java.sql.Types.INTEGER);
+		ps13.setNull(6, java.sql.Types.INTEGER);
+		ps13.executeUpdate();
+		
+		
+		ps13.setInt(1, r4.getId());
+		ps13.setString(2, r4.getDatumIzdavanja());
+		ps13.setInt(3, r4.getStanjeRecepta().ordinal());
+		ps13.setInt(4, r4.getLekar().getId());
+		ps13.setNull(5, java.sql.Types.INTEGER);
+		ps13.setNull(6, java.sql.Types.INTEGER);
+		ps13.executeUpdate();
+		
+		ps13.setInt(1, r5.getId());
+		ps13.setString(2, r5.getDatumIzdavanja());
+		ps13.setInt(3, r5.getStanjeRecepta().ordinal());
+		ps13.setInt(4, r5.getLekar().getId());
+		ps13.setNull(5, java.sql.Types.INTEGER);
+		ps13.setNull(6, java.sql.Types.INTEGER);
+		ps13.executeUpdate();
+		
+		ps13.close();
+		
+		PreparedStatement ps14 = conn.prepareStatement(
+				"INSERT INTO  LEK_RECEPT  (ID_RECEPTA, ID_LEKA) VALUES (?, ?)");
+		
+		for (Lek lek : r1.getLekovi()) {
+			ps14.setInt(1, r1.getId());
+			ps14.setInt(2, lek.getId());
+			ps14.executeUpdate();
+		}
+		
+		for (Lek lek : r2.getLekovi()) {
+			ps14.setInt(1, r2.getId());
+			ps14.setInt(2, lek.getId());
+			ps14.executeUpdate();
+		}
+		
+		for (Lek lek : r3.getLekovi()) {
+			ps14.setInt(1, r3.getId());
+			ps14.setInt(2, lek.getId());
+			ps14.executeUpdate();
+		}
+		
+		for (Lek lek : r4.getLekovi()) {
+			ps14.setInt(1, r4.getId());
+			ps14.setInt(2, lek.getId());
+			ps14.executeUpdate();
+		}
+		
+		for (Lek lek : r5.getLekovi()) {
+			ps14.setInt(1, r5.getId());
+			ps14.setInt(2, lek.getId());
+			ps14.executeUpdate();
+		}
+		
+
+		ps14.close();
+
 		conn.close();
 
 	}
