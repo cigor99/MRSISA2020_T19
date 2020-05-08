@@ -32,6 +32,7 @@ public class Lek {
 	@Column(name = "sifra", unique = true, nullable = false)
 	private String sifra;
 
+	@JsonIgnoreProperties({"lekovi", "lekar", "izvestajiPregleda", "stanjeRecepta", "datumIzdavanja", "pregled", "medicinskaSestra", "id"})
 	@ManyToMany(mappedBy = "lekovi")
 	private Set<Recept> recepti = new HashSet<Recept>();
 

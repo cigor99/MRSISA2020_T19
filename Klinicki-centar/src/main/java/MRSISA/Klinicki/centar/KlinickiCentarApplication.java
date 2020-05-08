@@ -125,11 +125,11 @@ public class KlinickiCentarApplication {
 
 		Pacijent p1 = new Pacijent(1, "Marko", "Markovic", "1", "neko@gmail.com", "Password1", null, Pol.MUSKI, "Novi Sad",
 				"Srbija", "Bul Oslobodjenja 12", "+381622222", "1");
-		Pacijent p2 = new Pacijent(2, "Marija", "Maric", "2", "neko2@gmail.com", "Password2", null, Pol.ZENSKI,
+		Pacijent p2 = new Pacijent(2, "Marko", "Maric", "2", "neko2@gmail.com", "Password2", null, Pol.ZENSKI,
 				"Novi Sad", "Srbija", "Bul Oslobodjenja 15", "+3816233333", "2");
 		Pacijent p3 = new Pacijent(3, "Ana", "Anic", "3", "ilijag@hotmail.com", "Sifraaa1", null, Pol.ZENSKI, "Beograd",
 				"Srbija", "Nemanjina 15", "+378623332533", "3");
-		Pacijent p4 = new Pacijent(4, "Nemanja", "Nemanjic", "4", "neko4@hotmail.com", "Stolica12", null, Pol.MUSKI,
+		Pacijent p4 = new Pacijent(4, "Marko", "Nemanjic", "4", "neko4@hotmail.com", "Stolica12", null, Pol.MUSKI,
 				"Nis", "Srbija", "Nemanjina 20", "+345623653333", "4");
 		Pacijent p5 = new Pacijent(5, "Marina", "Maric", "5", "marinaMaric@hotmail.com", "Frizider1", null, Pol.ZENSKI,
 				"Kragujevac", "Srbija", "Narodnog fronta 76", "+352533653333", "5");
@@ -138,7 +138,7 @@ public class KlinickiCentarApplication {
 		Pacijent p7 = new Pacijent(7, "Jovan", "Jovanovic", "7", "jovan7@hotmail.com", "Sifra1", null, Pol.MUSKI,
 				"Subotica", "Srbija", "Patrijarha Pavla 20", "+352623653333", "7");
 		Pacijent p8 = new Pacijent(8, "Jovana", "Jovic", "8", "jovanaj@hotmail.com", "Laptop43", null, Pol.ZENSKI,
-				"Uzice", "Srbija", "Kosovska 12", "+352623656633", "8");
+				"Novi Sad", "Srbija", "Kosovska 12", "+352623656633", "8");
 
 		ZahtevZaRegistraciju z1 = new ZahtevZaRegistraciju(1, StanjeZahteva.NA_CEKANJU, null, KC);
 		ZahtevZaRegistraciju z2 = new ZahtevZaRegistraciju(2, StanjeZahteva.NA_CEKANJU, null, KC);
@@ -150,11 +150,11 @@ public class KlinickiCentarApplication {
 		p1.setStanjePacijenta(StanjePacijenta.AKTIVAN);
 		p2.setStanjePacijenta(StanjePacijenta.AKTIVAN);
 		p3.setStanjePacijenta(StanjePacijenta.NA_CEKANJU);
-		p4.setStanjePacijenta(StanjePacijenta.NA_CEKANJU);
+		p4.setStanjePacijenta(StanjePacijenta.AKTIVAN);
 		p5.setStanjePacijenta(StanjePacijenta.AKTIVAN);
 		p6.setStanjePacijenta(StanjePacijenta.AKTIVAN);
-		p7.setStanjePacijenta(StanjePacijenta.NA_CEKANJU);
-		p8.setStanjePacijenta(StanjePacijenta.NA_CEKANJU);
+		p7.setStanjePacijenta(StanjePacijenta.AKTIVAN);
+		p8.setStanjePacijenta(StanjePacijenta.AKTIVAN);
 
 		ZdravstveniKarton zk1 = new ZdravstveniKarton(1, 180.0, 80.0, KrvnaGrupa.ABNEGATIVNA, 0, null, p1);
 		ZdravstveniKarton zk2 = new ZdravstveniKarton(2, 160.0, 50.0, KrvnaGrupa.NULTANEGATIVNA, 0.75, null, p2);

@@ -1,10 +1,12 @@
 $(document).ready(function() {
+    window.podaci;
     $('#idemo').checked = true;
     $.ajax({
         type: "get",
         url: "/klinicki-centar/pacijent/page/" + 0 + "/" + 6,
         success: function(data) {
             window.search = false;
+            window.filter = false;
             $("#stranice").css('visibility', 'visible')
             kartice(data);
         },
@@ -13,8 +15,31 @@ $(document).ready(function() {
         },
 
     });
+
+    $.ajax({
+        url: "/klinicki-centar/pacijent/all",
+        type: "get",
+        success: function(data) {
+            let gradovi = []
+            for (let pacijent of data) {
+                if (jQuery.inArray(pacijent.grad, gradovi) === -1) {
+                    gradovi.push(pacijent.grad);
+                }
+            }
+            for (let grad of gradovi) {
+                let input = $("#gradovi")
+                let option = $("<option></option>")
+                option.attr('value', grad)
+                option.attr('id', grad)
+                    // $("#")
+                input.append(option);
+
+
+            }
+        }
+    })
     $('#idemo').change(function() {
-        if (window.search == false) {
+        if (window.search == false && window.filter == false) { //
             $("#stranice").css('visibility', 'visible')
             if ($("#prviBr").hasClass("strong")) {
                 dobavi(parseInt($("#prviBr").text()) - 1, 6)
@@ -23,27 +48,131 @@ $(document).ready(function() {
             } else if ($("#treciBr").hasClass("strong")) {
                 dobavi(parseInt($("#treciBr").text()) - 1, 6)
             }
-        } else {
+        }
+        if (window.search == true) { //if (window.search == true) 
+
             $.ajax({
                 url: "/klinicki-centar/pacijent/search/" + $("#kriterijum option:selected").text() + "/" + $("#search").val(),
                 type: "post",
                 success: function(data) {
+                    $("#sledeci").css('visibility', 'hidden');
+                    $("#poslednja").css('visibility', 'hidden');
+                    $("#treciBr").css('visibility', 'hidden');
+                    if (window.podaci == undefined) {
+                        window.podaci = data;
+                    } else {
+                        let stari = window.podaci;
+                        window.podaci = []
+                        for (let novi of data) {
+                            for (let star of stari) {
+                                if (star.id == novi.id) {
+                                    window.podaci.push(star);
+                                }
+                            }
+                        }
+                    }
+
                     window.search = true;
+                    // window.filter = false;
                     $("#stranice").css('visibility', 'hidden');
                     $("#tabela").css('visibility', 'hidden');
                     $("#ROWDIV").empty();
                     $("#tabela").empty();
                     if ($("#idemo").is(":checked") == true) {
-                        tabela(data);
+                        tabela(window.podaci);
 
                     } else {
-                        kartice(data);
+                        kartice(window.podaci);
                     }
                 }
             });
         }
+        // if (window.filter == false) {
+        //     $("#stranice").css('visibility', 'visible')
+        //     if ($("#prviBr").hasClass("strong")) {
+        //         dobavi(parseInt($("#prviBr").text()) - 1, 6)
+        //     } else if ($("#drugiBr").hasClass("strong")) {
+        //         dobavi(parseInt($("#drugiBr").text()) - 1, 6)
+        //     } else if ($("#treciBr").hasClass("strong")) {
+        //         dobavi(parseInt($("#treciBr").text()) - 1, 6)
+        //     }
+        // }
+        if (window.filter == true) {
+            $.ajax({
+                url: "/klinicki-centar/pacijent/filter/" + $("#grad").val(),
+                type: "post",
+                success: function(data) {
+                    $("#sledeci").css('visibility', 'hidden');
+                    $("#poslednja").css('visibility', 'hidden');
+                    $("#treciBr").css('visibility', 'hidden');
+                    if (window.podaci == undefined) {
+                        window.podaci = data;
+                    } else {
+                        let stari = window.podaci;
+                        window.podaci = []
+                        for (let novi of data) {
+                            for (let star of stari) {
+                                if (star.id == novi.id) {
+                                    window.podaci.push(star);
+                                }
+                            }
+                        }
+                    }
+                    // window.search = false;
+                    window.filter = true;
+                    $("#stranice").css('visibility', 'hidden');
+                    $("#tabela").css('visibility', 'hidden');
+                    $("#ROWDIV").empty();
+                    $("#tabela").empty();
+                    if ($("#idemo").is(":checked") == true) {
+                        tabela(window.podaci);
+
+                    } else {
+                        kartice(window.podaci);
+                    }
+                }
+            })
+        }
 
     });
+
+    $("#filtriraj").click(function() {
+
+        $.ajax({
+            url: "/klinicki-centar/pacijent/filter/" + $("#grad").val(),
+            type: "post",
+            success: function(data) {
+                $("#sledeci").css('visibility', 'hidden');
+                $("#poslednja").css('visibility', 'hidden');
+                $("#treciBr").css('visibility', 'hidden');
+                if (window.podaci == undefined) {
+                    window.podaci = data;
+                } else {
+                    let stari = window.podaci;
+                    window.podaci = []
+                    for (let novi of data) {
+                        for (let star of stari) {
+                            if (star.id == novi.id) {
+                                window.podaci.push(star);
+                            }
+                        }
+                    }
+                }
+                window.filter = true;
+                // window.search = false;
+                $("#stranice").css('visibility', 'hidden');
+                $("#tabela").css('visibility', 'hidden');
+                $("#ROWDIV").empty();
+                $("#tabela").empty();
+                if ($("#idemo").is(":checked") == true) {
+                    tabela(window.podaci);
+
+                } else {
+                    kartice(window.podaci);
+                }
+            }
+        })
+    })
 
     function kartice(data) {
         if (!$('#tabela').is(':empty')) {
@@ -434,15 +563,24 @@ $(document).ready(function() {
     let brStr;
     $.ajax({
         type: "get",
-        url: "/klinicki-centar/pacijent/all",
+        url: "/klinicki-centar/pacijent/allAkcive",
         success: function(data) {
             $("#stranice").css('visibility', 'visible')
             let div = $("#stranice")
             $("#prviBr").attr("class", 'strong')
             brojPacijenata = data.length;
             brStr = parseInt(brojPacijenata / 6);
-            if (brojPacijenata % 6 > 0) {
+            if (brojPacijenata % 6 > 0 && brojPacijenata > 6) {
                 brStr = brStr + 1;
+            }
+            if (brStr == 0) {
+                let sledeca = $("<a>»</a>")
+                sledeca.attr('id', 'sledeci')
+                let poslednja = $("<a>Poslednja</a>")
+                poslednja.attr('id', 'poslednja')
+                div.append(sledeca);
+                div.append(poslednja);
+
             }
             if (brStr == 2) {
                 let drugiBr = $("<a>2</a>");
@@ -456,7 +594,7 @@ $(document).ready(function() {
                 div.append(sledeca);
                 div.append(poslednja);
 
-            } else {
+            } else if (brStr >= 3) {
                 let drugiBr = $("<a>2</a>");
                 drugiBr.attr("id", 'drugiBr');
                 div.append(drugiBr);
@@ -482,6 +620,9 @@ $(document).ready(function() {
 
     $("#sledeci").click(function() {
         $("#treciBr").css('visibility', 'visible');
+        if ($("#prviBr").hasClass("strong") && brStr == 0) {
+            return;
+        }
         if ($("#prviBr").hasClass("strong")) {
             $("#prviBr").removeClass('strong');
             $("#drugiBr").attr('class', 'strong');
@@ -615,6 +756,9 @@ $(document).ready(function() {
     // });
 
     $("#poslednja").click(function() {
+        if ($("#prviBr").hasClass("strong") && brStr == 0) {
+            return;
+        }
 
         $("#prviBr").removeClass('strong');
         $("#treciBr").removeClass("strong");
@@ -742,16 +886,34 @@ $(document).ready(function() {
             url: "/klinicki-centar/pacijent/search/" + $("#kriterijum option:selected").text() + "/" + $("#search").val(),
             type: "post",
             success: function(data) {
+                $("#sledeci").css('visibility', 'hidden');
+                $("#poslednja").css('visibility', 'hidden');
+                $("#treciBr").css('visibility', 'hidden');
+                if (window.podaci == undefined) {
+                    window.podaci = data;
+                } else {
+                    let stari = window.podaci;
+                    window.podaci = []
+                    for (let novi of data) {
+                        for (let star of stari) {
+                            if (star.id == novi.id) {
+                                window.podaci.push(star);
+                            }
+                        }
+                    }
+                }
                 window.search = true;
+                // window.filter = false;
                 $("#stranice").css('visibility', 'hidden')
+                $("#tabela").css('visibility', 'hidden');
                 $("#ROWDIV").empty();
                 $("#tabela").empty()
 
                 if ($("#idemo").is(":checked") == true) {
-                    tabela(data);
+                    tabela(window.podaci);
 
                 } else {
-                    kartice(data);
+                    kartice(window.podaci);
                 }
             },
             error: function(jqXHR) {

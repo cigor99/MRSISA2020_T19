@@ -293,6 +293,27 @@
         margin: auto;
         width: 70%;
     }
+    
+    .dodavanje {
+        margin-top: 0;
+        margin: 0;
+        float: right;
+    }
+    
+    .form-group {
+        display: flex;
+        align-items: baseline;
+    }
+    
+    .filtriranje {
+        color: white;
+        background-color: #04ba3e;
+    }
+    
+    .filtriranje:hover {
+        color: white;
+        background-color: #07de4b;
+    }
 </style>
 
 <body>
@@ -319,7 +340,7 @@
                     <p id="error" style="visibility: hidden;"></p>
                 </div>
                 <div class="input-field third-wrap">
-                    <button class="btn-search" type="button" id="dugme" onclick="search()">
+                    <button class="btn-search" type="button" id="dugme">
 						<svg class="svg-inline--fa fa-search fa-w-16" aria-hidden="true" data-prefix="fas"
 							data-icon="search" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
 							<path fill="currentColor"
@@ -343,6 +364,20 @@
 
 		</label>
         <strong>Tabela</strong>
+    </div>
+
+    <!-- <div class="filter"> -->
+
+    <!-- </div> -->
+    <div class="dodavanje">
+        <div class="form-group">
+            <!-- <label>Izaberite gra</label> -->
+            <input style="max-width: 250px;" class="form-control" id="grad" list="gradovi" size="50" placeholder="Izaberite grad">
+            <input type="button" id="filtriraj" value="Filtriraj" class="filtriranje btn">
+            <input type="button" id="ponisti" value="Poništi" class="filtriranje btn" style="background-color: red;" onclick="window.location.reload()">
+            <p id="adminERROR"></p>
+            <datalist id="gradovi"></datalist>
+        </div>
     </div>
     <!-- UCITAVA POLJA SELECTBOX-A -->
     <script src="js/choices.js"></script>
