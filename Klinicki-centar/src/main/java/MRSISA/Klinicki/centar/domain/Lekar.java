@@ -35,6 +35,9 @@ public class Lekar {
 
 	@Column(name = "lozinka", unique = false, nullable = false)
 	private String lozinka;
+	
+	@Column(name = "JMBG", unique = true, nullable = false)
+	private String jmbg;
 
 	@Column(name = "ime", unique = false, nullable = false)
 	private String ime;
@@ -180,6 +183,14 @@ public class Lekar {
 
 	public void setZahteviZaGodisnji(Set<ZahtevZaGodisnjiOdmor> zahteviZaGodisnji) {
 		this.zahteviZaGodisnji = zahteviZaGodisnji;
+	}
+
+	public String getJmbg() {
+		return jmbg;
+	}
+
+	public void setJmbg(String jmbg) {
+		this.jmbg = jmbg;
 	}
 
 }

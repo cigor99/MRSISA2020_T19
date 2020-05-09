@@ -1,8 +1,8 @@
 package MRSISA.Klinicki.centar.dto;
 
-import MRSISA.Klinicki.centar.domain.Lekar;
+import MRSISA.Klinicki.centar.domain.MedicinskaSestra;
 
-public class LekarDTO {
+public class MedicinskaSestraDTO {
 	
 	private int id;
 	private String email;
@@ -11,11 +11,8 @@ public class LekarDTO {
 	private String ime;
 	private String prezime;
 	
-	public LekarDTO() {
-		super();
-	}
-
-	public LekarDTO(int id, String email, String lozinka, String jmbg, String ime, String prezime) {
+	
+	public MedicinskaSestraDTO(int id, String email, String lozinka, String jmbg, String ime, String prezime) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -25,13 +22,13 @@ public class LekarDTO {
 		this.prezime = prezime;
 	}
 	
-	public LekarDTO(Lekar lekar) {
-		this.id = lekar.getId();
-		this.email = lekar.getEmail();
-		this.lozinka = lekar.getLozinka();
-		this.jmbg = lekar.getJmbg();
-		this.ime = lekar.getIme();
-		this.prezime = lekar.getPrezime();
+	private MedicinskaSestraDTO(MedicinskaSestra medSestra) {
+		this.id = medSestra.getId();
+		this.email = medSestra.getEmail();
+		this.lozinka = medSestra.getLozinka();
+		this.jmbg = medSestra.getJmbg();
+		this.ime = medSestra.getIme();
+		this.prezime = medSestra.getPrezime();
 	}
 
 	public int getId() {
@@ -58,6 +55,14 @@ public class LekarDTO {
 		this.lozinka = lozinka;
 	}
 
+	public String getJmbg() {
+		return jmbg;
+	}
+
+	public void setJmbg(String jmbg) {
+		this.jmbg = jmbg;
+	}
+
 	public String getIme() {
 		return ime;
 	}
@@ -74,4 +79,6 @@ public class LekarDTO {
 		this.prezime = prezime;
 	}
 	
+	
+
 }

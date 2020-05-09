@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Medicinsko osoblje</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="js/main.js"></script>
+<script src="js/lekar.js"></script>
+<script src="js/osoblje.js"></script>
+<link href="style.css" rel="stylesheet">
+<link href="osoblje-style.css" rel="stylesheet">
+<link href="prekidac.css" rel="stylesheet">
+<script>
+    $(document).ready(function() {
+        ucitajZaglavlje();
+        ucitajOsoblje();
+    });
+</script>
+
+</head>
+
+<script>
+    var winHeight = $(window).height();
+    var wH = (winHeight / 2) - 41;
+
+    $('.del').on('click', function() {
+        $(this).closest('.col-md-4').addClass('marked');
+
+        $('body').find('.alert').remove();
+        $('body').append('<div class="alert">Are you sure?<br><a href="#" class="yes">delete</a><a href="#" class="no">cancel</a>');
+        $('body').find('.alert').css({
+            'top': wH + 'px'
+        }).find('.no').on('click', function() {
+            $(this).closest('.alert').remove();
+            $('.col-md-4').removeClass('marked');
+        }).closest('.alert').find('.yes').on('click', function() {
+            $(this).closest('.alert').remove();
+            $('.marked').remove();
+        });
+    });
+    $(window).resize(function() {
+        var winHeight = $(window).height();
+        var wH = (winHeight / 2) - 41;
+        $('body').find('.alert').css({
+            'top': wH + 'px'
+        });
+    });
+</script>
+
+<body>
+<div id="navbardiv"></div>
+<div class="naslov">
+    <h1>Medicinsko osoblje </h1>
+
+</div>
+
+    <!-- <div class="pretraga">
+        <input type="text" class="search" placeholder="Pretraga">
+    </div> -->
+<div class="main_div">
+    <div class="container">
+        <div class="row" id="ROWDIV">
+            <!--  <div class="col-md-4">
+                <div class="well">
+                    <img src="lekar.png" class="avatar" alt="avatar">
+                    <h4>Doktor1 </h4>
+                    <p class="cat"><strong>Ime: </strong> Marko</p>
+                    <p class="date"><strong>Prezime: </strong>Markovic <i class="fa fa-question-circle">
+                            <span>Date this added to your listing</span>
+                        </i></p>
+                    <p class="cat"><strong>Klinika: </strong>Klinika1</p>
+                    <div class="ocena">
+                        4.7
+                        <img src="zvezda.png" alt="">
+                    </div>
+
+                    <ul class="bottom">
+                        <li class="fb"><a href="#" class="btn">Izmeni profil</a></li>
+                        <li class="getPosts"><a href="#" class="btn">Izmeni kliniku</a></li>
+                        <li class="del"><a href="#" class="btn">Obrisi</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="well">
+                    <img src="lekar.png" class="avatar" alt="avatar">
+                    <h4>Doktor2 </h4>
+                    <p class="cat"><strong>Ime: </strong> Marko</p>
+                    <p class="date"><strong>Prezime: </strong>Markovic <i class="fa fa-question-circle">
+                            <span>Date this added to your listing</span>
+                        </i></p>
+                    <p class="cat"><strong>Klinika: </strong>Klinika1</p>
+                    <div class="ocena">
+                        3.5
+                        <img src="zvezda.png" alt="">
+                    </div>
+
+                    <ul class="bottom">
+                        <li class="fb"><a href="#" class="btn">Izmeni profil</a></li>
+                        <li class="getPosts"><a href="#" class="btn">Izmeni kliniku</a></li>
+                        <li class="del"><a href="#" class="btn">Obrisi</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="well">
+                    <img src="medSestra.png" class="avatar" alt="avatar">
+                    <h4>Medicinska sestra 1 </h4>
+                    <p class="cat"><strong>Ime: </strong> Marko</p>
+                    <p class="date"><strong>Prezime: </strong>Markovic <i class="fa fa-question-circle">
+                            <span>Date this added to your listing</span>
+                        </i></p>
+                    <p class="cat"><strong>Klinika: </strong>Klinika1</p>
+                    <div class="ocena">
+                        1.9
+                        <img src="zvezda.png" alt="">
+                    </div>
+
+                    <ul class="bottom">
+                        <li class="fb"><a href="#" class="btn">Izmeni profil</a></li>
+                        <li class="getPosts"><a href="#" class="btn">Izmeni kliniku</a></li>
+                        <li class="del"><a href="#" class="btn">Obrisi</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="well">
+                    <img src="medSestra.png" class="avatar" alt="avatar">
+                    <h4>Medicinska sestra 2 </h4>
+                    <p class="cat"><strong>Ime: </strong> Marko</p>
+                    <p class="date"><strong>Prezime: </strong>Markovic <i class="fa fa-question-circle">
+                            <span>Date this added to your listing</span>
+                        </i></p>
+                    <p class="cat"><strong>Klinika: </strong>Klinika1</p>
+                    <div class="ocena">
+                        4.9
+                        <img src="zvezda.png" alt="">
+                    </div>
+
+                    <ul class="bottom">
+                        <li class="fb"><a href="#" class="btn">Izmeni profil</a></li>
+                        <li class="getPosts"><a href="#" class="btn">Izmeni kliniku</a></li>
+                        <li class="del"><a href="#" class="btn">Obrisi</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="well">
+                    <img src="lekar.png" class="avatar" alt="avatar">
+                    <h4>Doktor 3 </h4>
+                    <p class="cat"><strong>Ime: </strong> Marko</p>
+                    <p class="date"><strong>Prezime: </strong>Markovic <i class="fa fa-question-circle">
+                            <span>Date this added to your listing</span>
+                        </i></p>
+                    <p class="cat"><strong>Klinika: </strong>Klinika1</p>
+                    <div class="ocena">
+                        2.4
+                        <img src="zvezda.png" alt="">
+                    </div>
+
+                    <ul class="bottom">
+                        <li class="fb"><a href="#" class="btn">Izmeni profil</a></li>
+                        <li class="getPosts"><a href="#" class="btn">Izmeni kliniku</a></li>
+                        <li class="del"><a href="#" class="btn">Obrisi</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="well">
+                    <img src="medSestra.png" class="avatar" alt="avatar">
+                    <h4>Medicinska sestra 3 </h4>
+                    <p class="cat"><strong>Ime: </strong> Marko</p>
+                    <p class="date"><strong>Prezime: </strong>Markovic <i class="fa fa-question-circle">
+                            <span>Date this added to your listing</span>
+                        </i></p>
+                    <p class="cat"><strong>Klinika: </strong>Klinika1</p>
+                    <div class="ocena">
+                        3.7
+                        <img src="zvezda.png" alt="">
+                    </div>
+
+                    <ul class="bottom">
+                        <li class="fb"><a href="#" class="btn">Izmeni profil</a></li>
+                        <li class="getPosts"><a href="#" class="btn">Izmeni kliniku</a></li>
+                        <li class="del"><a href="#" class="btn">Obrisi</a></li>
+                    </ul>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    </div>
+
+    <div class="pagination clearfix" id="stranice">
+        <a href="#" id="prva">Prva</a> &nbsp;
+        <a id="prethodni">«</a>
+
+        <a href="#" id="prviBr">1</a>
+        <!-- <a href="" id="drugiBr">2</a> -->
+        <!-- class="strong"  -->
+        <!-- <a href="#" id="treciBr">3</a> -->
+
+
+        <!-- <a href="#" id="sledeci">»</a> &nbsp; -->
+        <!-- <a href="#" id="poslednja">Last</a> -->
+    </div>
+
+</body>
+
+</html>
