@@ -1,14 +1,22 @@
 function ucitajOsoblje(){
+	
 	$.ajax({
         type: "get",
         url: "/klinicki-centar/lekar/page",
         success: function (data) {
-        	kartice(data);
+        	kartice(data, "lekar");
+        }
+    });
+	$.ajax({
+        type: "get",
+        url: "/klinicki-centar/medicinskaSestra/page",
+        success: function (data) {
+        	kartice(data, "sestra");
         }
     });
 }
 
-function kartice(data){
+function kartice(data, x){
 	
     $("#ROWDIV").css("visibility", 'visible')
     let counter = 0;
@@ -24,7 +32,12 @@ function kartice(data){
         let img = $("<img></img>");
         img.attr("class", 'avatar')
         img.attr("src", 'lekar.png');
-        let h4 = $("<h4>Lekar</h4>");
+        if(x == "lekar"){
+        	var h4 = $("<h4>Lekar</h4>");
+        }
+        else{
+        	var h4 = $("<h4>Medicinska Sestra</h4>");
+        }
         let ime = $("<p></p>");
         ime.append("<strong>Ime: </strong>");
         ime.append(lekar.ime);
@@ -44,8 +57,14 @@ function kartice(data){
         let karton = $("<li></li>")
         karton.attr("class", 'del');
         let a = $("<a>Profil</a>")
-        a.attr("class", 'btn');        
-        a.attr("href", 'profilLekara.html?id=' + lekar.id)
+        a.attr("class", 'btn');
+        if(x == "lekar"){
+        	a.attr("href", 'profilLekara.html?id=' + lekar.id);
+        }
+        else{
+        	a.attr("href", 'profilMedSestre.html?id=' + lekar.id)
+        }
+        
             // let pregled = $("<li></li>")
             // pregled.attr('class', 'del');
             // let a2 = $("<a>Započni pregled</a>");

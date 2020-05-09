@@ -24,6 +24,7 @@ import MRSISA.Klinicki.centar.domain.Klinika;
 import MRSISA.Klinicki.centar.domain.KrvnaGrupa;
 import MRSISA.Klinicki.centar.domain.Lek;
 import MRSISA.Klinicki.centar.domain.Lekar;
+import MRSISA.Klinicki.centar.domain.MedicinskaSestra;
 import MRSISA.Klinicki.centar.domain.Pacijent;
 import MRSISA.Klinicki.centar.domain.Pol;
 import MRSISA.Klinicki.centar.domain.Recept;
@@ -103,9 +104,13 @@ public class KlinickiCentarApplication {
 		a1.setKlinika(k1);
 		k1.getAdministratori().add(a1);
 		
-		Lekar lekar1 = new Lekar(1, "lekar1@gmail.com", "123", "ImeLekara", "Prezime", k1);
-		Lekar lekar2 = new Lekar(2, "lekar2@gmail.com", "123", "ImeLekaraa", "Prezimee", k2);
-		Lekar lekar3 = new Lekar(3, "lekar3@gmail.com", "123", "ImeLekaraaa", "Prezimeee", k1);
+		Lekar lekar1 = new Lekar(1, "lekar1@gmail.com", "123", "1", "ImeLekara", "Prezime", k1);
+		Lekar lekar2 = new Lekar(2, "lekar2@gmail.com", "123", "2", "ImeLekaraa", "Prezimee", k2);
+		Lekar lekar3 = new Lekar(3, "lekar3@gmail.com", "123", "3", "ImeLekaraaa", "Prezimeee", k1);
+		
+		MedicinskaSestra sestra1 = new MedicinskaSestra(1, "sestra1@gmail.com", "111", "4", "Sestra1", "Preyime", k1);
+		MedicinskaSestra sestra2 = new MedicinskaSestra(2, "sestra2@gmail.com", "111", "5", "Sestra2", "Preyime2", k1);
+		MedicinskaSestra sestra3 = new MedicinskaSestra(3, "sestra3@gmail.com", "111", "6", "Sestra3", "Preyime", k2);
 
 		Sala s1 = new Sala(1, "sala1", TipSale.ZA_PREGLED, null, k1, null);
 		Sala s2 = new Sala(2, "sala2", TipSale.OPERACIONA, null, k1, null);
@@ -566,13 +571,14 @@ public class KlinickiCentarApplication {
 		ps8.close();
 		
 		PreparedStatement ps9 = conn.prepareStatement(
-				"INSERT INTO  LEKAR  (ID_LEKARA, EMAIL, LOZINKA, IME, PREZIME, KLINIKA) VALUES (?, ?, ?, ?, ?, ?)");
+				"INSERT INTO  LEKAR  (ID_LEKARA, EMAIL, LOZINKA, IME, PREZIME, JMBG, KLINIKA) VALUES (?, ?, ?, ?, ?, ?, ?)");
 		ps9.setInt(1, lekar1.getId());
 		ps9.setString(2, lekar1.getEmail());
 		ps9.setString(3, lekar1.getLozinka());
 		ps9.setString(4, lekar1.getIme());		
 		ps9.setString(5, lekar1.getPrezime());
-		ps9.setInt(6, lekar1.getKlinika().getId());
+		ps9.setString(6, lekar1.getJmbg());
+		ps9.setInt(7, lekar1.getKlinika().getId());
 		ps9.executeUpdate();
 		
 		ps9.setInt(1, lekar2.getId());
@@ -580,7 +586,8 @@ public class KlinickiCentarApplication {
 		ps9.setString(3, lekar2.getLozinka());
 		ps9.setString(4, lekar2.getIme());		
 		ps9.setString(5, lekar2.getPrezime());
-		ps9.setInt(6, lekar2.getKlinika().getId());
+		ps9.setString(6, lekar2.getJmbg());
+		ps9.setInt(7, lekar2.getKlinika().getId());
 		ps9.executeUpdate();
 		
 		ps9.setInt(1, lekar3.getId());
@@ -588,8 +595,38 @@ public class KlinickiCentarApplication {
 		ps9.setString(3, lekar3.getLozinka());
 		ps9.setString(4, lekar3.getIme());		
 		ps9.setString(5, lekar3.getPrezime());
-		ps9.setInt(6, lekar3.getKlinika().getId());
+		ps9.setString(6, lekar3.getJmbg());
+		ps9.setInt(7, lekar3.getKlinika().getId());
 		ps9.executeUpdate();
+		
+		PreparedStatement ps15 = conn.prepareStatement(
+				"INSERT INTO  MEDICINSKE_SESTRE  (ID_MED_SES, EMAIL, LOZINKA, IME, PREZIME, JMBG, KLINIKA) VALUES (?, ?, ?, ?, ?, ?, ?)");
+		ps15.setInt(1, sestra1.getId());
+		ps15.setString(2, sestra1.getEmail());
+		ps15.setString(3, sestra1.getLozinka());
+		ps15.setString(4, sestra1.getIme());		
+		ps15.setString(5, sestra1.getPrezime());
+		ps15.setString(6, sestra1.getJmbg());
+		ps15.setInt(7, sestra1.getKlinika().getId());
+		ps15.executeUpdate();
+		
+		ps15.setInt(1, sestra2.getId());
+		ps15.setString(2, sestra2.getEmail());
+		ps15.setString(3, sestra2.getLozinka());
+		ps15.setString(4, sestra2.getIme());		
+		ps15.setString(5, sestra2.getPrezime());
+		ps15.setString(6, sestra2.getJmbg());
+		ps15.setInt(7, sestra2.getKlinika().getId());
+		ps15.executeUpdate();
+		
+		ps15.setInt(1, sestra3.getId());
+		ps15.setString(2, sestra3.getEmail());
+		ps15.setString(3, sestra3.getLozinka());
+		ps15.setString(4, sestra3.getIme());		
+		ps15.setString(5, sestra3.getPrezime());
+		ps15.setString(6, sestra3.getJmbg());
+		ps15.setInt(7, sestra3.getKlinika().getId());
+		ps15.executeUpdate();
 		
 		PreparedStatement ps10 = conn.prepareStatement(
 				"INSERT INTO  SALE  (ID_SALE, NAZIV, TIP_SALE, KLINIKA) VALUES (?, ?, ?, ?)");

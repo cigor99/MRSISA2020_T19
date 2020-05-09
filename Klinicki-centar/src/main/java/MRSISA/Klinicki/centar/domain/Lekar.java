@@ -47,6 +47,12 @@ public class Lekar {
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "lekar")
 	private Set<Recept> recepti = new HashSet<Recept>();
+	
+	//@OneToMany(cascade = { CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "lekar")
+	//private Set<Integer> ocene = new HashSet<Integer>();
+	
+	//@Column(name = "ocena", unique = false, nullable = false)
+	//private Double ocena;
 
 	@ManyToOne
 	@JoinColumn(name = "klinika", referencedColumnName = "ID_Klinike", nullable = false)
@@ -70,11 +76,12 @@ public class Lekar {
 
 	}
 	
-	public Lekar(Integer id, String email, String lozinka, String ime, String prezime, Klinika klinika) {
+	public Lekar(Integer id, String email, String lozinka, String jmbg, String ime, String prezime, Klinika klinika) {
 		super();
 		this.id = id;
 		this.email = email;
 		this.lozinka = lozinka;
+		this.jmbg = jmbg;
 		this.ime = ime;
 		this.prezime = prezime;
 		this.klinika = klinika;

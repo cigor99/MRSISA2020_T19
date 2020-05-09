@@ -22,7 +22,7 @@ public class MedicinskaSestraDTO {
 		this.prezime = prezime;
 	}
 	
-	private MedicinskaSestraDTO(MedicinskaSestra medSestra) {
+	public MedicinskaSestraDTO(MedicinskaSestra medSestra) {
 		this.id = medSestra.getId();
 		this.email = medSestra.getEmail();
 		this.lozinka = medSestra.getLozinka();

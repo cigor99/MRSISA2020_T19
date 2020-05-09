@@ -13,6 +13,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -39,6 +41,10 @@ public class MedicinskaSestra {
 
 	@Column(name = "lozinka", unique = false, nullable = false)
 	private String lozinka;
+	
+	@ManyToOne
+	@JoinColumn(name = "klinika", referencedColumnName = "ID_Klinike", nullable = false)
+	private Klinika klinika;
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "medicinskaSestra")
 	private Set<Recept> recepti = new HashSet<Recept>();
@@ -61,6 +67,18 @@ public class MedicinskaSestra {
 		this.lozinka = lozinka;
 		this.recepti = recepti;
 		this.zahteviZaGodisnji = zahteviZaGodisnji;
+	}
+	
+	public MedicinskaSestra(Integer id, String email, String lozinka, String jmbg, String ime, String prezime, Klinika klinika) {
+		super();
+		this.id = id;
+		this.ime = ime;
+		this.prezime = prezime;
+		this.jmbg = jmbg;
+		this.email = email;
+		this.lozinka = lozinka;
+		this.klinika = klinika;
+		
 	}
 
 	public Set<ZahtevZaGodisnjiOdmor> getZahteviZaGodisnji() {
@@ -125,6 +143,14 @@ public class MedicinskaSestra {
 
 	public void setRecepti(Set<Recept> recepti) {
 		this.recepti = recepti;
+	}
+
+	public Klinika getKlinika() {
+		return klinika;
+	}
+
+	public void setKlinika(Klinika klinika) {
+		this.klinika = klinika;
 	}
 
 }
