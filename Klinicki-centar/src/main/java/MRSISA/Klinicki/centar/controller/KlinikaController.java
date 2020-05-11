@@ -146,5 +146,20 @@ public class KlinikaController {
 		}
 		
 	}
-
+	
+	
+	@PostMapping("/klinika/search")
+	public ResponseEntity<List<KlinikaDTO>> searchKlinika(@RequestBody String pretraga){
+		List<KlinikaDTO> retVal = new ArrayList<>();
+		System.out.println(pretraga);
+		System.out.println("======================");
+		for(Klinika k : klinikaService.findAll()) {
+			System.out.println(k.getNaziv());
+			if(k.getNaziv().contains(pretraga)) {
+				KlinikaDTO dto = new KlinikaDTO(k);
+				retVal.add(dto);
+			}
+		}
+		return new ResponseEntity<>(retVal, HttpStatus.OK);
+	}
 }

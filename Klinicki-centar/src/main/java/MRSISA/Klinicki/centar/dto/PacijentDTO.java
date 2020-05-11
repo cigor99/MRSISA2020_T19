@@ -52,10 +52,8 @@ public class PacijentDTO {
 	}
 	
 	public boolean proveraPolja() {
-		if(this.ime == null || this.prezime == null || this.jmbg == null || this.email == null || this.lozinka == null || this.pol == null || this.grad  == null || this.adresa == null || this.drzava == null || this.brojTelefona == null || this.jedinstveniBrOsig == null) {
-			return false;
-		}
-		return true;
+		return (this.ime == null || this.prezime == null || this.jmbg == null || this.email == null || this.lozinka == null || this.pol == null || this.grad  == null || this.adresa == null || this.drzava == null || this.brojTelefona == null || this.jedinstveniBrOsig == null);
+		
 	}
 	
 	public int getId() {

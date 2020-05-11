@@ -106,7 +106,11 @@ public class KlinickiCentarApplication {
 		Lekar lekar1 = new Lekar(1, "lekar1@gmail.com", "123", "ImeLekara", "Prezime", k1);
 		Lekar lekar2 = new Lekar(2, "lekar2@gmail.com", "123", "ImeLekaraa", "Prezimee", k2);
 		Lekar lekar3 = new Lekar(3, "lekar3@gmail.com", "123", "ImeLekaraaa", "Prezimeee", k1);
-
+		
+		lekar1.setJmbg("12121212");
+		lekar2.setJmbg("12344321");
+		lekar3.setJmbg("98657412");
+			
 		Sala s1 = new Sala(1, "sala1", TipSale.ZA_PREGLED, null, k1, null);
 		Sala s2 = new Sala(2, "sala2", TipSale.OPERACIONA, null, k1, null);
 		Sala s3 = new Sala(3, "sala3", TipSale.OPERACIONA, null, k2, null);
@@ -566,13 +570,15 @@ public class KlinickiCentarApplication {
 		ps8.close();
 		
 		PreparedStatement ps9 = conn.prepareStatement(
-				"INSERT INTO  LEKAR  (ID_LEKARA, EMAIL, LOZINKA, IME, PREZIME, KLINIKA) VALUES (?, ?, ?, ?, ?, ?)");
+				"INSERT INTO  LEKAR  (ID_LEKARA, EMAIL, LOZINKA, IME, PREZIME, KLINIKA, JMBG) VALUES (?, ?, ?, ?, ?, ?, ?)");
 		ps9.setInt(1, lekar1.getId());
 		ps9.setString(2, lekar1.getEmail());
 		ps9.setString(3, lekar1.getLozinka());
 		ps9.setString(4, lekar1.getIme());		
 		ps9.setString(5, lekar1.getPrezime());
 		ps9.setInt(6, lekar1.getKlinika().getId());
+		System.out.println(lekar1.getJmbg());
+		ps9.setString(7, lekar1.getJmbg());
 		ps9.executeUpdate();
 		
 		ps9.setInt(1, lekar2.getId());
@@ -581,6 +587,7 @@ public class KlinickiCentarApplication {
 		ps9.setString(4, lekar2.getIme());		
 		ps9.setString(5, lekar2.getPrezime());
 		ps9.setInt(6, lekar2.getKlinika().getId());
+		ps9.setString(7, lekar2.getJmbg());
 		ps9.executeUpdate();
 		
 		ps9.setInt(1, lekar3.getId());
@@ -589,7 +596,9 @@ public class KlinickiCentarApplication {
 		ps9.setString(4, lekar3.getIme());		
 		ps9.setString(5, lekar3.getPrezime());
 		ps9.setInt(6, lekar3.getKlinika().getId());
+		ps9.setString(7, lekar3.getJmbg());
 		ps9.executeUpdate();
+		
 		
 		PreparedStatement ps10 = conn.prepareStatement(
 				"INSERT INTO  SALE  (ID_SALE, NAZIV, TIP_SALE, KLINIKA) VALUES (?, ?, ?, ?)");
