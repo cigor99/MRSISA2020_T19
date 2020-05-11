@@ -1,7 +1,7 @@
 body {
-    /* padding: 20px; */
-    /* background: #f2f3f8; */
-    /* background: ghostwhite; */
+       /* padding: 20px; */
+   /* background: #f2f3f8; */
+   /* background: ghostwhite; */
 }
 
 .main_div {
@@ -25,25 +25,7 @@ body {
 }
 /* Search Bar Section */
 
-/*button{
-	color: #3B97D6;
-}
-
-button.obrisi {
-	color: #fff;
-}
-
-button:hover {
-    text-decoration: none;
-}
-
-button.obrisi:hover,
-button.obrisi:active,
-button.obrisi:focus {
-    color: #fff;
-}*/
-
-a{
+a {
     color: #3B97D6;
 }
 
@@ -142,7 +124,7 @@ a.btn:focus {
 .well ul li.getPosts {}
 
 .well ul li.del {
-    background: #cd3333;
+    background: #04ba3e;
     float: right;
 }
 

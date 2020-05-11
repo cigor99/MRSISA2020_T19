@@ -1,18 +1,112 @@
+$(document).ready(function() {
+	$("#filtriraj").click(function() {
+    	console.log("filter");
+    	$("#ROWDIV").empty();
+    	var selected = document.getElementById("osobljeSelect");
+    	var filter = selected.options[selected.selectedIndex].value;
+    	if(filter == "lekar"){
+    		$.ajax({
+    	        type: "get",
+    	        url: "/klinicki-centar/lekar/page",
+    	        success: function (data) {
+    	        	window.search = false;
+    	            window.filter = false;
+    	            $("#stranice").css('visibility', 'visible');
+    	        	kartice(data, "lekar");
+    	        },
+    	        error: function(jqXHR) {
+    	            alert("Error: " + jqXHR.status + ", " + jqXHR.responseText);
+    	        },	
+    	    });
+    	}
+    	else if(filter == "sestra"){
+    		$.ajax({
+    	        type: "get",
+    	        url: "/klinicki-centar/medicinskaSestra/page",
+    	        success: function (data) {
+    	        	window.search = false;
+    	            window.filter = false;
+    	            $("#stranice").css('visibility', 'visible');
+    	        	kartice(data, "sestra");
+    	        },
+    	        error: function(jqXHR) {
+    	            alert("Error: " + jqXHR.status + ", " + jqXHR.responseText);
+    	        },
+    	    });
+    	}
+    });
+
+    $("#dugme").click(function() {
+        pretraga();
+    });
+});
+
 function ucitajOsoblje(){
-	
+	window.podaci;
+    $('#idemo').checked = true;
+    
 	$.ajax({
         type: "get",
         url: "/klinicki-centar/lekar/page",
         success: function (data) {
+        	window.search = false;
+            window.filter = false;
+            $("#stranice").css('visibility', 'visible');
         	kartice(data, "lekar");
-        }
+        },
+        error: function(jqXHR) {
+            alert("Error: " + jqXHR.status + ", " + jqXHR.responseText);
+        },	
     });
 	$.ajax({
         type: "get",
         url: "/klinicki-centar/medicinskaSestra/page",
         success: function (data) {
+        	window.search = false;
+            window.filter = false;
+            $("#stranice").css('visibility', 'visible');
         	kartice(data, "sestra");
-        }
+        },
+        error: function(jqXHR) {
+            alert("Error: " + jqXHR.status + ", " + jqXHR.responseText);
+        },
+    });
+}
+
+function pretraga() {
+    $("#error").css('visibility', 'hidden')
+    if ($("#search").val() == "") {
+        $("#error").text("Polje pretrage ne sme biti prazno.").css("visibility", 'visible').css('color', 'red');
+        return;
+    }
+    console.log($("#search").val())
+    $("#ROWDIV").empty();
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/klinicki-centar/lekar/search",
+        dataType: 'json',
+        data: $("#search").val(),
+        success : function (lekari) {
+        	 kartice(lekari, "lekar");
+        },
+        error: function(jqXHR) {
+            alert("Error: " + jqXHR.status + ", " + jqXHR.responseText);
+        },
+    });
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/klinicki-centar/medicinskaSestra/search",
+        dataType: 'json',
+        data: $("#search").val(),
+        success : function (sestre) {
+        	 kartice(sestre, "sestra");
+        },
+        error: function(jqXHR) {
+            alert("Error: " + jqXHR.status + ", " + jqXHR.responseText);
+        },
     });
 }
 
@@ -97,5 +191,140 @@ function kartice(data, x){
         well.append(ul);
     }
     counter = counter + 1;
-
 }
+
+
+
+$('#idemo').change(function() {
+    if (window.search == false && window.filter == false) { //
+        $("#stranice").css('visibility', 'visible')
+        if ($("#prviBr").hasClass("strong")) {
+            dobavi(parseInt($("#prviBr").text()) - 1, 6)
+        } else if ($("#drugiBr").hasClass("strong")) {
+            dobavi(parseInt($("#drugiBr").text()) - 1, 6)
+        } else if ($("#treciBr").hasClass("strong")) {
+            dobavi(parseInt($("#treciBr").text()) - 1, 6)
+        }
+    }
+    if (window.search == true) { //if (window.search == true) 
+
+        /*$.ajax({
+            url: "/klinicki-centar/lekar/search/" + $("#kriterijum option:selected").text() + "/" + $("#search").val(),
+            type: "post",
+            success: function(data) {
+                $("#sledeci").css('visibility', 'hidden');
+                $("#poslednja").css('visibility', 'hidden');
+                $("#treciBr").css('visibility', 'hidden');
+                if (window.podaci == undefined) {
+                    window.podaci = data;
+                } else {
+                    let stari = window.podaci;
+                    window.podaci = []
+                    for (let novi of data) {
+                        for (let star of stari) {
+                            if (star.id == novi.id) {
+                                window.podaci.push(star);
+                            }
+                        }
+                    }
+                }
+
+                window.search = true;
+                // window.filter = false;
+                $("#stranice").css('visibility', 'hidden');
+                $("#tabela").css('visibility', 'hidden');
+                $("#ROWDIV").empty();
+                $("#tabela").empty();
+                if ($("#idemo").is(":checked") == true) {
+                    tabela(window.podaci);
+
+                } else {
+                    kartice(window.podaci);
+                }
+            }
+        });
+    }*/
+    // if (window.filter == false) {
+    //     $("#stranice").css('visibility', 'visible')
+    //     if ($("#prviBr").hasClass("strong")) {
+    //         dobavi(parseInt($("#prviBr").text()) - 1, 6)
+    //     } else if ($("#drugiBr").hasClass("strong")) {
+    //         dobavi(parseInt($("#drugiBr").text()) - 1, 6)
+    //     } else if ($("#treciBr").hasClass("strong")) {
+    //         dobavi(parseInt($("#treciBr").text()) - 1, 6)
+    //     }
+    // }
+    if (window.filter == true) {
+    	$("#ROWDIV").empty();
+    	var selected = document.getElementById("osobljeSelect");
+    	var filter = tipSelected.options[selected.selectedIndex].value;
+    	if(filter == "lekar"){
+    		$.ajax({
+    	        type: "get",
+    	        url: "/klinicki-centar/lekar/page",
+    	        success: function (data) {
+    	        	window.search = false;
+    	            window.filter = false;
+    	            $("#stranice").css('visibility', 'visible');
+    	        	kartice(data, "lekar");
+    	        },
+    	        error: function(jqXHR) {
+    	            alert("Error: " + jqXHR.status + ", " + jqXHR.responseText);
+    	        },	
+    	    });
+    	}
+    	else if(filter == "sestra"){
+    		$.ajax({
+    	        type: "get",
+    	        url: "/klinicki-centar/medicinskaSestra/page",
+    	        success: function (data) {
+    	        	window.search = false;
+    	            window.filter = false;
+    	            $("#stranice").css('visibility', 'visible');
+    	        	kartice(data, "sestra");
+    	        },
+    	        error: function(jqXHR) {
+    	            alert("Error: " + jqXHR.status + ", " + jqXHR.responseText);
+    	        },
+    	    });
+    	}
+        /*$.ajax({
+            url: "/klinicki-centar/lekari/filter/" + filter,
+            type: "post",
+            success: function(data) {
+                $("#sledeci").css('visibility', 'hidden');
+                $("#poslednja").css('visibility', 'hidden');
+                $("#treciBr").css('visibility', 'hidden');
+                if (window.podaci == undefined) {
+                    window.podaci = data;
+                } else {
+                    let stari = window.podaci;
+                    window.podaci = []
+                    for (let novi of data) {
+                        for (let star of stari) {
+                            if (star.id == novi.id) {
+                                window.podaci.push(star);
+                            }
+                        }
+                    }
+                }
+                // window.search = false;
+                window.filter = true;
+                $("#stranice").css('visibility', 'hidden');
+                $("#tabela").css('visibility', 'hidden');
+                $("#ROWDIV").empty();
+                $("#tabela").empty();
+                if ($("#idemo").is(":checked") == true) {
+                    tabela(window.podaci);
+
+                } else {
+                    kartice(window.podaci);
+                }
+            }*/
+        }
+    }
+});
+
+
+
+

@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import MRSISA.Klinicki.centar.domain.Klinika;
+import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.MedicinskaSestra;
+import MRSISA.Klinicki.centar.dto.LekarDTO;
 import MRSISA.Klinicki.centar.dto.MedicinskaSestraDTO;
 import MRSISA.Klinicki.centar.service.KlinikaService;
 import MRSISA.Klinicki.centar.service.MedicinskaSestraSerive;
@@ -81,6 +83,23 @@ public class MedicinskaSestraController {
 		}else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	@PostMapping("/medicinskaSestra/search")
+	public ResponseEntity<List<MedicinskaSestraDTO>> searchLekar(@RequestBody String pretraga){
+		List<MedicinskaSestraDTO> retVal = new ArrayList<MedicinskaSestraDTO>();
+		System.out.println(pretraga);
+		pretraga = pretraga.toLowerCase();
+		for(MedicinskaSestra ms : medSesService.findAll()) {
+			System.out.println(ms.getIme());
+			if(ms.getIme().toLowerCase().contains(pretraga) || ms.getPrezime().toLowerCase().contains(pretraga) || ms.getEmail().toLowerCase().contains(pretraga)) {
+				System.out.println(ms.getPrezime());
+				MedicinskaSestraDTO sestra = new MedicinskaSestraDTO(ms);
+				retVal.add(sestra);
+			}
+		}
+		return new ResponseEntity<>(retVal, HttpStatus.OK);
+	
 	}
 		
 

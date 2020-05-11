@@ -100,7 +100,7 @@ public class LekarController {
 		
 		for(Lekar l : lekarService.findAll()) {
 			System.out.println(l.getIme());
-			if(l.getIme().contains(pretraga) || l.getPrezime().contains(pretraga) || l.getEmail().contains(pretraga)) {
+			if(l.getIme().toLowerCase().contains(pretraga) || l.getPrezime().toLowerCase().contains(pretraga) || l.getEmail().toLowerCase().contains(pretraga)) {
 				System.out.println(l.getPrezime());
 				LekarDTO lekar = new LekarDTO(l);
 				retVal.add(lekar);
