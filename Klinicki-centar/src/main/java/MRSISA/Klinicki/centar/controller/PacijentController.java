@@ -3,9 +3,6 @@ package MRSISA.Klinicki.centar.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.constraints.NotEmpty;
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,7 +16,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -32,11 +28,9 @@ import MRSISA.Klinicki.centar.domain.AdministratorKlinike;
 import MRSISA.Klinicki.centar.domain.KlinickiCentar;
 import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.Pacijent;
-import MRSISA.Klinicki.centar.domain.Pol;
 import MRSISA.Klinicki.centar.domain.StanjePacijenta;
 import MRSISA.Klinicki.centar.domain.StanjeZahteva;
 import MRSISA.Klinicki.centar.domain.ZahtevZaRegistraciju;
-import MRSISA.Klinicki.centar.domain.ZdravstveniKarton;
 import MRSISA.Klinicki.centar.dto.PacijentDTO;
 import MRSISA.Klinicki.centar.service.AdminKCSerivce;
 import MRSISA.Klinicki.centar.service.AdminKService;
@@ -65,12 +59,13 @@ public class PacijentController {
 
 	@Autowired
 	private LekarService lekarService;
+	
+	
 
 	@GetMapping("/all")
 	public ResponseEntity<List<PacijentDTO>> getAllPacijenti() {
-		System.out.println("PacijentController-getAllPacijetni");
 		List<Pacijent> pacijenti = pacijentService.findAll();
-		List<PacijentDTO> pacijentiDTO = new ArrayList<PacijentDTO>();
+		List<PacijentDTO> pacijentiDTO = new ArrayList<>();
 		for (Pacijent p : pacijenti)
 			pacijentiDTO.add(new PacijentDTO(p));
 
@@ -79,9 +74,8 @@ public class PacijentController {
 
 	@GetMapping("/allAkcive")
 	public ResponseEntity<List<PacijentDTO>> getAllActive() {
-		System.out.println("PacijentController-getAllPacijetni");
 		List<Pacijent> pacijenti = pacijentService.findAll();
-		List<PacijentDTO> pacijentiDTO = new ArrayList<PacijentDTO>();
+		List<PacijentDTO> pacijentiDTO = new ArrayList<>();
 		for (Pacijent p : pacijenti) {
 			if (p.getStanjePacijenta() == StanjePacijenta.AKTIVAN) {
 				pacijentiDTO.add(new PacijentDTO(p));
@@ -93,9 +87,6 @@ public class PacijentController {
 	@GetMapping("/page/{stranica}/{koliko}")
 	public ResponseEntity<List<PacijentDTO>> getPacijentPage(@PathVariable Integer stranica,
 			@PathVariable Integer koliko) {
-		System.out.println("PacijentController-getPacijentPage");
-//		System.out.println("STRANICA:" +stranica);
-//		System.out.println("Koliko:" +koliko);
 		Pageable prvihDeset = PageRequest.of(stranica, koliko,
 				Sort.by("stanjePacijenta").descending().and(Sort.by("id")));
 		Page<Pacijent> pacijenti = null;
@@ -104,28 +95,24 @@ public class PacijentController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
-		List<PacijentDTO> pacijentiDTO = new ArrayList<PacijentDTO>();
+		List<PacijentDTO> pacijentiDTO = new ArrayList<>();
 
 		for (Pacijent p : pacijenti) {
-			System.out.println("---------");
-			System.out.println(p);
 			if (p.getStanjePacijenta() == StanjePacijenta.AKTIVAN) {
 				pacijentiDTO.add(new PacijentDTO(p));
 			}
 
 		}
 
-		return new ResponseEntity<List<PacijentDTO>>(pacijentiDTO, HttpStatus.OK);
+		return new ResponseEntity<>(pacijentiDTO, HttpStatus.OK);
 
 	}
 
 	@PostMapping("/register")
 	public ResponseEntity<PacijentDTO> register(@RequestBody PacijentDTO pacijentDTO) {
-		System.out.println("PacijentController-register");
 		if (!pacijentDTO.proveraPolja()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		System.out.println(pacijentDTO);
 
 		if (!jedinstvenEmail(pacijentDTO)) {
 			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
@@ -152,28 +139,25 @@ public class PacijentController {
 			try {
 				javaMailSender.send(msg);
 			} catch (MailAuthenticationException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			} catch (MailException e) {
-				e.printStackTrace();
+				// e.printStackTrace();
 				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		}
-		// pacijentService.addPacijent(novi);
 		ZahtevZaRegistraciju zzr = new ZahtevZaRegistraciju(0, StanjeZahteva.NA_CEKANJU, novi, new KlinickiCentar(1));
 		zzrService.save(zzr);
-		return new ResponseEntity<PacijentDTO>(new PacijentDTO(), HttpStatus.CREATED);
+		return new ResponseEntity<>(new PacijentDTO(), HttpStatus.CREATED);
 
 	}
 
 	@PostMapping("/add")
 	public ResponseEntity<PacijentDTO> addPacijent(@RequestBody PacijentDTO pacijentDTO) {
-		System.out.println("PacijentController-addPacijent");
+		
 		if (!pacijentDTO.proveraPolja()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		System.out.println(pacijentDTO);
-
 		if (!jedinstvenEmail(pacijentDTO)) {
 			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 		}
@@ -202,28 +186,26 @@ public class PacijentController {
 
 		pacijent = pacijentService.addPacijent(pacijent);
 
-		return new ResponseEntity<PacijentDTO>(new PacijentDTO(pacijent), HttpStatus.CREATED);
+		return new ResponseEntity<>(new PacijentDTO(pacijent), HttpStatus.CREATED);
 	}
 
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<Void> deletePacijent(@PathVariable Integer id) {
-		System.out.println("PacijentController-deletePacijent");
 		Pacijent pacijent = pacijentService.findOne(id);
 
 		if (pacijent != null) {
 			pacijentService.remove(id);
-			return new ResponseEntity<Void>(HttpStatus.OK);
+			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 
 	@GetMapping("/getUpdate/{id}")
 	public ResponseEntity<PacijentDTO> getUpdate(@PathVariable Integer id) {
-		System.out.println("PacijentController-getUpdate");
 		Pacijent pacijent = pacijentService.findOne(id);
 		if (pacijent != null)
-			return new ResponseEntity<PacijentDTO>(new PacijentDTO(pacijent), HttpStatus.OK);
+			return new ResponseEntity<>(new PacijentDTO(pacijent), HttpStatus.OK);
 		else
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
@@ -231,7 +213,6 @@ public class PacijentController {
 	@GetMapping("/getOnePacijent/{id}")
 	public ResponseEntity<PacijentDTO> getPacijent(@PathVariable Integer id) {
 		Pacijent pacijent = pacijentService.findOne(id);
-		System.out.println("USAO U GET");
 		if (pacijent == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} else {
@@ -241,13 +222,10 @@ public class PacijentController {
 
 	@PutMapping("/update")
 	public ResponseEntity<PacijentDTO> updatePacijent(@RequestBody PacijentDTO pacijentDTO) {
-		System.out.println("PacijentController-updatePacijent");
 		if (!pacijentDTO.proveraPolja()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		System.out.println(pacijentDTO);
 		Pacijent pacijent = pacijentService.findOne(pacijentDTO.getId());
-		System.out.println(pacijent);
 		if (pacijent == null)
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		if (!pacijent.getEmail().equals(pacijentDTO.getEmail())) {
@@ -266,14 +244,13 @@ public class PacijentController {
 
 		System.out.println(pacijent);
 		pacijent = pacijentService.save(pacijent);
-		return new ResponseEntity<PacijentDTO>(new PacijentDTO(pacijent), HttpStatus.OK);
+		return new ResponseEntity<>(new PacijentDTO(pacijent), HttpStatus.OK);
 	}
 
 	@PostMapping("/search/{kriterijum}/{vrednost}")
 	public ResponseEntity<List<PacijentDTO>> searchPacijent(@PathVariable String kriterijum,
 			@PathVariable String vrednost) {
-		List<PacijentDTO> retVal = new ArrayList<PacijentDTO>();
-//		System.out.println(kriterijum);s
+		List<PacijentDTO> retVal = new ArrayList<>();
 		for (Pacijent pacijent : pacijentService.findAll()) {
 			if (kriterijum.equalsIgnoreCase("ime")) {
 				if (pacijent.getIme().equalsIgnoreCase(vrednost)) {
@@ -295,7 +272,7 @@ public class PacijentController {
 
 	@PostMapping("/filter/{grad}")
 	public ResponseEntity<List<PacijentDTO>> getFilter(@PathVariable String grad) {
-		List<PacijentDTO> retVal = new ArrayList<PacijentDTO>();
+		List<PacijentDTO> retVal = new ArrayList<>();
 
 		for (Pacijent p : pacijentService.findAll()) {
 			if (p.getGrad().equalsIgnoreCase(grad)) {
@@ -309,10 +286,9 @@ public class PacijentController {
 	private boolean jedinstvenEmail(PacijentDTO pacijentDTO) {
 		List<Pacijent> pacijenti = pacijentService.findAll();
 		for (Pacijent p : pacijenti) {
-			if (!p.getStanjePacijenta().equals(StanjePacijenta.ODBIJEN)) {
-				if (p.getEmail().equals(pacijentDTO.getEmail())) {
-					return false;
-				}
+			if (!p.getStanjePacijenta().equals(StanjePacijenta.ODBIJEN)
+					&& p.getEmail().equals(pacijentDTO.getEmail())) {
+				return false;
 			}
 		}
 
@@ -342,10 +318,10 @@ public class PacijentController {
 	private boolean jedinstvenJmbg(PacijentDTO pacijentDTO) {
 		List<Pacijent> pacijenti = pacijentService.findAll();
 		for (Pacijent p : pacijenti) {
-			if (!p.getStanjePacijenta().equals(StanjePacijenta.ODBIJEN)) {
-				if (p.getJmbg().equals(pacijentDTO.getJmbg())) {
-					return false;
-				}
+			if (!p.getStanjePacijenta().equals(StanjePacijenta.ODBIJEN) && p.getJmbg().equals(pacijentDTO.getJmbg())) {
+
+				return false;
+
 			}
 		}
 
@@ -368,10 +344,11 @@ public class PacijentController {
 	private boolean jedinstveniBrOsig(PacijentDTO pacijentDTO) {
 		List<Pacijent> pacijenti = pacijentService.findAll();
 		for (Pacijent p : pacijenti) {
-			if (!p.getStanjePacijenta().equals(StanjePacijenta.ODBIJEN)) {
-				if (p.getJedinstveniBrOsig().equals(pacijentDTO.getJedinstveniBrOsig())) {
-					return false;
-				}
+			if (!p.getStanjePacijenta().equals(StanjePacijenta.ODBIJEN)
+					&& p.getJedinstveniBrOsig().equals(pacijentDTO.getJedinstveniBrOsig())) {
+
+				return false;
+
 			}
 		}
 		return true;
