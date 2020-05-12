@@ -115,13 +115,14 @@ function kartice(data, x){
     $("#ROWDIV").css("visibility", 'visible')
     let counter = 0;
 
-    for (let lekar of data) {
+    for (var lekar of data) {
         let row = $(".row");
         let col = $("<div></div>");
         col.attr("class", 'col-md-4');
         row.append(col);
         let well = $("<div></div>");
         well.attr("class", 'well');
+        well.attr("id", '${lekar.id}');
         col.append(well);
         let img = $("<img></img>");
         img.attr("class", 'avatar')
@@ -168,7 +169,13 @@ function kartice(data, x){
         let del = $("<button>Obriši</button>");  //type="button" id="ukloniBtn" onclick="ukloniLekara('${lekar.id}')">Ukloni</button>")
         //del.attr("class", 'obrisi'); 
         del.attr("id", "ukloniBtn");
-        del.attr("onclick", "ukloniLekara('${lekar.id}')");
+        if(x == "lekar"){
+        	del.attr("onclick", 'ukloniLekara('+lekar.id+')');
+        }
+        else{
+        	del.attr("onclick", 'ukloniSestru('+lekar.id+')');
+        }
+        
         karton.append(del);
         let karton2 = $("<li></li>")
         karton2.attr("class", 'fb');
@@ -193,6 +200,40 @@ function kartice(data, x){
     counter = counter + 1;
 }
 
+function ukloniLekara(id) {
+	
+    $.ajax({
+        type: "DELETE",
+
+        url: "/klinicki-centar/lekar/delete/" + id,
+        success: function () {
+            $("#div" + id).remove();
+            alert("USPESNO BRISANJE LEKARA");
+            location.reload();
+        },
+        error: function (jqXHR) {
+            alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+        },
+    });
+}
+
+
+function ukloniSestru(id) {
+	
+    $.ajax({
+        type: "DELETE",
+
+        url: "/klinicki-centar/medicinskaSestra/delete/" + id,
+        success: function () {
+            $("#div" + id).remove();
+            alert("USPESNO BRISANJE MEDICINSKE SESTRE");
+            location.reload();
+        },
+        error: function (jqXHR) {
+            alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+        },
+    });
+}
 
 
 $('#idemo').change(function() {
