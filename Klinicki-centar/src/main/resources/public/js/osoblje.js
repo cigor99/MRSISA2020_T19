@@ -285,6 +285,77 @@ function ucitajSestru(){
     });
 }
 
+function dodajSestru() {
+
+    if ($("#ime").val() == "") {
+        $("#imeError").text("Ime je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+        return;
+    }
+    else{
+    	$("#imeError").css('visibility', 'hidden');
+    }
+    if ($("#prezime").val() == "") {
+        $("#prezimeError").text("Prezime je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+        return;
+    }
+    else{
+    	$("#prezimeError").css('visibility', 'hidden');
+    }
+    if ($("#email").val() == "") {
+        $("#emailError").text("Email je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+        return;
+    }
+    else{
+    	$("#emailError").css('visibility', 'hidden');
+    }
+    if($("#lozinka").val() != $("#lozinkaPonovo").val()){
+        $("#lozinkaError").text("Lozinke se ne poklapaju!").css('visibility', 'visible').css('color', 'red');	
+        return;
+    }
+    else{
+    	$("#lozinkaError").css('visibility', 'hidden');
+    }
+	console.log("dodavanje lekara");
+    var email = $('#email').val()
+    var lozinka = $('#lozinka').val()
+    var jmbg = $('#jmbg').val()
+    var ime = $('#ime').val()
+    var prezime = $('#prezime').val()
+    //var klinika = document.getElementById("klinikaSelect");
+    //var k = klinika.options[klinika.selectedIndex].value;
+    //console.log(k);
+    var data = JSON.stringify({
+        email: $('#email').val(),
+        lozinka: $('#lozinka').val(),
+        jmbg: $('#jmbg').val(),
+        ime: $('#ime').val(),
+        prezime: $('#prezime').val(),
+        //klinika: k
+    });
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/klinicki-centar/medicinskaSestra/add",
+        dataType: 'json',
+        data: JSON.stringify({
+            email: $('#email').val(),
+            lozinka: $('#lozinka').val(),
+            jmbg: $('#jmbg').val(),
+            ime: $('#ime').val(),
+            prezime: $('#prezime').val(),
+            //klinika: k
+        }),
+        success : function () {
+			alert("Uspesno ste dodali medicinsku sestru.")
+			window.location.replace("/klinicki-centar/medicinskoOsoblje.html");
+		},
+		error: function() {
+			//alert("Email adresa nije dostupna!");
+		},
+        
+    });
+}
+
 
 $('#idemo').change(function() {
     if (window.search == false && window.filter == false) { //

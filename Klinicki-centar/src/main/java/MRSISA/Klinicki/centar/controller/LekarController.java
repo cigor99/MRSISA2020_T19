@@ -87,6 +87,7 @@ public class LekarController {
 		}					
 		lekar.setEmail(email);
 		lekar.setLozinka(lekarDTO.getLozinka());
+		lekar.setJmbg(lekarDTO.getJmbg());
 		lekar.setIme(lekarDTO.getIme());
 		lekar.setPrezime(lekarDTO.getPrezime());
 		Klinika klinika = klinikaService.findOne(1);

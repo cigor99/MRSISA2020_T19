@@ -114,6 +114,7 @@ function dodajLekara() {
     	console.log("dodavanje lekara");
         var email = $('#email').val()
         var lozinka = $('#lozinka').val()
+        var jmbg = $('#jmbg').val()
         var ime = $('#ime').val()
         var prezime = $('#prezime').val()
         //var klinika = document.getElementById("klinikaSelect");
@@ -122,6 +123,7 @@ function dodajLekara() {
         var data = JSON.stringify({
             email: $('#email').val(),
             lozinka: $('#lozinka').val(),
+            jmbg: $('#jmbg').val(),
             ime: $('#ime').val(),
             prezime: $('#prezime').val(),
             //klinika: k
@@ -134,13 +136,14 @@ function dodajLekara() {
             data: JSON.stringify({
                 email: $('#email').val(),
                 lozinka: $('#lozinka').val(),
+                jmbg: $('#jmbg').val(),
                 ime: $('#ime').val(),
                 prezime: $('#prezime').val(),
                 //klinika: k
             }),
             success : function () {
     			alert("Uspesno ste dodali lekara.")
-    			window.location.replace("/klinicki-centar/lekari.html");
+    			window.location.replace("/klinicki-centar/medicinskoOsoblje.html");
     		},
     		error: function() {
     			alert("Email adresa nije dostupna!");

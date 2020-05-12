@@ -65,6 +65,7 @@ public class MedicinskaSestraController {
 		}					
 		sestra.setEmail(email);
 		sestra.setLozinka(sestraDTO.getLozinka());
+		sestra.setJmbg(sestraDTO.getJmbg());
 		sestra.setIme(sestraDTO.getIme());
 		sestra.setPrezime(sestraDTO.getPrezime());
 		Klinika klinika = klinikaService.findOne(1);
