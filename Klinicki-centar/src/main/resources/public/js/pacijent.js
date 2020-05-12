@@ -137,6 +137,11 @@ $(document).ready(function() {
     });
 
     $("#filtriraj").click(function() {
+        $("#filterERROR").css('visibility', 'hidden')
+        if ($("#grad").val() == "") {
+            $("#filterERROR").text("Polje ne sme biti prazno!").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
 
         $.ajax({
             url: "/klinicki-centar/pacijent/filter/" + $("#grad").val(),
