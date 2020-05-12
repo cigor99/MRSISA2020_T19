@@ -156,8 +156,8 @@ function kartice(data, x){
         if(x == "lekar"){
         	a.attr("href", 'profilLekara.html?id=' + lekar.id);
         }
-        else{
-        	a.attr("href", 'profilMedSestre.html?id=' + lekar.id)
+        else if(x == "sestra"){
+        	a.attr("href", 'profilMedicinskeSestre.html?id=' + lekar.id)
         }
         
             // let pregled = $("<li></li>")
@@ -232,6 +232,56 @@ function ukloniSestru(id) {
         error: function (jqXHR) {
             alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
         },
+    });
+}
+
+function ucitajLekara(){
+	var imeCoded = window.location.href.split("?")[1];
+    var imeJednako = imeCoded.split("&")[0];
+    var imeParam = imeJednako.split("=")[1];
+
+    $.ajax({
+        url: "/klinicki-centar/lekar/getOneLekar/" + imeParam,
+        type: 'get',
+        success: function(lekar) {
+            $("#ID").val(lekar.id)
+            $("#ime").val(lekar.ime)
+            $("#prezime").val(lekar.prezime)
+            $("#jmbg").val(lekar.jmbg)            
+            $("#email").val(lekar.email)
+        },
+        error: function(jqXHR) {
+            alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+        },
+    });
+
+    $("#karton").click(function() {
+        window.location.replace("zdravsteniKarton.html?id=" + $("#ID").val());
+    });
+}
+
+function ucitajSestru(){
+	var imeCoded = window.location.href.split("?")[1];
+    var imeJednako = imeCoded.split("&")[0];
+    var imeParam = imeJednako.split("=")[1];
+
+    $.ajax({
+        url: "/klinicki-centar/medicinskaSestra/getOneMS/" + imeParam,
+        type: 'get',
+        success: function(lekar) {
+            $("#ID").val(lekar.id)
+            $("#ime").val(lekar.ime)
+            $("#prezime").val(lekar.prezime)
+            $("#jmbg").val(lekar.jmbg)            
+            $("#email").val(lekar.email)
+        },
+        error: function(jqXHR) {
+            alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+        },
+    });
+
+    $("#karton").click(function() {
+        window.location.replace("zdravsteniKarton.html?id=" + $("#ID").val());
     });
 }
 

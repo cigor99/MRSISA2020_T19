@@ -87,13 +87,14 @@ public class Lekar {
 		this.klinika = klinika;
 	}
 
-	public Lekar(Integer id, String email, String lozinka, String ime, String prezime, Set<Recept> recepti,
+	public Lekar(Integer id, String email, String lozinka, String jmbg, String ime, String prezime, Set<Recept> recepti,
 			Klinika klinika, Set<Pregled> pregledi, Set<IzvestajPregleda> izvestajiPregleda, Set<Operacija> operacije,
 			Set<ZahtevZaGodisnjiOdmor> zahteviZaGodisnji) {
 		super();
 		this.id = id;
 		this.email = email;
 		this.lozinka = lozinka;
+		this.jmbg = jmbg;
 		this.ime = ime;
 		this.prezime = prezime;
 		this.recepti = recepti;

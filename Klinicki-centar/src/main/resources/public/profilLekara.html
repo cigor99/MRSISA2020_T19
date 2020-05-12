@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lekar</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="js/osoblje.js"></script>
+    <script src="js/main.js"></script>
+    <link href="style.css" rel="stylesheet">
+    <script>
+        $(document).ready(function() {
+            ucitajZaglavlje();
+            ucitajLekara();
+        });
+    </script>
+</head>
+
+<body>
+    <div id="navbardiv"></div>
+    <div class="naslov">
+        <h1>Profil lekara</h1>
+    </div>
+
+    <div class="forma-za-dodavanje">
+        <form action="">
+            <div class="form-group">
+                <label>ID lekara:</label>
+                <input type="text" id="ID" readonly class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>Ime:</label>
+                <input type="text" id="ime" readonly class="form-control">
+            </div>
+
+
+            <div class="form-group">
+                <label>Prezime:</label>
+                <input type="text" id="prezime" readonly class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>JMBG:</label>
+                <input type="text" id="jmbg" readonly class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>Email:</label>
+                <input type="text" id="email" readonly class="form-control">
+            </div>
+            
+            <!-- <div class="form-group">
+                <label>Prosečna ocena:</label>
+                <input type="text" id="ocena" readonly class="form-control">
+            </div> -->
+
+            
+        </form>
+    </div>
+
+</body>
+
+</html>

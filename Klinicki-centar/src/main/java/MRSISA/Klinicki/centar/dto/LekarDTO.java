@@ -73,5 +73,15 @@ public class LekarDTO {
 	public void setPrezime(String prezime) {
 		this.prezime = prezime;
 	}
+
+	public String getJmbg() {
+		return jmbg;
+	}
+
+	public void setJmbg(String jmbg) {
+		this.jmbg = jmbg;
+	}
+	
+	
 	
 }

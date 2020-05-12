@@ -85,6 +85,16 @@ public class MedicinskaSestraController {
 		}
 	}
 	
+	@GetMapping("/medicinskaSestra/getOneMS/{id}")
+	public ResponseEntity<MedicinskaSestraDTO> getMS(@PathVariable Integer id) {
+		MedicinskaSestra sestra = medSesService.findOne(id);
+		if (sestra == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} else {
+			return new ResponseEntity<>(new MedicinskaSestraDTO(sestra), HttpStatus.OK);
+		}
+	}
+	
 	@PostMapping("/medicinskaSestra/search")
 	public ResponseEntity<List<MedicinskaSestraDTO>> searchLekar(@RequestBody String pretraga){
 		List<MedicinskaSestraDTO> retVal = new ArrayList<MedicinskaSestraDTO>();

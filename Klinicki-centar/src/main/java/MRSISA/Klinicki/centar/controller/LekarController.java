@@ -37,8 +37,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import MRSISA.Klinicki.centar.domain.Klinika;
 import MRSISA.Klinicki.centar.domain.Lekar;
+import MRSISA.Klinicki.centar.domain.Pacijent;
 import MRSISA.Klinicki.centar.domain.Sala;
 import MRSISA.Klinicki.centar.dto.LekarDTO;
+import MRSISA.Klinicki.centar.dto.PacijentDTO;
 import MRSISA.Klinicki.centar.dto.SalaDTO;
 import MRSISA.Klinicki.centar.service.KlinikaService;
 import MRSISA.Klinicki.centar.service.LekarService;
@@ -118,6 +120,16 @@ public class LekarController {
 			return new ResponseEntity<>(HttpStatus.OK);
 		}else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@GetMapping("/lekar/getOneLekar/{id}")
+	public ResponseEntity<LekarDTO> getLekar(@PathVariable Integer id) {
+		Lekar lekar = lekarService.findOne(id);
+		if (lekar == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} else {
+			return new ResponseEntity<>(new LekarDTO(lekar), HttpStatus.OK);
 		}
 	}
 	
