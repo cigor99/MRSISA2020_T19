@@ -1,0 +1,5 @@
+package MRSISA.Klinicki.centar.domain;
+
+public enum TipKorisnika {
+	ADMINISTRATOR_KLINICKOG_CENTRA, ADMINISTRATOR_KLINIKE, LEKAR, MEDICINSKA_SESTRA, PACIJENT
+}

@@ -72,6 +72,8 @@ public class Lekar {
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "lekar")
 	private Set<ZahtevZaGodisnjiOdmor> zahteviZaGodisnji = new HashSet<ZahtevZaGodisnjiOdmor>();
 
+	private TipKorisnika tipKorisnika = TipKorisnika.LEKAR;
+	
 	public Lekar() {
 
 	}
@@ -199,6 +201,13 @@ public class Lekar {
 
 	public void setJmbg(String jmbg) {
 		this.jmbg = jmbg;
+	}
+	public TipKorisnika getTipKorisnika() {
+		return tipKorisnika;
+	}
+
+	public void setTipKorisnika(TipKorisnika tipKorisnika) {
+		this.tipKorisnika = tipKorisnika;
 	}
 
 }

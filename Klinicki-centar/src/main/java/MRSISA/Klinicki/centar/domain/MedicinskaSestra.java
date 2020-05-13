@@ -51,6 +51,8 @@ public class MedicinskaSestra {
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "medicinskaSestra")
 	private Set<ZahtevZaGodisnjiOdmor> zahteviZaGodisnji = new HashSet<ZahtevZaGodisnjiOdmor>();
+	
+	private TipKorisnika tipKorisnika = TipKorisnika.MEDICINSKA_SESTRA;
 
 	public MedicinskaSestra() {
 		super();
@@ -151,6 +153,14 @@ public class MedicinskaSestra {
 
 	public void setKlinika(Klinika klinika) {
 		this.klinika = klinika;
+	}
+	
+	public TipKorisnika getTipKorisnika() {
+		return tipKorisnika;
+	}
+
+	public void setTipKorisnika(TipKorisnika tipKorisnika) {
+		this.tipKorisnika = tipKorisnika;
 	}
 
 }

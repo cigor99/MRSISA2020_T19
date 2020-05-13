@@ -40,6 +40,8 @@ public class AdministratorKlinickogCentra {
 	@ManyToOne
 	@JoinColumn(name = "klinicki_centar", referencedColumnName = "ID_KC")
 	private KlinickiCentar klinickiCentar;
+	
+	private TipKorisnika tipKorisnika = TipKorisnika.ADMINISTRATOR_KLINICKOG_CENTRA;
 
 	public AdministratorKlinickogCentra() {
 
@@ -122,6 +124,14 @@ public class AdministratorKlinickogCentra {
 
 	public void setKlinickiCentar(KlinickiCentar klinickiCentar) {
 		this.klinickiCentar = klinickiCentar;
+	}
+	
+	public TipKorisnika getTipKorisnika() {
+		return tipKorisnika;
+	}
+
+	public void setTipKorisnika(TipKorisnika tipKorisnika) {
+		this.tipKorisnika = tipKorisnika;
 	}
 
 }

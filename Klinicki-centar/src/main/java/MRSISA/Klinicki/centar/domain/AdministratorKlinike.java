@@ -40,6 +40,8 @@ public class AdministratorKlinike {
 	@JoinColumn(name = "klinika", referencedColumnName = "ID_Klinike")
 	private Klinika klinika;
 
+	private TipKorisnika tipKorisnika = TipKorisnika.ADMINISTRATOR_KLINIKE;
+	
 	public AdministratorKlinike() {
 
 	}
@@ -110,6 +112,14 @@ public class AdministratorKlinike {
 
 	public void setKlinika(Klinika klinika) {
 		this.klinika = klinika;
+	}
+	
+	public TipKorisnika getTipKorisnika() {
+		return tipKorisnika;
+	}
+
+	public void setTipKorisnika(TipKorisnika tipKorisnika) {
+		this.tipKorisnika = tipKorisnika;
 	}
 
 }

@@ -89,6 +89,8 @@ public class Pacijent {
 	@JsonIgnoreProperties("pacijent")
 	@OneToOne(mappedBy = "pacijent")
 	private ZahtevZaRegistraciju zahtevZaRegistraciju;
+	
+	private TipKorisnika tipKorisnika = TipKorisnika.PACIJENT;
 
 	public Pacijent() {
 		super();
@@ -336,6 +338,14 @@ public class Pacijent {
 
 	public void setIstorijaOperacija(List<Operacija> istorijaOperacija) {
 		this.istorijaOperacija = istorijaOperacija;
+	}
+
+	public TipKorisnika getTipKorisnika() {
+		return tipKorisnika;
+	}
+
+	public void setTipKorisnika(TipKorisnika tipKorisnika) {
+		this.tipKorisnika = tipKorisnika;
 	}
 
 }
