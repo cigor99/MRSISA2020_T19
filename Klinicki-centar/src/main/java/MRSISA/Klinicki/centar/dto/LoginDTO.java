@@ -10,6 +10,14 @@ public class LoginDTO {
 		this.email = email;
 		this.lozinka = lozinka;
 	}
+	
+	
+	@Override
+	public String toString() {
+		return "LoginDTO [email=" + email + ", lozinka=" + lozinka + "]";
+	}
+
+
 	public LoginDTO() {
 		super();
 	}
