@@ -49,6 +49,9 @@ public class LoginController {
 
 	@PostMapping("/prijava")
 	public ResponseEntity<Object> login(@RequestBody LoginDTO loginDTO) {
+		if(!loginDTO.proveraPolja()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 		List<Pacijent> pacijenti = pacijentService.findAll();
 		for (Pacijent p : pacijenti) {
 			if (p.getStanjePacijenta().equals(StanjePacijenta.AKTIVAN) && p.getEmail().equals(loginDTO.getEmail())
@@ -91,5 +94,4 @@ public class LoginController {
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
-
 }
