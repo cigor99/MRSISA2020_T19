@@ -20,11 +20,11 @@ public class LoginDTO {
 	}
 	
 	public boolean proveraPolja() {
-		if(this.email == null || this.lozinka == null) {
+		if(this.email.equals(null) || this.lozinka.equals(null)) {
 			return false;
 		}
 		
-		if(this.email == "" || this.lozinka == "") {
+		if(this.email.equals("") || this.lozinka.equals("")) {
 			return false;
 		}
 		
