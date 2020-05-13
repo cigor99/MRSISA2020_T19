@@ -2,8 +2,43 @@ var ulogovan = null;
 $(document).ready(function() {
 	
 	$("#submit").click(function(){
+		$("#emailError").css('visibility', 'hidden')
+        $("#lozinkaError").css('visibility', 'hidden')
+        var regPass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+        var regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        
 		var email = $('#email').val();
 		var lozinka = $("#lozinka").val();
+		
+		if ($("#email").val() == "") {
+            $("#emailError").text("Email je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if ($("#lozinka").val() == "") {
+            $("#lozinkaError").text("Lozinka je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+		
+		if ($("#email").val().length > 128) {
+            $("#emailError").text("Email moze da sadrzi maksimalno 128 karaktera!").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+
+        if ($("#lozinka").val().length > 256) {
+            $("#lozinkaError").text("Lozinka moze da sadrzi maksimalno 256 karaktera!").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+        
+        if (!regEmail.test($("#email").val())) {
+            $("#emailError").text("Neispravan format email-a").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
+        
+        if (!regPass.test($("#lozinka").val())) {
+            $("#lozinkaError").text("Lozinka mora da sadrži najmanje 8 karaktera, bar jedno malo slovo, bar jedno veliko slovo i bar jedan broj").css('visibility', 'visible').css('color', 'red');
+            return;
+        }
 		
 		$.ajax({
 			type:'post',
@@ -19,8 +54,10 @@ $(document).ready(function() {
 				ulogovan = response;
 				console.log(ulogovan.ime)
 			},
-			error: function(response){
-				alert("Greska login")
+			error: function(jqXHR){
+				 if (jqXHR.status == 400) {
+					 alert("Pogresan unos email-a ili lozinke")
+				 }
 			}
 		});
 		
@@ -28,3 +65,4 @@ $(document).ready(function() {
 	
 	
 });
+

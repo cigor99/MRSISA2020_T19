@@ -1,26 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="js/login.js"></script>
+<link rel="stylesheet" type="text/css" href="login.css">
+<title>Prijava</title>
 </head>
 <body>
 
-	<h1>Login</h1>
-	<div>
-		<form id="login-form">
-			<table>
-				<tr>
-					<td>Korisnicko ime:</td>
-					<td><input type="text" id="email" placeholder="Email"></td>
-				</tr>
-				<tr>
-					<td>Lozinka:</td>
-					<td><input type="lozinka" id="lozinka" placeholder="Lozinka"></td>
-				</tr>
-				<tr><td><input type="button" id="submit" value="Potvrdi"></td></tr>
-			</table>
-		</form>
+	<div class="container-login">
+		<div class="wrap-login">
+			<!-- Slika i sign in-->
+			<div class="login-form-title"
+				style="background-image: url(images/bg-01.jpg);">
+				<span class="login-form-title-1"> Prijava </span>
+			</div>
+			<form class="login-form" id="login-form">
+				<div class="wrap-input validate-input ">
+					<span class="label-uspas">Email</span> <input class="input-uspas"
+						type="text" id="email" placeholder="Email">
+					<p id="emailError" style="display: hidden"></p>
+				</div>
+				<div class="wrap-input validate-input">
+					<span class="label-uspas">Lozinka</span> <input class="input-uspas"
+						type="password" id="lozinka" placeholder="Lozinka">
+					<p id="lozinkaError" style="display: hidden"></p>
+				</div>
+				<div class="container-login-form-btn">
+					<input class="login-form-btn" type="button" id="submit"
+						value="Potvrdi">
+				</div>
+
+			</form>
+		</div>
 	</div>
 </body>
 </html>

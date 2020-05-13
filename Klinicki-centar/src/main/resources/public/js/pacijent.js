@@ -372,7 +372,7 @@ $(document).ready(function() {
         }
 
         if ($("#email").val().length > 128) {
-            $("#emailError").text("Email moze da sadrzi maksimalno 20 karaktera!").css('visibility', 'visible').css('color', 'red');
+            $("#emailError").text("Email moze da sadrzi maksimalno 128 karaktera!").css('visibility', 'visible').css('color', 'red');
             return;
         }
 
