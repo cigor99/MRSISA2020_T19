@@ -125,8 +125,14 @@ function kartice(data, x){
         well.attr("id", '${lekar.id}');
         col.append(well);
         let img = $("<img></img>");
-        img.attr("class", 'avatar')
-        img.attr("src", 'lekar.png');
+        img.attr("class", 'avatar');
+        if(x == "lekar"){
+        	img.attr("src", 'lekar.png');
+        }
+        else if(x == "sestra"){
+        	img.attr("src", 'medSestra.png');
+        }
+        
         if(x == "lekar"){
         	var h4 = $("<h4>Lekar</h4>");
         }
@@ -139,6 +145,9 @@ function kartice(data, x){
         let prezime = $("<p></p>");
         prezime.append("<strong>Prezime: </strong>");
         prezime.append(lekar.prezime);
+        let email = $("<p></p>");
+        email.append("<strong>Email: </strong>");
+        email.append(lekar.email);
         let ocena = $("<div></div>");
         ocena.attr("class", 'ocena');
         ocena.append(4.7);
@@ -194,6 +203,7 @@ function kartice(data, x){
         well.append(h4);
         well.append(ime);
         well.append(prezime);
+        well.append(email);
         well.append(ocena);
         well.append(ul);
     }
@@ -308,6 +318,13 @@ function dodajSestru() {
     else{
     	$("#emailError").css('visibility', 'hidden');
     }
+    if ($("#jmbg").val() == "") {
+        $("#jmbgError").text("JMBG je obavezno polje!").css('visibility', 'visible').css('color', 'red');
+        return;
+    }
+    else{
+    	$("#jmbgError").css('visibility', 'hidden');
+    }
     if($("#lozinka").val() != $("#lozinkaPonovo").val()){
         $("#lozinkaError").text("Lozinke se ne poklapaju!").css('visibility', 'visible').css('color', 'red');	
         return;
@@ -349,7 +366,8 @@ function dodajSestru() {
 			alert("Uspesno ste dodali medicinsku sestru.")
 			window.location.replace("/klinicki-centar/medicinskoOsoblje.html");
 		},
-		error: function() {
+		error: function(jqXHR) {
+			alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
 			//alert("Email adresa nije dostupna!");
 		},
         
