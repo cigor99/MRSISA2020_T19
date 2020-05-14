@@ -20,7 +20,7 @@ public class LoginDTO {
 	}
 	
 	public boolean proveraPolja() {
-		if(this.email.equals(null) || this.lozinka.equals(null)) {
+		if(this.email == null || this.lozinka == null) {
 			return false;
 		}
 		

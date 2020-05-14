@@ -64,7 +64,7 @@ public class KCService {
 		Iterator<ZahtevZaRegistraciju> iter = set.iterator();
 
 		while(iter.hasNext()) {
-			if(iter.next().getId() == id) {
+			if(iter.next().getId().equals(id)) {
 				return iter.next();
 			}
 		}

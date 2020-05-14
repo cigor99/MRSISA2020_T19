@@ -69,7 +69,7 @@ public class LoginController {
 			if (p.getStanjePacijenta().equals(StanjePacijenta.AKTIVAN) && p.getEmail().equals(loginDTO.getEmail())
 					&& p.getLozinka().equals(loginDTO.getLozinka())) {
 				PacijentDTO pacijentDTO = new PacijentDTO(p);
-				request.getSession().setAttribute("current", p);
+				request.getSession().setAttribute("current", pacijentDTO);
 				return new ResponseEntity<>(pacijentDTO, HttpStatus.ACCEPTED);
 			}
 		}
@@ -78,7 +78,7 @@ public class LoginController {
 		for (Lekar l : lekari) {
 			if (l.getEmail().equals(loginDTO.getEmail()) && l.getLozinka().equals(loginDTO.getLozinka())) {
 				LekarDTO lekarDTO = new LekarDTO(l);
-				request.getSession().setAttribute("current", l);
+				request.getSession().setAttribute("current", lekarDTO);
 				return new ResponseEntity<>(lekarDTO, HttpStatus.ACCEPTED);
 			}
 		}
@@ -87,7 +87,7 @@ public class LoginController {
 		for (AdministratorKlinike ak : adminiKlinika) {
 			if (ak.getEmail().equals(loginDTO.getEmail()) && ak.getLozinka().equals(loginDTO.getLozinka())) {
 				AdminKDTO adminKDTO = new AdminKDTO(ak);
-				request.getSession().setAttribute("current", ak);
+				request.getSession().setAttribute("current", adminKDTO);
 				return new ResponseEntity<>(adminKDTO, HttpStatus.ACCEPTED);
 			}
 		}
@@ -96,7 +96,7 @@ public class LoginController {
 		for (AdministratorKlinickogCentra adm : admini) {
 			if (adm.getEmail().equals(loginDTO.getEmail()) && adm.getLozinka().equals(loginDTO.getLozinka())) {
 				AdminKCDTO adminKCDTO = new AdminKCDTO(adm);
-				request.getSession().setAttribute("current", adm);
+				request.getSession().setAttribute("current", adminKCDTO);
 				return new ResponseEntity<>(adminKCDTO, HttpStatus.ACCEPTED);
 			}
 		}
@@ -105,7 +105,7 @@ public class LoginController {
 		for (MedicinskaSestra ms : medSestre) {
 			if (ms.getEmail().equals(loginDTO.getEmail()) && ms.getLozinka().equals(loginDTO.getLozinka())) {
 				MedicinskaSestraDTO medSestraDTO = new MedicinskaSestraDTO(ms);
-				request.getSession().setAttribute("current", ms);
+				request.getSession().setAttribute("current", medSestraDTO);
 				return new ResponseEntity<>(medSestraDTO, HttpStatus.ACCEPTED);
 			}
 		}
