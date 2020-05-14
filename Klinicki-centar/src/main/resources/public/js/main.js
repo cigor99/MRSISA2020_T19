@@ -2,6 +2,7 @@ function ucitajZaglavlje() {
     //kad se napravi login treba dodati ajax zahtev koji dobavlja tip korisnika
     //var tipKorisnika = "adminKlinike";
     var tipKorisnika = "";
+    window.tipKorisnika = "";
 
     $.ajax({
         type: "get",
@@ -13,12 +14,15 @@ function ucitajZaglavlje() {
             } else {
                 console.log(data);
                 tipKorisnika = data;
+                window.tipKorisnika = data;
                 ucitaj(tipKorisnika);
             }
         },
         error: function(jqXHR) {
             alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
         },
+        async: false,
+
     });
 
 

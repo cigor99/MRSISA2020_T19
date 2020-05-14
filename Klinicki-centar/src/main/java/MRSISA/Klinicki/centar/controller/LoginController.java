@@ -29,6 +29,7 @@ import MRSISA.Klinicki.centar.dto.AdminKDTO;
 import MRSISA.Klinicki.centar.dto.LekarDTO;
 import MRSISA.Klinicki.centar.dto.LoginDTO;
 import MRSISA.Klinicki.centar.dto.MedicinskaSestraDTO;
+import MRSISA.Klinicki.centar.dto.Osoba;
 import MRSISA.Klinicki.centar.dto.PacijentDTO;
 import MRSISA.Klinicki.centar.service.AdminKCSerivce;
 import MRSISA.Klinicki.centar.service.AdminKService;
@@ -142,8 +143,13 @@ public class LoginController {
 	@GetMapping("/tipKorisnika")
 	public ResponseEntity<String> getTipKorisnika(){
 		String tip = (String) request.getSession().getAttribute("tip");
-		System.out.println(tip);
 		return new ResponseEntity<>(tip, HttpStatus.OK);
+	}
+	
+	@GetMapping("/getLoggedUser")
+	public ResponseEntity<Osoba> getLoggedUser(){
+		Osoba osoba = (Osoba) request.getSession().getAttribute("current");
+		return new ResponseEntity<>(osoba, HttpStatus.OK);
 	}
 	
 	@GetMapping("/logout")

@@ -82,6 +82,8 @@ public class MedicinskaSestra {
 		this.klinika = klinika;
 		
 	}
+	
+	
 
 	public Set<ZahtevZaGodisnjiOdmor> getZahteviZaGodisnji() {
 		return zahteviZaGodisnji;

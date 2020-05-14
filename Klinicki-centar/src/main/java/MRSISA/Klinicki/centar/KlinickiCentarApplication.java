@@ -673,7 +673,7 @@ public class KlinickiCentarApplication {
 				ps8.close();
 			}
 			PreparedStatement ps9 = conn.prepareStatement(
-					"INSERT INTO  LEKAR  (ID_LEKARA, EMAIL, LOZINKA, IME, PREZIME, JMBG, KLINIKA) VALUES (?, ?, ?, ?, ?, ?, ?)");
+					"INSERT INTO  LEKAR  (ID_LEKARA, EMAIL, LOZINKA, IME, PREZIME, JMBG, KLINIKA, TIP_KORISNIKA) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 			try {
 				ps9.setInt(1, lekar1.getId());
 				ps9.setString(2, lekar1.getEmail());
@@ -682,6 +682,7 @@ public class KlinickiCentarApplication {
 				ps9.setString(5, lekar1.getPrezime());
 				ps9.setString(6, lekar1.getJmbg());
 				ps9.setInt(7, lekar1.getKlinika().getId());
+				ps9.setInt(8, lekar1.getTipKorisnika().ordinal());
 				ps9.executeUpdate();
 
 				ps9.setInt(1, lekar2.getId());
@@ -691,6 +692,7 @@ public class KlinickiCentarApplication {
 				ps9.setString(5, lekar2.getPrezime());
 				ps9.setString(6, lekar2.getJmbg());
 				ps9.setInt(7, lekar2.getKlinika().getId());
+				ps9.setInt(8, lekar2.getTipKorisnika().ordinal());
 				ps9.executeUpdate();
 
 				ps9.setInt(1, lekar3.getId());
@@ -700,6 +702,7 @@ public class KlinickiCentarApplication {
 				ps9.setString(5, lekar3.getPrezime());
 				ps9.setString(6, lekar3.getJmbg());
 				ps9.setInt(7, lekar3.getKlinika().getId());
+				ps9.setInt(8, lekar3.getTipKorisnika().ordinal());
 				ps9.executeUpdate();
 			} catch (SQLException e) {
 				// e.printStackTrace();
@@ -713,7 +716,7 @@ public class KlinickiCentarApplication {
 				ps9.close();
 			}
 			PreparedStatement ps15 = conn.prepareStatement(
-					"INSERT INTO  MEDICINSKE_SESTRE  (ID_MED_SES, EMAIL, LOZINKA, IME, PREZIME, JMBG, KLINIKA) VALUES (?, ?, ?, ?, ?, ?, ?)");
+					"INSERT INTO  MEDICINSKE_SESTRE  (ID_MED_SES, EMAIL, LOZINKA, IME, PREZIME, JMBG, KLINIKA, TIP_KORISNIKA) VALUES (?, ?, ?, ?, ?, ?, ?)");
 			try {
 				ps15.setInt(1, sestra1.getId());
 				ps15.setString(2, sestra1.getEmail());
@@ -722,6 +725,7 @@ public class KlinickiCentarApplication {
 				ps15.setString(5, sestra1.getPrezime());
 				ps15.setString(6, sestra1.getJmbg());
 				ps15.setInt(7, sestra1.getKlinika().getId());
+				ps15.setInt(8, sestra1.getTipKorisnika().ordinal());
 				ps15.executeUpdate();
 
 				ps15.setInt(1, sestra2.getId());
@@ -731,6 +735,7 @@ public class KlinickiCentarApplication {
 				ps15.setString(5, sestra2.getPrezime());
 				ps15.setString(6, sestra2.getJmbg());
 				ps15.setInt(7, sestra2.getKlinika().getId());
+				ps15.setInt(8, sestra2.getTipKorisnika().ordinal());
 				ps15.executeUpdate();
 
 				ps15.setInt(1, sestra3.getId());
@@ -740,6 +745,7 @@ public class KlinickiCentarApplication {
 				ps15.setString(5, sestra3.getPrezime());
 				ps15.setString(6, sestra3.getJmbg());
 				ps15.setInt(7, sestra3.getKlinika().getId());
+				ps15.setInt(8, sestra3.getTipKorisnika().ordinal());
 				ps15.executeUpdate();
 			} catch (SQLException e) {
 				// e.printStackTrace();

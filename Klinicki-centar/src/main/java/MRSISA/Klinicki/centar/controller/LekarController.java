@@ -36,10 +36,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import MRSISA.Klinicki.centar.domain.Klinika;
+import MRSISA.Klinicki.centar.domain.Lek;
 import MRSISA.Klinicki.centar.domain.Lekar;
+import MRSISA.Klinicki.centar.domain.MedicinskaSestra;
 import MRSISA.Klinicki.centar.domain.Pacijent;
 import MRSISA.Klinicki.centar.domain.Sala;
 import MRSISA.Klinicki.centar.dto.LekarDTO;
+import MRSISA.Klinicki.centar.dto.MedicinskaSestraDTO;
 import MRSISA.Klinicki.centar.dto.PacijentDTO;
 import MRSISA.Klinicki.centar.dto.SalaDTO;
 import MRSISA.Klinicki.centar.service.KlinikaService;
@@ -132,6 +135,24 @@ public class LekarController {
 		} else {
 			return new ResponseEntity<>(new LekarDTO(lekar), HttpStatus.OK);
 		}
+	}
+	
+	@PutMapping("/lekar/update")
+	public ResponseEntity<LekarDTO> updateLekara(@RequestBody LekarDTO lekarDTO){
+		Lekar lekar = lekarService.findOne(lekarDTO.getId());
+		if(lekar == null) {
+			return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
+		}
+//		lekar.setEmail(lekarDTO.getEmail());
+		lekar.setIme(lekarDTO.getIme());
+		lekar.setPrezime(lekarDTO.getPrezime());
+		lekar.setLozinka(lekarDTO.getLozinka());
+//		lekar.setJmbg(lekarDTO.getJmbg());
+		
+		lekar = lekarService.save(lekar);
+		
+		return new ResponseEntity<>(new LekarDTO(lekar), HttpStatus.OK);
+				
 	}
 	
 	/*@GetMapping("/lekar/getUpdate/{id}")

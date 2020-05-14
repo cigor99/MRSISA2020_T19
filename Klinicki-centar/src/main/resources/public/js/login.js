@@ -48,7 +48,7 @@ $(document).ready(function() {
                 alert("Uspesno ste se prijavili")
                 ulogovan = response;
                 console.log(ulogovan.ime);
-                window.location.replace("/klinicki-centar");
+                window.location.replace("/klinicki-centar/profilKorisnika.html");
 
             },
             error: function(jqXHR) {

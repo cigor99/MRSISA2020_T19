@@ -13,12 +13,15 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import MRSISA.Klinicki.centar.domain.AdministratorKlinickogCentra;
 import MRSISA.Klinicki.centar.domain.Klinika;
 import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.MedicinskaSestra;
+import MRSISA.Klinicki.centar.dto.AdminKCDTO;
 import MRSISA.Klinicki.centar.dto.LekarDTO;
 import MRSISA.Klinicki.centar.dto.MedicinskaSestraDTO;
 import MRSISA.Klinicki.centar.service.KlinikaService;
@@ -52,6 +55,24 @@ public class MedicinskaSestraController {
 			sestreDTO.add(new MedicinskaSestraDTO(ms));
 		}
 		return new ResponseEntity<>(sestreDTO, HttpStatus.OK);
+	}
+	
+	@PutMapping("/medicinskaSestra/update")
+	public ResponseEntity<MedicinskaSestraDTO> updateSestra(@RequestBody MedicinskaSestraDTO medSes){
+		MedicinskaSestra sestra = medSesService.findOne(medSes.getId());
+		if(sestra == null) {
+			return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
+		}
+//		sestra.setEmail(medSes.getEmail());
+		sestra.setIme(medSes.getIme());
+		sestra.setPrezime(medSes.getPrezime());
+		sestra.setLozinka(medSes.getLozinka());
+//		sestra.setJmbg(medSes.getJmbg());
+		
+		sestra = medSesService.save(sestra);
+		
+		return new ResponseEntity<>(new MedicinskaSestraDTO(sestra), HttpStatus.OK);
+				
 	}
 	
 	@PostMapping("/medicinskaSestra/add")
