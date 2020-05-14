@@ -224,8 +224,10 @@ public class KlinickiCentarApplication {
 		p6.setZdravstveniKarton(zk6);
 		p7.setZdravstveniKarton(zk7);
 		p8.setZdravstveniKarton(zk8);
-
-		PreparedStatement ps1 = conn.prepareStatement(
+		PreparedStatement ps1 = null;
+		try {
+			ps1 = conn.prepareStatement(
+		
 				"INSERT INTO ZDRAVSTEVNI_KARTONI (ID_ZDRAVSTVENOG_KARTONA, DIOPTRIJA, KRVNA_GRUPA, TEZINA, VISINA) VALUES (?, ?, ?, ?, ?)");
 		ps1.setInt(1, zk1.getId());
 		ps1.setDouble(2, zk1.getDioptrija());
@@ -282,8 +284,10 @@ public class KlinickiCentarApplication {
 		ps1.setDouble(4, zk8.getTezina());
 		ps1.setDouble(5, zk8.getVisina());
 		ps1.executeUpdate();
-
-		ps1.close();
+		}finally {
+			ps1.close();
+		}
+		
 
 		PreparedStatement ps = conn.prepareStatement(
 				"INSERT INTO Pacijenti (ID_PACIJENTA, ADRESA, BROJ_TELEFONA, DRZAVA, EMAIL, GRAD, IME, JEDINSTVENI_BROJ_OSIGURANIKA, JMBG, LOZINKA, POL, PREZIME, ZDRAVSTENI_KARTON, STANJE_PACIJENTA) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");

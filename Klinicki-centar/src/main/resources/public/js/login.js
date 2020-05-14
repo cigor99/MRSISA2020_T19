@@ -45,10 +45,11 @@ $(document).ready(function() {
 				lozinka: $("#lozinka").val()
 			}),
 			success: function(response){
-				alert("Uspesno registrovan")
+				alert("Uspesno ste se prijavili")
 				ulogovan = response;
 				console.log(ulogovan.ime);
 				window.location.replace("/klinicki-centar");
+
 			},
 			error: function(jqXHR){
 				 if (jqXHR.status == 400) {
