@@ -4,7 +4,6 @@ $(document).ready(function() {
 	$("#submit").click(function(){
 		$("#emailError").css('visibility', 'hidden')
         $("#lozinkaError").css('visibility', 'hidden')
-        var regPass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
         var regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         
 		var email = $('#email').val();
@@ -35,10 +34,6 @@ $(document).ready(function() {
             return;
         }
         
-        if (!regPass.test($("#lozinka").val())) {
-            $("#lozinkaError").text("Lozinka mora da sadrži najmanje 8 karaktera, bar jedno malo slovo, bar jedno veliko slovo i bar jedan broj").css('visibility', 'visible').css('color', 'red');
-            return;
-        }
 		
 		$.ajax({
 			type:'post',

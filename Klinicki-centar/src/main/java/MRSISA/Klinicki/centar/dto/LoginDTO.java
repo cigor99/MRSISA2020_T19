@@ -36,12 +36,12 @@ public class LoginDTO {
 			return false;
 		}
 		
-		Pattern regPass = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$");
+		//Pattern regPass = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$");
 		Pattern regEmail = Pattern.compile("^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$");
 		
-		if(!regPass.matcher(this.lozinka).matches()) {
+		/*if(!regPass.matcher(this.lozinka).matches()) {
 			return false;
-		}
+		}*/
 		
 		if(!regEmail.matcher(this.email).matches()) {
 			return false;

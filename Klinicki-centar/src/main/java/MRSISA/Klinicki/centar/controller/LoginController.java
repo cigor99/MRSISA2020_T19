@@ -2,6 +2,9 @@ package MRSISA.Klinicki.centar.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +49,15 @@ public class LoginController {
 
 	@Autowired
 	private MedicinskaSestraSerive medSesService;
+	
+	@Autowired
+	HttpServletRequest request;
+	
+	
+	/*Object obj = request.getSession().getAttribute("current");
+		Lekar l2 = (Lekar) obj;
+		System.out.println(l2.getIme());
+	 */
 
 	@PostMapping("/prijava")
 	public ResponseEntity<Object> login(@RequestBody LoginDTO loginDTO) {
@@ -57,6 +69,7 @@ public class LoginController {
 			if (p.getStanjePacijenta().equals(StanjePacijenta.AKTIVAN) && p.getEmail().equals(loginDTO.getEmail())
 					&& p.getLozinka().equals(loginDTO.getLozinka())) {
 				PacijentDTO pacijentDTO = new PacijentDTO(p);
+				request.getSession().setAttribute("current", p);
 				return new ResponseEntity<>(pacijentDTO, HttpStatus.ACCEPTED);
 			}
 		}
@@ -65,6 +78,7 @@ public class LoginController {
 		for (Lekar l : lekari) {
 			if (l.getEmail().equals(loginDTO.getEmail()) && l.getLozinka().equals(loginDTO.getLozinka())) {
 				LekarDTO lekarDTO = new LekarDTO(l);
+				request.getSession().setAttribute("current", l);
 				return new ResponseEntity<>(lekarDTO, HttpStatus.ACCEPTED);
 			}
 		}
@@ -73,6 +87,7 @@ public class LoginController {
 		for (AdministratorKlinike ak : adminiKlinika) {
 			if (ak.getEmail().equals(loginDTO.getEmail()) && ak.getLozinka().equals(loginDTO.getLozinka())) {
 				AdminKDTO adminKDTO = new AdminKDTO(ak);
+				request.getSession().setAttribute("current", ak);
 				return new ResponseEntity<>(adminKDTO, HttpStatus.ACCEPTED);
 			}
 		}
@@ -81,6 +96,7 @@ public class LoginController {
 		for (AdministratorKlinickogCentra adm : admini) {
 			if (adm.getEmail().equals(loginDTO.getEmail()) && adm.getLozinka().equals(loginDTO.getLozinka())) {
 				AdminKCDTO adminKCDTO = new AdminKCDTO(adm);
+				request.getSession().setAttribute("current", adm);
 				return new ResponseEntity<>(adminKCDTO, HttpStatus.ACCEPTED);
 			}
 		}
@@ -89,6 +105,7 @@ public class LoginController {
 		for (MedicinskaSestra ms : medSestre) {
 			if (ms.getEmail().equals(loginDTO.getEmail()) && ms.getLozinka().equals(loginDTO.getLozinka())) {
 				MedicinskaSestraDTO medSestraDTO = new MedicinskaSestraDTO(ms);
+				request.getSession().setAttribute("current", ms);
 				return new ResponseEntity<>(medSestraDTO, HttpStatus.ACCEPTED);
 			}
 		}
