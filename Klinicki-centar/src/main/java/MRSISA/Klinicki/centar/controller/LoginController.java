@@ -1,13 +1,18 @@
 package MRSISA.Klinicki.centar.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,6 +63,8 @@ public class LoginController {
 		Lekar l2 = (Lekar) obj;
 		System.out.println(l2.getIme());
 	 */
+	
+	
 
 	@PostMapping("/prijava")
 	public ResponseEntity<Object> login(@RequestBody LoginDTO loginDTO) {
@@ -70,6 +77,7 @@ public class LoginController {
 					&& p.getLozinka().equals(loginDTO.getLozinka())) {
 				PacijentDTO pacijentDTO = new PacijentDTO(p);
 				request.getSession().setAttribute("current", p);
+				request.getSession().setAttribute("tip", "pacijent");
 				return new ResponseEntity<>(pacijentDTO, HttpStatus.ACCEPTED);
 			}
 		}
@@ -79,6 +87,7 @@ public class LoginController {
 			if (l.getEmail().equals(loginDTO.getEmail()) && l.getLozinka().equals(loginDTO.getLozinka())) {
 				LekarDTO lekarDTO = new LekarDTO(l);
 				request.getSession().setAttribute("current", l);
+				request.getSession().setAttribute("tip", "lekar");
 				return new ResponseEntity<>(lekarDTO, HttpStatus.ACCEPTED);
 			}
 		}
@@ -88,6 +97,7 @@ public class LoginController {
 			if (ak.getEmail().equals(loginDTO.getEmail()) && ak.getLozinka().equals(loginDTO.getLozinka())) {
 				AdminKDTO adminKDTO = new AdminKDTO(ak);
 				request.getSession().setAttribute("current", ak);
+				request.getSession().setAttribute("tip", "adminKlinike");
 				return new ResponseEntity<>(adminKDTO, HttpStatus.ACCEPTED);
 			}
 		}
@@ -97,6 +107,7 @@ public class LoginController {
 			if (adm.getEmail().equals(loginDTO.getEmail()) && adm.getLozinka().equals(loginDTO.getLozinka())) {
 				AdminKCDTO adminKCDTO = new AdminKCDTO(adm);
 				request.getSession().setAttribute("current", adm);
+				request.getSession().setAttribute("tip", "adminKC");
 				return new ResponseEntity<>(adminKCDTO, HttpStatus.ACCEPTED);
 			}
 		}
@@ -106,9 +117,20 @@ public class LoginController {
 			if (ms.getEmail().equals(loginDTO.getEmail()) && ms.getLozinka().equals(loginDTO.getLozinka())) {
 				MedicinskaSestraDTO medSestraDTO = new MedicinskaSestraDTO(ms);
 				request.getSession().setAttribute("current", ms);
+				request.getSession().setAttribute("tip", "sestra");
 				return new ResponseEntity<>(medSestraDTO, HttpStatus.ACCEPTED);
 			}
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
+	
+	
+	@GetMapping("/tipKorisnika")
+	public ResponseEntity<String> getTipKorisnika(){
+		String tip = (String) request.getSession().getAttribute("tip");
+		System.out.println(tip);
+		return new ResponseEntity<>(tip, HttpStatus.OK);
+	}
+	
+	
 }

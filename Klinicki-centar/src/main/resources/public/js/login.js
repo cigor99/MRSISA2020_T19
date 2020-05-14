@@ -47,7 +47,8 @@ $(document).ready(function() {
 			success: function(response){
 				alert("Uspesno registrovan")
 				ulogovan = response;
-				console.log(ulogovan.ime)
+				console.log(ulogovan.ime);
+				window.location.replace("/klinicki-centar");
 			},
 			error: function(jqXHR){
 				 if (jqXHR.status == 400) {
