@@ -31,6 +31,8 @@ import MRSISA.Klinicki.centar.service.LekarService;
 import MRSISA.Klinicki.centar.service.MedicinskaSestraSerive;
 import MRSISA.Klinicki.centar.service.PacijentService;
 
+/*Kontroler u kom se nalaze metode za prijavu korisnika*/
+
 @RestController
 @RequestMapping("/login")
 public class LoginController {
@@ -59,6 +61,13 @@ public class LoginController {
 		System.out.println(l2.getIme());
 	 */
 
+	
+	/*Post zahtev
+	 * Funkcija za prijavu na sistem
+	 *Proverava se da li su svi podaci ispravno uneseni
+	 *Ako jesu trazi se da li postoji korisnik sa tim login podacima
+	 *Ako da zakaci se za sesiju
+	 *Ako ne onda se vraca error 400 */
 	@PostMapping("/prijava")
 	public ResponseEntity<Object> login(@RequestBody LoginDTO loginDTO) {
 		if(!loginDTO.proveraPolja()) {

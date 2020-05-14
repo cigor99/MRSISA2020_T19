@@ -27,6 +27,7 @@ import MRSISA.Klinicki.centar.domain.AdministratorKlinickogCentra;
 import MRSISA.Klinicki.centar.domain.AdministratorKlinike;
 import MRSISA.Klinicki.centar.domain.KlinickiCentar;
 import MRSISA.Klinicki.centar.domain.Lekar;
+import MRSISA.Klinicki.centar.domain.MedicinskaSestra;
 import MRSISA.Klinicki.centar.domain.Pacijent;
 import MRSISA.Klinicki.centar.domain.StanjePacijenta;
 import MRSISA.Klinicki.centar.domain.StanjeZahteva;
@@ -35,9 +36,11 @@ import MRSISA.Klinicki.centar.dto.PacijentDTO;
 import MRSISA.Klinicki.centar.service.AdminKCSerivce;
 import MRSISA.Klinicki.centar.service.AdminKService;
 import MRSISA.Klinicki.centar.service.LekarService;
+import MRSISA.Klinicki.centar.service.MedicinskaSestraSerive;
 import MRSISA.Klinicki.centar.service.PacijentService;
 import MRSISA.Klinicki.centar.service.ZahtevZRService;
 
+/*Kontroler u kom se nalaze metode vezane za pacijenta*/
 @RestController
 @RequestMapping("/pacijent")
 public class PacijentController {
@@ -60,8 +63,12 @@ public class PacijentController {
 	@Autowired
 	private LekarService lekarService;
 	
+	@Autowired
+	private MedicinskaSestraSerive medSesService;
 	
-
+	
+	/*Get zahtev
+	 * Vraca sve pacijente iz baze*/
 	@GetMapping("/all")
 	public ResponseEntity<List<PacijentDTO>> getAllPacijenti() {
 		List<Pacijent> pacijenti = pacijentService.findAll();
@@ -72,6 +79,9 @@ public class PacijentController {
 		return new ResponseEntity<>(pacijentiDTO, HttpStatus.OK);
 	}
 
+	/*Get zahtev
+	 * Vraca sve pacijente iz baze ciji je nalog aktiviram
+	 */
 	@GetMapping("/allAkcive")
 	public ResponseEntity<List<PacijentDTO>> getAllActive() {
 		List<Pacijent> pacijenti = pacijentService.findAll();
@@ -84,6 +94,8 @@ public class PacijentController {
 		return new ResponseEntity<>(pacijentiDTO, HttpStatus.OK);
 	}
 
+	/*Get zahtev
+	 * Vraca odredjen broj pacijenata*/
 	@GetMapping("/page/{stranica}/{koliko}")
 	public ResponseEntity<List<PacijentDTO>> getPacijentPage(@PathVariable Integer stranica,
 			@PathVariable Integer koliko) {
@@ -108,6 +120,13 @@ public class PacijentController {
 
 	}
 
+	/*Post zahtev
+	 * Funkcija za slanje zahteva za registraciju pacijenata
+	 * Proverava da li su uneseni podaci ispravni
+	 * Proverava da li su podaci koji trebaju biti jedinstveni, zaista jedinstveni
+	 * Ako je sve to ispravno salje se mejl administratorima da je stigao nov zahtev
+	 * Kreira se nov zahtev
+	 * */
 	@PostMapping("/register")
 	public ResponseEntity<PacijentDTO> register(@RequestBody PacijentDTO pacijentDTO) {
 		if (!pacijentDTO.proveraPolja()) {
@@ -152,6 +171,12 @@ public class PacijentController {
 
 	}
 
+	/*Post zahtev
+	 * Funkcija za dodavanje novih pacijenata
+	 * Proverava da li su uneseni podaci ispravni
+	 * Proverava da li su podaci koji trebaju biti jedinstveni, zaista jedinstveni
+	 * Ako je to ispravno dodaje se nov pacijent u bazu
+	 * */
 	@PostMapping("/add")
 	public ResponseEntity<PacijentDTO> addPacijent(@RequestBody PacijentDTO pacijentDTO) {
 		
@@ -189,6 +214,11 @@ public class PacijentController {
 		return new ResponseEntity<>(new PacijentDTO(pacijent), HttpStatus.CREATED);
 	}
 
+	/* Delete zahtev
+	 * Proba da se obrise pacijent sa datim id-jem
+	 * Ako je uspesno pacijent se brise iz baze
+	 * Ako je neuspesno vraca se error 404
+	 * */
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<Void> deletePacijent(@PathVariable Integer id) {
 		Pacijent pacijent = pacijentService.findOne(id);
@@ -201,6 +231,11 @@ public class PacijentController {
 		}
 	}
 
+	/*Get zahtev
+	 * Vraca se pacijent sa datim id-jem
+	 * Ako je uspesno vraca se pacijent iz baze
+	 * Ako je neuspesno vraca se error 404
+	 * */
 	@GetMapping("/getUpdate/{id}")
 	public ResponseEntity<PacijentDTO> getUpdate(@PathVariable Integer id) {
 		Pacijent pacijent = pacijentService.findOne(id);
@@ -209,7 +244,11 @@ public class PacijentController {
 		else
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
-
+	/*Get zahtev
+	 * Vraca se pacijent sa datim id-jem
+	 * Ako je uspesno vraca se pacijent iz baze
+	 * Ako je neuspesno vraca se error 400
+	 * */
 	@GetMapping("/getOnePacijent/{id}")
 	public ResponseEntity<PacijentDTO> getPacijent(@PathVariable Integer id) {
 		Pacijent pacijent = pacijentService.findOne(id);
@@ -220,11 +259,21 @@ public class PacijentController {
 		}
 	}
 
+	/*Post zahtev
+	 * Funkcija za izmenu podataka pacijenta
+	 * Vrsi se provera polja
+	 * Ako su polja ispravna trazi se pacijent u bazi
+	 * Ako se pacijent ne nadje vraca se error 400
+	 * Vrsi se provera da li pacijent menja svoj email
+	 * Ako da vraca se error 403
+	 * Izmene se cuvaju u bazi
+	 * */
 	@PutMapping("/update")
 	public ResponseEntity<PacijentDTO> updatePacijent(@RequestBody PacijentDTO pacijentDTO) {
 		if (!pacijentDTO.proveraPolja()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+		
 		Pacijent pacijent = pacijentService.findOne(pacijentDTO.getId());
 		if (pacijent == null)
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -247,6 +296,11 @@ public class PacijentController {
 		return new ResponseEntity<>(new PacijentDTO(pacijent), HttpStatus.OK);
 	}
 
+	
+	/*Post zahtev
+	 * Funkcija koja sluzi za pretragu pacijenata
+	 * u zavisnosti od kriterijuma pretrage i vrednosti traze se pacijenti iz baze
+	 * Vraca se lista pronadjenih pacijenata koja moze biti prazna*/
 	@PostMapping("/search/{kriterijum}/{vrednost}")
 	public ResponseEntity<List<PacijentDTO>> searchPacijent(@PathVariable String kriterijum,
 			@PathVariable String vrednost) {
@@ -270,6 +324,10 @@ public class PacijentController {
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
 
+	/*Post zahtev
+	 * Funkcija koja sluzi za filtriranje pacijenata
+	 * u zavisnosti od grada traze se pacijenti iz baze
+	 * Vraca se lista pronadjenih pacijenata koja moze biti prazna*/
 	@PostMapping("/filter/{grad}")
 	public ResponseEntity<List<PacijentDTO>> getFilter(@PathVariable String grad) {
 		List<PacijentDTO> retVal = new ArrayList<>();
@@ -283,6 +341,7 @@ public class PacijentController {
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
 
+	/*Funkcija koja proverava da li postoji dati email u bazi*/
 	private boolean jedinstvenEmail(PacijentDTO pacijentDTO) {
 		List<Pacijent> pacijenti = pacijentService.findAll();
 		for (Pacijent p : pacijenti) {
@@ -312,9 +371,19 @@ public class PacijentController {
 				return false;
 			}
 		}
+		
+		List<MedicinskaSestra> sestre = medSesService.findAll();
+		for(MedicinskaSestra m : sestre) {
+			if(m.getEmail().equals(pacijentDTO.getEmail())) {
+				return false;
+			}
+		}
+		
+		
 		return true;
 	}
 
+	/*Funkcija koja proverava da li postoji dati jmbg u bazi*/
 	private boolean jedinstvenJmbg(PacijentDTO pacijentDTO) {
 		List<Pacijent> pacijenti = pacijentService.findAll();
 		for (Pacijent p : pacijenti) {
@@ -338,9 +407,24 @@ public class PacijentController {
 				return false;
 			}
 		}
+		
+		List<MedicinskaSestra> sestre = medSesService.findAll();
+		for(MedicinskaSestra m : sestre) {
+			if(m.getJmbg().equals(pacijentDTO.getJmbg())) {
+				return false;
+			}
+		}
+		
+		List<Lekar> lekari = lekarService.findAll();
+		for (Lekar l : lekari) {
+			if (l.getJmbg().equals(pacijentDTO.getJmbg())) {
+				return false;
+			}
+		}
 		return true;
 	}
 
+	/*Funkcija koja proverava da li postoji dati broj osiguranja u bazi*/
 	private boolean jedinstveniBrOsig(PacijentDTO pacijentDTO) {
 		List<Pacijent> pacijenti = pacijentService.findAll();
 		for (Pacijent p : pacijenti) {

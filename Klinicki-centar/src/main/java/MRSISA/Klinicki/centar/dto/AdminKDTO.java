@@ -3,6 +3,10 @@ package MRSISA.Klinicki.centar.dto;
 import MRSISA.Klinicki.centar.domain.AdministratorKlinike;
 
 public class AdminKDTO extends Osoba{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8176448401842720033L;
 	private Integer klinikaID;
 
 	public AdminKDTO() {

@@ -5,6 +5,11 @@ import MRSISA.Klinicki.centar.domain.AdministratorKlinickogCentra;
 public class AdminKCDTO extends Osoba{
 
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4109828345782217976L;
+
 	public AdminKCDTO() {
 		super();
 	}
