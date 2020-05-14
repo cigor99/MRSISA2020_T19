@@ -280,6 +280,11 @@ public class PacijentController {
 		if (!pacijent.getEmail().equals(pacijentDTO.getEmail())) {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
+		if(!pacijent.getJmbg().equals(pacijentDTO.getJmbg())) {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}if(!pacijent.getJedinstveniBrOsig().equals(pacijentDTO.getJedinstveniBrOsig())) {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
 
 		pacijent.setIme(pacijentDTO.getIme());
 		pacijent.setPrezime(pacijentDTO.getPrezime());
@@ -289,7 +294,7 @@ public class PacijentController {
 		pacijent.setGrad(pacijentDTO.getGrad());
 		pacijent.setDrzava(pacijentDTO.getDrzava());
 		pacijent.setBrojTelefona(pacijentDTO.getBrojTelefona());
-		pacijent.setJedinstveniBrOsig(pacijentDTO.getJedinstveniBrOsig());
+		//pacijent.setJedinstveniBrOsig(pacijentDTO.getJedinstveniBrOsig());
 
 		System.out.println(pacijent);
 		pacijent = pacijentService.save(pacijent);

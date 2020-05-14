@@ -46,7 +46,7 @@ public class KlinickiCentarApplication {
 		SpringApplication.run(KlinickiCentarApplication.class, args);
 
 		Class.forName("org.h2.Driver");
-		Connection conn = DriverManager.getConnection("jdbc:h2:mem:testdb", "sa", "");
+		Connection conn = DriverManager.getConnection("jdbc:h2:mem:testdb", "sa", "sa");
 
 		KlinickiCentar KC = new KlinickiCentar(1);
 
@@ -224,11 +224,11 @@ public class KlinickiCentarApplication {
 		p6.setZdravstveniKarton(zk6);
 		p7.setZdravstveniKarton(zk7);
 		p8.setZdravstveniKarton(zk8);
-		PreparedStatement ps1 = null;
-		try {
-			ps1 = conn.prepareStatement(
+		PreparedStatement ps1 = conn.prepareStatement(
 		
 				"INSERT INTO ZDRAVSTEVNI_KARTONI (ID_ZDRAVSTVENOG_KARTONA, DIOPTRIJA, KRVNA_GRUPA, TEZINA, VISINA) VALUES (?, ?, ?, ?, ?)");
+		try {
+			
 		ps1.setInt(1, zk1.getId());
 		ps1.setDouble(2, zk1.getDioptrija());
 		ps1.setInt(3, zk1.getKrvnaGrupa().ordinal());
@@ -284,8 +284,14 @@ public class KlinickiCentarApplication {
 		ps1.setDouble(4, zk8.getTezina());
 		ps1.setDouble(5, zk8.getVisina());
 		ps1.executeUpdate();
-		}catch (NullPointerException e) {
+		}catch(SQLException e) {
 			//e.printStackTrace();
+			try{ps1.close();
+			
+			}
+			catch (NullPointerException npe) {
+				//npe.printStackTrace();
+			}
 		}finally {
 			ps1.close();
 		}

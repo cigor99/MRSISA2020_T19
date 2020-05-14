@@ -23,7 +23,7 @@ public class PacijentDTO extends Osoba{
 
 	public PacijentDTO(int id, String ime, String prezime, String jmbg, String email, String lozinka, Pol pol,
 			String grad, String adresa, String drzava, String brojTelefona, String jedinstveniBrOsig) {
-		super(id, ime, prezime, email, lozinka, jmbg);
+		super(id,email, lozinka, ime, prezime,  jmbg);
 		this.pol = pol;
 		this.grad = grad;
 		this.adresa = adresa;
@@ -33,7 +33,7 @@ public class PacijentDTO extends Osoba{
 	}
 
 	public PacijentDTO(Pacijent p) {
-		super(p.getId(), p.getIme(), p.getPrezime(), p.getEmail(), p.getLozinka(), p.getJmbg());
+		super(p.getId(),p.getEmail(), p.getLozinka(), p.getIme(), p.getPrezime(),  p.getJmbg());
 		this.pol = p.getPol();
 		this.grad = p.getGrad();
 		this.adresa = p.getAdresa();

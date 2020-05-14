@@ -15,12 +15,12 @@ public class AdminKCDTO extends Osoba{
 	}
 
 	public AdminKCDTO(AdministratorKlinickogCentra admin) {
-		super(admin.getId(), admin.getEmail(), admin.getLozinka(), admin.getJmbg(), admin.getIme(), admin.getPrezime());
+		super(admin.getId(), admin.getEmail(), admin.getLozinka(), admin.getIme(), admin.getPrezime(), admin.getJmbg());
 
 	}
 
 	public AdminKCDTO(Integer id, String email, String lozinka, String ime, String prezime, String jmbg) {
-		super(id, email, lozinka, jmbg, ime, prezime);
+		super(id, email, lozinka, ime, prezime, jmbg);
 	}
 
 

@@ -54,7 +54,7 @@ public abstract class Osoba implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	public Osoba(int id, String ime, String prezime, String email, String lozinka, String jmbg) {
+	public Osoba(int id,String email, String lozinka, String ime, String prezime,  String jmbg) {
 		super();
 		this.id = id;
 		this.ime = ime;
