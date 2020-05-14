@@ -284,6 +284,8 @@ public class KlinickiCentarApplication {
 		ps1.setDouble(4, zk8.getTezina());
 		ps1.setDouble(5, zk8.getVisina());
 		ps1.executeUpdate();
+		}catch (NullPointerException e) {
+			//e.printStackTrace();
 		}finally {
 			ps1.close();
 		}
