@@ -1,6 +1,5 @@
 package MRSISA.Klinicki.centar.dto;
 
-import MRSISA.Klinicki.centar.domain.Pacijent;
 import MRSISA.Klinicki.centar.domain.StanjeZahteva;
 import MRSISA.Klinicki.centar.domain.ZahtevZaRegistraciju;
 

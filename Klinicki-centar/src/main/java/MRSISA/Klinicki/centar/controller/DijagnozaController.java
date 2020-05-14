@@ -62,8 +62,9 @@ public class DijagnozaController {
 	public ResponseEntity<DijagnozaDTO> updateDijagnoze(@RequestBody DijagnozaDTO dijagnozaDTO){
 		Dijagnoza dijagnoza = dijaService.findOne(dijagnozaDTO.getId());
 		if(dijagnoza == null) {
-			new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+		
 		dijagnoza.setNaziv(dijagnozaDTO.getNaziv());
 		dijagnoza.setOpis(dijagnozaDTO.getOpis());
 		dijagnoza.setSifra(dijagnozaDTO.getSifra());

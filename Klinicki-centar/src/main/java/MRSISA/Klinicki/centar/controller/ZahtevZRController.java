@@ -79,7 +79,7 @@ public class ZahtevZRController {
 	        try {
 	        	 javaMailSender.send(msg);
 			} catch (MailException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			}
 	        
