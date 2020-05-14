@@ -132,5 +132,12 @@ public class LoginController {
 		return new ResponseEntity<>(tip, HttpStatus.OK);
 	}
 	
+	@GetMapping("/logout")
+	public ResponseEntity<String> logOut(){
+		request.getSession().setAttribute("tip", "");
+		String tip = (String) request.getSession().getAttribute("tip");
+		return new ResponseEntity<>(tip, HttpStatus.OK);
+	}
+	
 	
 }
