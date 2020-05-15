@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -347,5 +348,42 @@ public class LekarController {
 	 * //System.out.println(lekar.getEmail()); return new
 	 * ResponseEntity(HttpStatus.OK); }
 	 */
+	
+	/*
+	 * Get zahtev Vraca odredjen broj pacijenata
+	 */
+	
+	@GetMapping("/lekar/page/{stranica}/{koliko}")
+	public ResponseEntity<List<LekarDTO>> getLekariOdDo(@PathVariable Integer stranica,
+			@PathVariable Integer koliko) {
+		Pageable prvihDeset = PageRequest.of(stranica, koliko);
+		//,				Sort.by("stanjePacijenta").descending().and(Sort.by("id")));
+		Page<Lekar> lekari = null;
+		try {
+			lekari = lekarService.findAll(prvihDeset);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
+		List<LekarDTO> lekariDTO = new ArrayList<>();
+
+		for (Lekar l : lekari) {
+			lekariDTO.add(new LekarDTO(l));
+
+		}
+
+		return new ResponseEntity<>(lekariDTO, HttpStatus.OK);
+
+	}
+	
+	@GetMapping("/lekar/page1")
+	public ResponseEntity<List<LekarDTO>> getLekarPage1() {
+		Pageable prvihDeset = PageRequest.of(0, 10);
+		Page<Lekar> lekari = lekarService.findAll(prvihDeset);
+		List<LekarDTO> lekariDTO = new ArrayList<LekarDTO>();
+		for (Lekar l : lekari) {
+			lekariDTO.add(new LekarDTO(l));
+		}
+		return new ResponseEntity<>(lekariDTO, HttpStatus.OK);
+	}
 
 }
