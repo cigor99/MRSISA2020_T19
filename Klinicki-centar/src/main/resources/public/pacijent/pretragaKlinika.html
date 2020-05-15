@@ -2,14 +2,15 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Home</title>
+<title>Pretraga Klinika</title>
 <link rel="shortcut icon" href="#" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 <link href="../style.css" rel="stylesheet">
-<script src="js/pacijentHP.js"></script>
+<script src="js/pretragaKlinika.js"></script>
 <script src="js/logout.js"></script>
 </head>
 <body>
@@ -21,18 +22,30 @@
             </div>
             <ul id="navbar-list" class="nav navbar-nav">
                 <li><a href="pacijentHomePage.html">Home</a></li>
-                <li><a href="pretragaKlinika.html">Pretraga klinika</a></li>
                 <li><a href="profil.html">Profil</a></li>
                 <li style="float:right"><a href="javascript:odjava()"><b>Odjavi se</b></a></li>
 			</ul>
         </div>
     </nav>
 </div>
+
 <div id="naslov" class="naslov">
 </div>
+
 <div class="main_div">
-<div id="table-holder" class="table-holder">       
+<div id="table-holder" class="table-holder">   
+       
 </div>
-</div> 
+</div>
+<div class="pretraga">
+<form>
+	<div class="form-group">
+	<input style="width: 220px;" type="text" id="trazi" placeholder="Pretraga.." name="search">
+	<button onclick="javascript:pretraga()" type="button"><i class="fa fa-search"></i></button>
+	</div>
+</form>
+</div>
+
+    
 </body>
 </html>
