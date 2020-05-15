@@ -146,7 +146,8 @@ public class KlinickiCentarApplication {
 				"Subotica", "Srbija", "Patrijarha Pavla 20", "+352623653333", "7");
 		Pacijent p8 = new Pacijent(8, "Jovana", "Jovic", "1234567891025", "jovanaj@hotmail.com", "Laptop43", null, Pol.ZENSKI,
 				"Novi Sad", "Srbija", "Kosovska 12", "+352623656633", "8");
-
+		
+		p1.setStanjePacijenta(StanjePacijenta.AKTIVAN);
 		ZahtevZaRegistraciju z1 = new ZahtevZaRegistraciju(1, StanjeZahteva.NA_CEKANJU, null, KC);
 		ZahtevZaRegistraciju z2 = new ZahtevZaRegistraciju(2, StanjeZahteva.NA_CEKANJU, null, KC);
 

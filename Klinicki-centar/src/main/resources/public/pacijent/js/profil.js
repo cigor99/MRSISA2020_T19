@@ -1,9 +1,55 @@
 $(document).ready(function() {
+	$.ajax({
+		url: "/klinicki-centar/login/tipKorisnika",
+        type: "get",
+        success: function(data) {
+        	window.tipKorisnika = data
+        	console.log(data)
+        },
+        error: function(data){
+        	alert("error getTipKorisnika")
+        },
+        async: false
+	});
 	
-	var imeCoded = window.location.href.split("?")[1];
-    var imeJednako = imeCoded.split("&")[0];
-    var imeParam = imeJednako.split("=")[1];
-    
+	if(window.tipKorisnika != "pacijent"){
+		alert("Ovo je samo za pacijenta")
+		$.ajax({
+	        type: "get",
+	        url: "/klinicki-centar/login/logout",
+	        success: function(data) {
+	            window.location.replace("/klinicki-centar/login.html");
+	        },
+	        error: function(jqXHR) {
+	            alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+	        },
+	    });
+	}else{
+		$.ajax({
+	        url: "/klinicki-centar/login/getLoggedUser",
+	        type: "get",
+	        success: function(data) {
+	            window.ulogovani = data;
+	            console.log(data)
+	            $("#ime").val(data.ime);
+	            $("#prezime").val(data.prezime);
+	            $("#jmbg").val(data.jmbg);
+	            $("#email").val(data.email);
+	            $("#lozinka").val(data.lozinka);
+	            $("#pol").val(data.pol);
+	            $("#grad").val(data.grad);
+	            $("#adresa").val(data.adresa);
+	            $("#drzava").val(data.drzava);
+	            $("#telefon").val(data.brojTelefona);
+	            $("#jedinstveniBrOsig").val(data.jedinstveniBrOsig)
+	        },
+	        error: function(data){
+	        	alert("error getLoggedUser")
+	        }
+	    });
+	}
+	
+	/*
     $.ajax({
         type: "get",
 
@@ -27,6 +73,7 @@ $(document).ready(function() {
             alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
         },
     })
+    */
 	
 	$("#potvrdi").click(function(){
 		
@@ -227,7 +274,7 @@ $(document).ready(function() {
 			dataType : "json",
 			contentType:"application/json",
 			data : JSON.stringify({
-				id: imeParam,
+				id: window.ulogovani.id,
 				ime : $("#ime").val(),
 				prezime : $("#prezime").val(),
 				jmbg: $("#jmbg").val(),

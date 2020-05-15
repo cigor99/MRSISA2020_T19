@@ -1,29 +1,52 @@
-var trenutni = null;
 var klinika = null;
 
 $(document).ready(function () {
 	$.ajax({
-		type: "get",
-        url: "/klinicki-centar/pacijent/getOnePacijent/1",
-        success: function (data) {
-        	trenutni = data;
-        	var naslov = $("#naslov");
-        	naslov.empty();
-    		naslov.append('<h1>'+trenutni.ime+" " + trenutni.prezime+'</h1>');
-    		var navbarList = $("#navbar-list");
-    		console.log(trenutni.id)
-    		navbarList.append("<li><a href='profil.html?id="+trenutni.id+"'>Profil</a></li>")
-        	prikaziZK();
-        }
+		url: "/klinicki-centar/login/tipKorisnika",
+        type: "get",
+        success: function(data) {
+        	window.tipKorisnika = data
+        	console.log(data)
+        },
+        error: function(data){
+        	alert("error getTipKorisnika")
+        },
+        async: false
 	});
 	
+	if(window.tipKorisnika != "pacijent"){
+		alert("Ovo je samo za pacijenta")
+		$.ajax({
+	        type: "get",
+	        url: "/klinicki-centar/login/logout",
+	        success: function(data) {
+	            window.location.replace("/klinicki-centar/login.html");
+	        },
+	        error: function(jqXHR) {
+	            alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+	        },
+	    });
+	}else{ 
 	
-	
-	
+		$.ajax({
+		        url: "/klinicki-centar/login/getLoggedUser",
+		        type: "get",
+		        success: function(data) {
+		            window.ulogovani = data;
+		            var naslov = $("#naslov");
+		        	naslov.empty();
+		    		naslov.append('<h1>'+window.ulogovani.ime+" " + window.ulogovani.prezime+'</h1>');
+		    		var navbarList = $("#navbar-list");
+		    		navbarList.append("<li><a href='profil.html'>Profil</a></li>")
+		        	prikaziZK();
+		        },
+		        async: false,
+		 });
+	}
 	$('a[href="#odabirKlinike"]').click(function(e){
 		var naslov = $("#naslov");
     	naslov.empty();
-		naslov.append('<h1>'+trenutni.ime+" " + trenutni.prezime+'</h1>');
+		naslov.append('<h1>'+window.ulogovani.ime+" " + window.ulogovani.prezime+'</h1>');
 		naslov.append('<h1>Klinike</h1>');
 		prikaziKlinike();
 	});
@@ -31,7 +54,7 @@ $(document).ready(function () {
 	$('a[href="#home"]').click(function(e){
 		var naslov = $("#naslov");
     	naslov.empty();
-		naslov.append('<h1>'+trenutni.ime+" " + trenutni.prezime+'</h1>');
+		naslov.append('<h1>'+window.ulogovani.ime+" " + window.ulogovani.prezime+'</h1>');
 		prikaziZK();
 	});
 	
@@ -77,7 +100,8 @@ function pretraga(){
                 let nazivTd = $("<td>" + klinika.naziv + "</td>")
                 let adresaTD = $("<td>" + klinika.adresa + "</td>")
                 let opisTD = $("<td>" + klinika.opis + "</td>")
-                //let izaberiTD = $("<td>" + "<a href=\"#izabrana?id=" + klinika.id + ">Izaberi</a></td>")
+                // let izaberiTD = $("<td>" + "<a href=\"#izabrana?id=" +
+				// klinika.id + ">Izaberi</a></td>")
                 let izaberiTD = $("<td><a href='#'>Izaberi</a></td>")
                 tr.append(idTD);
                 tr.append(nazivTd);
@@ -98,7 +122,7 @@ function prikaziZK(){
 	holder.empty();
 	$.ajax({
         type: "get",
-        url: "/klinicki-centar/karton/get/" + trenutni.jmbg,
+        url: "/klinicki-centar/karton/get/" + window.ulogovani.jmbg,
         success: function(data){
         	let table = $("<table class='table'></table>")
 
@@ -173,7 +197,8 @@ function prikaziKlinike(){
                 let nazivTd = $("<td>" + klinika.naziv + "</td>")
                 let adresaTD = $("<td>" + klinika.adresa + "</td>")
                 let opisTD = $("<td>" + klinika.opis + "</td>")
-                //let izaberiTD = $("<td>" + "<a href=\"#izabrana?id=" + klinika.id + ">Izaberi</a></td>")
+                // let izaberiTD = $("<td>" + "<a href=\"#izabrana?id=" +
+				// klinika.id + ">Izaberi</a></td>")
                 let izaberiTD = $("<td><a href='#'>Izaberi</a></td>")
                 tr.append(idTD);
                 tr.append(nazivTd);
