@@ -80,7 +80,7 @@ function pretraga(){
                 let opisTD = $("<td>" + klinika.opis + "</td>")
                 // let izaberiTD = $("<td>" + "<a href=\"#izabrana?id=" +
 				// klinika.id + ">Izaberi</a></td>")
-                let izaberiTD = $("<td><a href='#'>Izaberi</a></td>")
+                let izaberiTD = $("<td><a href='pretragaLekara.html?id="+klinika.id+"'>Izaberi</a></td>")
                 tr.append(idTD);
                 tr.append(nazivTd);
                 tr.append(adresaTD);
@@ -134,7 +134,7 @@ function prikaziKlinike(){
                 let opisTD = $("<td>" + klinika.opis + "</td>")
                 // let izaberiTD = $("<td>" + "<a href=\"#izabrana?id=" +
 				// klinika.id + ">Izaberi</a></td>")
-                let izaberiTD = $("<td><a href='#'>Izaberi</a></td>")
+                let izaberiTD = $("<td><a href='pretragaLekara.html?id="+klinika.id+"'>Izaberi</a></td>")
                 tr.append(idTD);
                 tr.append(nazivTd);
                 tr.append(adresaTD);
