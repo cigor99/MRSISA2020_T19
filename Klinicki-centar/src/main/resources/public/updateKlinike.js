@@ -31,7 +31,7 @@ $(document).ready(function () {
                 opis: $("#opis").val()
             }),
             success: function () {
-                window.location.replace("Klinike.html")
+                window.location.replace("/klinicki-centar/profilKlinike.html?id="+imeParam);
             }
         })
 

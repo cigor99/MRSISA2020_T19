@@ -3,6 +3,8 @@ package MRSISA.Klinicki.centar.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,9 +27,12 @@ import org.springframework.web.servlet.ModelAndView;
 import MRSISA.Klinicki.centar.domain.AdministratorKlinike;
 import MRSISA.Klinicki.centar.domain.Klinika;
 import MRSISA.Klinicki.centar.domain.Lek;
+import MRSISA.Klinicki.centar.domain.Pacijent;
+import MRSISA.Klinicki.centar.dto.AdminKDTO;
 import MRSISA.Klinicki.centar.dto.Admin_klinikaDTO;
 import MRSISA.Klinicki.centar.dto.KlinikaDTO;
 import MRSISA.Klinicki.centar.dto.LekDTO;
+import MRSISA.Klinicki.centar.dto.PacijentDTO;
 import MRSISA.Klinicki.centar.service.AdminKService;
 import MRSISA.Klinicki.centar.service.KlinikaService;
 
@@ -39,6 +44,9 @@ public class KlinikaController {
 	
 	@Autowired
 	private AdminKService adminService;
+	
+	@Autowired
+	HttpServletRequest request;
 
 	@GetMapping("/klinika/all")
 	public ResponseEntity<List<KlinikaDTO>> getAllKlinike() {
@@ -161,5 +169,25 @@ public class KlinikaController {
 			}
 		}
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
+	}
+	
+	@GetMapping("/klinika/getKlinika/{id}")
+	public ResponseEntity<KlinikaDTO> getKlinika(@PathVariable Integer id) {
+		Klinika klinika = klinikaService.findOne(id);
+		if (klinika == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} else {
+			return new ResponseEntity<>(new KlinikaDTO(klinika), HttpStatus.OK);
+		}
+	}
+	
+	@GetMapping("/klinika/getCurrent")
+	public ResponseEntity<Integer> getCurrent() {
+		AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");		
+		int id = admink.getKlinikaID();
+		//Klinika klinika = klinikaService.findOne(id);
+		
+		return new ResponseEntity<>(id, HttpStatus.OK);
+		
 	}
 }
