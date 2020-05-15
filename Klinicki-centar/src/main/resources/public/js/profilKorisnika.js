@@ -241,8 +241,7 @@ $(document).ready(function() {
             $("#AdresaError").text("Adresa sme da sadrži samo mala slova, velika slova, brojeve ,-.' minimalne dužine 3, a maksimalne 30").css('visibility', 'visible').css('color', 'red');
             uslov = true;
         }
-        if ($("#pol").val() != "MUSKI" && $("#pol").val() != "ZENSKI" &&
-            $("#pol").val() != "muski" && $("#pol").val() != "zenski") {
+        if ($("#pol").val() != "MUSKI" && $("#pol").val() != "ZENSKI") {
             if ($("#pol").val() != undefined) {
                 $("#polError").text("Pol može biti MUSKI/ZENSKI").css('visibility', 'visible').css('color', 'red');
                 uslov = true;
@@ -372,6 +371,30 @@ $(document).ready(function() {
 
         } else if (window.tipKorisnika == "pacijent") {
 
+            $.ajax({
+                url: "/klinicki-centar/pacijent/update",
+                type: 'put',
+                dataType: 'json',
+                contentType: "application/json",
+                data: JSON.stringify({
+                    ime: $("#ime").val(),
+                    prezime: $("#prezime").val(),
+                    email: $("#email").val(),
+                    id: $("#id").val(),
+                    lozinka: $("#password").val(),
+                    jmbg: $("#jmbg").val(),
+                    grad: $("#grad").val(),
+                    adresa: $("#adresa").val(),
+                    drzava: $("#drzava").val(),
+                    brojTelefona: $("#telefon").val(),
+                    jedinstveniBrOsig: $("#jedBrOsig").val(),
+                    pol: $("#pol").val()
+                }),
+                success: function(data) {
+                    alert("USPESNO STE SAČUVALI IZMENE")
+                }
+
+            })
         }
     });
 

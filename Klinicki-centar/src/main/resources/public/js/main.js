@@ -39,6 +39,7 @@ function ucitaj(tipKorisnika) {
     } else if (tipKorisnika == "lekar") {
         $("#naslov").append("<h1>Lekar</h1>");
     } else if (tipKorisnika == "sestra") {
+        header = "medicinskaSestraHeader.html";
         $("#naslov").append("<h1>Medicinska sestra</h1>");
     } else if (tipKorisnika == "pacijent") {
         $("#naslov").append("<h1>Pacijent</h1>");

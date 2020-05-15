@@ -1,5 +1,7 @@
 package MRSISA.Klinicki.centar.dto;
 
+import java.util.regex.Pattern;
+
 import MRSISA.Klinicki.centar.domain.MedicinskaSestra;
 
 public class MedicinskaSestraDTO extends Osoba{
