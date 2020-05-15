@@ -359,7 +359,7 @@ public class PacijentController {
 	private boolean jedinstvenEmail(Osoba osoba, Boolean dodavanje) {
 		List<Pacijent> pacijenti = pacijentService.findAll();
 		for (Pacijent p : pacijenti) {
-			System.out.println(p);
+			//System.out.println(p);
 			if (!dodavanje) {
 				if (!p.getStanjePacijenta().equals(StanjePacijenta.ODBIJEN) && p.getEmail().equals(osoba.getEmail())
 						&& !p.getId().equals(osoba.getId())) {
