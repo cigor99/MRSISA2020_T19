@@ -42,6 +42,7 @@ public class PacijentDTO extends Osoba{
 		this.jedinstveniBrOsig = p.getJedinstveniBrOsig();
 	}
 
+	@Override
 	public boolean proveraPolja() {
 		if (this.getIme() == null || this.getPrezime() == null || this.getJmbg() == null || this.getEmail() == null
 				|| this.getLozinka() == null || this.pol == null || this.grad == null || this.adresa == null

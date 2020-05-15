@@ -50,11 +50,11 @@ public class KlinickiCentarApplication {
 		KlinickiCentar KC = new KlinickiCentar(1);
 
 		AdministratorKlinickogCentra akc1 = new AdministratorKlinickogCentra(1, "losakaunt1234@gmail.com", "Lozinka1",
-				"Neko", "Prezimenko", "123");
+				"Neko", "Prezimenko", "1234567891292");
 		AdministratorKlinickogCentra akc2 = new AdministratorKlinickogCentra(2, "apprentice.magic99@gmail.com",
-				"Password1", "Ime", "Prezimenko", "213");
+				"Password1", "Ime", "Prezimenko", "1234567891291");
 		AdministratorKlinickogCentra akc3 = new AdministratorKlinickogCentra(3, "admin3@nesto.com", "Sifra1", "Imenko",
-				"Neko", "321");
+				"Neko", "1234567891293");
 
 		AdministratorKlinike a1 = new AdministratorKlinike(1, "staznam@nesto.com", "nemam", "Marko", "Markovic",
 				"1234567891011", null);
@@ -106,13 +106,13 @@ public class KlinickiCentarApplication {
 		a2.setKlinika(k2);
 		k2.getAdministratori().add(a2);
 
-		Lekar lekar1 = new Lekar(1, "lekar1@gmail.com", "123", "1", "ImeLekara", "Prezime", k1);
-		Lekar lekar2 = new Lekar(2, "lekar2@gmail.com", "123", "2", "ImeLekaraa", "Prezimee", k2);
-		Lekar lekar3 = new Lekar(3, "lekar3@gmail.com", "123", "3", "ImeLekaraaa", "Prezimeee", k1);
+		Lekar lekar1 = new Lekar(1, "lekar1@gmail.com", "123", "1234567891041", "Imelekara", "Prezime", k1);
+		Lekar lekar2 = new Lekar(2, "lekar2@gmail.com", "123", "1234567891052", "Imelekaraa", "Prezimee", k2);
+		Lekar lekar3 = new Lekar(3, "lekar3@gmail.com", "123", "1234567891063", "Imelekaraaa", "Prezimeee", k1);
 
-		MedicinskaSestra sestra1 = new MedicinskaSestra(1, "sestra1@gmail.com", "111", "4", "Sestra1", "Preyime", k1);
-		MedicinskaSestra sestra2 = new MedicinskaSestra(2, "sestra2@gmail.com", "111", "5", "Sestra2", "Preyime2", k1);
-		MedicinskaSestra sestra3 = new MedicinskaSestra(3, "sestra3@gmail.com", "111", "6", "Sestra3", "Preyime", k2);
+		MedicinskaSestra sestra1 = new MedicinskaSestra(1, "sestra1@gmail.com", "111", "1234567891014", "Sestraprva", "Preyime", k1);
+		MedicinskaSestra sestra2 = new MedicinskaSestra(2, "sestra2@gmail.com", "111", "1234567891015", "Sestradruga", "Preyime2", k1);
+		MedicinskaSestra sestra3 = new MedicinskaSestra(3, "sestra3@gmail.com", "111", "1234567891016", "Sestratreca", "Preyime", k2);
 
 		Sala s1 = new Sala(1, "sala1", TipSale.ZA_PREGLED, null, k1, null);
 		Sala s2 = new Sala(2, "sala2", TipSale.OPERACIONA, null, k1, null);
@@ -130,21 +130,21 @@ public class KlinickiCentarApplication {
 		TipPregleda tp2 = new TipPregleda(2, 15, "tip2", null, c2, null);
 		c2.setTipPregleda(tp2);
 
-		Pacijent p1 = new Pacijent(1, "Marko", "Markovic", "1", "neko@gmail.com", "Password1", null, Pol.MUSKI,
-				"Novi Sad", "Srbija", "Bul Oslobodjenja 12", "+381622222", "1");
-		Pacijent p2 = new Pacijent(2, "Marko", "Maric", "2", "neko2@gmail.com", "Password2", null, Pol.ZENSKI,
-				"Novi Sad", "Srbija", "Bul Oslobodjenja 15", "+3816233333", "2");
-		Pacijent p3 = new Pacijent(3, "Ana", "Anic", "3", "ilijag@hotmail.com", "Sifraaa1", null, Pol.ZENSKI, "Beograd",
+		Pacijent p1 = new Pacijent(1, "Marko", "Markovic", "1234567891017", "neko@gmail.com", "Password1", null, Pol.MUSKI,
+				"Novi Sad", "Srbija", "Bul Oslobodjenja 1234567891018", "+38162222222", "1");
+		Pacijent p2 = new Pacijent(2, "Marko", "Maric", "1234567891019", "neko2@gmail.com", "Password2", null, Pol.ZENSKI,
+				"Novi Sad", "Srbija", "Bul Oslobodjenja 15", "+381623333333", "2");
+		Pacijent p3 = new Pacijent(3, "Ana", "Anic", "1234567891020", "ilijag@hotmail.com", "Sifraaa1", null, Pol.ZENSKI, "Beograd",
 				"Srbija", "Nemanjina 15", "+378623332533", "3");
-		Pacijent p4 = new Pacijent(4, "Marko", "Nemanjic", "4", "neko4@hotmail.com", "Stolica12", null, Pol.MUSKI,
+		Pacijent p4 = new Pacijent(4, "Marko", "Nemanjic", "1234567891021", "neko4@hotmail.com", "Stolica12", null, Pol.MUSKI,
 				"Nis", "Srbija", "Nemanjina 20", "+345623653333", "4");
-		Pacijent p5 = new Pacijent(5, "Marina", "Maric", "5", "marinaMaric@hotmail.com", "Frizider1", null, Pol.ZENSKI,
+		Pacijent p5 = new Pacijent(5, "Marina", "Maric", "1234567891022", "marinaMaric@hotmail.com", "Frizider1", null, Pol.ZENSKI,
 				"Kragujevac", "Srbija", "Narodnog fronta 76", "+352533653333", "5");
-		Pacijent p6 = new Pacijent(6, "Dusan", "Kostic", "6", "dusan6@hotmail.com", "Password2", null, Pol.MUSKI,
+		Pacijent p6 = new Pacijent(6, "Dusan", "Kostic", "1234567891023", "dusan6@hotmail.com", "Password2", null, Pol.MUSKI,
 				"Smederevo", "Srbija", "Jovana Ducica 12", "+352623696333", "6");
-		Pacijent p7 = new Pacijent(7, "Jovan", "Jovanovic", "7", "jovan7@hotmail.com", "Sifra1", null, Pol.MUSKI,
+		Pacijent p7 = new Pacijent(7, "Jovan", "Jovanovic", "1234567891024", "jovan7@hotmail.com", "Sifra1", null, Pol.MUSKI,
 				"Subotica", "Srbija", "Patrijarha Pavla 20", "+352623653333", "7");
-		Pacijent p8 = new Pacijent(8, "Jovana", "Jovic", "8", "jovanaj@hotmail.com", "Laptop43", null, Pol.ZENSKI,
+		Pacijent p8 = new Pacijent(8, "Jovana", "Jovic", "1234567891025", "jovanaj@hotmail.com", "Laptop43", null, Pol.ZENSKI,
 				"Novi Sad", "Srbija", "Kosovska 12", "+352623656633", "8");
 
 		ZahtevZaRegistraciju z1 = new ZahtevZaRegistraciju(1, StanjeZahteva.NA_CEKANJU, null, KC);
@@ -675,7 +675,7 @@ public class KlinickiCentarApplication {
 				ps8.close();
 			}
 			PreparedStatement ps9 = conn.prepareStatement(
-					"INSERT INTO  LEKAR  (ID_LEKARA, EMAIL, LOZINKA, IME, PREZIME, JMBG, KLINIKA) VALUES (?, ?, ?, ?, ?, ?, ?)");
+					"INSERT INTO  LEKAR  (ID_LEKARA, EMAIL, LOZINKA, IME, PREZIME, JMBG, KLINIKA, TIP_KORISNIKA) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 			try {
 				ps9.setInt(1, lekar1.getId());
 				ps9.setString(2, lekar1.getEmail());
@@ -684,6 +684,7 @@ public class KlinickiCentarApplication {
 				ps9.setString(5, lekar1.getPrezime());
 				ps9.setString(6, lekar1.getJmbg());
 				ps9.setInt(7, lekar1.getKlinika().getId());
+				ps9.setInt(8, lekar1.getTipKorisnika().ordinal());
 				ps9.executeUpdate();
 
 				ps9.setInt(1, lekar2.getId());
@@ -693,6 +694,7 @@ public class KlinickiCentarApplication {
 				ps9.setString(5, lekar2.getPrezime());
 				ps9.setString(6, lekar2.getJmbg());
 				ps9.setInt(7, lekar2.getKlinika().getId());
+				ps9.setInt(8, lekar2.getTipKorisnika().ordinal());
 				ps9.executeUpdate();
 
 				ps9.setInt(1, lekar3.getId());
@@ -702,6 +704,7 @@ public class KlinickiCentarApplication {
 				ps9.setString(5, lekar3.getPrezime());
 				ps9.setString(6, lekar3.getJmbg());
 				ps9.setInt(7, lekar3.getKlinika().getId());
+				ps9.setInt(8, lekar3.getTipKorisnika().ordinal());
 				ps9.executeUpdate();
 			} catch (SQLException e) {
 				// e.printStackTrace();
@@ -715,7 +718,7 @@ public class KlinickiCentarApplication {
 				ps9.close();
 			}
 			PreparedStatement ps15 = conn.prepareStatement(
-					"INSERT INTO  MEDICINSKE_SESTRE  (ID_MED_SES, EMAIL, LOZINKA, IME, PREZIME, JMBG, KLINIKA) VALUES (?, ?, ?, ?, ?, ?, ?)");
+					"INSERT INTO  MEDICINSKE_SESTRE  (ID_MED_SES, EMAIL, LOZINKA, IME, PREZIME, JMBG, KLINIKA, TIP_KORISNIKA) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 			try {
 				ps15.setInt(1, sestra1.getId());
 				ps15.setString(2, sestra1.getEmail());
@@ -724,6 +727,7 @@ public class KlinickiCentarApplication {
 				ps15.setString(5, sestra1.getPrezime());
 				ps15.setString(6, sestra1.getJmbg());
 				ps15.setInt(7, sestra1.getKlinika().getId());
+				ps15.setInt(8, sestra1.getTipKorisnika().ordinal());
 				ps15.executeUpdate();
 
 				ps15.setInt(1, sestra2.getId());
@@ -733,6 +737,7 @@ public class KlinickiCentarApplication {
 				ps15.setString(5, sestra2.getPrezime());
 				ps15.setString(6, sestra2.getJmbg());
 				ps15.setInt(7, sestra2.getKlinika().getId());
+				ps15.setInt(8, sestra2.getTipKorisnika().ordinal());
 				ps15.executeUpdate();
 
 				ps15.setInt(1, sestra3.getId());
@@ -742,6 +747,7 @@ public class KlinickiCentarApplication {
 				ps15.setString(5, sestra3.getPrezime());
 				ps15.setString(6, sestra3.getJmbg());
 				ps15.setInt(7, sestra3.getKlinika().getId());
+				ps15.setInt(8, sestra3.getTipKorisnika().ordinal());
 				ps15.executeUpdate();
 			} catch (SQLException e) {
 				// e.printStackTrace();

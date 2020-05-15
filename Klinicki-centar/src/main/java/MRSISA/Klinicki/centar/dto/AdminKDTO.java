@@ -12,7 +12,7 @@ public class AdminKDTO extends Osoba{
 	public AdminKDTO() {
 
 	}//super(id, email, lozinka, jmbg, ime, prezime);
-
+	
 	public AdminKDTO(AdministratorKlinike adminK) {
 		super(adminK.getId(), adminK.getEmail(), adminK.getLozinka(), adminK.getIme(), adminK.getPrezime(), adminK.getJmbg());
 		if (adminK.getKlinika() == null) {

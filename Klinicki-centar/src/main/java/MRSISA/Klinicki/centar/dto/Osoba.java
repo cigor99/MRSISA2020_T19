@@ -1,11 +1,10 @@
 package MRSISA.Klinicki.centar.dto;
 
 import java.io.Serializable;
+import java.util.regex.Pattern;
 
 public abstract class Osoba implements Serializable{
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 2630085096877002277L;
 	private int id;
 	private String ime;
@@ -71,6 +70,68 @@ public abstract class Osoba implements Serializable{
 		return "Osoba [id=" + id + ", ime=" + ime + ", prezime=" + prezime + ", email=" + email + ", lozinka=" + lozinka
 				+ ", jmbg=" + jmbg + "]";
 	}
+	
+	public boolean proveraPolja() {
+		if (this.getIme() == null || this.getPrezime() == null || this.getJmbg() == null || this.getEmail() == null
+				|| this.getLozinka() == null) {
+			return false;
+		}
+
+		if (this.getIme().equals("") || this.getPrezime().equals("") || this.getJmbg().equals("")
+				|| this.getEmail().equals("") || this.getLozinka().equals("") ) {
+			return false;
+		}
+
+		if (this.getEmail().length() > 128) {
+			return false;
+		}
+
+		if (this.getLozinka().length() > 256) {
+			return false;
+		}
+
+		if (this.getIme().length() > 40) {
+			return false;
+		}
+		if (this.getPrezime().length() > 40) {
+			return false;
+		}
+
+		if (this.getJmbg().length() != 13) {
+			return false;
+		}
+		
+
+		Pattern regPass = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$");
+		Pattern regEmail = Pattern.compile(
+				"^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$");
+		Pattern regName = Pattern.compile("^[A-Z]{1}[a-z]{1,20}$");
+		Pattern regJmbg = Pattern.compile("^[0-9]{13}$");
+
+		if (!regPass.matcher(this.getLozinka()).matches()) {
+			return false;
+		}
+
+		if (!regEmail.matcher(this.getEmail()).matches()) {
+			return false;
+		}
+
+		if (!regName.matcher(this.getIme()).matches()) {
+			return false;
+		}
+
+		if (!regName.matcher(this.getPrezime()).matches()) {
+			return false;
+		}
+
+		if (!regJmbg.matcher(this.getJmbg()).matches()) {
+			return false;
+		}
+
+		return true;
+	}
+	
+	
 	
 	
 }
