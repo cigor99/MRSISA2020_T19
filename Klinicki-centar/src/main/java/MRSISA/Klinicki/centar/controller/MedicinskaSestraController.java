@@ -3,6 +3,8 @@ package MRSISA.Klinicki.centar.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import MRSISA.Klinicki.centar.domain.Klinika;
 import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.MedicinskaSestra;
+import MRSISA.Klinicki.centar.dto.AdminKDTO;
 import MRSISA.Klinicki.centar.dto.LekarDTO;
 import MRSISA.Klinicki.centar.dto.MedicinskaSestraDTO;
 import MRSISA.Klinicki.centar.service.KlinikaService;
@@ -32,6 +35,9 @@ public class MedicinskaSestraController {
 	
 	@Autowired
 	private KlinikaService klinikaService;
+	
+	@Autowired
+	HttpServletRequest request;
 	
 	@GetMapping("/medicinskaSestra/all")
 	public ResponseEntity<List<MedicinskaSestraDTO>> getAllMS(){
@@ -47,9 +53,13 @@ public class MedicinskaSestraController {
 	public ResponseEntity<List<MedicinskaSestraDTO>> getMSPage(){
 		Pageable prvihDeset = PageRequest.of(0, 10);
 		Page<MedicinskaSestra> sestre = medSesService.findAll(prvihDeset);
+		AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");		
+		int klinika = admink.getKlinikaID();
 		List<MedicinskaSestraDTO> sestreDTO = new ArrayList<MedicinskaSestraDTO>();
 		for(MedicinskaSestra ms : sestre) {
-			sestreDTO.add(new MedicinskaSestraDTO(ms));
+			if(ms.getKlinika().getId().equals(klinika)) {
+				sestreDTO.add(new MedicinskaSestraDTO(ms));
+			}
 		}
 		return new ResponseEntity<>(sestreDTO, HttpStatus.OK);
 	}
@@ -68,7 +78,9 @@ public class MedicinskaSestraController {
 		sestra.setJmbg(sestraDTO.getJmbg());
 		sestra.setIme(sestraDTO.getIme());
 		sestra.setPrezime(sestraDTO.getPrezime());
-		Klinika klinika = klinikaService.findOne(1);
+		AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");		
+		int id = admink.getKlinikaID();
+		Klinika klinika = klinikaService.findOne(id);
 		sestra.setKlinika(klinika);
 		sestra = medSesService.addSestra(sestra);
 		return new ResponseEntity<>(new MedicinskaSestraDTO(sestra), HttpStatus.CREATED);		

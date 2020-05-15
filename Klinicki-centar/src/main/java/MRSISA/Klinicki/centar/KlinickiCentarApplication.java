@@ -103,6 +103,8 @@ public class KlinickiCentarApplication {
 		Klinika k2 = new Klinika(2, "klinika 2", "Adresa Klinike 2", "opis", null);
 		a1.setKlinika(k1);
 		k1.getAdministratori().add(a1);
+		a2.setKlinika(k2);
+		k2.getAdministratori().add(a2);
 
 		Lekar lekar1 = new Lekar(1, "lekar1@gmail.com", "123", "1", "ImeLekara", "Prezime", k1);
 		Lekar lekar2 = new Lekar(2, "lekar2@gmail.com", "123", "2", "ImeLekaraa", "Prezimee", k2);
@@ -659,7 +661,7 @@ public class KlinickiCentarApplication {
 				ps8.setString(4, a2.getJmbg());
 				ps8.setString(5, a2.getLozinka());
 				ps8.setString(6, a2.getPrezime());
-				ps8.setNull(7, java.sql.Types.INTEGER);
+				ps8.setInt(7, a2.getKlinika().getId());
 				ps8.executeUpdate();
 			} catch (SQLException e) {
 				// e.printStackTrace();

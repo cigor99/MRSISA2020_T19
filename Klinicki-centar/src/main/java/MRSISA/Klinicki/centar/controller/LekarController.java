@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
@@ -39,7 +40,9 @@ import MRSISA.Klinicki.centar.domain.Klinika;
 import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.Pacijent;
 import MRSISA.Klinicki.centar.domain.Sala;
+import MRSISA.Klinicki.centar.dto.AdminKDTO;
 import MRSISA.Klinicki.centar.dto.LekarDTO;
+import MRSISA.Klinicki.centar.dto.Osoba;
 import MRSISA.Klinicki.centar.dto.PacijentDTO;
 import MRSISA.Klinicki.centar.dto.SalaDTO;
 import MRSISA.Klinicki.centar.service.KlinikaService;
@@ -55,6 +58,9 @@ public class LekarController {
 	@Autowired
 	private KlinikaService klinikaService;
 	
+	@Autowired
+	HttpServletRequest request;
+	
 	@GetMapping("/lekar/all")
 	public ResponseEntity<List<LekarDTO>> getAllLekari(){
 		List<Lekar> lekari = lekarService.findAll();
@@ -68,10 +74,18 @@ public class LekarController {
 	@GetMapping("/lekar/page")
 	public ResponseEntity<List<LekarDTO>> getLekarPage(){
 		Pageable prvihDeset = PageRequest.of(0, 10);
+		System.out.println(request.getSession().getAttribute("current"));
+		AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");		
+		System.out.println(admink.getEmail());
+		System.out.println(admink.getKlinikaID());
+		int klinika = admink.getKlinikaID();
 		Page<Lekar> lekari = lekarService.findAll(prvihDeset);
 		List<LekarDTO> lekariDTO = new ArrayList<LekarDTO>();
 		for(Lekar l : lekari) {
-			lekariDTO.add(new LekarDTO(l));
+			if(l.getKlinika().getId().equals(klinika)) {
+				lekariDTO.add(new LekarDTO(l));
+			}
+			
 		}
 		return new ResponseEntity<>(lekariDTO, HttpStatus.OK);
 	}
@@ -90,7 +104,9 @@ public class LekarController {
 		lekar.setJmbg(lekarDTO.getJmbg());
 		lekar.setIme(lekarDTO.getIme());
 		lekar.setPrezime(lekarDTO.getPrezime());
-		Klinika klinika = klinikaService.findOne(1);
+		AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");		
+		int id = admink.getKlinikaID();
+		Klinika klinika = klinikaService.findOne(id);
 		lekar.setKlinika(klinika);
 		lekar = lekarService.addLekar(lekar);
 		return new ResponseEntity<>(new LekarDTO(lekar), HttpStatus.CREATED);		
