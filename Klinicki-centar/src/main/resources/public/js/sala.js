@@ -9,7 +9,8 @@ function ucitajTabelu() {
                 let tr = $("<tr id=\"tr" + sala.id + "\"></tr>");
                 let id = $("<td>" + sala.id + "</td>")
                 let naziv = $("<td>" + sala.naziv + "</td>")
-                let tip = $("<td>" + sala.tip + "</td>")                
+                let tip = $("<td>" + sala.tip + "</td>")      
+                
                 let izmeni = $("<td>" + "<a href=\"izmeniSalu.html?id=" + sala.id + "\">Izmeni</a></td>")
                 let ukloni = $(`<td><button  type="button" id="ukloniBtn" onclick="ukloniSalu('${sala.id}')">Ukloni</button></td>`)
                 tr.append(id);

@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -49,10 +50,11 @@ public class Lekar {
 	private Set<Recept> recepti = new HashSet<Recept>();
 	
 	//@OneToMany(cascade = { CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "lekar")
-	//private Set<Integer> ocene = new HashSet<Integer>();
+	@ElementCollection
+	private Set<Ocena> ocene = new HashSet<Ocena>();
 	
-	//@Column(name = "ocena", unique = false, nullable = false)
-	//private Double ocena;
+	@Column(name = "ocena", unique = false, nullable = false)
+	private Double prosecnaOcena;
 
 	@ManyToOne
 	@JoinColumn(name = "klinika", referencedColumnName = "ID_Klinike", nullable = false)
@@ -91,7 +93,7 @@ public class Lekar {
 
 	public Lekar(Integer id, String email, String lozinka, String jmbg, String ime, String prezime, Set<Recept> recepti,
 			Klinika klinika, Set<Pregled> pregledi, Set<IzvestajPregleda> izvestajiPregleda, Set<Operacija> operacije,
-			Set<ZahtevZaGodisnjiOdmor> zahteviZaGodisnji) {
+			Set<ZahtevZaGodisnjiOdmor> zahteviZaGodisnji, Set<Ocena> ocene) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -105,6 +107,22 @@ public class Lekar {
 		this.izvestajiPregleda = izvestajiPregleda;
 		this.operacije = operacije;
 		this.zahteviZaGodisnji = zahteviZaGodisnji;
+		this.ocene = ocene;
+	}
+	
+	public double izracunajProsecnuOcenu() {
+		int suma = 0;
+		int i = this.ocene.size();
+		if(i == 0) {
+			return 3.0;
+		}
+		for(Ocena o : this.ocene) {
+			int ocena = o.ordinal()+1;
+			suma += ocena;
+		}
+		double prosek = suma/i;
+		this.prosecnaOcena = prosek;
+		return prosek;
 	}
 
 	public Set<Recept> getRecepti() {
@@ -208,6 +226,22 @@ public class Lekar {
 
 	public void setTipKorisnika(TipKorisnika tipKorisnika) {
 		this.tipKorisnika = tipKorisnika;
+	}
+
+	public Set<Ocena> getOcene() {
+		return ocene;
+	}
+
+	public void setOcene(Set<Ocena> ocene) {
+		this.ocene = ocene;
+	}
+
+	public Double getProsecnaOcena() {
+		return prosecnaOcena;
+	}
+
+	public void setProsecnaOcena(Double prosecnaOcena) {
+		this.prosecnaOcena = prosecnaOcena;
 	}
 
 }

@@ -147,7 +147,7 @@ function kartice(data, x) {
         email.append(lekar.email);
         let ocena = $("<div></div>");
         ocena.attr("class", 'ocena');
-        ocena.append(4.7);
+        ocena.append(lekar.prosecnaOcena);
         let zvezda = $("<img></img>");
         zvezda.attr("src", 'zvezda.png');
         ocena.append(zvezda);

@@ -8,6 +8,7 @@ public class LekarDTO extends Osoba{
 	 * 
 	 */
 	private static final long serialVersionUID = 7189354369941803845L;
+	
 
 	public LekarDTO() {
 		super();
