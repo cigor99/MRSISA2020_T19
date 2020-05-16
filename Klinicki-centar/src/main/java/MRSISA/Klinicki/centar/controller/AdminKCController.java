@@ -80,8 +80,8 @@ public class AdminKCController {
 
 		AdministratorKlinickogCentra admin = new AdministratorKlinickogCentra();
 		admin.setEmail(adminKCDTO.getEmail());
-		admin.setIme(adminKCDTO.getIme());
-		admin.setPrezime(adminKCDTO.getPrezime());
+		admin.setIme(adminKCDTO.getIme().substring(0, 1).toUpperCase() + adminKCDTO.getIme().substring(1).toLowerCase());
+		admin.setPrezime(adminKCDTO.getPrezime().substring(0, 1).toUpperCase() + adminKCDTO.getPrezime().substring(1).toLowerCase());
 		admin.setJmbg(adminKCDTO.getJmbg());
 		admin.setLozinka(adminKCDTO.getLozinka());
 
@@ -131,8 +131,8 @@ public class AdminKCController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		admin.setEmail(adminKCDTO.getEmail());
-		admin.setIme(adminKCDTO.getIme());
-		admin.setPrezime(adminKCDTO.getPrezime());
+		admin.setIme(adminKCDTO.getIme().substring(0, 1).toUpperCase() + adminKCDTO.getIme().substring(1).toLowerCase());
+		admin.setPrezime(adminKCDTO.getPrezime().substring(0, 1).toUpperCase() + adminKCDTO.getPrezime().substring(1).toLowerCase());
 		admin.setLozinka(adminKCDTO.getLozinka());
 		admin.setJmbg(adminKCDTO.getJmbg());
 

@@ -105,7 +105,7 @@ public abstract class Osoba implements Serializable{
 		Pattern regPass = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$");
 		Pattern regEmail = Pattern.compile(
 				"^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$");
-		Pattern regName = Pattern.compile("^[A-Z]{1}[a-z]{1,20}$");
+		Pattern regName = Pattern.compile("^[a-zA-Z]{1,40}$");
 		Pattern regJmbg = Pattern.compile("^[0-9]{13}$");
 
 		if (!regPass.matcher(this.getLozinka()).matches()) {

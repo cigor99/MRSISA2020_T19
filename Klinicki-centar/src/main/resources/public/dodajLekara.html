@@ -1,61 +1,68 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Dodaj lekara</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script src="js/lekar.js"></script>
-<script src="js/main.js"></script>
-<link href="style.css" rel="stylesheet">
-<script>
-	$(document).ready( function() {
-		ucitajZaglavlje();	
-	});
-</script>
+    <meta charset="utf-8">
+    <title>Dodaj lekara</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script> -->
+    <script src="js/validacija.js"></script>
+    <script src="js/lekar.js"></script>
+    <script src="js/main.js"></script>
+    <link href="style.css" rel="stylesheet">
+    <script>
+        $(document).ready(function() {
+            ucitajZaglavlje();
+        });
+    </script>
 </head>
+
 <body>
-	<div id="navbardiv"></div>
-	<div class="naslov"><h1>Dodavanje novog lekara</h1></div>
-	<div class="forma-za-dodavanje">
-	  <form>
-	  	<div class="form-group">
-	      <label for="ime">Ime:</label>
-	      <input type="text" class="form-control" id="ime" placeholder="Unesite ime" name="ime">
-	      <p id="imeError" style="display:hidden"></p>
-	    </div>
-	    <div class="form-group">
-	      <label for="prezime">Prezime:</label>
-	      <input type="text" class="form-control" id="prezime" placeholder="Unesite prezime" name="prezime">
-	      <p id="prezimeError" style="display:hidden"></p>
-	    </div>
-	    <div class="form-group">
-	      <label for="jmbg">JMBG:</label>
-	      <input type="text" class="form-control" id="jmbg" placeholder="Unesite jmbg" name="jmbg">
-	      <p id="jmbgError" style="display:hidden"></p>
-	    </div>
-	    <div class="form-group">
-	      <label for="email">Email:</label>
-	      <input type="email" class="form-control" id="email" placeholder="Unesite email" name="email">
-	      <p id="emailError" style="display:hidden"></p>
-	    </div>
-	    <div class="form-group">
-	      <label for="lozinka">Lozinka:</label>
-	      <input type="password" class="form-control" id="lozinka" placeholder="Unesite lozinku" name="lozinka">
-	      <p id="lozinkaError" style="display:hidden"></p>
-	    </div>
-	    <div class="form-group">
-	      <label for="lozinka">Ponovo unesite lozinku:</label>
-	      <input type="password" class="form-control" id="lozinkaPonovo" placeholder="Unesite lozinku" name="lozinkaPonovo">
-	    </div>
-	    <!-- <div class="form-group">
+    <div id="navbardiv"></div>
+    <div class="naslov">
+        <h1>Dodavanje novog lekara</h1>
+    </div>
+    <div class="forma-za-dodavanje">
+        <form>
+            <div class="form-group">
+                <label for="ime">Ime:</label>
+                <input type="text" class="form-control" id="ime" placeholder="Unesite ime" name="ime">
+                <p id="imeError" style="display:hidden"></p>
+            </div>
+            <div class="form-group">
+                <label for="prezime">Prezime:</label>
+                <input type="text" class="form-control" id="prezime" placeholder="Unesite prezime" name="prezime">
+                <p id="prezimeError" style="display:hidden"></p>
+            </div>
+            <div class="form-group">
+                <label for="jmbg">JMBG:</label>
+                <input type="text" class="form-control" id="jmbg" placeholder="Unesite jmbg" name="jmbg">
+                <p id="jmbgError" style="display:hidden"></p>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" placeholder="Unesite email" name="email">
+                <p id="emailError" style="display:hidden"></p>
+            </div>
+            <div class="form-group">
+                <label for="lozinka">Lozinka:</label>
+                <input type="password" class="form-control" id="password" placeholder="Unesite lozinku" name="lozinka">
+                <p id="lozinkaError" style="display:hidden"></p>
+            </div>
+            <div class="form-group">
+                <label for="lozinka">Ponovo unesite lozinku:</label>
+                <input type="password" class="form-control" id="password1" placeholder="Unesite lozinku" name="lozinkaPonovo">
+                <p id="lozinka1Error" style="display:hidden"></p>
+            </div>
+            <!-- <div class="form-group">
 	    	<label for="klinika">Klinika:</label>
 	    	<select class="form-control" id="klinikaSelect" ></select>
 	    </div> -->
-	    <button class="button" type="button" id="dodajLekaraBtn" onclick="javascript:dodajLekara()">Dodaj</button>
-	  </form>
-	</div>
+            <button class="button" type="button" id="dodajLekaraBtn" onclick="javascript:dodajLekara()">Dodaj</button>
+        </form>
+    </div>
 
 </body>
 

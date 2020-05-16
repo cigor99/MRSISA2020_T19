@@ -79,8 +79,8 @@ public class AdminiKController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		admin.setEmail(adminKDTO.getEmail());
-		admin.setIme(adminKDTO.getIme());
-		admin.setPrezime(adminKDTO.getPrezime());
+		admin.setIme(adminKDTO.getIme().substring(0, 1).toUpperCase() + adminKDTO.getIme().substring(1).toLowerCase());
+		admin.setPrezime(adminKDTO.getPrezime().substring(0, 1).toUpperCase() + adminKDTO.getPrezime().substring(1).toLowerCase());
 		admin.setLozinka(adminKDTO.getLozinka());
 		admin.setJmbg(adminKDTO.getJmbg());
 

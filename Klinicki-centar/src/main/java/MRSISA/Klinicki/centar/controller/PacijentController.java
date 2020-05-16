@@ -146,9 +146,13 @@ public class PacijentController {
 			return new ResponseEntity<>(HttpStatus.LOCKED);
 		}
 
-		Pacijent novi = new Pacijent(0, pacijentDTO.getIme(), pacijentDTO.getPrezime(), pacijentDTO.getJmbg(),
-				pacijentDTO.getEmail(), pacijentDTO.getLozinka(), null, pacijentDTO.getPol(), pacijentDTO.getGrad(),
-				pacijentDTO.getDrzava(), pacijentDTO.getAdresa(), pacijentDTO.getBrojTelefona(),
+		Pacijent novi = new Pacijent(0,
+				pacijentDTO.getIme().substring(0, 1).toUpperCase()
+						+ pacijentDTO.getIme().substring(1).toLowerCase(),
+				pacijentDTO.getPrezime().substring(0, 1).toUpperCase()
+						+ pacijentDTO.getPrezime().substring(1).toLowerCase(),
+				pacijentDTO.getJmbg(), pacijentDTO.getEmail(), pacijentDTO.getLozinka(), null, pacijentDTO.getPol(),
+				pacijentDTO.getGrad(), pacijentDTO.getDrzava(), pacijentDTO.getAdresa(), pacijentDTO.getBrojTelefona(),
 				pacijentDTO.getJedinstveniBrOsig());
 		List<AdministratorKlinickogCentra> admini = adminKCService.findAll();
 		SimpleMailMessage msg = new SimpleMailMessage();
@@ -181,9 +185,11 @@ public class PacijentController {
 	public ResponseEntity<PacijentDTO> addPacijent(@RequestBody PacijentDTO pacijentDTO) {
 
 		if (!pacijentDTO.proveraPolja()) {
+			System.out.println("provera POLJA");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		if (!jedinstvenEmail(pacijentDTO, false)) {
+			System.out.println("provera jedinstvenEmail");
 			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 		}
 
@@ -196,8 +202,10 @@ public class PacijentController {
 		}
 		Pacijent pacijent = new Pacijent();
 		pacijent.setId(pacijentDTO.getId());
-		pacijent.setIme(pacijentDTO.getIme());
-		pacijent.setPrezime(pacijentDTO.getPrezime());
+		pacijent.setIme(
+				pacijentDTO.getIme().substring(0, 1).toUpperCase() + pacijentDTO.getIme().substring(1).toLowerCase());
+		pacijent.setPrezime(pacijentDTO.getPrezime().substring(0, 1).toUpperCase()
+				+ pacijentDTO.getPrezime().substring(1).toLowerCase());
 		pacijent.setEmail(pacijentDTO.getEmail());
 		pacijent.setLozinka(pacijentDTO.getLozinka());
 		pacijent.setJmbg(pacijentDTO.getJmbg());
@@ -294,8 +302,8 @@ public class PacijentController {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 
-		pacijent.setIme(pacijentDTO.getIme());
-		pacijent.setPrezime(pacijentDTO.getPrezime());
+		pacijent.setIme(pacijentDTO.getIme().substring(0, 1).toUpperCase() + pacijentDTO.getIme().substring(1).toLowerCase());
+		pacijent.setPrezime(pacijentDTO.getPrezime().substring(0, 1).toUpperCase() + pacijentDTO.getPrezime().substring(1).toLowerCase());
 		pacijent.setLozinka(pacijentDTO.getLozinka());
 		pacijent.setPol(pacijentDTO.getPol());
 		pacijent.setAdresa(pacijentDTO.getAdresa());

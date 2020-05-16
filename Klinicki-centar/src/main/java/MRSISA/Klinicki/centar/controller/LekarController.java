@@ -136,8 +136,8 @@ public class LekarController {
 		lekar.setEmail(email);
 		lekar.setLozinka(lekarDTO.getLozinka());
 		lekar.setJmbg(lekarDTO.getJmbg());
-		lekar.setIme(lekarDTO.getIme());
-		lekar.setPrezime(lekarDTO.getPrezime());
+		lekar.setIme(lekarDTO.getIme().substring(0, 1).toUpperCase() + lekarDTO.getIme().substring(1).toLowerCase());
+		lekar.setPrezime(lekarDTO.getPrezime().substring(0, 1).toUpperCase() + lekarDTO.getPrezime().substring(1).toLowerCase());
 		AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");		
 		int id = admink.getKlinikaID();
 		Klinika klinika = klinikaService.findOne(id);
@@ -210,8 +210,8 @@ public class LekarController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 //		lekar.setEmail(lekarDTO.getEmail());
-		lekar.setIme(lekarDTO.getIme());
-		lekar.setPrezime(lekarDTO.getPrezime());
+		lekar.setIme(lekarDTO.getIme().substring(0, 1).toUpperCase() + lekarDTO.getIme().substring(1).toLowerCase());
+		lekar.setPrezime(lekarDTO.getPrezime().substring(0, 1).toUpperCase() + lekarDTO.getPrezime().substring(1).toLowerCase());
 		lekar.setLozinka(lekarDTO.getLozinka());
 //		lekar.setJmbg(lekarDTO.getJmbg());
 

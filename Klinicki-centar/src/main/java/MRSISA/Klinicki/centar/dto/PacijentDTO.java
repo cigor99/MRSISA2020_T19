@@ -87,7 +87,7 @@ public class PacijentDTO extends Osoba{
 			return false;
 		}
 
-		if (this.getJmbg().length() > 20) {
+		if (this.getJmbg().length() != 13) {
 			return false;
 		}
 		if (this.brojTelefona.length() > 20) {
@@ -97,49 +97,60 @@ public class PacijentDTO extends Osoba{
 		Pattern regPass = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$");
 		Pattern regEmail = Pattern.compile(
 				"^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$");
-		Pattern regName = Pattern.compile("^[A-Z]{1}[a-z]{1,20}$");
+		Pattern regName = Pattern.compile("^[a-zA-Z]{1,40}$");
 		Pattern regPhone = Pattern.compile("^[+]{1}[0-9]{1,12}$");
-		Pattern regGrad = Pattern.compile("^([A-Z]{1}[a-z]+[ ]*)+$");
-		Pattern regAdresa = Pattern.compile("^([A-Z]{1}[a-z]+[ ]*)+[0-9]+$");
-		Pattern regJmbg = Pattern.compile("^[0-9]{1,20}$");
+		Pattern regGrad = Pattern.compile("^([a-zA-Z]+[ ]*)+{1,40}$");
+//		Pattern regAdresa = Pattern.compile("^([A-Z]{1}[a-z]+[ ]*)+[0-9]+$");
+		Pattern regAdresa = Pattern.compile("^([a-zA-Z0-9 .,'-]*)+{3,30}$");
+		Pattern regJmbg = Pattern.compile("^[0-9]{13}$");
 
 		if (!regPass.matcher(this.getLozinka()).matches()) {
+			System.out.println("LOZNIKA");
 			return false;
 		}
 
 		if (!regEmail.matcher(this.getEmail()).matches()) {
+			System.out.println("EMAIL");
 			return false;
 		}
 
 		if (!regName.matcher(this.getIme()).matches()) {
+			System.out.println("ime");
 			return false;
 		}
 
 		if (!regName.matcher(this.getPrezime()).matches()) {
+			System.out.println("prezime");
 			return false;
 		}
 
 		if (!regPhone.matcher(this.brojTelefona).matches()) {
+			System.out.println("telefon");
 			return false;
 		}
 
 		if (!regGrad.matcher(this.grad).matches()) {
+			System.out.println("grad");
 			return false;
 		}
 
 		if (!regGrad.matcher(this.drzava).matches()) {
+			System.out.println("drzava");
 			return false;
 		}
 
 		if (!regAdresa.matcher(this.adresa).matches()) {
+			System.out.println("adresa");
 			return false;
 		}
 
 		if (!regJmbg.matcher(this.getJmbg()).matches()) {
+			System.out.println("JMBG");
 			return false;
 		}
 
 		if (!regJmbg.matcher(this.jedinstveniBrOsig).matches()) {
+			System.out.println("OSIGURANJE");
 			return false;
 		}
 

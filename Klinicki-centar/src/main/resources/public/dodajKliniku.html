@@ -1,50 +1,51 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<title>Dodavanje klinike</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script src="js/main.js"></script>
-<script src="klinika.js"></script>
-<link href="style.css" rel="stylesheet">
-<script>
-	$(document).ready( function() {
-		ucitajZaglavlje();		
-	});
-</script>  
+    <meta charset="utf-8">
+    <title>Dodavanje klinike</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script> -->
+    <script src="js/main.js"></script>
+    <script src="js/klinika.js"></script>
+    <link href="style.css" rel="stylesheet">
+    <script>
+        $(document).ready(function() {
+            ucitajZaglavlje();
+        });
+    </script>
 </head>
 
 <body>
-<div id="navbardiv"></div>
-<div class="naslov">
-<h1>Dodavanje klinike</h1>
-</div>
+    <div id="navbardiv"></div>
+    <div class="naslov">
+        <h1>Dodavanje klinike</h1>
+    </div>
 
-<div class="forma-za-dodavanje">   
-	  <form action="">
-	    <div class="form-group">
-	      <label for="naziv">Naziv klinike:</label>
-		  <input type="text" class="form-control" id="naziv" placeholder="Unesite naziv klinike" name="naziv">
-		  <p id="nazivError" style="display:hidden"></p>
-	    </div>
-	    <div class="form-group">
-	      <label for="adresa">Adresa:</label>
-		  <input type="text" class="form-control" id="adresa" placeholder="Unesite adresu klinike" name="adresa">
-		  <p id="adresaError" style="visibility: hidden;"></p>
-	    </div>
-	    <div class="form-group">
-	      <label for="opis">Opis:</label>
-		  <input type="text" class="form-control" id="opis" placeholder="Unesite opis" name="opis">
-		  <p id="opisError" style="visibility: hidden;"></p>
-	    </div>
-	    <input class="button" type="button" value="Dodaj kliniku" id="dodajBtn">
-	  </form>
-</div>
-    
+    <div class="forma-za-dodavanje">
+        <form action="">
+            <div class="form-group">
+                <label for="naziv">Naziv klinike:</label>
+                <input type="text" class="form-control" id="naziv" placeholder="Unesite naziv klinike" name="naziv">
+                <p id="nazivError" style="display:hidden"></p>
+            </div>
+            <div class="form-group">
+                <label for="adresa">Adresa:</label>
+                <input type="text" class="form-control" id="adresa" placeholder="Unesite adresu klinike" name="adresa">
+                <p id="adresaError" style="visibility: hidden;"></p>
+            </div>
+            <div class="form-group">
+                <label for="opis">Opis:</label>
+                <input type="text" class="form-control" id="opis" placeholder="Unesite opis" name="opis">
+                <p id="opisError" style="visibility: hidden;"></p>
+            </div>
+            <input class="button" type="button" value="Dodaj kliniku" id="dodajBtn">
+        </form>
+    </div>
+
 </body>
 
 </html>

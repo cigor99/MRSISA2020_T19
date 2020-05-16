@@ -1,43 +1,47 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
-    <title>Dodavanje leka u sifarnik</title>    
+    <title>Dodavanje leka u sifarnik</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script src="js/main.js"></script>
-<script src="dodajLek.js"></script>
-<link href="style.css" rel="stylesheet">
-<script>
-	$(document).ready( function() {
-		ucitajZaglavlje();
-	});
-</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script> -->
+    <script src="js/main.js"></script>
+    <script src="js/dodajLek.js"></script>
+    <link href="style.css" rel="stylesheet">
+    <script>
+        $(document).ready(function() {
+            ucitajZaglavlje();
+        });
+    </script>
 </head>
 
 <body>
-<div id="navbardiv"></div>
-<div class="naslov"><h1>Dodavanje leka u sifarnik</h1></div>
-	
-<div class="forma-za-dodavanje">
-	<form>
-		<div class="form-group">
-	      <label>Naziv:</label>
-	      <input type="text" class="form-control" id="naziv" placeholder="Unesite naziv leka" required>
-	      <p id="nazivERROR" style="visibility: hidden;"></p>
-	    </div>
-	    <div class="form-group">
-	      <label>Šifra:</label>
-	      <input type="text" class="form-control" id="sifra" placeholder="Unesite šifru leka" required>
-	      <p id="sifraERROR" style="visibility: hidden;"></p>
-	    </div>
-	    
-	    <input class="button" type="button" value="Dodaj lek" id="dodaj">
-	 </form>
-</div>
+    <div id="navbardiv"></div>
+    <div class="naslov">
+        <h1>Dodavanje leka u sifarnik</h1>
+    </div>
+
+    <div class="forma-za-dodavanje">
+        <form>
+            <div class="form-group">
+                <label>Naziv:</label>
+                <input type="text" class="form-control" id="naziv" placeholder="Unesite naziv leka" required>
+                <p id="nazivERROR" style="visibility: hidden;"></p>
+            </div>
+            <div class="form-group">
+                <label>Šifra:</label>
+                <input type="text" class="form-control" id="sifra" placeholder="Unesite šifru leka" required>
+                <p id="sifraERROR" style="visibility: hidden;"></p>
+            </div>
+
+            <input class="button" type="button" value="Dodaj lek" id="dodaj">
+        </form>
+    </div>
 
 
 </body>
+
 </html>

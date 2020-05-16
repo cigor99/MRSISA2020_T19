@@ -1,49 +1,51 @@
 <html>
+
 <head>
-<meta charset="utf-8">
-<title>Izmena klinike</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script src="js/main.js"></script>
-<script src="updateKlinike.js"></script>
-<link href="style.css" rel="stylesheet">
-<script>
-	$(document).ready( function() {
-		ucitajZaglavlje();		
-	});
-</script>   
+    <meta charset="utf-8">
+    <title>Izmena klinike</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script> -->
+    <script src="js/main.js"></script>
+    <script src="js/updateKlinike.js"></script>
+    <link href="style.css" rel="stylesheet">
+    <script>
+        $(document).ready(function() {
+            ucitajZaglavlje();
+        });
+    </script>
 </head>
 
 <body>
-<div id="navbardiv"></div>
-<div class="naslov">
-<h1>Izmena klinike</h1>
-</div>
+    <div id="navbardiv"></div>
+    <div class="naslov">
+        <h1>Izmena klinike</h1>
+    </div>
 
-<div class="forma-za-dodavanje">
-	<form action="">
-	<div class="form-group">
-	   	<label>Naziv klinike:</label>
-	   	<input type="text" class="form-control" name="naziv" id="naziv">
-	</div>
-	
-	<div class="form-group">
-	    <label>Adresa:</label>
-	    <input type="text" class="form-control" name="adresa" id="adresa">
-	</div>
-	
-	<div class="form-group">
-	   	<label>Opis:</label>
-	   	<input type="text" class="form-control" name="opis" id="opis">
-	   </div>
-	
-	   <input class="button" type="button" value="Sačuvaj izmene" id="izmeniBtn">
+    <div class="forma-za-dodavanje">
+        <form action="">
+            <div class="form-group">
+                <label>Naziv klinike:</label>
+                <input type="text" class="form-control" name="naziv" id="naziv">
+            </div>
+
+            <div class="form-group">
+                <label>Adresa:</label>
+                <input type="text" class="form-control" name="adresa" id="adresa">
+            </div>
+
+            <div class="form-group">
+                <label>Opis:</label>
+                <input type="text" class="form-control" name="opis" id="opis">
+            </div>
+
+            <input class="button" type="button" value="Sačuvaj izmene" id="izmeniBtn">
 
         </form>
-</div>
+    </div>
 
 </body>
+
 </html>

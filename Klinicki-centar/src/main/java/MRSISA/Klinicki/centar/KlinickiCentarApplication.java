@@ -134,7 +134,7 @@ public class KlinickiCentarApplication {
 				"Novi Sad", "Srbija", "Bul Oslobodjenja 1234567891018", "+38162222222", "1");
 		Pacijent p2 = new Pacijent(2, "Marko", "Maric", "1234567891019", "neko2@gmail.com", "Password2", null, Pol.ZENSKI,
 				"Novi Sad", "Srbija", "Bul Oslobodjenja 15", "+381623333333", "2");
-		Pacijent p3 = new Pacijent(3, "Ana", "Anic", "1234567891020", "ilijag@hotmail.com", "Sifraaa1", null, Pol.ZENSKI, "Beograd",
+		Pacijent p3 = new Pacijent(3, "Ana", "Anic", "1234567891020", "ili@hotmail.com", "Sifraaa1", null, Pol.ZENSKI, "Beograd",
 				"Srbija", "Nemanjina 15", "+378623332533", "3");
 		Pacijent p4 = new Pacijent(4, "Marko", "Nemanjic", "1234567891021", "neko4@hotmail.com", "Stolica12", null, Pol.MUSKI,
 				"Nis", "Srbija", "Nemanjina 20", "+345623653333", "4");

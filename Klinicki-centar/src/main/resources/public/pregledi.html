@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Pregledi</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="js/pregledi.js"></script>
+<script src="js/main.js"></script>
+<link href="style.css" rel="stylesheet">
+<script>
+	$(document).ready( function() {
+		ucitajZaglavlje();		
+		ucitajTabelu();
+	});
+</script>
+</head>
+
+<body>
+<div id="navbardiv"></div>
+<div class="naslov">
+<h1>Pregledi</h1>
+</div>
+
+<div class="main_div">
+<div class="table-holder">      
+  <table id="pregledi" name="pregledi" class="table">
+    <thead>
+      <tr>
+        <th id="id">ID</th>
+		<th id="datum">Datum</th>
+		<th id="vreme">Vreme</th>
+		<th id="sala">Sala</th>
+		<th id="trajanje">Trajanje</th>
+		<th id="lekar">Lekar</th>
+		<th id="tip">Tip pregleda</th>
+		<th id="cena">Cena</th>
+		<th></th>
+		<th></th>
+      </tr>
+    </thead>
+    <tbody id="table_body">
+    </tbody>
+  </table>	
+</div>
+<input type="button" style="margin: 10px;" class= "button" onclick="location.href='dodajPregled.html'" value="Dodaj pregled">
+</div>
+
+<div class="pretraga">
+<form>
+	<div class="form-group">
+	<input style="width: 220px;" type="text" id="trazi" placeholder="Pretraga.." name="search">
+	<button type="button" onclick="javascript:pretraga()"><i class="fa fa-search"></i></button>
+	</div>
+</form>
+</div>
+
+
+
+
+</body>
+</html>

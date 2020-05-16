@@ -13,33 +13,43 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import MRSISA.Klinicki.centar.domain.ConfirmationToken;
+import MRSISA.Klinicki.centar.domain.Pacijent;
 import MRSISA.Klinicki.centar.domain.StanjePacijenta;
 import MRSISA.Klinicki.centar.domain.StanjeZahteva;
 import MRSISA.Klinicki.centar.domain.ZahtevZaRegistraciju;
 import MRSISA.Klinicki.centar.dto.EmailDTO;
 import MRSISA.Klinicki.centar.dto.ZahtevZaRegDTO;
+import MRSISA.Klinicki.centar.service.ConfirmationTokenService;
+import MRSISA.Klinicki.centar.service.PacijentService;
 import MRSISA.Klinicki.centar.service.ZahtevZRService;
 
 @RestController
 public class ZahtevZRController {
-	
+
+	@Autowired
+	private PacijentService pacijentService;
+
+	@Autowired
+	private ConfirmationTokenService tokenService;
+
 	@Autowired
 	private ZahtevZRService zzrService;
-	
+
 	@Autowired
-    private JavaMailSender javaMailSender;
-	
+	private JavaMailSender javaMailSender;
+
 	@GetMapping("/KC/ZZR/getOne/{id}")
 	public ResponseEntity<ZahtevZaRegDTO> getOne(@PathVariable Integer id) {
 		ZahtevZaRegistraciju zahtev = zzrService.findOne(id);
 
 		if (zahtev != null) {
 			return new ResponseEntity<>(new ZahtevZaRegDTO(zahtev), HttpStatus.OK);
-		}else {
+		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
+
 	@PutMapping("/KC/ZZR/Prihvati/{id}")
 	public ResponseEntity<ZahtevZaRegDTO> prihvatiZZR(@PathVariable Integer id){
 		ZahtevZaRegistraciju zahtev = zzrService.findOne(id);
@@ -48,42 +58,77 @@ public class ZahtevZRController {
 			zahtev.setStanje(StanjeZahteva.PRIHVACEN);
 			zahtev.getPacijent().setStanjePacijenta(StanjePacijenta.PRIHVACEN);
 			zahtev = zzrService.save(zahtev);
+			
+			ConfirmationToken confirmationToken = new ConfirmationToken(zahtev.getPacijent());
+			confirmationToken = tokenService.save(confirmationToken);
+			SimpleMailMessage msg = new SimpleMailMessage();
+			
+			 msg.setTo(zahtev.getPacijent().getEmail());
+
+		        msg.setSubject("Uspešna registracija na klinički centar!");
+		        msg.setText("Da bi potvrdili nalog, kliknite na link: "
+		        		+"https://mrsisa2020-t19.herokuapp.com/klinicki-centar/confirmation.html?token="+
+		        		confirmationToken.getConfirmationToken());
+//https://mrsisa2020-t19.herokuapp.com
+//http://localhost:8080
+		        try {
+		        	 javaMailSender.send(msg);
+				} catch (MailException e) {
+					//e.printStackTrace();
+					return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				}
+			
 			return new ResponseEntity<>(new ZahtevZaRegDTO(zahtev), HttpStatus.OK);
 		}else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
+
+	@GetMapping("/ZZR/potvrda-registracije/{token}")
+	public ResponseEntity<String> potvrdaRegistracije(@PathVariable String token) {
+		ConfirmationToken confToken = tokenService.finByToken(token);
+
+		if (confToken != null) {
+			Pacijent pacijent = pacijentService.findByEmail(confToken.getPacijent().getEmail());
+			System.out.println(pacijent);
+			pacijent.setStanjePacijenta(StanjePacijenta.AKTIVAN);
+			pacijent = pacijentService.save(pacijent);
+			return new ResponseEntity<String>("Uspesna aktivacija naloga!", HttpStatus.OK);
+		} else {
+			return new ResponseEntity<String>("Link nije važeći", HttpStatus.NOT_FOUND);
+		}
+	}
+
 	@PutMapping("/KC/ZZR/Odbij/{id}")
-	public ResponseEntity<ZahtevZaRegDTO> odbijZZR(@PathVariable Integer id){
+	public ResponseEntity<ZahtevZaRegDTO> odbijZZR(@PathVariable Integer id) {
 		ZahtevZaRegistraciju zahtev = zzrService.findOne(id);
-		
+
 		if (zahtev != null) {
 			zahtev.setStanje(StanjeZahteva.ODBIJEN);
 			zahtev.getPacijent().setStanjePacijenta(StanjePacijenta.ODBIJEN);
 			zahtev = zzrService.save(zahtev);
 			return new ResponseEntity<>(new ZahtevZaRegDTO(zahtev), HttpStatus.OK);
-		}else {
+		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 
 	@PostMapping("/ZZR/sendEmail")
-	public ResponseEntity<EmailDTO> sendEmail(@RequestBody EmailDTO emailDTO){
-		 SimpleMailMessage msg = new SimpleMailMessage();
-	        msg.setTo(emailDTO.getEmail());
+	public ResponseEntity<EmailDTO> sendEmail(@RequestBody EmailDTO emailDTO) {
+		SimpleMailMessage msg = new SimpleMailMessage();
+		msg.setTo(emailDTO.getEmail());
 
-	        msg.setSubject(emailDTO.getSubject());
-	        msg.setText(emailDTO.getMessage());
+		msg.setSubject(emailDTO.getSubject());
+		msg.setText(emailDTO.getMessage());
 
-	        try {
-	        	 javaMailSender.send(msg);
-			} catch (MailException e) {
-				//e.printStackTrace();
-				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-			}
-	        
-	        return new ResponseEntity<>(new EmailDTO(), HttpStatus.OK);
-	       
+		try {
+			javaMailSender.send(msg);
+		} catch (MailException e) {
+			// e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		return new ResponseEntity<>(new EmailDTO(), HttpStatus.OK);
+
 	}
 }

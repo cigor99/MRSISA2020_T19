@@ -19,4 +19,6 @@ public interface PacijentRepository extends JpaRepository<Pacijent, Integer>{
 	Pacijent findOneByEmail(String email);
 	
 	Page<Pacijent> findAll(Pageable pageable);
+	
+	Pacijent findByEmail(String email);
 }
