@@ -1,55 +1,56 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Šifranik dijagnoza</title>
     <meta charset="utf-8">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-	<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-	<script src="js/main.js"></script>
-    <script src="dijagnoze.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script> -->
+    <script src="js/main.js"></script>
+    <script src="js/dijagnoze.js"></script>
     <link href="style.css" rel="stylesheet">
     <script>
-	$(document).ready( function() {
-		ucitajZaglavlje();		
-	});
-	</script>
+        $(document).ready(function() {
+            ucitajZaglavlje();
+        });
+    </script>
 </head>
 
 <body>
-<div id="navbardiv"></div>
-<div class="naslov">
-<h1>Šifarnik dijagnoza</h1>
-</div>
+    <div id="navbardiv"></div>
+    <div class="naslov">
+        <h1>Šifarnik dijagnoza</h1>
+    </div>
 
-<div class="main_div">
-<div class="table-holder">
-    <table id="dijagnoze" class="table">
-    <thead>
-    	<tr>
-        <th>ID dijagnoze</th>
-        <th>Naziv dijagnose</th>
-        <th>Sifra dijagnoze</th>
-        <th>Opis dijagnoze</th>
-        <th>Izmeni</th>
-        </tr>
-    </thead>
-    </table>
-</div>
-<input style="margin: 10px;" class= "button" type="button" value="Dodaj dijagnozu" id="dodaj">
-</div>
+    <div class="main_div">
+        <div class="table-holder">
+            <table id="dijagnoze" class="table">
+                <thead>
+                    <tr>
+                        <th>ID dijagnoze</th>
+                        <th>Naziv dijagnose</th>
+                        <th>Sifra dijagnoze</th>
+                        <th>Opis dijagnoze</th>
+                        <th>Izmeni</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <input style="margin: 10px;" class="button" type="button" value="Dodaj dijagnozu" id="dodaj">
+    </div>
 
 
-<div class="brisanje">
-Brisanje dijagnoze
-<div class="form-group">
-<label for="tip">Unesite ID dijagnoze koju želite da obrišete</label>
-<input style="max-width: 250px;" class="form-control" type="text" id="IDBrisanja">
-</div>
-<input class="button" type="button" value="Obriši dijagnozu" id="obrisi">
-</div>
+    <div class="brisanje">
+        Brisanje dijagnoze
+        <div class="form-group">
+            <label for="tip">Unesite ID dijagnoze koju želite da obrišete</label>
+            <input style="max-width: 250px;" class="form-control" type="text" id="IDBrisanja">
+        </div>
+        <input class="button" type="button" value="Obriši dijagnozu" id="obrisi">
+    </div>
 
 
 </body>

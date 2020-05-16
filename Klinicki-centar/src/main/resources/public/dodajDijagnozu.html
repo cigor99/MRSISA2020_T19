@@ -1,48 +1,51 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
-    <title>Dodavanje dijagnoza u šifarnik</title>   
+    <title>Dodavanje dijagnoza u šifarnik</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script src="js/main.js"></script>
-<script src="dodajDijagnozu.js"></script>
-<link href="style.css" rel="stylesheet">
-<script>
-	$(document).ready( function() {
-		ucitajZaglavlje();
-	});
-</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script> -->
+    <script src="js/main.js"></script>
+    <script src="js/dodajDijagnozu.js"></script>
+    <link href="style.css" rel="stylesheet">
+    <script>
+        $(document).ready(function() {
+            ucitajZaglavlje();
+        });
+    </script>
 </head>
 
 <body>
 
-<div id="navbardiv"></div>
-<div class="naslov"><h1>Dodavanje dijagnoze u šifarnik</h1></div>
-	
-<div class="forma-za-dodavanje">
-	<form>
-		<div class="form-group">
-	      <label>Naziv:</label>
-	      <input type="text" class="form-control" id="naziv" placeholder="Unesite naziv dijagnoze">
-	      <p id="nazivERROR" style="visibility: hidden;"></p>
-	    </div>
-	    <div class="form-group">
-	      <label>Šifra:</label>
-	      <input type="text" class="form-control" id="sifra" placeholder="Unesite šifru dijagnoze">
-	      <p id="sifraERROR" style="visibility: hidden;"></p>
-	    </div>
-	    <div class="form-group">
-	      <label>Opis:</label>
-	      <input type="text" class="form-control" id="opis" placeholder="Unesite opis dijagnoze">
-	      <p id="opisERROR" style="visibility: hidden;"></p>
-	    </div>	    
-	    <input class="button" type="button" value="Dodaj dijagnozu" id="dodaj">
-	 </form>
-</div>
-	
+    <div id="navbardiv"></div>
+    <div class="naslov">
+        <h1>Dodavanje dijagnoze u šifarnik</h1>
+    </div>
+
+    <div class="forma-za-dodavanje">
+        <form>
+            <div class="form-group">
+                <label>Naziv:</label>
+                <input type="text" class="form-control" id="naziv" placeholder="Unesite naziv dijagnoze">
+                <p id="nazivERROR" style="visibility: hidden;"></p>
+            </div>
+            <div class="form-group">
+                <label>Šifra:</label>
+                <input type="text" class="form-control" id="sifra" placeholder="Unesite šifru dijagnoze">
+                <p id="sifraERROR" style="visibility: hidden;"></p>
+            </div>
+            <div class="form-group">
+                <label>Opis:</label>
+                <input type="text" class="form-control" id="opis" placeholder="Unesite opis dijagnoze">
+                <p id="opisERROR" style="visibility: hidden;"></p>
+            </div>
+            <input class="button" type="button" value="Dodaj dijagnozu" id="dodaj">
+        </form>
+    </div>
+
 </body>
 
 

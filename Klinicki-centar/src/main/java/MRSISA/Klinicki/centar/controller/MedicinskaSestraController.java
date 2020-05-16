@@ -108,8 +108,8 @@ public class MedicinskaSestraController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 //		sestra.setEmail(medSes.getEmail());
-		sestra.setIme(medSes.getIme());
-		sestra.setPrezime(medSes.getPrezime());
+		sestra.setIme(medSes.getIme().substring(0, 1).toUpperCase() + medSes.getIme().substring(1).toLowerCase());
+		sestra.setPrezime(medSes.getPrezime().substring(0, 1).toUpperCase() + medSes.getPrezime().substring(1).toLowerCase());
 		sestra.setLozinka(medSes.getLozinka());
 //		sestra.setJmbg(medSes.getJmbg());
 
@@ -144,8 +144,8 @@ public class MedicinskaSestraController {
 		sestra.setEmail(email);
 		sestra.setLozinka(sestraDTO.getLozinka());
 		sestra.setJmbg(sestraDTO.getJmbg());
-		sestra.setIme(sestraDTO.getIme());
-		sestra.setPrezime(sestraDTO.getPrezime());
+		sestra.setIme(sestraDTO.getIme().substring(0, 1).toUpperCase() + sestraDTO.getIme().substring(1).toLowerCase());
+		sestra.setPrezime(sestraDTO.getPrezime().substring(0, 1).toUpperCase() + sestraDTO.getPrezime().substring(1).toLowerCase());
 		AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");		
 		int id = admink.getKlinikaID();
 		Klinika klinika = klinikaService.findOne(id);

@@ -1,46 +1,50 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<title>Izmena leka iz šifarnika</title>      
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script src="js/main.js"></script>
-<script src="updateLeka.js"></script>
-<link href="style.css" rel="stylesheet">
-<script>
-	$(document).ready( function() {
-		ucitajZaglavlje();
-	});
-</script>
+    <meta charset="utf-8">
+    <title>Izmena leka iz šifarnika</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script> -->
+    <script src="js/main.js"></script>
+    <script src="js/updateLeka.js"></script>
+    <link href="style.css" rel="stylesheet">
+    <script>
+        $(document).ready(function() {
+            ucitajZaglavlje();
+        });
+    </script>
 </head>
 
 <body>
-<div id="navbardiv"></div>
-<div class="naslov"><h1>Izmena leka</h1></div>
-	
-<div class="forma-za-dodavanje">
-	<form>
-		<div class="form-group">
-	      <label>ID leka:</label>
-	      <input type="text" class="form-control" id="ID" readonly>
-	    </div>
-		<div class="form-group">
-	      <label>Naziv:</label>
-	      <input type="text" class="form-control" id="naziv">
-	      <p id="nazivERROR" style="visibility: hidden;"></p>
-	    </div>
-	    <div class="form-group">
-	      <label>Šifra:</label>
-	      <input type="text" class="form-control" id="sifra">
-	      <p id="sifraERROR" style="visibility: hidden;"></p>
-	    </div>
-	    
-	    <input class="button" type="button" value="Sačuvaj izmene" id="izmeniBtn">
-	 </form>
-</div>
-        
+    <div id="navbardiv"></div>
+    <div class="naslov">
+        <h1>Izmena leka</h1>
+    </div>
+
+    <div class="forma-za-dodavanje">
+        <form>
+            <div class="form-group">
+                <label>ID leka:</label>
+                <input type="text" class="form-control" id="ID" readonly>
+            </div>
+            <div class="form-group">
+                <label>Naziv:</label>
+                <input type="text" class="form-control" id="naziv">
+                <p id="nazivERROR" style="visibility: hidden;"></p>
+            </div>
+            <div class="form-group">
+                <label>Šifra:</label>
+                <input type="text" class="form-control" id="sifra">
+                <p id="sifraERROR" style="visibility: hidden;"></p>
+            </div>
+
+            <input class="button" type="button" value="Sačuvaj izmene" id="izmeniBtn">
+        </form>
+    </div>
+
 </body>
+
 </html>

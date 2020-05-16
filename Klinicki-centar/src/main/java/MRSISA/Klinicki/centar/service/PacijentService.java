@@ -50,6 +50,10 @@ public class PacijentService {
 		return pacijentRepo.findById(ID).orElse(null);
 	}
 	
+	public Pacijent findByEmail(String email) {
+		return pacijentRepo.findByEmail(email);
+	}
+	
 	/*
 	@Autowired
 	public PacijentService(@Qualifier("PacijentRepo") PacijentRepository pacijentRepo) {

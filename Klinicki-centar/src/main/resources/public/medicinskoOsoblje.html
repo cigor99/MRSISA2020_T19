@@ -1,65 +1,66 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<title>Medicinsko osoblje</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-<link href="PacijentiSearch.css" rel="stylesheet" />
-<script src="js/main.js"></script>
-<script src="js/osoblje.js"></script>
-<link href="style.css" rel="stylesheet">
-<link href="osoblje-style.css" rel="stylesheet">
-<link href="prekidac.css" rel="stylesheet">
-<script>
-    $(document).ready(function() {
-        ucitajZaglavlje();
-        ucitajOsoblje();
-    });
-    
-    /*var winHeight = $(window).height();
-    var wH = (winHeight / 2) - 41;
-
-    $('.del').on('click', function() {
-        $(this).closest('.col-md-4').addClass('marked');
-
-        $('body').find('.alert').remove();
-        $('body').append('<div class="alert">Are you sure?<br><a href="#" class="yes">delete</a><a href="#" class="no">cancel</a>');
-        $('body').find('.alert').css({
-            'top': wH + 'px'
-        }).find('.no').on('click', function() {
-            $(this).closest('.alert').remove();
-            $('.col-md-4').removeClass('marked');
-        }).closest('.alert').find('.yes').on('click', function() {
-            $(this).closest('.alert').remove();
-            $('.marked').remove();
+    <meta charset="utf-8">
+    <title>Medicinsko osoblje</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script> -->
+    <link href="PacijentiSearch.css" rel="stylesheet" />
+    <script src="js/main.js"></script>
+    <script src="js/osoblje.js"></script>
+    <link href="style.css" rel="stylesheet">
+    <link href="osoblje-style.css" rel="stylesheet">
+    <link href="prekidac.css" rel="stylesheet">
+    <script>
+        $(document).ready(function() {
+            ucitajZaglavlje();
+            ucitajOsoblje();
         });
-    });
-    $(window).resize(function() {
-        var winHeight = $(window).height();
+
+        /*var winHeight = $(window).height();
         var wH = (winHeight / 2) - 41;
-        $('body').find('.alert').css({
-            'top': wH + 'px'
+
+        $('.del').on('click', function() {
+            $(this).closest('.col-md-4').addClass('marked');
+
+            $('body').find('.alert').remove();
+            $('body').append('<div class="alert">Are you sure?<br><a href="#" class="yes">delete</a><a href="#" class="no">cancel</a>');
+            $('body').find('.alert').css({
+                'top': wH + 'px'
+            }).find('.no').on('click', function() {
+                $(this).closest('.alert').remove();
+                $('.col-md-4').removeClass('marked');
+            }).closest('.alert').find('.yes').on('click', function() {
+                $(this).closest('.alert').remove();
+                $('.marked').remove();
+            });
         });
-    });*/
-</script>
+        $(window).resize(function() {
+            var winHeight = $(window).height();
+            var wH = (winHeight / 2) - 41;
+            $('body').find('.alert').css({
+                'top': wH + 'px'
+            });
+        });*/
+    </script>
 
 </head>
 
 <body>
-<div id="navbardiv"></div>
-<div class="naslov">
-    <h1>Medicinsko osoblje</h1>
-</div>
+    <div id="navbardiv"></div>
+    <div class="naslov">
+        <h1>Medicinsko osoblje</h1>
+    </div>
 
     <!-- SEARCH -->
     <div class="s003">
         <form>
             <div class="inner-form">
-                
+
                 <div class="input-field second-wrap">
                     <input id="search" type="text" placeholder="Pretraži" />
                     <p id="error" style="visibility: hidden;"></p>
@@ -84,7 +85,7 @@
     <!-- </div> -->
     <div class="dodavanje">
         <div class="form-group">
-            <select style="max-width: 250px;" class="form-control" id="osobljeSelect" >
+            <select style="max-width: 250px;" class="form-control" id="osobljeSelect">
 		   		<option value="" disabled selected>Izaberite filter</option>
 		   		<option value="lekar">Lekari</option>
 				<option value="sestra">Medicinske sestre</option>
@@ -96,8 +97,8 @@
         </div>
     </div>
     <div>
-    <input type="button" class= "button" onclick="location.href='dodajLekara.html'" value="Dodaj lekara">
-    <input type="button" class= "button" onclick="location.href='dodajMedicinskuSestru.html'" value="Dodaj medicinsku sestru">
+        <input type="button" class="button" onclick="location.href='dodajLekara.html'" value="Dodaj lekara">
+        <input type="button" class="button" onclick="location.href='dodajMedicinskuSestru.html'" value="Dodaj medicinsku sestru">
     </div>
     <!-- PREKIDAC -->
     <div class="divPrekidac">
@@ -114,10 +115,10 @@
     <!-- <div class="pretraga">
         <input type="text" class="search" placeholder="Pretraga">
     </div> -->
-<div class="main_div">
-    <div class="container">
-        <div class="row" id="ROWDIV">
-            <!--  <div class="col-md-4">
+    <div class="main_div">
+        <div class="container">
+            <div class="row" id="ROWDIV">
+                <!--  <div class="col-md-4">
                 <div class="well">
                     <img src="lekar.png" class="avatar" alt="avatar">
                     <h4>Doktor1 </h4>
@@ -243,8 +244,8 @@
                     </ul>
                 </div>
             </div> -->
+            </div>
         </div>
-    </div>
     </div>
 
     <div class="pagination clearfix" id="stranice">
