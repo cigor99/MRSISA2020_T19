@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lekar</title>
+	<link rel="shortcut icon" href="#" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="js/profilLekara.js"></script>
+    
+    <link href="../style.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div id="navbardiv">
+	<nav class="navbar navbar-default" style="background: #e6ffe6;">
+        <div class="container-fluid" style="background: #e6ffe6;">
+            <div class="navbar-header" style="background: #e6ffe6;">
+                <a class="navbar-brand" href="pacijentHomePage.html">Klinički centar</a>
+            </div>
+            <ul id="navbar-list" class="nav navbar-nav">
+                <li><a href="pacijentHomePage.html">Home</a></li>
+                <li><a href="pretragaKlinika.html">Pretraga klinika</a></li>
+                <li><a href="profil.html">Profil</a></li>
+                <li style="float:right"><a href="javascript:odjava()"><b>Odjavi se</b></a></li>
+			</ul>
+        </div>
+    </nav>
+	</div>
+    <div class="naslov">
+        <h1 id="naslov-h1"></h1>
+    </div>
+
+    <div class="forma-za-dodavanje">
+        <form action="">
+            <div class="form-group" id="ime">
+                <label>Ime:</label>
+            </div>
+
+            <div class="form-group" id="prezime">
+                <label>Prezime:</label>
+            </div>
+
+            <div class="form-group" id="email">
+                <label>Email:</label>
+            </div>
+            
+            <div class="form-group" id="ocena">
+            	<label>Ocena:</label>
+            </div>
+            
+            <div>
+            <a id="nazad">Nazad na pretragu lekara</a>
+            </div>
+            
+            <!-- <div class="form-group">
+                <label>Prosečna ocena:</label>
+                <input type="text" id="ocena" readonly class="form-control">
+            </div> -->
+
+            
+        </form>
+    </div>
+
+</body>
+
+</html>

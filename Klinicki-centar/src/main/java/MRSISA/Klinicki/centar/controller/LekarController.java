@@ -196,7 +196,7 @@ public class LekarController {
 		}
 	}
 
-	@PostMapping("/lekar/search1")
+	@PostMapping("/lekar/search")
 	public ResponseEntity<List<LekarDTO>> searchLekar(@RequestBody String pretraga) {
 		List<LekarDTO> retVal = new ArrayList<LekarDTO>();
 		System.out.println(pretraga);
@@ -418,11 +418,9 @@ public class LekarController {
 		List<LekarDTO> lekariDTO = new ArrayList<>();
 
 		for (Lekar l : lekari) {
-			System.out.println(klinika);
 			if (l.getKlinika().getId().equals(klinika)) {
 				lekariDTO.add(new LekarDTO(l));
 			}
-
 		}
 
 		return new ResponseEntity<>(lekariDTO, HttpStatus.OK);
@@ -432,16 +430,11 @@ public class LekarController {
 	@PostMapping("/lekar/searchLekaraForPacijent/{kriterijum}/{pretraga}/{klinika}")
 	public ResponseEntity<List<LekarDTO>> searchLekarForPacijent(@PathVariable String kriterijum,
 			@PathVariable String pretraga, @PathVariable Integer klinika) {
-		System.out.println(kriterijum);
 		List<LekarDTO> retVal = new ArrayList<LekarDTO>();
-		pretraga = pretraga.substring(0, pretraga.length() - 1);
-		System.out.println(pretraga);
 		switch (kriterijum) {
 		case "ime":
 			for (Lekar l : lekarService.findAll()) {
-				System.out.println(l.getIme());
 				if (l.getIme().toLowerCase().contains(pretraga.toLowerCase())) {
-
 					if (l.getKlinika().getId().equals(klinika)) {
 						LekarDTO lekar = new LekarDTO(l);
 						retVal.add(lekar);
@@ -451,9 +444,7 @@ public class LekarController {
 			break;
 		case "prezime":
 			for (Lekar l : lekarService.findAll()) {
-				System.out.println(l.getPrezime());
 				if (l.getPrezime().toLowerCase().contains(pretraga.toLowerCase())) {
-
 					if (l.getKlinika().getId().equals(klinika)) {
 						LekarDTO lekar = new LekarDTO(l);
 						retVal.add(lekar);
@@ -463,7 +454,6 @@ public class LekarController {
 			break;
 		default:
 			for (Lekar l : lekarService.findAll()) {
-				System.out.println(l.getIme());
 				if (l.getIme().toLowerCase().contains(pretraga.toLowerCase())) {
 					if (l.getKlinika().getId().equals(klinika)) {
 						LekarDTO lekar = new LekarDTO(l);
@@ -482,12 +472,9 @@ public class LekarController {
 		List<Lekar> lekari = lekarService.findAll();
 		List<LekarDTO> lekariDTO = new ArrayList<LekarDTO>();
 		for (Lekar l : lekari) {
-
-			System.out.println(klinika);
 			if (l.getKlinika().getId().equals(klinika)) {
 				lekariDTO.add(new LekarDTO(l));
 			}
-
 		}
 		return new ResponseEntity<>(lekariDTO, HttpStatus.OK);
 	}

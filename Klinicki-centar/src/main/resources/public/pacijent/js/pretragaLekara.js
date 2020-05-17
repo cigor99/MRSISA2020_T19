@@ -176,7 +176,7 @@ $(document).ready(function () {
                 karton.attr("class", 'del');
                 let a = $("<a>Profil</a>")
                 a.attr("class", 'btn');
-                a.attr("href", '#')
+                a.attr("href", 'profilLekara.html?id=' + lekar.id +"&klinika=" + klinika.id)
                 
                 karton.append(a);
                 ul.append(karton)
@@ -239,8 +239,7 @@ $(document).ready(function () {
                 // let TDkarton = $("<td>" + "<a href=\"pacijentProfil.html?id=" + pacijent.id + "\">Karton</a></td>")
                 let TDprofil = $("<td></td>")
                 let profil = $("<a>Profil lekara</a>")
-                //karton.attr("href", 'profilPacijenta.html?id=' + pacijent.id)
-                profil.attr("href", '#')
+                profil.attr("href", 'profilLekara.html?id=' + lekar.id +"&klinika=" + klinika.id)
                 TDprofil.append(profil);
 
                 // tr.append(idTD)
@@ -634,91 +633,6 @@ $(document).ready(function () {
 	
 	
 });
-
-function karticeEEEEE(data, x){
-	
-    $("#ROWDIV").css("visibility", 'visible')
-    let counter = 0;
-
-    for (var lekar of data) {
-        let row = $(".row");
-        let col = $("<div></div>");
-        col.attr("class", 'col-md-4');
-        row.append(col);
-        let well = $("<div></div>");
-        well.attr("class", 'well');
-        well.attr("id", '${lekar.id}');
-        col.append(well);
-        let img = $("<img></img>");
-        img.attr("class", 'avatar');
-        
-        img.attr("src", '../lekar.png');
-        
-        
-        
-        var h4 = $("<h4>Lekar</h4>");
-        
-       
-        let ime = $("<p></p>");
-        ime.append("<strong>Ime: </strong>");
-        ime.append(lekar.ime);
-        let prezime = $("<p></p>");
-        prezime.append("<strong>Prezime: </strong>");
-        prezime.append(lekar.prezime);
-        let email = $("<p></p>");
-        email.append("<strong>Email: </strong>");
-        email.append(lekar.email);
-        let ocena = $("<div></div>");
-        ocena.attr("class", 'ocena');
-        ocena.append(4.7);
-        let zvezda = $("<img></img>");
-        zvezda.attr("src", '../zvezda.png');
-        ocena.append(zvezda);
-        //<img src="zvezda.png" alt="">
-/*
-        let ul = $("<ul></ul>")
-        ul.attr("class", 'bottom')
-        let karton = $("<li></li>")
-        karton.attr("class", 'del');
-        let a = $("<a>Profil</a>")
-        a.attr("class", 'btn');
-        
-        a.attr("href", 'profilLekara.html?id=' + lekar.id);
-        
-        
-        
-            // let pregled = $("<li></li>")
-            // pregled.attr('class', 'del');
-            // let a2 = $("<a>Započni pregled</a>");
-            // a2.attr("class", 'btn');
-            // pregled.append(a2);
-            // ul.append(pregled);
-        
-        karton.append(del);
-        let karton2 = $("<li></li>")
-        karton2.attr("class", 'fb');
-        karton2.append(a);
-        //karton.append(a);
-        ul.append(karton2);
-        ul.append(karton);
-*/
-        //ul.append(a);
-        /*<ul class="bottom">
-                       <li class="fb"><a href="#" class="btn">Izmeni profil</a></li>
-                        <li class="getPosts"><a href="#" class="btn">Izmeni kliniku</a></li>
-                        <li class="del"><a href="#" class="btn">Obrisi</a></li>
-                    </ul>*/
-
-        well.append(img);
-        well.append(h4);
-        well.append(ime);
-        well.append(prezime);
-        well.append(email);
-        well.append(ocena);
-        //well.append(ul);
-    }
-    counter = counter + 1;
-}
 
 
 
