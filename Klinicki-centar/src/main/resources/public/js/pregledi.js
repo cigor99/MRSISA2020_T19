@@ -31,6 +31,27 @@ function ucitajTabelu() {
     });
 }
 
+function proveriKorisnika(){
+	$.ajax({
+        type: "get",
+        url: "/klinicki-centar/login/tipKorisnika",
+        success: function(data) {       
+            console.log(data);
+            tipKorisnika = data;
+            //window.tipKorisnika = data;
+            if(tipKorisnika == "lekar"){
+            	$("#dodajPregled").css('visibility', 'hidden');
+            }
+
+        },
+        error: function(jqXHR) {
+            alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+        },
+        async: false,
+
+    });
+}
+
 function ucitajSale() {
     $.ajax({
         type: "get",

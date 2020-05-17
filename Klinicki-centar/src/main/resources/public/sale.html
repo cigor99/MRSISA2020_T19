@@ -15,6 +15,7 @@
 	$(document).ready( function() {
 		ucitajZaglavlje();		
 		ucitajTabelu();
+		proveriKorisnika();
 	});
 </script>
 </head>
@@ -41,7 +42,7 @@
     </tbody>
   </table>	
 </div>
-<input type="button" style="margin: 10px;" class= "button" onclick="location.href='dodajSalu.html'" value="Dodaj salu">
+<input type="button" id="dodajSalu" style="margin: 10px;" class= "button" onclick="location.href='dodajSalu.html'" value="Dodaj salu">
 </div>
 
 <div class="pretraga">

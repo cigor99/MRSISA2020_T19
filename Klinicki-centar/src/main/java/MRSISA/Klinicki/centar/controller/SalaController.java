@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +27,7 @@ import MRSISA.Klinicki.centar.domain.Klinika;
 import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.Pregled;
 import MRSISA.Klinicki.centar.domain.Sala;
+import MRSISA.Klinicki.centar.dto.AdminKDTO;
 import MRSISA.Klinicki.centar.dto.LekarDTO;
 import MRSISA.Klinicki.centar.dto.SalaDTO;
 import MRSISA.Klinicki.centar.service.KlinikaService;
@@ -39,15 +42,32 @@ public class SalaController {
 	@Autowired
 	private KlinikaService klinikaService;
 	
+	@Autowired
+	HttpServletRequest request;
+
+	
 	@GetMapping("/sala/all")
-	public ResponseEntity<List<SalaDTO>> getAllSale(){
-		
+	public ResponseEntity<List<SalaDTO>> getAllSale(){		
 		List<Sala> sale =  salaService.findAll();
-		
 		List<SalaDTO> saleDTO = new ArrayList<SalaDTO>();
-		for(Sala s : sale) {
-			saleDTO.add(new SalaDTO(s));
+		int klinika = -1;
+		String tip = (String) request.getSession().getAttribute("tip");
+		if(tip.equals("adminKlinike")) {
+			AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
+			klinika = admink.getKlinikaID();
 		}
+		else if(tip.equals("lekar")) {
+			LekarDTO lekar = (LekarDTO) request.getSession().getAttribute("current");
+			klinika = lekar.getKlinikaID();
+		}
+		if(klinika != -1) {			
+			for(Sala s : sale) {
+				if(s.getKlinika().getId().equals(klinika)) {
+					saleDTO.add(new SalaDTO(s));
+				}
+			}
+		}
+		
 		
 		return new ResponseEntity<>(saleDTO, HttpStatus.OK);
 	}
@@ -56,10 +76,23 @@ public class SalaController {
 	public ResponseEntity<List<SalaDTO>> getSalaPage(){
 		Pageable prvihDeset = PageRequest.of(0, 10);
 		Page<Sala> sale =  salaService.findAll(prvihDeset);
-		
 		List<SalaDTO> saleDTO = new ArrayList<SalaDTO>();
-		for(Sala s : sale) {
-			saleDTO.add(new SalaDTO(s));
+		int klinika = -1;
+		String tip = (String) request.getSession().getAttribute("tip");
+		if(tip.equals("adminKlinike")) {
+			AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
+			klinika = admink.getKlinikaID();
+		}
+		else if(tip.equals("lekar")) {
+			LekarDTO lekar = (LekarDTO) request.getSession().getAttribute("current");
+			klinika = lekar.getKlinikaID();
+		}
+		if(klinika != -1) {			
+			for(Sala s : sale) {
+				if(s.getKlinika().getId().equals(klinika)) {
+					saleDTO.add(new SalaDTO(s));
+				}
+			}
 		}
 		
 		return new ResponseEntity<>(saleDTO, HttpStatus.OK);
@@ -68,7 +101,13 @@ public class SalaController {
 	@PostMapping("/sala/add")
 	public ResponseEntity<SalaDTO> addSala(@RequestBody SalaDTO salaDTO){
 		Sala sala = new Sala();
-		Klinika klinika = klinikaService.findOne(1);		
+		int id = -1;
+		String tip = (String) request.getSession().getAttribute("tip");
+		if(tip.equals("adminKlinike")) {
+			AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
+			id = admink.getKlinikaID();
+		}
+		Klinika klinika = klinikaService.findOne(id);		
 		sala.setNaziv(salaDTO.getNaziv());
 		sala.setTip(salaDTO.getTip());
 		sala.setId(salaDTO.getId());

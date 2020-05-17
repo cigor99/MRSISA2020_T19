@@ -15,6 +15,7 @@
 	$(document).ready( function() {
 		ucitajZaglavlje();		
 		ucitajTabelu();
+		proveriKorisnika();
 	});
 </script>
 </head>
@@ -46,7 +47,7 @@
     </tbody>
   </table>	
 </div>
-<input type="button" style="margin: 10px;" class= "button" onclick="location.href='dodajPregled.html'" value="Dodaj pregled">
+<input type="button" id="dodajPregled" style="margin: 10px;" class= "button" onclick="location.href='izborSaleZaPregled.html'" value="Dodaj pregled">
 </div>
 
 <div class="pretraga">
