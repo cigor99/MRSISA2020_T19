@@ -118,7 +118,9 @@ public class LekarController {
 		Page<Lekar> lekari = lekarService.findAll(prvihDeset);
 		List<LekarDTO> lekariDTO = new ArrayList<LekarDTO>();
 		for (Lekar l : lekari) {
-			lekariDTO.add(new LekarDTO(l));
+			if(l.getKlinika().getId().equals(klinika)) {
+				lekariDTO.add(new LekarDTO(l));
+			}
 		}
 		return new ResponseEntity<>(lekariDTO, HttpStatus.OK);
 	}

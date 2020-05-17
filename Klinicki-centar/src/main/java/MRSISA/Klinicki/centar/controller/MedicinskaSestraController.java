@@ -95,7 +95,9 @@ public class MedicinskaSestraController {
 		int klinika = admink.getKlinikaID();
 		List<MedicinskaSestraDTO> sestreDTO = new ArrayList<MedicinskaSestraDTO>();
 		for (MedicinskaSestra ms : sestre) {
-			sestreDTO.add(new MedicinskaSestraDTO(ms));
+			if(ms.getKlinika().getId().equals(klinika)) {
+				sestreDTO.add(new MedicinskaSestraDTO(ms));
+			}
 		}
 		return new ResponseEntity<>(sestreDTO, HttpStatus.OK);
 	}

@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -45,6 +46,12 @@ public class MedicinskaSestra {
 	@ManyToOne
 	@JoinColumn(name = "klinika", referencedColumnName = "ID_Klinike", nullable = false)
 	private Klinika klinika;
+	
+	@ElementCollection
+	private Set<Ocena> ocene = new HashSet<Ocena>();
+	
+	@Column(name = "ocena", unique = false)
+	private Double prosecnaOcena = 3.0;
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "medicinskaSestra")
 	private Set<Recept> recepti = new HashSet<Recept>();
@@ -56,10 +63,11 @@ public class MedicinskaSestra {
 
 	public MedicinskaSestra() {
 		super();
+		this.prosecnaOcena = izracunajProsecnuOcenu();
 	}
 
 	public MedicinskaSestra(Integer id, String ime, String prezime, String jmbg, String email, String lozinka,
-			Set<Recept> recepti, Set<ZahtevZaGodisnjiOdmor> zahteviZaGodisnji) {
+			Set<Recept> recepti, Set<ZahtevZaGodisnjiOdmor> zahteviZaGodisnji, Set<Ocena> ocene) {
 		super();
 		this.id = id;
 		this.ime = ime;
@@ -69,6 +77,8 @@ public class MedicinskaSestra {
 		this.lozinka = lozinka;
 		this.recepti = recepti;
 		this.zahteviZaGodisnji = zahteviZaGodisnji;
+		this.ocene = ocene;
+		this.prosecnaOcena = izracunajProsecnuOcenu();
 	}
 	
 	public MedicinskaSestra(Integer id, String email, String lozinka, String jmbg, String ime, String prezime, Klinika klinika) {
@@ -80,9 +90,23 @@ public class MedicinskaSestra {
 		this.email = email;
 		this.lozinka = lozinka;
 		this.klinika = klinika;
-		
+		this.prosecnaOcena = izracunajProsecnuOcenu();
 	}
 	
+	public double izracunajProsecnuOcenu() {
+		int suma = 0;
+		int i = this.ocene.size();
+		if(i == 0) {
+			return 3.0;
+		}
+		for(Ocena o : this.ocene) {
+			int ocena = o.ordinal()+1;
+			suma += ocena;
+		}
+		double prosek = suma/i;
+		this.prosecnaOcena = prosek;
+		return prosek;
+	}
 	
 
 	public Set<ZahtevZaGodisnjiOdmor> getZahteviZaGodisnji() {
@@ -163,6 +187,22 @@ public class MedicinskaSestra {
 
 	public void setTipKorisnika(TipKorisnika tipKorisnika) {
 		this.tipKorisnika = tipKorisnika;
+	}
+
+	public Set<Ocena> getOcene() {
+		return ocene;
+	}
+
+	public void setOcene(Set<Ocena> ocene) {
+		this.ocene = ocene;
+	}
+
+	public Double getProsecnaOcena() {
+		return izracunajProsecnuOcenu();
+	}
+
+	public void setProsecnaOcena(Double prosecnaOcena) {
+		this.prosecnaOcena = prosecnaOcena;
 	}
 
 }

@@ -54,7 +54,7 @@ public class Lekar {
 	private Set<Ocena> ocene = new HashSet<Ocena>();
 	
 	@Column(name = "ocena", unique = false)
-	private Double prosecnaOcena;
+	private Double prosecnaOcena = 3.0;
 
 	@ManyToOne
 	@JoinColumn(name = "klinika", referencedColumnName = "ID_Klinike", nullable = false)
@@ -77,7 +77,8 @@ public class Lekar {
 	private TipKorisnika tipKorisnika = TipKorisnika.LEKAR;
 	
 	public Lekar() {
-
+		super();
+		this.prosecnaOcena = izracunajProsecnuOcenu();
 	}
 	
 	public Lekar(Integer id, String email, String lozinka, String jmbg, String ime, String prezime, Klinika klinika) {
@@ -89,6 +90,7 @@ public class Lekar {
 		this.ime = ime;
 		this.prezime = prezime;
 		this.klinika = klinika;
+		this.prosecnaOcena = izracunajProsecnuOcenu();
 	}
 
 	public Lekar(Integer id, String email, String lozinka, String jmbg, String ime, String prezime, Set<Recept> recepti,
@@ -108,6 +110,7 @@ public class Lekar {
 		this.operacije = operacije;
 		this.zahteviZaGodisnji = zahteviZaGodisnji;
 		this.ocene = ocene;
+		this.prosecnaOcena = izracunajProsecnuOcenu();
 	}
 	
 	public double izracunajProsecnuOcenu() {
@@ -237,7 +240,7 @@ public class Lekar {
 	}
 
 	public Double getProsecnaOcena() {
-		return prosecnaOcena;
+		return izracunajProsecnuOcenu();
 	}
 
 	public void setProsecnaOcena(Double prosecnaOcena) {
