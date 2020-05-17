@@ -1,5 +1,27 @@
 $(document).ready(function () {
 	var klinika = null;
+	var imeCoded = window.location.href.split("?")[1];
+    var imeJednako = imeCoded.split("&")[0];
+    var imeParam = imeJednako.split("=")[1];
+    if(imeParam == undefined){
+    	alert("Morate prvo izabrati kliniku")
+    	window.location.replace("/klinicki-centar/pretragaKlinika.html");
+    }else{
+    	$.ajax({
+    		type: "get",
+    		url: "/klinicki-centar/klinika/getUpdate/" + imeParam,
+    		success: function(data){
+    			klinika = data;
+    			//console.log(klinika);
+    		},
+    		error: function(data){
+    			alert("error in get klinika");
+    		},
+    		async:false
+    	});
+    	//console.log(klinika)
+    }
+	//console.log(klinika)
 	$.ajax({
 		url: "/klinicki-centar/login/tipKorisnika",
         type: "get",
@@ -32,33 +54,11 @@ $(document).ready(function () {
 		        type: "get",
 		        success: function(data) {
 		            window.ulogovani = data;
-		            var imeCoded = window.location.href.split("?")[1];
-		            var imeJednako = imeCoded.split("&")[0];
-		            var imeParam = imeJednako.split("=")[1];
-		            if(imeParam == undefined){
-		            	alert("Morate prvo izabrati kliniku")
-		            	window.location.replace("/klinicki-centar/pretragaKlinika.html");
-		            }else{
-		            	$.ajax({
-		            		type: "get",
-		            		url: "/klinicki-centar/klinika/getUpdate/" + imeParam,
-		            		success: function(data){
-		            			klinika = data;
-		            			//console.log(klinika);
-		            		},
-		            		error: function(data){
-		            			alert("error in get klinika");
-		            		},
-		            		async:false
-		            	});
-		            	//console.log(klinika)
-		            }
-	            	//console.log(klinika)
+		            
 		            var naslov = $("#naslov");
 		        	naslov.empty();
 		    		naslov.append('<h1>'+window.ulogovani.ime+" " + window.ulogovani.prezime+'</h1>');
 		    		naslov.append('<h1>Lekari</h1>');
-		    		//ucitajOsoblje();
 		        }
 		 });
 	}
@@ -67,7 +67,7 @@ $(document).ready(function () {
     $('#idemo').checked = true;
     $.ajax({
         type: "get",
-        url: "/klinicki-centar/lekar/page/" + 0 + "/" + 6,
+        url: "/klinicki-centar/lekar/pageForPacijent/" + 0 + "/" + 6 + "/" + klinika.id,
         success: function(data) {
             window.search = false;
             window.filter = false;
@@ -92,12 +92,13 @@ $(document).ready(function () {
                 dobavi(parseInt($("#treciBr").text()) - 1, 6)
             }
         }
-/*        if (window.search == true) { //if (window.search == true) 
+        if (window.search == true) { //if (window.search == true) 
 
             $.ajax({
-                url: "/klinicki-centar/pacijent/search/" + $("#kriterijum option:selected").text() + "/" + $("#search").val(),
+                url: "/klinicki-centar/lekar/searchLekaraForPacijent/" + $("#kriterijum").val() + "/"+$("#search").val() + "/" + klinika.id,
                 type: "post",
                 success: function(data) {
+                	console.log(data);
                     $("#sledeci").css('visibility', 'hidden');
                     $("#poslednja").css('visibility', 'hidden');
                     $("#treciBr").css('visibility', 'hidden');
@@ -130,98 +131,7 @@ $(document).ready(function () {
                 }
             });
         }
-*/
-        // if (window.filter == false) {
-        //     $("#stranice").css('visibility', 'visible')
-        //     if ($("#prviBr").hasClass("strong")) {
-        //         dobavi(parseInt($("#prviBr").text()) - 1, 6)
-        //     } else if ($("#drugiBr").hasClass("strong")) {
-        //         dobavi(parseInt($("#drugiBr").text()) - 1, 6)
-        //     } else if ($("#treciBr").hasClass("strong")) {
-        //         dobavi(parseInt($("#treciBr").text()) - 1, 6)
-        //     }
-        // }
-/*        if (window.filter == true) {
-            $.ajax({
-                url: "/klinicki-centar/pacijent/filter/" + $("#grad").val(),
-                type: "post",
-                success: function(data) {
-                    $("#sledeci").css('visibility', 'hidden');
-                    $("#poslednja").css('visibility', 'hidden');
-                    $("#treciBr").css('visibility', 'hidden');
-                    if (window.podaci == undefined) {
-                        window.podaci = data;
-                    } else {
-                        let stari = window.podaci;
-                        window.podaci = []
-                        for (let novi of data) {
-                            for (let star of stari) {
-                                if (star.id == novi.id) {
-                                    window.podaci.push(star);
-                                }
-                            }
-                        }
-                    }
-                    // window.search = false;
-                    window.filter = true;
-                    $("#stranice").css('visibility', 'hidden');
-                    $("#tabela").css('visibility', 'hidden');
-                    $("#ROWDIV").empty();
-                    $("#tabela").empty();
-                    if ($("#idemo").is(":checked") == true) {
-                        tabela(window.podaci);
-
-                    } else {
-                        kartice(window.podaci);
-                    }
-                }
-            })
-        }
-*/
     });
-
-    $("#filtriraj").click(function() {
-        /*$("#filterERROR").css('visibility', 'hidden')
-        if ($("#grad").val() == "") {
-            $("#filterERROR").text("Polje ne sme biti prazno!").css('visibility', 'visible').css('color', 'red');
-            return;
-        }
-
-        $.ajax({
-            url: "/klinicki-centar/pacijent/filter/" + $("#grad").val(),
-            type: "post",
-            success: function(data) {
-                $("#sledeci").css('visibility', 'hidden');
-                $("#poslednja").css('visibility', 'hidden');
-                $("#treciBr").css('visibility', 'hidden');
-                if (window.podaci == undefined) {
-                    window.podaci = data;
-                } else {
-                    let stari = window.podaci;
-                    window.podaci = []
-                    for (let novi of data) {
-                        for (let star of stari) {
-                            if (star.id == novi.id) {
-                                window.podaci.push(star);
-                            }
-                        }
-                    }
-                }
-                window.filter = true;
-                // window.search = false;
-                $("#stranice").css('visibility', 'hidden');
-                $("#tabela").css('visibility', 'hidden');
-                $("#ROWDIV").empty();
-                $("#tabela").empty();
-                if ($("#idemo").is(":checked") == true) {
-                    tabela(window.podaci);
-
-                } else {
-                    kartice(window.podaci);
-                }
-            }
-        })*/
-    })
 
     function kartice(data) {
         if (!$('#tabela').is(':empty')) {
@@ -255,7 +165,7 @@ $(document).ready(function () {
                 email.append(lekar.email);
                 let ocena = $("<div></div>");
                 ocena.attr("class", 'ocena');
-                ocena.append(4.7);
+                ocena.append(lekar.prosecnaOcena);
                 let zvezda = $("<img></img>");
                 zvezda.attr("src", '../zvezda.png');
                 ocena.append(zvezda);
@@ -284,7 +194,7 @@ $(document).ready(function () {
     }
 
     function tabela(data) {
-        /*if (!$('#ROWDIV').is(':empty')) {
+        if (!$('#ROWDIV').is(':empty')) {
             $("#ROWDIV").empty()
             $("#ROWDIV").css("visibility", 'hidden')
         }
@@ -296,8 +206,9 @@ $(document).ready(function () {
             table.attr("id", "#pacijenti")
             let imeTd = $("<td>Ime</td>")
             let prezimeTd = $("<td>Prezime</td>")
-            let brojTd = $("<td>Jedinstveni broj pacijenta</td>")
-            let kartonTD = $("<td>Profil pacijenta</td>")
+            let emailTd = $("<td>Email</td>")
+            let ocenaTd = $("<td>Ocena</td>")
+            let profilTD = $("<td>Profil leakra</td>")
                 // let pregledTD = $("<td>Započni pregled</td>")
             let head = $("<thead></thead>")
             let trHead = $("<tr></tr>")
@@ -305,53 +216,43 @@ $(document).ready(function () {
 
             trHead.append(imeTd);
             trHead.append(prezimeTd);
-            trHead.append(brojTd);
-            trHead.append(kartonTD);
+            trHead.append(emailTd);
+            trHead.append(ocenaTd);
+            trHead.append(profilTD);
             // trHead.append(pregledTD);
             table.append(head);
             let tbody = $("<tbody></tbody>")
             table.append(tbody);
             div.append(table);
-            for (let pacijent of data) {
-                console.log(pacijent)
+            for (let lekar of data) {
+                console.log(lekar)
 
-                let tr = $("<tr id=\"tr" + pacijent.id + "\"></tr>")
+                let tr = $("<tr id=\"tr" + lekar.id + "\"></tr>")
 
                 // let idTD = $("<td>" + pacijent.id + "</td>")
-                let imeTD = $("<td>" + pacijent.ime + "</td>")
-                let prezimeTD = $("<td>" + pacijent.prezime + "</td>")
-                    // let polTD = $("<td>" + pacijent.pol + "</td>")
-                    // let emailTD = $("<td>" + pacijent.email + "</td>")
-                    // let lozinkaTD = $("<td>" + pacijent.lozinka + "</td>")
-                    // let telefonTD = $("<td>" + pacijent.brojTelefona + "</td>")
-                    // let jmbgTD = $("<td>" + pacijent.jmbg + "</td>")
-                let osigTD = $("<td>" + pacijent.jedinstveniBrOsig + "</td>")
-                    // let adresaTD = $("<td>" + pacijent.adresa + "</td>")
-                    // let gradTD = $("<td>" + pacijent.grad + "</td>")
-                    // let drzavaTD = $("<td>" + pacijent.drzava + "</td>")
+                let imeTD = $("<td>" + lekar.ime + "</td>")
+                let prezimeTD = $("<td>" + lekar.prezime + "</td>")
+                let emailTD = $("<td>" + lekar.email + "</td>")
+                   
+                let ocenaTD = $("<td>" + lekar.prosecnaOcena + "</td>")
 
                 // let TDkarton = $("<td>" + "<a href=\"pacijentProfil.html?id=" + pacijent.id + "\">Karton</a></td>")
-                let TDkarton = $("<td></td>")
-                let karton = $("<a>Profil pacijenta</a>")
-                karton.attr("href", 'profilPacijenta.html?id=' + pacijent.id)
-                TDkarton.append(karton);
+                let TDprofil = $("<td></td>")
+                let profil = $("<a>Profil lekara</a>")
+                //karton.attr("href", 'profilPacijenta.html?id=' + pacijent.id)
+                profil.attr("href", '#')
+                TDprofil.append(profil);
 
                 // tr.append(idTD)
                 tr.append(imeTD)
                 tr.append(prezimeTD)
                     // tr.append(polTD)
-                    // tr.append(emailTD)
-                    // tr.append(lozinkaTD)
-                    // tr.append(telefonTD)
-                    // tr.append(jmbgTD)
-                tr.append(osigTD)
-                    // tr.append(adresaTD)
-                    // tr.append(gradTD)
-                    // tr.append(drzavaTD)
-                tr.append(TDkarton)
+                tr.append(emailTD)
+                tr.append(ocenaTD)
+                tr.append(TDprofil)
                 tbody.append(tr)
             }
-        }*/
+        }
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -360,8 +261,8 @@ $(document).ready(function () {
     let brojLekara;
     let brStr;
     $.ajax({
-        type: "get",
-        url: "/klinicki-centar/lekar/all",
+        type: "post",
+        url: "/klinicki-centar/lekar/all" + "/" + klinika.id,
         success: function(data) {
             $("#stranice").css('visibility', 'visible')
             let div = $("#stranice")
@@ -578,7 +479,7 @@ $(document).ready(function () {
         if ($("#idemo").is(":checked") == true) {
             $.ajax({
                 type: "get",
-                url: "/klinicki-centar/pacijent/page/" + od + "/" + dokle,
+                url: "/klinicki-centar/lekar/pageForPacijent/" + od + "/" + dokle + "/" + klinika.id,
                 success: function(data) {
                     tabela(data);
                 },
@@ -590,7 +491,7 @@ $(document).ready(function () {
         }
         $.ajax({
             type: "get",
-            url: "/klinicki-centar/pacijent/page/" + od + "/" + dokle,
+            url: "/klinicki-centar/lekar/pageForPacijent/" + od + "/" + dokle + "/" + klinika.id,
             success: function(data) {
                 kartice(data);
             },
@@ -681,9 +582,10 @@ $(document).ready(function () {
         }
 
         $.ajax({
-            url: "/klinicki-centar/pacijent/search/" + $("#kriterijum option:selected").text() + "/" + $("#search").val(),
+            url: "/klinicki-centar/lekar/searchLekaraForPacijent/" + $("#kriterijum").val() + "/"+$("#search").val() + "/" + klinika.id,
             type: "post",
             success: function(data) {
+            	console.log(data);
                 $("#sledeci").css('visibility', 'hidden');
                 $("#poslednja").css('visibility', 'hidden');
                 $("#treciBr").css('visibility', 'hidden');
@@ -733,26 +635,7 @@ $(document).ready(function () {
 	
 });
 
-function ucitajOsoblje(){
-	window.podaci;
-    $('#idemo').checked = true;
-    
-	$.ajax({
-        type: "get",
-        url: "/klinicki-centar/lekar/page",
-        success: function (data) {
-        	window.search = false;
-            window.filter = false;
-            $("#stranice").css('visibility', 'visible');
-        	kartice(data, "lekar");
-        },
-        error: function(jqXHR) {
-            alert("Error: " + jqXHR.status + ", " + jqXHR.responseText);
-        },	
-    });
-}
-
-function kartice(data, x){
+function karticeEEEEE(data, x){
 	
     $("#ROWDIV").css("visibility", 'visible')
     let counter = 0;

@@ -106,9 +106,9 @@ public class KlinickiCentarApplication {
 		a2.setKlinika(k2);
 		k2.getAdministratori().add(a2);
 
-		Lekar lekar1 = new Lekar(1, "lekar1@gmail.com", "123", "1234567891041", "Imelekara", "Prezime", k1);
-		Lekar lekar2 = new Lekar(2, "lekar2@gmail.com", "123", "1234567891052", "Imelekaraa", "Prezimee", k2);
-		Lekar lekar3 = new Lekar(3, "lekar3@gmail.com", "123", "1234567891063", "Imelekaraaa", "Prezimeee", k1);
+		Lekar lekar1 = new Lekar(1, "lekar1@gmail.com", "123", "1234567891041", "Nikola", "Milosevic", k1);
+		Lekar lekar2 = new Lekar(2, "lekar2@gmail.com", "123", "1234567891052", "Nikolas", "Dragutinovic", k2);
+		Lekar lekar3 = new Lekar(3, "lekar3@gmail.com", "123", "1234567891063", "Milos", "Jokic", k1);
 
 		MedicinskaSestra sestra1 = new MedicinskaSestra(1, "sestra1@gmail.com", "111", "1234567891014", "Sestraprva", "Preyime", k1);
 		MedicinskaSestra sestra2 = new MedicinskaSestra(2, "sestra2@gmail.com", "111", "1234567891015", "Sestradruga", "Preyime2", k1);

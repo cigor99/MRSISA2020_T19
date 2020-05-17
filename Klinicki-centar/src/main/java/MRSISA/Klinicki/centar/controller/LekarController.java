@@ -72,7 +72,7 @@ import MRSISA.Klinicki.centar.service.PacijentService;
 public class LekarController {
 	@Autowired
 	private JavaMailSender javaMailSender;
-	
+
 	@Autowired
 	private ConfirmationTokenService tokenService;
 
@@ -90,13 +90,12 @@ public class LekarController {
 
 	@Autowired
 	private MedicinskaSestraSerive medSesService;
-	
+
 	@Autowired
 	private KlinikaService klinikaService;
-	
+
 	@Autowired
 	HttpServletRequest request;
-	
 
 	@GetMapping("/lekar/all")
 	public ResponseEntity<List<LekarDTO>> getAllLekari() {
@@ -112,14 +111,14 @@ public class LekarController {
 	public ResponseEntity<List<LekarDTO>> getLekarPage() {
 		Pageable prvihDeset = PageRequest.of(0, 10);
 		System.out.println(request.getSession().getAttribute("current"));
-		AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");		
+		AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
 		System.out.println(admink.getEmail());
 		System.out.println(admink.getKlinikaID());
 		int klinika = admink.getKlinikaID();
 		Page<Lekar> lekari = lekarService.findAll(prvihDeset);
 		List<LekarDTO> lekariDTO = new ArrayList<LekarDTO>();
 		for (Lekar l : lekari) {
-			if(l.getKlinika().getId().equals(klinika)) {
+			if (l.getKlinika().getId().equals(klinika)) {
 				lekariDTO.add(new LekarDTO(l));
 			}
 		}
@@ -133,7 +132,7 @@ public class LekarController {
 		if (!lekarDTO.proveraPolja()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		
+
 		if (!jedinstvenEmail(lekarDTO, true)) {
 			return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 		}
@@ -153,13 +152,14 @@ public class LekarController {
 		lekar.setLozinka("XAEA12");
 		lekar.setJmbg(lekarDTO.getJmbg());
 		lekar.setIme(lekarDTO.getIme().substring(0, 1).toUpperCase() + lekarDTO.getIme().substring(1).toLowerCase());
-		lekar.setPrezime(lekarDTO.getPrezime().substring(0, 1).toUpperCase() + lekarDTO.getPrezime().substring(1).toLowerCase());
-		AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");		
+		lekar.setPrezime(
+				lekarDTO.getPrezime().substring(0, 1).toUpperCase() + lekarDTO.getPrezime().substring(1).toLowerCase());
+		AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
 		int id = admink.getKlinikaID();
 		Klinika klinika = klinikaService.findOne(id);
 		lekar.setKlinika(klinika);
 		lekar = lekarService.addLekar(lekar);
-		
+
 		/// Slanje email-a sa kodom za aktivaciju naloga
 		ConfirmationToken confirmationToken = new ConfirmationToken(lekarDTO.getJmbg());
 		confirmationToken = tokenService.save(confirmationToken);
@@ -176,13 +176,10 @@ public class LekarController {
 			// e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		
-		
-		
+
 		return new ResponseEntity<>(new LekarDTO(lekar), HttpStatus.CREATED);
 	}
-	
-	
+
 	@PutMapping("/lekar/prvaSifra")
 	public ResponseEntity<LekarDTO> prvaSifra(@RequestBody PrvoLogovanjeDTO prvoLogovanje) {
 		Pattern regPass = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,256}$");
@@ -198,9 +195,8 @@ public class LekarController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
 
-	@PostMapping("/lekar/search")
+	@PostMapping("/lekar/search1")
 	public ResponseEntity<List<LekarDTO>> searchLekar(@RequestBody String pretraga) {
 		List<LekarDTO> retVal = new ArrayList<LekarDTO>();
 		System.out.println(pretraga);
@@ -246,7 +242,7 @@ public class LekarController {
 		if (!lekarDTO.proveraPolja()) {
 			System.out.println("USAO!");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-			
+
 		}
 
 		if (!jedinstvenEmail(lekarDTO, false)) {
@@ -258,14 +254,15 @@ public class LekarController {
 			System.out.println("USAO22!");
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
-		
+
 		Lekar lekar = lekarService.findOne(lekarDTO.getId());
 		if (lekar == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 //		lekar.setEmail(lekarDTO.getEmail());
 		lekar.setIme(lekarDTO.getIme().substring(0, 1).toUpperCase() + lekarDTO.getIme().substring(1).toLowerCase());
-		lekar.setPrezime(lekarDTO.getPrezime().substring(0, 1).toUpperCase() + lekarDTO.getPrezime().substring(1).toLowerCase());
+		lekar.setPrezime(
+				lekarDTO.getPrezime().substring(0, 1).toUpperCase() + lekarDTO.getPrezime().substring(1).toLowerCase());
 		lekar.setLozinka(lekarDTO.getLozinka());
 //		lekar.setJmbg(lekarDTO.getJmbg());
 
@@ -274,7 +271,7 @@ public class LekarController {
 		return new ResponseEntity<>(new LekarDTO(lekar), HttpStatus.OK);
 
 	}
-	
+
 	/* Funkcija koja proverava da li postoji dati email u bazi */
 	private boolean jedinstvenEmail(Osoba osoba, boolean dodavanje) {
 		List<Pacijent> pacijenti = pacijentService.findAll();
@@ -286,11 +283,11 @@ public class LekarController {
 
 		List<Lekar> lekari = lekarService.findAll();
 		for (Lekar l : lekari) {
-			if(!dodavanje) {
+			if (!dodavanje) {
 				if (l.getEmail().equals(osoba.getEmail()) && !l.getId().equals(osoba.getId())) {
 					return false;
 				}
-			}else {
+			} else {
 				if (l.getEmail().equals(osoba.getEmail())) {
 					return false;
 				}
@@ -355,11 +352,11 @@ public class LekarController {
 
 		List<Lekar> lekari = lekarService.findAll();
 		for (Lekar l : lekari) {
-			if(!dodavanje) {
-			if (l.getJmbg().equals(osoba.getJmbg()) && !l.getId().equals(osoba.getId())) {
-				return false;
-			}
-			}else {
+			if (!dodavanje) {
+				if (l.getJmbg().equals(osoba.getJmbg()) && !l.getId().equals(osoba.getId())) {
+					return false;
+				}
+			} else {
 				if (l.getJmbg().equals(osoba.getJmbg())) {
 					return false;
 				}
@@ -402,16 +399,16 @@ public class LekarController {
 	 * //System.out.println(lekar.getEmail()); return new
 	 * ResponseEntity(HttpStatus.OK); }
 	 */
-	
+
 	/*
 	 * Get zahtev Vraca odredjen broj pacijenata
 	 */
-	
-	@GetMapping("/lekar/page/{stranica}/{koliko}")
-	public ResponseEntity<List<LekarDTO>> getLekariOdDo(@PathVariable Integer stranica,
-			@PathVariable Integer koliko) {
+
+	@GetMapping("/lekar/pageForPacijent/{stranica}/{koliko}/{klinika}")
+	public ResponseEntity<List<LekarDTO>> getLekariOdDo(@PathVariable Integer stranica, @PathVariable Integer koliko,
+			@PathVariable Integer klinika) {
 		Pageable prvihDeset = PageRequest.of(stranica, koliko);
-		//,				Sort.by("stanjePacijenta").descending().and(Sort.by("id")));
+		// , Sort.by("stanjePacijenta").descending().and(Sort.by("id")));
 		Page<Lekar> lekari = null;
 		try {
 			lekari = lekarService.findAll(prvihDeset);
@@ -421,12 +418,78 @@ public class LekarController {
 		List<LekarDTO> lekariDTO = new ArrayList<>();
 
 		for (Lekar l : lekari) {
-			lekariDTO.add(new LekarDTO(l));
+			System.out.println(klinika);
+			if (l.getKlinika().getId().equals(klinika)) {
+				lekariDTO.add(new LekarDTO(l));
+			}
 
 		}
 
 		return new ResponseEntity<>(lekariDTO, HttpStatus.OK);
 
+	}
+
+	@PostMapping("/lekar/searchLekaraForPacijent/{kriterijum}/{pretraga}/{klinika}")
+	public ResponseEntity<List<LekarDTO>> searchLekarForPacijent(@PathVariable String kriterijum,
+			@PathVariable String pretraga, @PathVariable Integer klinika) {
+		System.out.println(kriterijum);
+		List<LekarDTO> retVal = new ArrayList<LekarDTO>();
+		pretraga = pretraga.substring(0, pretraga.length() - 1);
+		System.out.println(pretraga);
+		switch (kriterijum) {
+		case "ime":
+			for (Lekar l : lekarService.findAll()) {
+				System.out.println(l.getIme());
+				if (l.getIme().toLowerCase().contains(pretraga.toLowerCase())) {
+
+					if (l.getKlinika().getId().equals(klinika)) {
+						LekarDTO lekar = new LekarDTO(l);
+						retVal.add(lekar);
+					}
+				}
+			}
+			break;
+		case "prezime":
+			for (Lekar l : lekarService.findAll()) {
+				System.out.println(l.getPrezime());
+				if (l.getPrezime().toLowerCase().contains(pretraga.toLowerCase())) {
+
+					if (l.getKlinika().getId().equals(klinika)) {
+						LekarDTO lekar = new LekarDTO(l);
+						retVal.add(lekar);
+					}
+				}
+			}
+			break;
+		default:
+			for (Lekar l : lekarService.findAll()) {
+				System.out.println(l.getIme());
+				if (l.getIme().toLowerCase().contains(pretraga.toLowerCase())) {
+					if (l.getKlinika().getId().equals(klinika)) {
+						LekarDTO lekar = new LekarDTO(l);
+						retVal.add(lekar);
+					}
+				}
+			}
+			break;
+		}
+		return new ResponseEntity<>(retVal, HttpStatus.OK);
+
+	}
+
+	@PostMapping("/lekar/all/{klinika}")
+	public ResponseEntity<List<LekarDTO>> getAllLekariInKlinika(@PathVariable Integer klinika) {
+		List<Lekar> lekari = lekarService.findAll();
+		List<LekarDTO> lekariDTO = new ArrayList<LekarDTO>();
+		for (Lekar l : lekari) {
+
+			System.out.println(klinika);
+			if (l.getKlinika().getId().equals(klinika)) {
+				lekariDTO.add(new LekarDTO(l));
+			}
+
+		}
+		return new ResponseEntity<>(lekariDTO, HttpStatus.OK);
 	}
 
 }
