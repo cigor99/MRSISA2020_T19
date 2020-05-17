@@ -56,6 +56,7 @@ function ucitaj(tipKorisnika) {
     } else if (tipKorisnika == "adminKC") {
         $("#naslov").append("<h1>Admin KC</h1>");
     } else if (tipKorisnika == "lekar") {
+    	header = "lekarHeader.html";
         $("#naslov").append("<h1>Lekar</h1>");
     } else if (tipKorisnika == "sestra") {
         header = "medicinskaSestraHeader.html";
