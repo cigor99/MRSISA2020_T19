@@ -1,6 +1,9 @@
 
 package MRSISA.Klinicki.centar.controller;
 
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import MRSISA.Klinicki.centar.domain.Klinika;
 import MRSISA.Klinicki.centar.domain.Lekar;
+import MRSISA.Klinicki.centar.domain.Pregled;
 import MRSISA.Klinicki.centar.domain.Sala;
 import MRSISA.Klinicki.centar.dto.LekarDTO;
 import MRSISA.Klinicki.centar.dto.SalaDTO;
@@ -97,6 +101,49 @@ public class SalaController {
 				retVal.add(sala);
 			}
 		}
+		return new ResponseEntity<>(retVal, HttpStatus.OK);
+	
+	}
+	
+	@PostMapping("/sala/filterTime")
+	public ResponseEntity<List<SalaDTO>> filterSalaTime(@RequestBody String filter){
+		List<SalaDTO> retVal = new ArrayList<SalaDTO>();
+		System.out.println(filter);
+		String[] f = filter.split(";");
+		String stringdate = f[0];
+		stringdate = stringdate.replace("T", " ");
+		System.out.println(stringdate);		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		try {
+			Date date = sdf.parse(stringdate);
+			System.out.println(date);
+			Date date2 = new Date();
+			long tim = Long.parseLong(f[1])*60000;
+			date2.setTime(date.getTime()+tim);
+			System.out.println(date2);
+			for(Sala s : salaService.findAll()) {
+				boolean moze = true;
+				for(Pregled p : s.getPregledi()) {
+					Date datum1 = p.getDatum();
+					Date datum2 = new Date();
+					datum2.setTime(datum1.getTime()+p.getTipPregleda().getTrajanje());
+					if(date2.compareTo(datum1)<=0 || date.compareTo(datum2)>=0) {
+						moze = true;
+					}
+					else {
+						moze = false;
+					}					
+				}
+				if(moze) {
+					SalaDTO sala = new SalaDTO(s);
+					retVal.add(sala);
+				}
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	
 	}
