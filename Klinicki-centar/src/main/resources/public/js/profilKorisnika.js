@@ -21,6 +21,9 @@ $(document).ready(function() {
     } else if (window.tipKorisnika == "adminKlinike") {
         dodajPolja(window.ulogovani);
 
+    } else if (window.tipKorisnika == "superAdmin") {
+        dodajPolja(window.ulogovani);
+
     } else if (window.tipKorisnika == "pacijent") {
         dodajPolja(window.ulogovani);
 
@@ -191,6 +194,25 @@ $(document).ready(function() {
                 })
 
 
+            } else if (window.tipKorisnika == "superAdmin") {
+                $.ajax({
+                    url: "/klinicki-centar/superadmin/update",
+                    type: 'put',
+                    dataType: 'json',
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        ime: $("#ime").val(),
+                        prezime: $("#prezime").val(),
+                        email: $("#email").val(),
+                        id: $("#id").val(),
+                        lozinka: $("#password").val(),
+                        jmbg: $("#jmbg").val()
+                    }),
+                    success: function(data) {
+                        alert("USPESNO STE SAČUVALI IZMENE")
+                    }
+
+                })
             } else if (window.tipKorisnika == "lekar") {
                 $.ajax({
                     url: "/klinicki-centar/lekar/update",
@@ -352,7 +374,7 @@ function dodajPolja(data) {
     emaillabel.append("Email");
     let emaiInput = $("<input></input>");
     emaiInput.attr("type", 'text')
-    emaiInput.attr("readonly", true);;
+    emaiInput.attr("readonly", true);
     emaiInput.attr("class", "form-control");
     emaiInput.attr('value', data.email);
     emaiInput.attr("id", 'email');
@@ -388,7 +410,10 @@ function dodajPolja(data) {
     passDIv1.append(passInput1);
     passDIv1.append(p6);
 
-
+    if (window.tipKorisnika == "superAdmin") {
+        ImeInput.attr("readonly", true);
+        prezimeInput.attr("readonly", true);
+    }
 
 
     form.append(divID);

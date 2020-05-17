@@ -14,5 +14,7 @@ public interface LekarRepository extends JpaRepository<Lekar, Integer> {
 	
 	Page<Lekar> findAll(Pageable pageable);
 
+	Lekar findByjmbg(String jmbg);
+
 
 }

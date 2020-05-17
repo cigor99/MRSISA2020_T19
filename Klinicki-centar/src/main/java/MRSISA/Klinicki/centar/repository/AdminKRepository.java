@@ -6,4 +6,6 @@ import MRSISA.Klinicki.centar.domain.AdministratorKlinike;
 
 public interface AdminKRepository extends JpaRepository<AdministratorKlinike, Integer> {
 
+	AdministratorKlinike findByjmbg(String jmbg);
+
 }

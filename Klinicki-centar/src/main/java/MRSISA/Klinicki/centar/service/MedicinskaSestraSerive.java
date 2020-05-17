@@ -47,4 +47,8 @@ public class MedicinskaSestraSerive {
 	public Page<MedicinskaSestra> findAll(Pageable page){
 		return medSesRepo.findAll(page);
 	}
+	
+	public MedicinskaSestra findByjmbg(String jmbg) {
+		return medSesRepo.findByjmbg(jmbg);
+	}
 }

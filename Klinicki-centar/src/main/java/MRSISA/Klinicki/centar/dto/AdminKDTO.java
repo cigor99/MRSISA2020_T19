@@ -1,6 +1,7 @@
 package MRSISA.Klinicki.centar.dto;
 
 import MRSISA.Klinicki.centar.domain.AdministratorKlinike;
+import MRSISA.Klinicki.centar.domain.TipKorisnika;
 
 public class AdminKDTO extends Osoba{
 	/**
@@ -8,7 +9,8 @@ public class AdminKDTO extends Osoba{
 	 */
 	private static final long serialVersionUID = 8176448401842720033L;
 	private Integer klinikaID;
-
+	private TipKorisnika tipKorisnika;
+	
 	public AdminKDTO() {
 
 	}//super(id, email, lozinka, jmbg, ime, prezime);
@@ -21,6 +23,7 @@ public class AdminKDTO extends Osoba{
 		} else {
 			this.klinikaID = adminK.getKlinika().getId();
 		}
+		this.tipKorisnika = adminK.getTipKorisnika();
 	}
 
 	public AdminKDTO(String ime, String prezime, String jMBG, String email, String lozinka, Integer id,
@@ -37,5 +40,14 @@ public class AdminKDTO extends Osoba{
 		this.klinikaID = klinikaID;
 	}
 
+	public TipKorisnika getTipKorisnika() {
+		return tipKorisnika;
+	}
+
+	public void setTipKorisnika(TipKorisnika tipKorisnika) {
+		this.tipKorisnika = tipKorisnika;
+	}
+
+	
 
 }

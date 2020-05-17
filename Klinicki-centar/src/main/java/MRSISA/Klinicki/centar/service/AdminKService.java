@@ -33,5 +33,9 @@ public class AdminKService {
 	public List<AdministratorKlinike> findAll() {
 		return adminRepo.findAll();
 	}
+	
+	public AdministratorKlinike findByjmbg(String jmbg) {
+		return adminRepo.findByjmbg(jmbg);
+	}
 
 }

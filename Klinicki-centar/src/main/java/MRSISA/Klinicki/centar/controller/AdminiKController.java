@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +23,7 @@ import MRSISA.Klinicki.centar.dto.AdminKDTO;
 import MRSISA.Klinicki.centar.dto.Osoba;
 import MRSISA.Klinicki.centar.service.AdminKCSerivce;
 import MRSISA.Klinicki.centar.service.AdminKService;
+import MRSISA.Klinicki.centar.service.ConfirmationTokenService;
 import MRSISA.Klinicki.centar.service.KlinikaService;
 import MRSISA.Klinicki.centar.service.LekarService;
 import MRSISA.Klinicki.centar.service.MedicinskaSestraSerive;
@@ -29,6 +31,12 @@ import MRSISA.Klinicki.centar.service.PacijentService;
 
 @RestController
 public class AdminiKController {
+
+	@Autowired
+	private JavaMailSender javaMailSender;
+
+	@Autowired
+	private ConfirmationTokenService tokenService;
 
 	@Autowired
 	private PacijentService pacijentService;
@@ -80,7 +88,8 @@ public class AdminiKController {
 		}
 		admin.setEmail(adminKDTO.getEmail());
 		admin.setIme(adminKDTO.getIme().substring(0, 1).toUpperCase() + adminKDTO.getIme().substring(1).toLowerCase());
-		admin.setPrezime(adminKDTO.getPrezime().substring(0, 1).toUpperCase() + adminKDTO.getPrezime().substring(1).toLowerCase());
+		admin.setPrezime(adminKDTO.getPrezime().substring(0, 1).toUpperCase()
+				+ adminKDTO.getPrezime().substring(1).toLowerCase());
 		admin.setLozinka(adminKDTO.getLozinka());
 		admin.setJmbg(adminKDTO.getJmbg());
 
@@ -153,7 +162,7 @@ public class AdminiKController {
 				if (ak.getJmbg().equals(osoba.getJmbg()) && !ak.getId().equals(osoba.getId())) {
 					return false;
 				}
-			}else {
+			} else {
 				if (ak.getJmbg().equals(osoba.getJmbg())) {
 					return false;
 				}

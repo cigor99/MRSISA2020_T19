@@ -53,7 +53,7 @@ public class Lekar {
 	@ElementCollection
 	private Set<Ocena> ocene = new HashSet<Ocena>();
 	
-	@Column(name = "ocena", unique = false, nullable = false)
+	@Column(name = "ocena", unique = false)
 	private Double prosecnaOcena;
 
 	@ManyToOne

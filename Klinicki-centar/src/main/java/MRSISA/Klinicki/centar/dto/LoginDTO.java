@@ -43,7 +43,7 @@ public class LoginDTO {
 			return false;
 		}*/
 		
-		if(!regEmail.matcher(this.email).matches()) {
+		if(!regEmail.matcher(this.email).matches() && !this.email.equals("super")) {
 			return false;
 		}
 		

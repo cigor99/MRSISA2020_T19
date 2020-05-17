@@ -28,18 +28,21 @@ public class ConfirmationToken {
 	@Column(name = "datum_kreiranja")
 	private Date datumKreiranja;
 
-	@OneToOne(targetEntity = Pacijent.class, fetch = FetchType.EAGER)
-	@JoinColumn(name = "ID_Pacijenta") // nullable = false,
-	private Pacijent pacijent;
+//	@OneToOne(targetEntity = Pacijent.class, fetch = FetchType.EAGER)
+//	@JoinColumn(name = "ID_Pacijenta") // nullable = false,
+//	private Pacijent pacijent;
+	
+	@Column(name = "JMBG")
+	private String jmbg;
 
 	public ConfirmationToken() {
 
 	}
 
-	public ConfirmationToken(Pacijent pacijent) {
+	public ConfirmationToken(String jmbg) {
 		this.confirmationToken = UUID.randomUUID().toString();
 		this.datumKreiranja = new Date();
-		this.pacijent = pacijent;
+		this.jmbg = jmbg;
 	}
 
 	public Integer getId() {
@@ -66,12 +69,21 @@ public class ConfirmationToken {
 		this.datumKreiranja = datumKreiranja;
 	}
 
-	public Pacijent getPacijent() {
-		return pacijent;
+	public String getJMBG() {
+		return jmbg;
 	}
 
-	public void setPacijent(Pacijent pacijent) {
-		this.pacijent = pacijent;
+	public void setJMBG(String jMBG) {
+		this.jmbg = jmbg;
 	}
+
+//	public Pacijent getPacijent() {
+//		return pacijent;
+//	}
+//
+//	public void setPacijent(Pacijent pacijent) {
+//		this.pacijent = pacijent;
+//	}
+	
 
 }

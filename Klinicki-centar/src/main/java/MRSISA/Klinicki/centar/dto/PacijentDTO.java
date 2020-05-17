@@ -4,8 +4,9 @@ import java.util.regex.Pattern;
 
 import MRSISA.Klinicki.centar.domain.Pacijent;
 import MRSISA.Klinicki.centar.domain.Pol;
+import MRSISA.Klinicki.centar.domain.TipKorisnika;
 
-public class PacijentDTO extends Osoba{
+public class PacijentDTO extends Osoba {
 	/**
 	 * 
 	 */
@@ -16,6 +17,7 @@ public class PacijentDTO extends Osoba{
 	private String drzava;
 	private String brojTelefona;
 	private String jedinstveniBrOsig;
+	private TipKorisnika tipKorisnika;
 
 	public PacijentDTO() {
 		super();
@@ -23,7 +25,7 @@ public class PacijentDTO extends Osoba{
 
 	public PacijentDTO(int id, String ime, String prezime, String jmbg, String email, String lozinka, Pol pol,
 			String grad, String adresa, String drzava, String brojTelefona, String jedinstveniBrOsig) {
-		super(id,email, lozinka, ime, prezime,  jmbg);
+		super(id, email, lozinka, ime, prezime, jmbg);
 		this.pol = pol;
 		this.grad = grad;
 		this.adresa = adresa;
@@ -33,13 +35,14 @@ public class PacijentDTO extends Osoba{
 	}
 
 	public PacijentDTO(Pacijent p) {
-		super(p.getId(),p.getEmail(), p.getLozinka(), p.getIme(), p.getPrezime(),  p.getJmbg());
+		super(p.getId(), p.getEmail(), p.getLozinka(), p.getIme(), p.getPrezime(), p.getJmbg());
 		this.pol = p.getPol();
 		this.grad = p.getGrad();
 		this.adresa = p.getAdresa();
 		this.drzava = p.getDrzava();
 		this.brojTelefona = p.getBrojTelefona();
 		this.jedinstveniBrOsig = p.getJedinstveniBrOsig();
+		this.tipKorisnika = p.getTipKorisnika();
 	}
 
 	@Override
@@ -155,6 +158,14 @@ public class PacijentDTO extends Osoba{
 		}
 
 		return true;
+	}
+
+	public TipKorisnika getTipKorisnika() {
+		return tipKorisnika;
+	}
+
+	public void setTipKorisnika(TipKorisnika tipKorisnika) {
+		this.tipKorisnika = tipKorisnika;
 	}
 
 	public Pol getPol() {

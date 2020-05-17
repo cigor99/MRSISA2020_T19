@@ -3,6 +3,15 @@ function ucitajZaglavlje() {
     //var tipKorisnika = "adminKlinike";
     var tipKorisnika = "";
     window.tipKorisnika = "";
+    $.ajax({
+        url: "/klinicki-centar/login/getLoggedUser",
+        type: "get",
+        success: function(data) {
+            window.ulogovani = data;
+            window.location.replace("aktivacija.html");
+        },
+        async: false,
+    });
 
     $.ajax({
         type: "get",
@@ -15,6 +24,9 @@ function ucitajZaglavlje() {
                 console.log(data);
                 tipKorisnika = data;
                 window.tipKorisnika = data;
+                if (window.ulogovani.email == "super" && window.ulogovani.lozinka == "super") {
+
+                }
                 ucitaj(tipKorisnika);
             }
         },
@@ -34,6 +46,13 @@ function ucitaj(tipKorisnika) {
         header = "adminKlinikeHeader.html";
         console.log(tipKorisnika);
         $("#naslov").append("<h1>Admin klinike</h1>");
+    } else if (tipKorisnika == "superAdmin") {
+        // header = "adminKlinikeHeader.html";
+        console.log(tipKorisnika);
+        let h1 = $("<h1></h1>");
+        h1.append("Super administrator");
+        h1.css("background", "#ed5e5e");
+        $("#naslov").append(h1);
     } else if (tipKorisnika == "adminKC") {
         $("#naslov").append("<h1>Admin KC</h1>");
     } else if (tipKorisnika == "lekar") {

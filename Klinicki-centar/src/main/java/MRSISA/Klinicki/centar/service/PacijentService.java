@@ -50,8 +50,8 @@ public class PacijentService {
 		return pacijentRepo.findById(ID).orElse(null);
 	}
 	
-	public Pacijent findByEmail(String email) {
-		return pacijentRepo.findByEmail(email);
+	public Pacijent findByjmbg(String jmbg) {
+		return pacijentRepo.findByjmbg(jmbg);
 	}
 	
 	/*

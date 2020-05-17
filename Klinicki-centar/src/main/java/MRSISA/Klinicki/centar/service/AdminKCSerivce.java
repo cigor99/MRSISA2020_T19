@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import MRSISA.Klinicki.centar.domain.AdministratorKlinickogCentra;
+import MRSISA.Klinicki.centar.domain.Pacijent;
 import MRSISA.Klinicki.centar.repository.AdminKCRepository;
 
 @Service
@@ -31,5 +32,9 @@ public class AdminKCSerivce {
 
 	public List<AdministratorKlinickogCentra> findAll() {
 		return adminRep.findAll();
+	}
+	
+	public AdministratorKlinickogCentra findByjmbg(String jmbg) {
+		return adminRep.findByjmbg(jmbg);
 	}
 }
