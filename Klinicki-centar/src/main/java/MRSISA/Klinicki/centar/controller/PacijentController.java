@@ -147,8 +147,7 @@ public class PacijentController {
 		}
 
 		Pacijent novi = new Pacijent(0,
-				pacijentDTO.getIme().substring(0, 1).toUpperCase()
-						+ pacijentDTO.getIme().substring(1).toLowerCase(),
+				pacijentDTO.getIme().substring(0, 1).toUpperCase() + pacijentDTO.getIme().substring(1).toLowerCase(),
 				pacijentDTO.getPrezime().substring(0, 1).toUpperCase()
 						+ pacijentDTO.getPrezime().substring(1).toLowerCase(),
 				pacijentDTO.getJmbg(), pacijentDTO.getEmail(), pacijentDTO.getLozinka(), null, pacijentDTO.getPol(),
@@ -157,17 +156,20 @@ public class PacijentController {
 		List<AdministratorKlinickogCentra> admini = adminKCService.findAll();
 		SimpleMailMessage msg = new SimpleMailMessage();
 		for (AdministratorKlinickogCentra adm : admini) {
-			msg.setTo(adm.getEmail());
-			msg.setSubject("Registracija korisnika");
-			msg.setText(pacijentDTO.toString());
-			try {
-				javaMailSender.send(msg);
-			} catch (MailAuthenticationException e) {
-				// e.printStackTrace();
-				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-			} catch (MailException e) {
-				// e.printStackTrace();
-				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			if (!adm.getEmail().equals("super")) {
+				msg.setTo(adm.getEmail());
+				msg.setSubject("Registracija korisnika");
+				msg.setText(pacijentDTO.toString());
+
+				try {
+					javaMailSender.send(msg);
+				} catch (MailAuthenticationException e) {
+					// e.printStackTrace();
+					return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+				} catch (MailException e) {
+					// e.printStackTrace();
+					return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+				}
 			}
 		}
 		ZahtevZaRegistraciju zzr = new ZahtevZaRegistraciju(0, StanjeZahteva.NA_CEKANJU, novi, new KlinickiCentar(1));
@@ -302,8 +304,10 @@ public class PacijentController {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 
-		pacijent.setIme(pacijentDTO.getIme().substring(0, 1).toUpperCase() + pacijentDTO.getIme().substring(1).toLowerCase());
-		pacijent.setPrezime(pacijentDTO.getPrezime().substring(0, 1).toUpperCase() + pacijentDTO.getPrezime().substring(1).toLowerCase());
+		pacijent.setIme(
+				pacijentDTO.getIme().substring(0, 1).toUpperCase() + pacijentDTO.getIme().substring(1).toLowerCase());
+		pacijent.setPrezime(pacijentDTO.getPrezime().substring(0, 1).toUpperCase()
+				+ pacijentDTO.getPrezime().substring(1).toLowerCase());
 		pacijent.setLozinka(pacijentDTO.getLozinka());
 		pacijent.setPol(pacijentDTO.getPol());
 		pacijent.setAdresa(pacijentDTO.getAdresa());

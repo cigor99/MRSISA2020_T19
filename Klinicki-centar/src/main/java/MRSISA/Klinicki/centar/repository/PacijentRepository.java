@@ -20,5 +20,5 @@ public interface PacijentRepository extends JpaRepository<Pacijent, Integer>{
 	
 	Page<Pacijent> findAll(Pageable pageable);
 	
-	Pacijent findByEmail(String email);
+	Pacijent findByjmbg(String jmbg);
 }

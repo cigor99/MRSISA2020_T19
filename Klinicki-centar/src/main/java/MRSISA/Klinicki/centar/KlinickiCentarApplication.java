@@ -49,8 +49,8 @@ public class KlinickiCentarApplication {
 
 		KlinickiCentar KC = new KlinickiCentar(1);
 
-		AdministratorKlinickogCentra akc1 = new AdministratorKlinickogCentra(1, "losakaunt1234@gmail.com", "Lozinka1",
-				"Neko", "Prezimenko", "1234567891292");
+		AdministratorKlinickogCentra akc1 = new AdministratorKlinickogCentra(1, "super", "super",
+				"super", "super", "0000000000000");
 		AdministratorKlinickogCentra akc2 = new AdministratorKlinickogCentra(2, "apprentice.magic99@gmail.com",
 				"Password1", "Ime", "Prezimenko", "1234567891291");
 		AdministratorKlinickogCentra akc3 = new AdministratorKlinickogCentra(3, "admin3@nesto.com", "Sifra1", "Imenko",
@@ -559,7 +559,7 @@ public class KlinickiCentarApplication {
 			}
 
 			PreparedStatement ps5 = conn.prepareStatement(
-					"INSERT INTO ADMINISTRATORIKC (ID_ADMINKC, EMAIL, IME, JMBG, LOZINKA, PREZIME, KLINICKI_CENTAR) VALUES (?, ?, ?, ?, ?, ?, ?)");
+					"INSERT INTO ADMINISTRATORIKC (ID_ADMINKC, EMAIL, IME, JMBG, LOZINKA, PREZIME, KLINICKI_CENTAR, TIP_KORISNIKA) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 			try {
 				ps5.setInt(1, akc1.getId());
 				ps5.setString(2, akc1.getEmail());
@@ -568,6 +568,7 @@ public class KlinickiCentarApplication {
 				ps5.setString(5, akc1.getLozinka());
 				ps5.setString(6, akc1.getPrezime());
 				ps5.setInt(7, akc1.getKlinickiCentar().getId());
+				ps5.setInt(8, akc1.getTipKorisnika().ordinal());
 				ps5.executeUpdate();
 
 				ps5.setInt(1, akc2.getId());
@@ -577,6 +578,7 @@ public class KlinickiCentarApplication {
 				ps5.setString(5, akc2.getLozinka());
 				ps5.setString(6, akc2.getPrezime());
 				ps5.setInt(7, akc2.getKlinickiCentar().getId());
+				ps5.setInt(8, akc2.getTipKorisnika().ordinal());
 				ps5.executeUpdate();
 
 				ps5.setInt(1, akc3.getId());
@@ -586,6 +588,7 @@ public class KlinickiCentarApplication {
 				ps5.setString(5, akc3.getLozinka());
 				ps5.setString(6, akc3.getPrezime());
 				ps5.setInt(7, akc3.getKlinickiCentar().getId());
+				ps5.setInt(8, akc3.getTipKorisnika().ordinal());
 				ps5.executeUpdate();
 			} catch (SQLException e) {
 				// e.printStackTrace();

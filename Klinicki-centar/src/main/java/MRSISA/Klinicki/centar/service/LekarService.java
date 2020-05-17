@@ -48,6 +48,10 @@ public class LekarService {
 		return lekarRepository.findById(id).orElse(null);
 	}
 	
+	public Lekar findByjmbg(String jmbg) {
+		return lekarRepository.findByjmbg(jmbg);
+	}
+	
 	
 	
 	

@@ -116,7 +116,7 @@ function validacija() {
     }
 
     if (!regEmail.test($("#email").val())) {
-        if ($("#email").val() != undefined) {
+        if ($("#email").val() != undefined && window.tipKorisnika != "superAdmin") {
             $("#emailError").text("Neispravan format email-a").css('visibility', 'visible').css('color', 'red');
             uslov = true;
         }
@@ -130,18 +130,24 @@ function validacija() {
     }
 
     if (!regPass.test($("#password").val())) {
-        $("#lozinkaError").text("Lozinka mora da sadrži najmanje 8 karaktera, bar jedno malo slovo, bar jedno veliko slovo i bar jedan broj").css('visibility', 'visible').css('color', 'red');
-        uslov = true;
+        if ($("#password").val() != undefined) {
+            $("#lozinkaError").text("Lozinka mora da sadrži najmanje 8 karaktera, bar jedno malo slovo, bar jedno veliko slovo i bar jedan broj").css('visibility', 'visible').css('color', 'red');
+            uslov = true;
+        }
     }
 
     if (!regPass.test($("#password1").val())) {
-        $("#lozinka1Error").text("Lozinka mora da sadrži najmanje 8 karaktera, bar jedno malo slovo, bar jedno veliko slovo i bar jedan broj").css('visibility', 'visible').css('color', 'red');
-        uslov = true;
+        if ($("#password1").val() != undefined) {
+            $("#lozinka1Error").text("Lozinka mora da sadrži najmanje 8 karaktera, bar jedno malo slovo, bar jedno veliko slovo i bar jedan broj").css('visibility', 'visible').css('color', 'red');
+            uslov = true;
+        }
     }
 
     if ($("#password1").val() != $("#password").val()) {
-        $("#lozinkaError").text("Lozinka se ne poklapaju").css('visibility', 'visible').css('color', 'red');
-        uslov = true;
+        if ($("#password1").val() != undefined) {
+            $("#lozinkaError").text("Lozinka se ne poklapaju").css('visibility', 'visible').css('color', 'red');
+            uslov = true;
+        }
     }
 
     if (uslov) {

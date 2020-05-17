@@ -30,8 +30,10 @@ $(document).ready(function() {
         }
 
         if (!regEmail.test($("#email").val())) {
-            $("#emailError").text("Neispravan format email-a").css('visibility', 'visible').css('color', 'red');
-            return;
+            if ($("#email").val() != "super") {
+                $("#emailError").text("Neispravan format email-a").css('visibility', 'visible').css('color', 'red');
+                return;
+            }
         }
 
 
@@ -45,15 +47,21 @@ $(document).ready(function() {
                 lozinka: $("#lozinka").val()
             }),
             success: function(response) {
-                alert("Uspesno ste se prijavili")
+
+                // alert("Uspesno ste se prijavili")
                 ulogovan = response;
                 console.log(ulogovan.ime);
-                window.location.replace("/klinicki-centar/");
-
+                if ($("#email").val() == "super" && $("#lozinka").val() == "super") {
+                    window.location.replace("http://localhost:8080/klinicki-centar/aktivacija.html?token=" + "superAdmin");
+                } else {
+                    window.location.replace("/klinicki-centar/");
+                }
             },
             error: function(jqXHR) {
                 if (jqXHR.status == 400) {
                     alert("Pogresan unos email-a ili lozinke")
+                } else {
+                    alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
                 }
             }
         });

@@ -51,35 +51,35 @@ public class ZahtevZRController {
 	}
 
 	@PutMapping("/KC/ZZR/Prihvati/{id}")
-	public ResponseEntity<ZahtevZaRegDTO> prihvatiZZR(@PathVariable Integer id){
+	public ResponseEntity<ZahtevZaRegDTO> prihvatiZZR(@PathVariable Integer id) {
 		ZahtevZaRegistraciju zahtev = zzrService.findOne(id);
-		
+
 		if (zahtev != null) {
 			zahtev.setStanje(StanjeZahteva.PRIHVACEN);
 			zahtev.getPacijent().setStanjePacijenta(StanjePacijenta.PRIHVACEN);
 			zahtev = zzrService.save(zahtev);
-			
-			ConfirmationToken confirmationToken = new ConfirmationToken(zahtev.getPacijent());
+
+			ConfirmationToken confirmationToken = new ConfirmationToken(zahtev.getPacijent().getJmbg());
 			confirmationToken = tokenService.save(confirmationToken);
 			SimpleMailMessage msg = new SimpleMailMessage();
-			
-			 msg.setTo(zahtev.getPacijent().getEmail());
 
-		        msg.setSubject("Uspešna registracija na klinički centar!");
-		        msg.setText("Da bi potvrdili nalog, kliknite na link: "
-		        		+"https://mrsisa2020-t19.herokuapp.com/klinicki-centar/confirmation.html?token="+
-		        		confirmationToken.getConfirmationToken());
+			msg.setTo(zahtev.getPacijent().getEmail());
+
+			msg.setSubject("Uspešna registracija na klinički centar!");
+			msg.setText("Da bi ste potvrdili nalog, kliknite na link: "
+					+ "https://mrsisa2020-t19.herokuapp.com/klinicki-centar/confirmation.html?token="
+					+ confirmationToken.getConfirmationToken());
 //https://mrsisa2020-t19.herokuapp.com
 //http://localhost:8080
-		        try {
-		        	 javaMailSender.send(msg);
-				} catch (MailException e) {
-					//e.printStackTrace();
-					return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-				}
-			
+			try {
+				javaMailSender.send(msg);
+			} catch (MailException e) {
+				// e.printStackTrace();
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
+
 			return new ResponseEntity<>(new ZahtevZaRegDTO(zahtev), HttpStatus.OK);
-		}else {
+		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
@@ -89,11 +89,11 @@ public class ZahtevZRController {
 		ConfirmationToken confToken = tokenService.finByToken(token);
 
 		if (confToken != null) {
-			Pacijent pacijent = pacijentService.findByEmail(confToken.getPacijent().getEmail());
+			Pacijent pacijent = pacijentService.findByjmbg(confToken.getJMBG());
 			System.out.println(pacijent);
 			pacijent.setStanjePacijenta(StanjePacijenta.AKTIVAN);
 			pacijent = pacijentService.save(pacijent);
-			return new ResponseEntity<String>("Uspesna aktivacija naloga!", HttpStatus.OK);
+			return new ResponseEntity<String>("Uspešna aktivacija naloga!", HttpStatus.OK);
 		} else {
 			return new ResponseEntity<String>("Link nije važeći", HttpStatus.NOT_FOUND);
 		}

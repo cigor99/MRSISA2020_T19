@@ -2,6 +2,7 @@ package MRSISA.Klinicki.centar.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,6 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import MRSISA.Klinicki.centar.domain.AdministratorKlinickogCentra;
 import MRSISA.Klinicki.centar.domain.AdministratorKlinike;
+import MRSISA.Klinicki.centar.domain.ConfirmationToken;
 import MRSISA.Klinicki.centar.domain.Klinika;
 import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.MedicinskaSestra;
@@ -32,8 +36,10 @@ import MRSISA.Klinicki.centar.dto.AdminKCDTO;
 import MRSISA.Klinicki.centar.dto.LekarDTO;
 import MRSISA.Klinicki.centar.dto.MedicinskaSestraDTO;
 import MRSISA.Klinicki.centar.dto.Osoba;
+import MRSISA.Klinicki.centar.dto.PrvoLogovanjeDTO;
 import MRSISA.Klinicki.centar.service.AdminKCSerivce;
 import MRSISA.Klinicki.centar.service.AdminKService;
+import MRSISA.Klinicki.centar.service.ConfirmationTokenService;
 import MRSISA.Klinicki.centar.service.KlinikaService;
 import MRSISA.Klinicki.centar.service.LekarService;
 import MRSISA.Klinicki.centar.service.MedicinskaSestraSerive;
@@ -42,6 +48,12 @@ import MRSISA.Klinicki.centar.service.ZahtevZRService;
 
 @RestController
 public class MedicinskaSestraController {
+	
+	@Autowired
+	private JavaMailSender javaMailSender;
+	
+	@Autowired
+	private ConfirmationTokenService tokenService;
 
 	@Autowired
 	private PacijentService pacijentService;
@@ -83,7 +95,9 @@ public class MedicinskaSestraController {
 		int klinika = admink.getKlinikaID();
 		List<MedicinskaSestraDTO> sestreDTO = new ArrayList<MedicinskaSestraDTO>();
 		for (MedicinskaSestra ms : sestre) {
-			sestreDTO.add(new MedicinskaSestraDTO(ms));
+			if(ms.getKlinika().getId().equals(klinika)) {
+				sestreDTO.add(new MedicinskaSestraDTO(ms));
+			}
 		}
 		return new ResponseEntity<>(sestreDTO, HttpStatus.OK);
 	}
@@ -121,6 +135,7 @@ public class MedicinskaSestraController {
 
 	@PostMapping("/medicinskaSestra/add")
 	public ResponseEntity<MedicinskaSestraDTO> addLekar(@RequestBody MedicinskaSestraDTO sestraDTO) {
+		sestraDTO.setLozinka("Password1");
 
 		if (!sestraDTO.proveraPolja()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -142,7 +157,7 @@ public class MedicinskaSestraController {
 			}
 		}
 		sestra.setEmail(email);
-		sestra.setLozinka(sestraDTO.getLozinka());
+		sestra.setLozinka("XAEA12");
 		sestra.setJmbg(sestraDTO.getJmbg());
 		sestra.setIme(sestraDTO.getIme().substring(0, 1).toUpperCase() + sestraDTO.getIme().substring(1).toLowerCase());
 		sestra.setPrezime(sestraDTO.getPrezime().substring(0, 1).toUpperCase() + sestraDTO.getPrezime().substring(1).toLowerCase());
@@ -151,8 +166,44 @@ public class MedicinskaSestraController {
 		Klinika klinika = klinikaService.findOne(id);
 		sestra.setKlinika(klinika);
 		sestra = medSesService.addSestra(sestra);
+		
+		ConfirmationToken confirmationToken = new ConfirmationToken(sestraDTO.getJmbg());
+		confirmationToken = tokenService.save(confirmationToken);
+		SimpleMailMessage msg = new SimpleMailMessage();
+		msg.setTo(sestraDTO.getEmail());
+		msg.setSubject("Uspešna registracija na klinički centar!");
+		msg.setText("Da bi ste aktivirali nalog, kliknite na link: "
+				+ "http://localhost:8080/klinicki-centar/aktivacija.html?token="
+				+ confirmationToken.getConfirmationToken());
+
+		try {
+			javaMailSender.send(msg);
+		} catch (MailException e) {
+			// e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		
+		
 		return new ResponseEntity<>(new MedicinskaSestraDTO(sestra), HttpStatus.CREATED);
 	}
+	
+	@PutMapping("/medicinskaSestra/prvaSifra")
+	public ResponseEntity<MedicinskaSestraDTO> prvaSifra(@RequestBody PrvoLogovanjeDTO prvoLogovanje) {
+		Pattern regPass = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,256}$");
+		MedicinskaSestra sestra = medSesService.findOne(prvoLogovanje.getId());
+		if (!regPass.matcher(prvoLogovanje.getSifra()).matches()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		if (sestra != null) {
+			sestra.setLozinka(prvoLogovanje.getSifra());
+			sestra = medSesService.save(sestra);
+			return new ResponseEntity<>(new MedicinskaSestraDTO(sestra), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
 
 	@DeleteMapping("/medicinskaSestra/delete/{id}")
 	public ResponseEntity<Void> deleteSala(@PathVariable Integer id) {

@@ -10,4 +10,6 @@ public interface MedicinskaSestraRepository extends JpaRepository<MedicinskaSest
 	MedicinskaSestra findByEmail(String email);
 	
 	Page<MedicinskaSestra> findAll(Pageable pageable);
+
+	MedicinskaSestra findByjmbg(String jmbg);
 }

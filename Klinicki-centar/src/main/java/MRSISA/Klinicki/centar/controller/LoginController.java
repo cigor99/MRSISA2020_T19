@@ -73,6 +73,9 @@ public class LoginController {
 	 *Ako ne onda se vraca error 400 */
 	@PostMapping("/prijava")
 	public ResponseEntity<Object> login(@RequestBody LoginDTO loginDTO) {
+		if(loginDTO.getLozinka().equals("XAEA12")) {
+			return new ResponseEntity<>("Niste aktivirali nalog! Poslat Vam je email sa linkom za aktivaciju naloga.",HttpStatus.CONFLICT);
+		}
 		if(!loginDTO.proveraPolja()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -115,6 +118,11 @@ public class LoginController {
 			if (adm.getEmail().equals(loginDTO.getEmail()) && adm.getLozinka().equals(loginDTO.getLozinka())) {
 				AdminKCDTO adminKCDTO = new AdminKCDTO(adm);
 				request.getSession().setAttribute("current", adminKCDTO);
+				if(adminKCDTO.getEmail().equals("super")) {
+					request.getSession().setAttribute("tip", "superAdmin");
+					System.out.println("SUPERADMIN");
+					return new ResponseEntity<>(adminKCDTO, HttpStatus.ACCEPTED);
+				}
 				request.getSession().setAttribute("tip", "adminKC");
 
 				return new ResponseEntity<>(adminKCDTO, HttpStatus.ACCEPTED);
