@@ -374,16 +374,5 @@ public class LekarController {
 		return new ResponseEntity<>(lekariDTO, HttpStatus.OK);
 
 	}
-	
-	@GetMapping("/lekar/page1")
-	public ResponseEntity<List<LekarDTO>> getLekarPage1() {
-		Pageable prvihDeset = PageRequest.of(0, 10);
-		Page<Lekar> lekari = lekarService.findAll(prvihDeset);
-		List<LekarDTO> lekariDTO = new ArrayList<LekarDTO>();
-		for (Lekar l : lekari) {
-			lekariDTO.add(new LekarDTO(l));
-		}
-		return new ResponseEntity<>(lekariDTO, HttpStatus.OK);
-	}
 
 }
