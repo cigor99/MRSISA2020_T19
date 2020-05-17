@@ -8,7 +8,7 @@ function ucitajZaglavlje() {
         type: "get",
         success: function(data) {
             window.ulogovani = data;
-            window.location.replace("aktivacija.html");
+
         },
         async: false,
     });
@@ -25,7 +25,7 @@ function ucitajZaglavlje() {
                 tipKorisnika = data;
                 window.tipKorisnika = data;
                 if (window.ulogovani.email == "super" && window.ulogovani.lozinka == "super") {
-
+                    window.location.replace("aktivacija.html");
                 }
                 ucitaj(tipKorisnika);
             }
