@@ -50,6 +50,7 @@ function pretraga(){
 	var trazi = $('#trazi').val();
 	console.log(trazi);
 	if(trazi==""){
+		alert("Morate uneti parametar pretrage")
 		return;
 	}
 	var holder = $("#table-holder");
