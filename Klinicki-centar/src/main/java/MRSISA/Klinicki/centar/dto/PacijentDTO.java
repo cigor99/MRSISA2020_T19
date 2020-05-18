@@ -17,7 +17,7 @@ public class PacijentDTO extends Osoba {
 	private String drzava;
 	private String brojTelefona;
 	private String jedinstveniBrOsig;
-	private TipKorisnika tipKorisnika;
+	private TipKorisnika tipKorisnika = TipKorisnika.PACIJENT;
 
 	public PacijentDTO() {
 		super();
@@ -106,6 +106,7 @@ public class PacijentDTO extends Osoba {
 //		Pattern regAdresa = Pattern.compile("^([A-Z]{1}[a-z]+[ ]*)+[0-9]+$");
 		Pattern regAdresa = Pattern.compile("^([a-zA-Z0-9 .,'-]*)+{3,30}$");
 		Pattern regJmbg = Pattern.compile("^[0-9]{13}$");
+		Pattern regOsig = Pattern.compile("^[0-9]{1,13}$");
 
 		if (!regPass.matcher(this.getLozinka()).matches()) {
 			System.out.println("LOZNIKA");
@@ -152,7 +153,7 @@ public class PacijentDTO extends Osoba {
 			return false;
 		}
 
-		if (!regJmbg.matcher(this.jedinstveniBrOsig).matches()) {
+		if (!regOsig.matcher(this.jedinstveniBrOsig).matches()) {
 			System.out.println("OSIGURANJE");
 			return false;
 		}
@@ -215,5 +216,14 @@ public class PacijentDTO extends Osoba {
 	public void setJedinstveniBrOsig(String jedinstveniBrOsig) {
 		this.jedinstveniBrOsig = jedinstveniBrOsig;
 	}
+
+	@Override
+	public String toString() {
+		return super.toString() + " PacijentDTO [pol=" + pol + ", grad=" + grad + ", adresa=" + adresa + ", drzava=" + drzava
+				+ ", brojTelefona=" + brojTelefona + ", jedinstveniBrOsig=" + jedinstveniBrOsig + ", tipKorisnika="
+				+ tipKorisnika + "]";
+	}
+	
+	
 
 }
