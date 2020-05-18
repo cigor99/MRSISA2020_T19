@@ -35,6 +35,8 @@ public class ZahtevZaGodisnjiOdmor {
 	@JoinColumn(name = "medicinska_sestra", referencedColumnName = "ID_MedSes", nullable = false)
 	private MedicinskaSestra medicinskaSestra;
 
+	public ZahtevZaGodisnjiOdmor(){}
+
 	public ZahtevZaGodisnjiOdmor(Integer id, Date pocetniDatum, Date krajnjiDatum, Lekar lekar,
 			MedicinskaSestra medicinskaSestra) {
 		super();

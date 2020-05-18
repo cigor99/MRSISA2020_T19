@@ -332,6 +332,21 @@ public class PacijentController {
 		List<PacijentDTO> retVal = new ArrayList<>();
 		for (Pacijent pacijent : pacijentService.findAll()) {
 			if (kriterijum.equalsIgnoreCase("ime")) {
+				if (pacijent.getIme().toLowerCase().contains((vrednost.toLowerCase()))) {
+					retVal.add(new PacijentDTO(pacijent));
+				}
+			} else if (kriterijum.equalsIgnoreCase("prezime")) {
+				if (pacijent.getPrezime().toLowerCase().contains((vrednost.toLowerCase()))) {
+					retVal.add(new PacijentDTO(pacijent));
+				}
+			} else if (kriterijum.equalsIgnoreCase("Jedin. br. pacijenta")) {
+				if (pacijent.getJedinstveniBrOsig().toLowerCase().contains((vrednost.toLowerCase()))) {
+					retVal.add(new PacijentDTO(pacijent));
+				}
+			}
+		}
+		/*for (Pacijent pacijent : pacijentService.findAll()) {
+			if (kriterijum.equalsIgnoreCase("ime")) {
 				if (pacijent.getIme().equalsIgnoreCase(vrednost)) {
 					retVal.add(new PacijentDTO(pacijent));
 				}
@@ -344,7 +359,7 @@ public class PacijentController {
 					retVal.add(new PacijentDTO(pacijent));
 				}
 			}
-		}
+		}*/
 
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
