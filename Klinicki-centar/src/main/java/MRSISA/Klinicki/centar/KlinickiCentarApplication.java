@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
@@ -27,6 +28,7 @@ import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.MedicinskaSestra;
 import MRSISA.Klinicki.centar.domain.Pacijent;
 import MRSISA.Klinicki.centar.domain.Pol;
+import MRSISA.Klinicki.centar.domain.Pregled;
 import MRSISA.Klinicki.centar.domain.Recept;
 import MRSISA.Klinicki.centar.domain.Sala;
 import MRSISA.Klinicki.centar.domain.StanjePacijenta;
@@ -224,6 +226,18 @@ public class KlinickiCentarApplication {
 		p6.setZdravstveniKarton(zk6);
 		p7.setZdravstveniKarton(zk7);
 		p8.setZdravstveniKarton(zk8);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		Date datum = new Date();
+		try {
+			datum = sdf.parse("2020-05-31 11:00");
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Pregled pregled = new Pregled(1, datum, s1, lekar1, tp1, null, 0.2F, true, null, null, null);
+		s1.setPregledi(new HashSet<Pregled>());
+		s1.getPregledi().add(pregled);
 
 		Connection conn = DriverManager.getConnection("jdbc:h2:mem:testdb", "sa", "sa");
 		try {
@@ -939,6 +953,31 @@ public class KlinickiCentarApplication {
 			} finally {
 				ps14.close();
 			}
+			
+			PreparedStatement ps16 = conn
+					.prepareStatement("INSERT INTO  PREGLED  (ID_PREGLEDA, DATUM, SALA, LEKAR, TIP_PREGLEDA, POPUST, SLOBODAN) VALUES (?, ?, ?, ?, ?, ?, ?)");
+			try {
+				ps16.setInt(1, pregled.getId());
+				ps16.setDate(2, (java.sql.Date) pregled.getDatum());
+				ps16.setInt(3, pregled.getSala().getId());
+				ps16.setInt(4, pregled.getLekar().getId());
+				ps16.setInt(5, pregled.getTipPregleda().getId());
+				ps16.setFloat(6, pregled.getPopust());
+				ps16.setBoolean(7, pregled.isSlobodan());
+				ps16.executeUpdate();
+
+			} catch (SQLException e) {
+				// e.printStackTrace();
+				try {
+					ps16.close();
+
+				} catch (NullPointerException npe) {
+					// npe.printStackTrace();
+				}
+			} finally {
+				ps16.close();
+			}
+			
 		} catch (SQLException e) {
 			conn.close();
 		} finally {
