@@ -139,6 +139,7 @@ function dodajPolja() {
     rez.append("Na korak ste od aktivacije naloga. Molimo Vas unesite novu lozinku.");
     let div = $("#sifra");
 
+
     let p5 = $("<p></p>");
     p5.attr('id', 'lozinkaError');
     p5.css('visibility', 'hidden');

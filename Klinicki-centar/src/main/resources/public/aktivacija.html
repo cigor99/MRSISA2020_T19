@@ -3,6 +3,7 @@
 <head>
     <title>Aktivacija naloga</title>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link href="style.css" rel="stylesheet">
@@ -27,9 +28,14 @@
     </div>
 
     <div id="rezultat" class="rezultat"></div>
-    <div id="sifra"></div>
-    <input type="button" class="button" id="sacuvaj" value="Sačuvaj">
-    <input type="button" class="button" id="nazad" value="Nazad na prijavu" style="visibility: hidden;">
+    <div class="forma-za-dodavanje">
+        <form>
+            <div id="sifra" class="form-group"></div>
+        </form>
+        <input type="button" class="button" id="sacuvaj" value="Sačuvaj">
+        <input type="button" class="button" id="nazad" value="Nazad na prijavu" style="visibility: hidden;">
+    </div>
+
 </body>
 
 </html>
