@@ -149,6 +149,10 @@ $(document).ready(function() {
         });
 
     }
+    
+    $("#promeniLozinku").click(function() {
+    	window.location.replace("/klinicki-centar/promeniLozinku.html");
+    });
 
     $("#sacuvaj").click(function() {
         let uslov = validacija();
@@ -164,11 +168,12 @@ $(document).ready(function() {
                         prezime: $("#prezime").val(),
                         email: $("#email").val(),
                         id: $("#id").val(),
-                        lozinka: $("#password").val(),
+                        lozinka: window.ulogovani.lozinka,
                         jmbg: $("#jmbg").val()
                     }),
                     success: function(data) {
-                        alert("USPESNO STE SAČUVALI IZMENE")
+                        alert("USPESNO STE SAČUVALI IZMENE");
+                        window.location.replace("/klinicki-centar/");
                     }
 
                 })
@@ -184,11 +189,13 @@ $(document).ready(function() {
                         prezime: $("#prezime").val(),
                         email: $("#email").val(),
                         id: $("#id").val(),
-                        lozinka: $("#password").val(),
+                        //lozinka: $("#password").val(),
+                        lozinka: window.ulogovani.lozinka,
                         jmbg: $("#jmbg").val()
                     }),
                     success: function(data) {
-                        alert("USPESNO STE SAČUVALI IZMENE")
+                        alert("USPESNO STE SAČUVALI IZMENE");
+                        window.location.replace("/klinicki-centar/");
                     }
 
                 })
@@ -205,11 +212,13 @@ $(document).ready(function() {
                         prezime: $("#prezime").val(),
                         email: $("#email").val(),
                         id: $("#id").val(),
-                        lozinka: $("#password").val(),
+                        //lozinka: $("#password").val(),
+                        lozinka: window.ulogovani.lozinka,
                         jmbg: $("#jmbg").val()
                     }),
                     success: function(data) {
-                        alert("USPESNO STE SAČUVALI IZMENE")
+                        alert("USPESNO STE SAČUVALI IZMENE");
+                        window.location.replace("/klinicki-centar/");
                     }
 
                 })
@@ -224,16 +233,19 @@ $(document).ready(function() {
                         prezime: $("#prezime").val(),
                         email: $("#email").val(),
                         id: $("#id").val(),
-                        lozinka: $("#password").val(),
+                        //lozinka: $("#password").val(),
+                        lozinka: window.ulogovani.lozinka,
                         jmbg: $("#jmbg").val()
                     }),
                     success: function(data) {
-                        alert("USPESNO STE SAČUVALI IZMENE")
+                        alert("USPESNO STE SAČUVALI IZMENE");
+                        window.location.replace("/klinicki-centar/");
                     }
 
                 })
 
             } else if (window.tipKorisnika == "adminKlinike") {
+            	console.log(window.ulogovani.lozinka);
                 $.ajax({
                     url: "/klinicki-centar/adminK/update",
                     type: 'put',
@@ -244,11 +256,12 @@ $(document).ready(function() {
                         prezime: $("#prezime").val(),
                         email: $("#email").val(),
                         id: $("#id").val(),
-                        lozinka: $("#password").val(),
+                        lozinka: window.ulogovani.lozinka,
                         jmbg: $("#jmbg").val()
                     }),
                     success: function(data) {
-                        alert("USPESNO STE SAČUVALI IZMENE")
+                        alert("USPESNO STE SAČUVALI IZMENE");
+                        window.location.replace("/klinicki-centar/");
                     }
 
                 })
@@ -265,7 +278,8 @@ $(document).ready(function() {
                         prezime: $("#prezime").val(),
                         email: $("#email").val(),
                         id: $("#id").val(),
-                        lozinka: $("#password").val(),
+                        //lozinka: $("#password").val(),
+                        lozinka: window.ulogovani.lozinka,
                         jmbg: $("#jmbg").val(),
                         grad: $("#grad").val(),
                         adresa: $("#adresa").val(),
@@ -276,6 +290,7 @@ $(document).ready(function() {
                     }),
                     success: function(data) {
                         alert("USPESNO STE SAČUVALI IZMENE");
+                        window.location.replace("/klinicki-centar/");
                     }
 
                 })
@@ -334,6 +349,7 @@ function dodajPolja(data) {
     ImeInput.attr("class", "form-control");
     ImeInput.attr('value', data.ime);
     ImeInput.attr("id", 'ime');
+    //ImeInput.attr("readonly", true);
 
     imeDIV.append(Imelabel);
     imeDIV.append(ImeInput);
@@ -421,7 +437,7 @@ function dodajPolja(data) {
     form.append(prezimeDIV);
     form.append(jmbgDIV);
     form.append(emailDIV);
-    form.append(passDIv);
-    form.append(passDIv1);
+    //form.append(passDIv);
+    //form.append(passDIv1);
     div.append(form);
 }

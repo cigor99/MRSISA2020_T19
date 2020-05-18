@@ -1,0 +1,57 @@
+<html>
+
+<head>
+    <title>Promena lozinke</title>
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="js/main.js"></script>
+    <script>
+        $(document).ready(function() {
+            ucitajZaglavlje();
+        });
+    </script>
+    <link href="style.css" rel="stylesheet">
+    <script src="js/promenaLozinke.js">
+    </script>
+
+</head>
+<style>
+    .dugme {
+        border-radius: 10px;
+        margin-left: 20%;
+        margin-right: 20%;
+    }
+</style>
+
+<body>
+    <div id="navbardiv"></div>
+    <div class="naslov">
+        <h1>Promena lozinke </h1>
+    </div>
+
+    <div class="forma-za-dodavanje">
+    	<form>
+            <div class="form-group">
+                <label for="stara">Stara lozinka:</label>
+                <input type="password" class="form-control" id="stara" placeholder="Unesite staru lozinku" name="stara">
+                <p id="staraError" style="display:hidden"></p>
+            </div>
+            <div class="form-group">
+                <label for="nova">Nova lozinka:</label>
+                <input type="password" class="form-control" id="nova" placeholder="Unesite novu lozinku" name="nova">
+                <p id="lozinkaError" style="display:hidden"></p>
+            </div>
+            <div class="form-group">
+                <label for="ponovo">Ponovite lozinku:</label>
+                <input type="password" class="form-control" id="ponovo" placeholder="Ponovo unesite novu lozinku" name="ponovo">
+				<p id="lozinka1Error" style="display:hidden"></p>            
+            </div>
+        </form>
+    </div>
+    <div class="dugme">
+        <input type="button" class="button" onclick="javascript:promeniLozinku()" id="sacuvaj" value="Sačuvaj" style="margin: 10px;">
+    </div>
+</body>
+
+</html>

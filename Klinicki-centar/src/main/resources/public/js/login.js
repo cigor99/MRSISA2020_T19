@@ -67,6 +67,10 @@ $(document).ready(function() {
         });
 
     });
+    
+    $("#reg").click(function() {
+    	window.location.replace("/klinicki-centar/registracija.html");
+    });
 
 
 });

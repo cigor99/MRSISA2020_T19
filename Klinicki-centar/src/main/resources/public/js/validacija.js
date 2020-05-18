@@ -145,7 +145,7 @@ function validacija() {
 
     if ($("#password1").val() != $("#password").val()) {
         if ($("#password1").val() != undefined) {
-            $("#lozinkaError").text("Lozinka se ne poklapaju").css('visibility', 'visible').css('color', 'red');
+            $("#lozinkaError").text("Lozinke se ne poklapaju").css('visibility', 'visible').css('color', 'red');
             uslov = true;
         }
     }

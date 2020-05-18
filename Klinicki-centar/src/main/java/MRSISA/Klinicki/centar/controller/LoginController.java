@@ -162,5 +162,15 @@ public class LoginController {
 		return new ResponseEntity<>(tip, HttpStatus.OK);
 	}
 	
+	@PostMapping("/proveriStaruLozinku")
+	public ResponseEntity<Boolean> proveriStaruLozinku(String lozinka){
+		Osoba korisnik = (Osoba) request.getSession().getAttribute("current");
+		if(korisnik.getLozinka().equals(lozinka)) {
+			return new ResponseEntity<>(true, HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<>(false, HttpStatus.OK);
+		}
+	}
 	
 }

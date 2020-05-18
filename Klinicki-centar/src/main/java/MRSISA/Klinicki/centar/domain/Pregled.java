@@ -41,7 +41,7 @@ public class Pregled {
 	private TipPregleda tipPregleda;
 
 	@ManyToOne
-	@JoinColumn(name = "pacijent", referencedColumnName = "ID_Pacijenta", nullable = false)
+	@JoinColumn(name = "pacijent", referencedColumnName = "ID_Pacijenta", nullable = true)
 	private Pacijent pacijent;
 
 	@Column(name = "popust", unique = false, nullable = false)
