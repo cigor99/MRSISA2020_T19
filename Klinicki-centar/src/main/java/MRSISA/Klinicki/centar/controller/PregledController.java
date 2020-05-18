@@ -38,8 +38,10 @@ public class PregledController {
 	public ResponseEntity<List<PregledDTO>> getPregledPage(){
 		Pageable prvihDeset = PageRequest.of(0,10);
 		Page<Pregled> pregledi = pregledService.findAll(prvihDeset);
+		System.out.println("PREGLEDI");
 		List<PregledDTO> preglediDTO = new ArrayList<PregledDTO>();
 		for(Pregled p : pregledi) {
+			System.out.println(p);
 			preglediDTO.add(new PregledDTO(p));
 		}
 		return new ResponseEntity<>(preglediDTO, HttpStatus.OK);

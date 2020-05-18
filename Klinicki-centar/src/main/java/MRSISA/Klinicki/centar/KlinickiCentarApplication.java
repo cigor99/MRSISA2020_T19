@@ -955,7 +955,7 @@ public class KlinickiCentarApplication {
 			}
 			
 			PreparedStatement ps16 = conn
-					.prepareStatement("INSERT INTO  PREGLED  (ID_PREGLEDA, DATUM, SALA, LEKAR, TIP_PREGLEDA, POPUST, SLOBODAN) VALUES (?, ?, ?, ?, ?, ?, ?)");
+					.prepareStatement("INSERT INTO  PREGLEDI  (ID_PREGLEDA, DATUM, SALA, LEKAR, TIP_PREGLEDA, POPUST, SLOBODAN) VALUES (?, ?, ?, ?, ?, ?, ?)");
 			try {
 				ps16.setInt(1, pregled.getId());
 				ps16.setDate(2, (java.sql.Date) pregled.getDatum());
@@ -967,12 +967,12 @@ public class KlinickiCentarApplication {
 				ps16.executeUpdate();
 
 			} catch (SQLException e) {
-				// e.printStackTrace();
+				e.printStackTrace();
 				try {
 					ps16.close();
 
 				} catch (NullPointerException npe) {
-					// npe.printStackTrace();
+					npe.printStackTrace();
 				}
 			} finally {
 				ps16.close();

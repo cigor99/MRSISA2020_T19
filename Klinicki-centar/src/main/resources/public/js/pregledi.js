@@ -1,7 +1,7 @@
 function ucitajTabelu() {
     $.ajax({
         type: "get",
-        url: "/klinicki-centar/pregled/page",
+        url: "/klinicki-centar/pregled/all",
         success: function (data) {
         	var table = $("#pregledi")
             for (var pregled of data) {               
