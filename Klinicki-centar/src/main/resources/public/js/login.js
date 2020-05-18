@@ -52,7 +52,7 @@ $(document).ready(function() {
                 ulogovan = response;
                 console.log(ulogovan.ime);
                 if ($("#email").val() == "super" && $("#lozinka").val() == "super") {
-                    window.location.replace("http://localhost:8080/klinicki-centar/aktivacija.html?token=" + "superAdmin");
+                    window.location.replace("http://https://mrsisa2020-t19.herokuapp.com/klinicki-centar/aktivacija.html?token=" + "superAdmin");
                 } else {
                     window.location.replace("/klinicki-centar/");
                 }
