@@ -109,7 +109,7 @@ public class AdminKCController {
 		msg.setTo(adminKCDTO.getEmail());
 		msg.setSubject("Uspešna registracija na klinički centar!");
 		msg.setText("Da bi ste aktivirali nalog, kliknite na link: "
-				+ "http://localhost:8080/klinicki-centar/aktivacija.html?token="
+				+ "http://mrsisa2020-t19.herokuapp.com/klinicki-centar/aktivacija.html?token="
 				+ confirmationToken.getConfirmationToken());
 
 		try {
