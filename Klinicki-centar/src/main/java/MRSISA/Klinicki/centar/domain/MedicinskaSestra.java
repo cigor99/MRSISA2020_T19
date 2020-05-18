@@ -94,7 +94,7 @@ public class MedicinskaSestra {
 	}
 	
 	public double izracunajProsecnuOcenu() {
-		int suma = 0;
+		double suma = 0;
 		int i = this.ocene.size();
 		if(i == 0) {
 			return 3.0;
