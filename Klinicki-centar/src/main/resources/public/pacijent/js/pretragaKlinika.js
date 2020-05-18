@@ -39,6 +39,11 @@ $(document).ready(function () {
 		        }
 		 });
 	}
+	
+	
+	$("#reset").click(function(){
+		prikaziKlinike();
+	});
 });
 
 function pretraga(){
@@ -92,6 +97,54 @@ function pretraga(){
 
 		},
         
+    });
+}
+
+function reset(){
+	var holder = $("#table-holder");
+	holder.empty();
+	var table = $('<table id="klinike" name="klinike" class="table"></table>')
+	var thead = $("<thead></thead>");
+	var trHead= $("<tr></tr>");
+	var idTH = $('<th id="ID">ID</th>');
+    var nazivTH = $('<th id="naziv">Naziv</th>');
+    var adresaTH = $('<th id="adresa">Adresa</th>');
+    var opisTH = $('<th id="opis">Opis</th>');
+    var izaberiTH = $('<th>Izaberi</th>');
+	trHead.append(idTH);
+	trHead.append(nazivTH);
+	trHead.append(adresaTH);
+	trHead.append(opisTH);
+	trHead.append(izaberiTH);
+	thead.append(trHead);
+	table.append(thead);
+	$.ajax({
+        type: "get",
+        url: "/klinicki-centar/klinika/page",
+        success: function (data) {
+
+            // alert(JSON.stringify(data));
+            for (let klinika of data) {
+
+                
+                let tr = $("<tr id=\"tr" + klinika.id + "\"></tr>");
+
+                let idTD = $("<td>" + klinika.id + "</td>")
+                let nazivTd = $("<td>" + klinika.naziv + "</td>")
+                let adresaTD = $("<td>" + klinika.adresa + "</td>")
+                let opisTD = $("<td>" + klinika.opis + "</td>")
+                // let izaberiTD = $("<td>" + "<a href=\"#izabrana?id=" +
+				// klinika.id + ">Izaberi</a></td>")
+                let izaberiTD = $("<td><a href='pretragaLekara.html?id="+klinika.id+"'>Izaberi</a></td>")
+                tr.append(idTD);
+                tr.append(nazivTd);
+                tr.append(adresaTD);
+                tr.append(opisTD);
+                tr.append(izaberiTD);
+                table.append(tr);
+                holder.append(table);  
+            }
+        }
     });
 }
 
