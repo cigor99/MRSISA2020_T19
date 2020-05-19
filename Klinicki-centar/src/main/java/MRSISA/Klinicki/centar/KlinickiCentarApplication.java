@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -238,6 +239,10 @@ public class KlinickiCentarApplication {
 		Pregled pregled = new Pregled(1, datum, s1, lekar1, tp1, null, 0.2F, true, null, null, null);
 		s1.setPregledi(new HashSet<Pregled>());
 		s1.getPregledi().add(pregled);
+		lekar1.setPregledi(new HashSet<Pregled>());
+		lekar1.getPregledi().add(pregled);
+		tp1.setPregledi(new HashSet<Pregled>());
+		tp1.getPregledi().add(pregled);
 
 		Connection conn = DriverManager.getConnection("jdbc:h2:mem:testdb", "sa", "sa");
 		try {
@@ -955,10 +960,10 @@ public class KlinickiCentarApplication {
 			}
 			
 			PreparedStatement ps16 = conn
-					.prepareStatement("INSERT INTO  PREGLEDI  (ID_PREGLEDA, DATUM, SALA, LEKAR, TIP_PREGLEDA, POPUST, SLOBODAN) VALUES (?, ?, ?, ?, ?, ?, ?)");
+					.prepareStatement("INSERT INTO  PREGLEDI  (ID_PREGLEDA, DATE, SALA, LEKAR, TIP_PREGLEDA, POPUST, SLOBODAN) VALUES (?, ?, ?, ?, ?, ?, ?)");
 			try {
 				ps16.setInt(1, pregled.getId());
-				ps16.setDate(2, (java.sql.Date) pregled.getDatum());
+				ps16.setTimestamp(2, new Timestamp( pregled.getDatum().getTime()));
 				ps16.setInt(3, pregled.getSala().getId());
 				ps16.setInt(4, pregled.getLekar().getId());
 				ps16.setInt(5, pregled.getTipPregleda().getId());
