@@ -52,7 +52,8 @@ $(document).ready(function() {
                 ulogovan = response;
                 console.log(ulogovan.ime);
                 if ($("#email").val() == "super" && $("#lozinka").val() == "super") {
-                    window.location.replace("http://mrsisa2020-t19.herokuapp.com/klinicki-centar/aktivacija.html?token=" + "superAdmin");
+                    window.location.replace("/klinicki-centar/aktivacija.html?token=" + "superAdmin");
+                    // http://mrsisa2020-t19.herokuapp.com
                 } else {
                     window.location.replace("/klinicki-centar/");
                 }
@@ -67,9 +68,9 @@ $(document).ready(function() {
         });
 
     });
-    
+
     $("#reg").click(function() {
-    	window.location.replace("/klinicki-centar/registracija.html");
+        window.location.replace("/klinicki-centar/registracija.html");
     });
 
 

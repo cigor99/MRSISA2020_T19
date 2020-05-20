@@ -76,9 +76,9 @@ public class KlinickiCentarApplication {
 		HashSet<Klinika> klinike = new HashSet<>();
 		Cenovnik cenovnik = new Cenovnik(1, cene, klinike);
 
-		Dijagnoza d1 = new Dijagnoza(1, "1", "prva", "prva dijagnoza");
-		Dijagnoza d2 = new Dijagnoza(2, "2", "druga", "druga dijagnoza");
-		Dijagnoza d3 = new Dijagnoza(3, "3", "treca", "treca dijagnoza");
+		Dijagnoza d1 = new Dijagnoza(1, "8100", "prva", "prva dijagnoza");
+		Dijagnoza d2 = new Dijagnoza(2, "1200", "druga", "druga dijagnoza");
+		Dijagnoza d3 = new Dijagnoza(3, "3600", "treca", "treca dijagnoza");
 
 		d1.setKlinickiCentar(KC);
 		d2.setKlinickiCentar(KC);

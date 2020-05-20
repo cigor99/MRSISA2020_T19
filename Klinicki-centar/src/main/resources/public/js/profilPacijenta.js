@@ -29,4 +29,9 @@ $(document).ready(function() {
     $("#karton").click(function() {
         window.location.replace("zdravsteniKarton.html?id=" + $("#ID").val());
     });
+
+
+    $("#pregled").click(function() {
+        window.location.replace("izvestajPregleda.html?id=" + $("#ID").val());
+    });
 });

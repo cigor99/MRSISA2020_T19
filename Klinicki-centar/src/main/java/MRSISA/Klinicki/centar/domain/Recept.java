@@ -59,7 +59,8 @@ public class Recept {
 	public Recept() {
 		super();
 	}
-	public Recept(Integer id, String datumIzdavanja ) {
+
+	public Recept(Integer id, String datumIzdavanja) {
 		super();
 		this.stanjeRecepta = StanjeRecepta.NIJE_OVEREN;
 		this.id = id;

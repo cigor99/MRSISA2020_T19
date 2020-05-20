@@ -1,5 +1,8 @@
 package MRSISA.Klinicki.centar.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 //import java.lang.module.FindException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +75,16 @@ public class DijagnozaController {
 		dijagnoza = dijaService.save(dijagnoza);
 		
 		return new ResponseEntity<>(new DijagnozaDTO(dijagnoza), HttpStatus.OK);
+	}
+	
+	@GetMapping("/sifarnikDijagnoza/getAll")
+	public ResponseEntity<List<DijagnozaDTO>> getAll(){
+		ArrayList<DijagnozaDTO> retVal = new ArrayList<DijagnozaDTO>();
+		for (Dijagnoza dijagnoza : dijaService.findAll()) {
+			retVal.add(new DijagnozaDTO(dijagnoza));
+		}
+		
+		return  new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
 	
 	

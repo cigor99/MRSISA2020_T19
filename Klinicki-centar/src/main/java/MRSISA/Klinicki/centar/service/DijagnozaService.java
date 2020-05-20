@@ -1,5 +1,7 @@
 package MRSISA.Klinicki.centar.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,10 @@ public class DijagnozaService {
 
 	public Dijagnoza save(Dijagnoza dijagnoza) {
 		return dijagnozaRepo.save(dijagnoza);
+	}
+
+	public List<Dijagnoza> findAll() {
+		return dijagnozaRepo.findAll();
 	}
 
 }
