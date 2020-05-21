@@ -6,4 +6,6 @@ import MRSISA.Klinicki.centar.domain.Dijagnoza;
 
 public interface DijagnozaRepository extends JpaRepository<Dijagnoza, Integer> {
 
+	Dijagnoza findBySifra(String sifra);
+
 }

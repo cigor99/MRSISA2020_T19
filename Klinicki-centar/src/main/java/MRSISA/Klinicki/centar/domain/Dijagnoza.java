@@ -40,7 +40,7 @@ public class Dijagnoza {
 	@JoinColumn(name = "klinicki_centar", referencedColumnName = "ID_KC")
 	private KlinickiCentar klinickiCentar;
 
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "dijagnoza")
+	@OneToMany( fetch = FetchType.LAZY, mappedBy = "dijagnoza")//cascade = { CascadeType.ALL },
 	private Set<IzvestajPregleda> izvestajiPregleda = new HashSet<IzvestajPregleda>();
 
 	public Dijagnoza() {

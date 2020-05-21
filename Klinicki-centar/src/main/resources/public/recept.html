@@ -17,24 +17,34 @@
 </head>
 
 <body>
-    <div id="navbardiv"></div>
+    <!-- <div id="navbardiv"></div> -->
     <div class="naslov">
         <h1>Recept</h1>
     </div>
     <div class="forma-za-dodavanje">
         <form action="">
+
             <div class="form-group">
-                <label>Informacije o pregledu:</label>
-                <textarea id="opis" rows="4" cols="50" placeholder="Unesite informacije o pregledu"></textarea>
+                <label>Izaberite lek:</label>
+                <input style="max-width: 250px;" id="select" list="lekovi" size="50" placeholder="Izaberite šifru leka">
+                <input type="button" class="button" value="Dodaj lek na recept" id="dodaj">
+                <p id="dodajError"></p>
+                <datalist id="lekovi"></datalist>
+            </div>
+            <div class="table-holder">
+                <table class="table" id="tabela">
+                    <th>Šifra leka</th>
+                    <th>Naziv leka</th>
+                    <th>Ukloni lek</th>
+                </table>
+
             </div>
             <div class="form-group">
-                <label>Izaberite dijagnozu:</label>
-                <input style="max-width: 250px;" id="select" list="dijagnoze" size="50" placeholder="Izaberite dijagnozu">
-                <p id="adminERROR"></p>
-                <datalist id="dijagnoze"></datalist>
+                <label>Informacije o konzumiranju lekova:</label>
+                <textarea id="opis" rows="4" cols="50" style="width: 100%;" placeholder="Unesite informacije o konzumiranju lekova"></textarea>
             </div>
             <div class="form-group">
-                <input type="button" class="button" value="Sačuvaj recept" id="recept">
+                <input type="button" class="button" value="Sačuvaj recept" id="sacuvaj">
             </div>
         </form>
     </div>

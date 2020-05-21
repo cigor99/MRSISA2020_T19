@@ -45,7 +45,7 @@ function overi(receptID) {
     let conf = confirm("Da li ste sigurni da želite da overite recept sa ID:" + receptID);
     if (conf == true) {
         $.ajax({
-            url: "/klinicki-centar/recepti/overi/" + receptID,
+            url: "/klinicki-centar/recepti/overi/" + receptID + "/" + window.ulogovani.id,
             contentType: "application/json",
             dataType: 'json',
             type: "put",

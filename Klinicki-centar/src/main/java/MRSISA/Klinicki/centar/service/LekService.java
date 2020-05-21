@@ -1,5 +1,7 @@
 package MRSISA.Klinicki.centar.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -31,5 +33,9 @@ public class LekService {
 
 	public Lek save(Lek lek) {
 		return lekRep.save(lek);
+	}
+
+	public List<Lek> findAll() {	
+		return lekRep.findAll();
 	}
 }

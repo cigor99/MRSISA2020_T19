@@ -183,11 +183,11 @@ public class KlinickiCentarApplication {
 //		zk5.setPacijent(p5);
 //	    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
 
-		Recept r1 = new Recept(1, "07/05/2020");
-		Recept r2 = new Recept(2, "06/05/2020");
-		Recept r3 = new Recept(3, "03/05/2020");
-		Recept r4 = new Recept(4, "04/05/2020");
-		Recept r5 = new Recept(5, "08/05/2020");
+		Recept r1 = new Recept(1, "07/05/2020 10:00:53");
+		Recept r2 = new Recept(2, "06/05/2020 06:23:06");
+		Recept r3 = new Recept(3, "03/05/2020 11:34:54");
+		Recept r4 = new Recept(4, "04/05/2020 09:10:11");
+		Recept r5 = new Recept(5, "08/05/2020 08:00:07");
 
 		lekar1.getRecepti().add(r1);
 		lekar2.getRecepti().add(r2);

@@ -1,5 +1,8 @@
 package MRSISA.Klinicki.centar.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMessage;
 import org.springframework.http.HttpStatus;
@@ -71,6 +74,29 @@ public class LekController {
 		lek = lekService.save(lek);
 
 		return new ResponseEntity<>(new LekDTO(lek), HttpStatus.OK);
+		
+	}
+	
+	@GetMapping("/sifarnikLekova/getall")
+	public ResponseEntity<List<LekDTO>> getAll(){
+		ArrayList<LekDTO> retVal = new ArrayList<LekDTO>();
+		for (Lek lek : lekService.findAll()) {
+			retVal.add(new LekDTO(lek));
+		}
+		
+		return new ResponseEntity<>(retVal, HttpStatus.OK);
+	}
+	
+	@GetMapping("/sifarnikLekova/getOne/{id}")
+	public ResponseEntity<Object> getOne(@PathVariable Integer id){
+		List<Lek> lekovi = lekService.findAll();
+		for (Lek lek : lekovi) {
+			if(lek.getId() == id) {
+				return new ResponseEntity<>(new LekDTO(lek), HttpStatus.OK);
+			}
+		}
+		return new ResponseEntity<>( "Lek nije pronađen u bazi podataka.", HttpStatus.NOT_FOUND);
+		
 		
 	}
 }

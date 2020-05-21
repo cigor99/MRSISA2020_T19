@@ -32,6 +32,6 @@ $(document).ready(function() {
 
 
     $("#pregled").click(function() {
-        window.location.replace("izvestajPregleda.html?id=" + $("#ID").val());
+        window.location.replace("izvestajPregleda.html?pID=" + $("#ID").val());
     });
 });

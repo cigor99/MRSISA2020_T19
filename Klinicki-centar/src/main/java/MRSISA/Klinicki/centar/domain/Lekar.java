@@ -46,7 +46,7 @@ public class Lekar {
 	@Column(name = "prezime", unique = false, nullable = false)
 	private String prezime;
 
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "lekar")
+	@OneToMany( fetch = FetchType.LAZY, mappedBy = "lekar")//cascade = { CascadeType.ALL }
 	private Set<Recept> recepti = new HashSet<Recept>();
 	
 	//@OneToMany(cascade = { CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "lekar")
@@ -65,7 +65,7 @@ public class Lekar {
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "lekar")
 	private Set<Pregled> pregledi = new HashSet<Pregled>();
 
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "lekar")
+	@OneToMany( fetch = FetchType.LAZY, mappedBy = "lekar")//cascade = { CascadeType.ALL },
 	private Set<IzvestajPregleda> izvestajiPregleda = new HashSet<IzvestajPregleda>();
 
 	@ManyToMany(mappedBy = "lekari")

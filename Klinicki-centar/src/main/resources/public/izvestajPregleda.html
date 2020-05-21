@@ -15,7 +15,14 @@
             ucitajZaglavlje();
         });
     </script>
+    <style>
+        .save {
+            background-color: #04ba3e;
+            float: right;
+        }
+    </style>
 </head>
+
 
 <body>
     <div id="navbardiv"></div>
@@ -26,18 +33,24 @@
         <form action="">
             <div class="form-group">
                 <label>Informacije o pregledu:</label>
-                <textarea id="opis" rows="4" cols="50" placeholder="Unesite informacije o pregledu"></textarea>
+                <textarea id="opis" rows="4" cols="50" style="width: 100%;" placeholder="Unesite informacije o pregledu"></textarea>
+                <p id="opisError"></p>
             </div>
             <div class="form-group">
                 <label>Izaberite dijagnozu:</label>
-                <input style="max-width: 250px;" id="select" list="dijagnoze" size="50" placeholder="Izaberite dijagnozu">
-                <p id="adminERROR"></p>
+                <input style="max-width: 250px;" id="select" list="dijagnoze" size="50" placeholder="Izaberite šifru dijagnoze">
+                <p id="dijagnozaError"></p>
                 <datalist id="dijagnoze"></datalist>
+                <p id="recepti"></p>
             </div>
             <div class="form-group">
                 <input type="button" class="button" value="Kreiranje recepta" id="recept">
                 <input type="button" class="button" value="Zakazivanje pregleda" id="pregled">
                 <input type="button" class="button" value="Zakazivanje operacije" id="operacija">
+
+            </div>
+            <div>
+                <input type="button" class="button save" value="Sačuvaj izveštaj" id="sacuvaj">
             </div>
         </form>
     </div>

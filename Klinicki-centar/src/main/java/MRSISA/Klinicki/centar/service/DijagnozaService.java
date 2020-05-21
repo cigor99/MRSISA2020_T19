@@ -34,4 +34,8 @@ public class DijagnozaService {
 		return dijagnozaRepo.findAll();
 	}
 
+	public Dijagnoza findBySifra(String sifra) {
+		return dijagnozaRepo.findBySifra(sifra);
+	}
+
 }

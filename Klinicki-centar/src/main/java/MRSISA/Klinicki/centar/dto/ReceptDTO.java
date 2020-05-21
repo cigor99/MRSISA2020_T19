@@ -1,5 +1,8 @@
 package MRSISA.Klinicki.centar.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import MRSISA.Klinicki.centar.domain.Recept;
 import MRSISA.Klinicki.centar.domain.StanjeRecepta;
 
@@ -9,6 +12,7 @@ public class ReceptDTO {
 	private String datumIzdavanja;
 	private Integer lekarID;
 	private Integer pregledID;
+	private List<Integer> lekoviID;
 
 	public ReceptDTO() {
 
@@ -23,7 +27,6 @@ public class ReceptDTO {
 //		this.pregledID = recept.getPregled().getId();
 	}
 
-	
 	public ReceptDTO(Integer id, StanjeRecepta stanjeRecepta, String datumIzdavanja, Integer lekarID,
 			Integer pregledID) {
 		super();
@@ -32,6 +35,14 @@ public class ReceptDTO {
 		this.datumIzdavanja = datumIzdavanja;
 		this.lekarID = lekarID;
 //		this.pregledID = pregledID;
+	}
+
+	public ReceptDTO(Integer id, Integer lekarID, ArrayList<Integer> lekoviID) {
+		super();
+		this.id = id;
+//		this.datumIzdavanja = datumIzdavanja;
+		this.lekarID = lekarID;
+		this.lekoviID = lekoviID;
 	}
 
 	public Integer getId() {
@@ -72,6 +83,14 @@ public class ReceptDTO {
 
 	public void setPregledID(Integer pregledID) {
 		this.pregledID = pregledID;
+	}
+
+	public List<Integer> getLekoviID() {
+		return lekoviID;
+	}
+
+	public void setLekoviID(List<Integer> lekoviID) {
+		this.lekoviID = lekoviID;
 	}
 
 }

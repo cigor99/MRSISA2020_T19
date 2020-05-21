@@ -17,6 +17,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ManyToAny;
@@ -53,8 +54,8 @@ public class Recept {
 	@JoinColumn(name = "Lekar", referencedColumnName = "ID_lekara")
 	private Lekar lekar;
 
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "recept")
-	private Set<IzvestajPregleda> izvestajiPregleda = new HashSet<IzvestajPregleda>();
+	@OneToOne(mappedBy = "recept", cascade = { CascadeType.ALL })
+	private IzvestajPregleda izvestajiPregleda;
 
 	public Recept() {
 		super();
@@ -67,11 +68,11 @@ public class Recept {
 		this.datumIzdavanja = datumIzdavanja;
 	}
 
-	public Recept(Integer id, String datumIzdavanja, Pregled pregled, Set<Lek> lekovi,
-			MedicinskaSestra medicinskaSestra, Lekar lekar, Set<IzvestajPregleda> izvestajiPregleda) {
+	public Recept(Integer id, StanjeRecepta stanjeRecepta, String datumIzdavanja, Pregled pregled, Set<Lek> lekovi,
+			MedicinskaSestra medicinskaSestra, Lekar lekar, IzvestajPregleda izvestajiPregleda) {
 		super();
 		this.id = id;
-		this.stanjeRecepta = StanjeRecepta.NIJE_OVEREN;
+		this.stanjeRecepta = stanjeRecepta;
 		this.datumIzdavanja = datumIzdavanja;
 		this.pregled = pregled;
 		this.lekovi = lekovi;
@@ -120,11 +121,11 @@ public class Recept {
 		this.pregled = pregled;
 	}
 
-	public Set<IzvestajPregleda> getIzvestajiPregleda() {
+	public IzvestajPregleda getIzvestajiPregleda() {
 		return izvestajiPregleda;
 	}
 
-	public void setIzvestajiPregleda(Set<IzvestajPregleda> izvestajiPregleda) {
+	public void setIzvestajiPregleda(IzvestajPregleda izvestajiPregleda) {
 		this.izvestajiPregleda = izvestajiPregleda;
 	}
 
