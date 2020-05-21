@@ -1,18 +1,19 @@
 function ucitajTabelu() {
     $.ajax({
         type: "get",
-        url: "/klinicki-centar/pregled/all",
+        url: "/klinicki-centar/pregled/page",
         success: function (data) {
+        	console.log("success");
         	var table = $("#pregledi")
             for (var pregled of data) {               
                 let tr = $("<tr id=\"tr" + pregled.id + "\"></tr>");
                 let id = $("<td>" + pregled.id + "</td>");
-                let datum = $("<tr id=\"tr" + pregled.datum + "\"></tr>");
-                let vreme = $("<tr id=\"tr" + pregled.vreme + "\"></tr>");                
+                let datum = $("<td>" + pregled.datum + "</td>");
+                let vreme = $("<td>" + pregled.vreme + "</td>");                
                 let sala = $("<td>" + pregled.sala + "</td>");
                 let trajanje = $("<td>" + pregled.trajanje + "</td>");
                 let lekar = $("<td>" + pregled.lekar + "</td>");
-                let tip = $("<td>" + pregled.tip + "</td>");   
+                let tip = $("<td>" + pregled.tipPregleda + "</td>");   
                 let cena = $("<td>" + pregled.cena + "</td>")                
                 let ukloni = $(`<td><button  type="button" id="ukloniBtn" onclick="ukloniSalu('${pregled.id}')">Ukloni</button></td>`)
                 tr.append(id);

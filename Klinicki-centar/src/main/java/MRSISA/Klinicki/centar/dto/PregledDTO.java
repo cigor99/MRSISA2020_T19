@@ -1,5 +1,6 @@
 package MRSISA.Klinicki.centar.dto;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import MRSISA.Klinicki.centar.domain.Lekar;
@@ -11,20 +12,25 @@ import MRSISA.Klinicki.centar.domain.TipPregleda;
 public class PregledDTO {
 	
 	private int id;
-	private Date datum;
-	private Sala sala;
-	private Lekar lekar;
-	private TipPregleda tipPregleda;
-	private Pacijent pacijent;
+	private String datum;
+	private String vreme;
+	private String sala;
+	private String lekar;
+	private String tipPregleda;
+	private String pacijent;
 	private float popust;
 	private boolean slobodan;
+	private Double cena;
+	private int trajanje;
 
 	public PregledDTO() {
 		super();
 	}
+	
+	
 
-	public PregledDTO(int id, Date datum, Sala sala, Lekar lekar, TipPregleda tipPregleda, Pacijent pacijent,
-			float popust, boolean slobodan) {
+	public PregledDTO(int id, String datum, String vreme, int trajanje, String sala, String lekar, String tipPregleda, String pacijent, float popust,
+			boolean slobodan, Double cena) {
 		super();
 		this.id = id;
 		this.datum = datum;
@@ -34,18 +40,53 @@ public class PregledDTO {
 		this.pacijent = pacijent;
 		this.popust = popust;
 		this.slobodan = slobodan;
+		this.cena = cena;
+		this.trajanje = trajanje;
+	}
+
+
+
+	public PregledDTO(int id, Date datum, Sala sala, Lekar lekar, TipPregleda tipPregleda, Pacijent pacijent,
+			float popust, boolean slobodan) {
+		super();
+		this.id = id;
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy. HH:mm");
+		String d = sdf.format(datum);
+		this.datum = d;
+		this.sala = sala.getNaziv();
+		this.lekar = lekar.getIme() + " " +lekar.getPrezime();
+		this.tipPregleda = tipPregleda.getNaziv();
+		if(pacijent != null) {
+			this.pacijent = pacijent.getIme() + " " + pacijent.getPrezime();
+		}
+		else {
+			this.pacijent = " ";
+		}
+		this.popust = popust;
+		this.slobodan = slobodan;
 	}
 	
 	public PregledDTO(Pregled pregled) {
 		super();
 		this.id = pregled.getId();
-		this.datum = pregled.getDatum();
-		this.sala = pregled.getSala();
-		this.lekar = pregled.getLekar();
-		this.tipPregleda = pregled.getTipPregleda();
-		this.pacijent = pregled.getPacijent();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy. HH:mm");
+		String d = sdf.format(pregled.getDatum());
+		this.datum = d.split(" ")[0];
+		this.vreme = d.split(" ")[1];
+		this.sala = pregled.getSala().getNaziv();
+		this.lekar = pregled.getLekar().getIme() + " " + pregled.getLekar().getPrezime();
+		this.tipPregleda = pregled.getTipPregleda().getNaziv();
+		
+		if(pacijent != null) {
+			this.pacijent = pregled.getPacijent().getIme() + " " + pregled.getPacijent().getPrezime();
+		}
+		else {
+			this.pacijent = " ";
+		}
 		this.popust = pregled.getPopust();
 		this.slobodan = pregled.isSlobodan();
+		this.cena = pregled.getTipPregleda().getCena().getIznos();
+		this.trajanje = pregled.getTipPregleda().getTrajanje();
 	}
 
 	public int getId() {
@@ -56,43 +97,43 @@ public class PregledDTO {
 		this.id = id;
 	}
 
-	public Date getDatum() {
+	public String getDatum() {
 		return datum;
 	}
 
-	public void setDatum(Date datum) {
+	public void setDatum(String datum) {
 		this.datum = datum;
 	}
 
-	public Sala getSala() {
+	public String getSala() {
 		return sala;
 	}
 
-	public void setSala(Sala sala) {
+	public void setSala(String sala) {
 		this.sala = sala;
 	}
 
-	public Lekar getLekar() {
+	public String getLekar() {
 		return lekar;
 	}
 
-	public void setLekar(Lekar lekar) {
+	public void setLekar(String lekar) {
 		this.lekar = lekar;
 	}
 
-	public TipPregleda getTipPregleda() {
+	public String getTipPregleda() {
 		return tipPregleda;
 	}
 
-	public void setTipPregleda(TipPregleda tipPregleda) {
+	public void setTipPregleda(String tipPregleda) {
 		this.tipPregleda = tipPregleda;
 	}
 
-	public Pacijent getPacijent() {
+	public String getPacijent() {
 		return pacijent;
 	}
 
-	public void setPacijent(Pacijent pacijent) {
+	public void setPacijent(String pacijent) {
 		this.pacijent = pacijent;
 	}
 
@@ -110,6 +151,42 @@ public class PregledDTO {
 
 	public void setSlobodan(boolean slobodan) {
 		this.slobodan = slobodan;
+	}
+
+
+
+	public String getVreme() {
+		return vreme;
+	}
+
+
+
+	public void setVreme(String vreme) {
+		this.vreme = vreme;
+	}
+
+
+
+	public Double getCena() {
+		return cena;
+	}
+
+
+
+	public void setCena(Double cena) {
+		this.cena = cena;
+	}
+
+
+
+	public int getTrajanje() {
+		return trajanje;
+	}
+
+
+
+	public void setTrajanje(int trajanje) {
+		this.trajanje = trajanje;
 	}
 	
 
