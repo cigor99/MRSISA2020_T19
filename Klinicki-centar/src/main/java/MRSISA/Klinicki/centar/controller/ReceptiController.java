@@ -52,7 +52,10 @@ public class ReceptiController {
 	@Autowired
 	private LekService lekService;
 
-	@GetMapping("/recepti/getNeoverene") // VRACA SAMO NEOVERENE
+	//Funkcija vraća sve neoverene recepte
+	//Prolazi kroj tabelu recepti iz BP i proverava stanje recepta
+	//Ukoliko je stanje NIJE_OVEREN dodaje ga u listu koju vraća kao povratnu vrednost
+	@GetMapping("/recepti/getNeoverene") 
 	public ResponseEntity<List<ReceptDTO>> getAll() {
 		List<Recept> recepti = receptiService.findAll();
 		List<ReceptDTO> retVal = new ArrayList<ReceptDTO>();
@@ -65,6 +68,8 @@ public class ReceptiController {
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
 
+	//Funkcija overava recept
+	//Prima, id recepta koji treba da se overi i id medicinske sestra koja overeca recept, kao parametar
 	@PutMapping("/recepti/overi/{id}/{medSesID}") /// {medSesID}"
 	public ResponseEntity<ReceptDTO> overi(@PathVariable Integer id, @PathVariable Integer medSesID) { // @PathVariable Integer medSesID
 		Recept recept = receptiService.findOne(id);
@@ -84,6 +89,10 @@ public class ReceptiController {
 		}
 	}
 
+	//Funkcija dodaje recept u bazu podataka
+	//Ukoliko lekar nije pronađen vraća NOT_FOUND
+	//Ukoliko recept ne sadrži nijedan lek vraća BAD_REQUEST
+	//Ukoliko lek koji želimo da dodamo u recept ne postoji u bazi prijavljuje se greška NOT_FOUND
 	@PostMapping("/recepti/add")
 	public ResponseEntity<Object> addRecept(@RequestBody ReceptDTO receptDTO) {
 		System.out.println("DODAVANJE RECEPTA");
@@ -101,7 +110,7 @@ public class ReceptiController {
 		for (Integer id: receptDTO.getLekoviID()) {
 			Lek lek = lekService.findOne(id);
 			if(lek == null) {
-				return new ResponseEntity<>("Lek koji ste dodali u recept ne postoji", HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>("Lek koji ste dodali u recept ne postoji", HttpStatus.NOT_FOUND);
 			}
 			recept.getLekovi().add(lek);
 			lek.getRecepti().add(recept);
@@ -110,13 +119,12 @@ public class ReceptiController {
 		recept.setLekar(lekar);
 		lekar.getRecepti().add(recept);
 		lekar = lekarService.save(lekar);
+		// D O D A T I N A K N A D N O ! ! ! ! !
 //		Pregled pregled = pregledService.findOne(receptDTO.getPregledID());
 //		if (pregled == null) {
 //			return new ResponseEntity<>("Pregled nije pronađen", HttpStatus.NOT_FOUND);
 //		}
 //		recept.setPregled(pregled);
-		// D O D A T I N A K N A D N O ! ! ! ! !
-//		recept.setMedicinskaSestra(null);
 //		recept.setIzvestajiPregleda();
 		// D O D A T I N A K N A D N O ! ! ! ! !
 		
