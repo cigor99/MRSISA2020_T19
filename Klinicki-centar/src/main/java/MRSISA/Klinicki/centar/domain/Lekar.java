@@ -73,6 +73,9 @@ public class Lekar {
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "lekar")
 	private Set<ZahtevZaGodisnjiOdmor> zahteviZaGodisnji = new HashSet<ZahtevZaGodisnjiOdmor>();
+	
+	@ManyToMany(mappedBy = "lekari")
+	private Set<TipPregleda> tipoviPregleda = new HashSet<TipPregleda>();
 
 	private TipKorisnika tipKorisnika = TipKorisnika.LEKAR;
 	
