@@ -34,6 +34,7 @@ import MRSISA.Klinicki.centar.dto.Admin_klinikaDTO;
 import MRSISA.Klinicki.centar.dto.KlinikaDTO;
 import MRSISA.Klinicki.centar.dto.LekDTO;
 import MRSISA.Klinicki.centar.dto.PacijentDTO;
+import MRSISA.Klinicki.centar.dto.PretragaDTO;
 import MRSISA.Klinicki.centar.service.AdminKService;
 import MRSISA.Klinicki.centar.service.KlinikaService;
 
@@ -205,5 +206,18 @@ public class KlinikaController {
 			return new ResponseEntity<>(3.0, HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+	
+	@PostMapping("/klinika/searchPacijentoviParametri")
+	public ResponseEntity<List<KlinikaDTO>> searchKlinikaPacijentoviParametri(@RequestBody PretragaDTO pretraga){
+		List<KlinikaDTO> retVal = new ArrayList<>();
+		for(Klinika k : klinikaService.findAll()) {
+			//System.out.println(k.getNaziv());
+			//if(k.getNaziv().contains(pretraga)) {
+				KlinikaDTO dto = new KlinikaDTO(k);
+				retVal.add(dto);
+			//}
+		}
+		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
 }
