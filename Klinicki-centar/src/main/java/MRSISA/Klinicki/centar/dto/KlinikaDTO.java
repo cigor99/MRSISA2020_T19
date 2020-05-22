@@ -8,6 +8,7 @@ public class KlinikaDTO {
 	private String naziv;
 	private String opis;
 	private String adresa;
+	private Double prosecnaOcena;
 
 	public KlinikaDTO() {
 
@@ -18,14 +19,16 @@ public class KlinikaDTO {
 		this.id = klinika.getId();
 		this.naziv = klinika.getNaziv();
 		this.opis = klinika.getOpis();
+		this.prosecnaOcena = klinika.getProsecnaOcena();
 	}
 
-	public KlinikaDTO(int id, String naziv, String opis, String adresa) {
+	public KlinikaDTO(int id, String naziv, String opis, String adresa, Double prosecnaOcena) {
 		super();
 		this.id = id;
 		this.naziv = naziv;
 		this.opis = opis;
 		this.adresa = adresa;
+		this.prosecnaOcena = prosecnaOcena;
 	}
 	
 	
@@ -67,4 +70,14 @@ public class KlinikaDTO {
 		this.adresa = adresa;
 	}
 
+	public Double getProsecnaOcena() {
+		return prosecnaOcena;
+	}
+
+	public void setProsecnaOcena(Double prosecnaOcena) {
+		this.prosecnaOcena = prosecnaOcena;
+	}
+
+	
+	
 }

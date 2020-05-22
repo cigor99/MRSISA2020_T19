@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -48,6 +49,12 @@ public class Klinika {
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "klinika")
 	private Set<Sala> sale = new HashSet<Sala>();
+	
+	@ElementCollection
+	private Set<Ocena> ocene = new HashSet<Ocena>();
+	
+	@Column(name = "ocena", unique = false)
+	private Double prosecnaOcena = 3.0;
 
 	public String getNaziv() {
 		return naziv;
@@ -74,7 +81,7 @@ public class Klinika {
 	}
 
 	public Klinika(Integer id, String naziv, String adresa, String opis, Set<AdministratorKlinike> administratori,
-			Set<Lekar> lekari, Cenovnik cenovnik, Set<Sala> sale) {
+			Set<Lekar> lekari, Cenovnik cenovnik, Set<Sala> sale, Set<Ocena> ocene) {
 		super();
 		this.id = id;
 		this.naziv = naziv;
@@ -84,6 +91,23 @@ public class Klinika {
 		this.lekari = lekari;
 		this.cenovnik = cenovnik;
 		this.sale = sale;
+		this.ocene = ocene;
+		this.prosecnaOcena = izracunajProsecnuOcenu();
+	}
+	
+	public double izracunajProsecnuOcenu() {
+		double suma = 0;
+		int i = this.ocene.size();
+		if(i == 0) {
+			return 3.0;
+		}
+		for(Ocena o : this.ocene) {
+			int ocena = o.ordinal() + 1;
+			suma += ocena;
+		}
+		double prosek = suma/i;
+		this.prosecnaOcena = prosek;
+		return prosek;
 	}
 
 	public Integer getId() {
@@ -145,5 +169,15 @@ public class Klinika {
 	public void setNaziv(String naziv) {
 		this.naziv = naziv;
 	}
-
+	public Set<Ocena> getOcene() {
+		return ocene;
+	}
+	public void setOcene(Set<Ocena> ocene) {
+		this.ocene = ocene;
+	}
+	public Double getProsecnaOcena() {
+		return izracunajProsecnuOcenu();
+	}
+	
+	
 }
