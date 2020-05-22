@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import MRSISA.Klinicki.centar.domain.AdministratorKlinike;
+import MRSISA.Klinicki.centar.domain.Cena;
 import MRSISA.Klinicki.centar.domain.Klinika;
 import MRSISA.Klinicki.centar.domain.Lek;
 import MRSISA.Klinicki.centar.domain.Pacijent;
@@ -189,5 +190,20 @@ public class KlinikaController {
 		
 		return new ResponseEntity<>(id, HttpStatus.OK);
 		
+	}
+	
+	@GetMapping("/klinika/getCenaTipaPoID/{idKlinike}/{idTipa}")
+	public ResponseEntity<Double> getCenaTipaPoID(@PathVariable Integer idKlinike, @PathVariable Integer idTipa){
+		Klinika klinika = klinikaService.findOne(idKlinike);
+		try {
+			for(Cena c : klinika.getCenovnik().getCene()) {
+				if(c.getTipPregleda().getId().equals(idTipa)) {
+					return new ResponseEntity<>(c.getIznos(), HttpStatus.OK);
+				}
+			}
+		}catch (NullPointerException e) {
+			return new ResponseEntity<>(3.0, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 }

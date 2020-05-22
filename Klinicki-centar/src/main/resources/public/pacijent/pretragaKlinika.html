@@ -40,10 +40,36 @@
 <div class="pretraga">
 <form>
 	<div class="form-group">
-	<input style="width: 220px;" type="text" id="trazi" placeholder="Pretraga.." name="search">
-	<button onclick="javascript:pretraga()" type="button"><i class="fa fa-search"></i></button>
-	<input type="button" id="reset" value="Reset">
 	</div>
+	<br>
+	<div>
+        <table>
+            <tr>
+                <td>Datum:</td>
+                <td><input type="text" id="datum" placeholder="dd.mm.yyyy"></td>
+            </tr>
+            <tr>
+                <td>Tip:</td>
+                <td><select id="tip"></select></td>
+            </tr>
+            <tr>
+                <td>Ocena:</td>
+                <td>
+                    <select id="ocena">
+                        <option>4+</option>
+                        <option>3+</option>
+                        <option>2+</option>
+                        <option>-2</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><button onclick="javascript:pretraga()" type="button"><i class="fa fa-search"></i></button></td>
+                <td><input type="button" id="reset" value="Reset"></td>
+            </tr>
+        </table>
+	</div>
+	
 </form>
 </div>
 

@@ -35,38 +35,75 @@ $(document).ready(function () {
 		        	naslov.empty();
 		    		naslov.append('<h1>'+window.ulogovani.ime+" " + window.ulogovani.prezime+'</h1>');
 		    		naslov.append('<h1>Klinike</h1>');
-		    		prikaziKlinike();
+		    		//prikaziKlinike();
 		        }
 		 });
 	}
 	
-	
+	var tip = $("#tip");
+	$.ajax({
+		url:"/klinicki-centar/tipPregleda/all",
+		type: "get",
+		success: function(data){
+			for(t of data){
+				tip.append("<option>" + t.naziv + "</option>")
+			}
+		}
+		
+	});
+
 	$("#reset").click(function(){
-		prikaziKlinike();
+		$("#table-holder").empty()
 	});
 });
 
 function pretraga(){
-	var trazi = $('#trazi').val();
+	var trazi = $('#datum').val();
 	console.log(trazi);
 	if(trazi==""){
 		alert("Morate uneti parametar pretrage")
 		return;
 	}
+
+	var tipID = null;
+	let tipNaz = $("#tip").val()
+	$.ajax({
+		type: 'get',
+		url: "/klinicki-centar/tipPregleda/all",
+		success: function(data){
+			for(t of data){
+				if(t.naziv == tipNaz){
+					tipID = t.id;
+					return;
+				}
+			}
+		},
+		error: function(data){
+			alert("Greska u tipPregleda/all");
+		}
+	});
+
+	if (tipID = null){
+		alert("Tip nije pronadjen")
+		return;
+	}
+
 	var holder = $("#table-holder");
 	holder.empty();
 	var table = $('<table id="klinike" name="klinike" class="table"></table>')
 	var thead = $("<thead></thead>");
 	var trHead= $("<tr></tr>");
 	var idTH = $('<th id="ID">ID</th>');
-    var nazivTH = $('<th id="naziv">Naziv</th>');
-    var adresaTH = $('<th id="adresa">Adresa</th>');
-    var opisTH = $('<th id="opis">Opis</th>');
+	var nazivTH = $('<th id="naziv">Naziv</th>');
+	var ocenaTH = $('<th id="ocena">Ocena</th>');
+	var adresaTH = $('<th id="adresa">Adresa</th>');
+    var cenaTH = $('<th id="cena">Cena Pregleda</th>');
     var izaberiTH = $('<th>Izaberi</th>');
 	trHead.append(idTH);
 	trHead.append(nazivTH);
+	trHead.append(ocenaTH);
 	trHead.append(adresaTH);
-	trHead.append(opisTH);
+	trHead.append(cenaTH);
 	trHead.append(izaberiTH);
 	thead.append(trHead);
 	table.append(thead);
@@ -82,16 +119,30 @@ function pretraga(){
 
                 let idTD = $("<td>" + klinika.id + "</td>")
                 let nazivTd = $("<td>" + klinika.naziv + "</td>")
-                let adresaTD = $("<td>" + klinika.adresa + "</td>")
-                let opisTD = $("<td>" + klinika.opis + "</td>")
+                let ocenaTD = $("<td>" + klinika.prosencaOcena + "</td>")
+				let adresaTD = $("<td>" + klinika.adresa + "</td>")
+				let cenaTD = null;
+				$.ajax({
+					type: "get",
+					url: "/klinicki-centar/klinika/getCenaTipaPoID/" + klinika.id + "/" +tipID,
+					success: function(data){
+						cenaTD = $("<td>" + data + "</td>")
+					},
+					error: function(data){
+						alert("Error tipPregleda/getUpdate")
+					},
+					async: false
+				});
+				
                 // let izaberiTD = $("<td>" + "<a href=\"#izabrana?id=" +
 				// klinika.id + ">Izaberi</a></td>")
                 let izaberiTD = $("<td><a href='pretragaLekara.html?id="+klinika.id+"'>Izaberi</a></td>")
                 tr.append(idTD);
-                tr.append(nazivTd);
+				tr.append(nazivTd);
+				tr.append(ocenaTD);
                 tr.append(adresaTD);
-                tr.append(opisTD);
-                tr.append(izaberiTD);
+                tr.append(cenaTD);
+				tr.append(izaberiTD);
                 table.append(tr);
                 holder.append(table);
             }
@@ -100,55 +151,6 @@ function pretraga(){
         
     });
 }
-
-function reset(){
-	var holder = $("#table-holder");
-	holder.empty();
-	var table = $('<table id="klinike" name="klinike" class="table"></table>')
-	var thead = $("<thead></thead>");
-	var trHead= $("<tr></tr>");
-	var idTH = $('<th id="ID">ID</th>');
-    var nazivTH = $('<th id="naziv">Naziv</th>');
-    var adresaTH = $('<th id="adresa">Adresa</th>');
-    var opisTH = $('<th id="opis">Opis</th>');
-    var izaberiTH = $('<th>Izaberi</th>');
-	trHead.append(idTH);
-	trHead.append(nazivTH);
-	trHead.append(adresaTH);
-	trHead.append(opisTH);
-	trHead.append(izaberiTH);
-	thead.append(trHead);
-	table.append(thead);
-	$.ajax({
-        type: "get",
-        url: "/klinicki-centar/klinika/page",
-        success: function (data) {
-
-            // alert(JSON.stringify(data));
-            for (let klinika of data) {
-
-                
-                let tr = $("<tr id=\"tr" + klinika.id + "\"></tr>");
-
-                let idTD = $("<td>" + klinika.id + "</td>")
-                let nazivTd = $("<td>" + klinika.naziv + "</td>")
-                let adresaTD = $("<td>" + klinika.adresa + "</td>")
-                let opisTD = $("<td>" + klinika.opis + "</td>")
-                // let izaberiTD = $("<td>" + "<a href=\"#izabrana?id=" +
-				// klinika.id + ">Izaberi</a></td>")
-                let izaberiTD = $("<td><a href='pretragaLekara.html?id="+klinika.id+"'>Izaberi</a></td>")
-                tr.append(idTD);
-                tr.append(nazivTd);
-                tr.append(adresaTD);
-                tr.append(opisTD);
-                tr.append(izaberiTD);
-                table.append(tr);
-                holder.append(table);  
-            }
-        }
-    });
-}
-
 
 function prikaziKlinike(){
 	
