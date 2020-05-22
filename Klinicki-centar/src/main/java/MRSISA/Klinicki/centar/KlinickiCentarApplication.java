@@ -967,6 +967,7 @@ public class KlinickiCentarApplication {
 				ps16.setInt(3, pregled.getSala().getId());
 				ps16.setInt(4, pregled.getLekar().getId());
 				ps16.setInt(5, pregled.getTipPregleda().getId());
+				
 				ps16.setFloat(6, pregled.getPopust());
 				ps16.setBoolean(7, pregled.isSlobodan());
 				ps16.executeUpdate();
