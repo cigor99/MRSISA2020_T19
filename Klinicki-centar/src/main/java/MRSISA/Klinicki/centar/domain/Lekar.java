@@ -51,7 +51,7 @@ public class Lekar {
 	
 	//@OneToMany(cascade = { CascadeType.DETACH }, fetch = FetchType.LAZY, mappedBy = "lekar")
 	@ElementCollection
-	private Set<Ocena> ocene = new HashSet<Ocena>();
+	private List<Ocena> ocene = new ArrayList<Ocena>();
 	
 	@Column(name = "ocena", unique = false)
 	private Double prosecnaOcena = 3.0;
@@ -84,6 +84,17 @@ public class Lekar {
 		this.prosecnaOcena = izracunajProsecnuOcenu();
 	}
 	
+	
+	
+	@Override
+	public String toString() {
+		return "Lekar [id=" + id + ", email=" + email + ", lozinka=" + lozinka + ", jmbg=" + jmbg + ", ime=" + ime
+				+ ", prezime=" + prezime + ", ocene=" + ocene + ", prosecnaOcena=" + prosecnaOcena + ", tipoviPregleda="
+				+ tipoviPregleda + "]";
+	}
+
+
+
 	public Lekar(Integer id, String email, String lozinka, String jmbg, String ime, String prezime, Klinika klinika) {
 		super();
 		this.id = id;
@@ -98,7 +109,7 @@ public class Lekar {
 
 	public Lekar(Integer id, String email, String lozinka, String jmbg, String ime, String prezime, Set<Recept> recepti,
 			Klinika klinika, Set<Pregled> pregledi, Set<IzvestajPregleda> izvestajiPregleda, Set<Operacija> operacije,
-			Set<ZahtevZaGodisnjiOdmor> zahteviZaGodisnji, Set<Ocena> ocene) {
+			Set<ZahtevZaGodisnjiOdmor> zahteviZaGodisnji, List<Ocena> ocene, Set<TipPregleda> tipoviPregleda) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -114,10 +125,12 @@ public class Lekar {
 		this.zahteviZaGodisnji = zahteviZaGodisnji;
 		this.ocene = ocene;
 		this.prosecnaOcena = izracunajProsecnuOcenu();
+		this.tipoviPregleda = tipoviPregleda;
 	}
 	
 	public double izracunajProsecnuOcenu() {
 		double suma = 0;
+		//System.out.println(this.toString());
 		int i = this.ocene.size();
 		if(i == 0) {
 			return 3.0;
@@ -234,12 +247,13 @@ public class Lekar {
 		this.tipKorisnika = tipKorisnika;
 	}
 
-	public Set<Ocena> getOcene() {
+	public List<Ocena> getOcene() {
 		return ocene;
 	}
 
-	public void setOcene(Set<Ocena> ocene) {
+	public void setOcene(List<Ocena> ocene) {
 		this.ocene = ocene;
+		this.prosecnaOcena = izracunajProsecnuOcenu();
 	}
 
 	public Double getProsecnaOcena() {
@@ -249,5 +263,15 @@ public class Lekar {
 	public void setProsecnaOcena(Double prosecnaOcena) {
 		this.prosecnaOcena = prosecnaOcena;
 	}
+
+	public Set<TipPregleda> getTipoviPregleda() {
+		return tipoviPregleda;
+	}
+
+	public void setTipoviPregleda(Set<TipPregleda> tipoviPregleda) {
+		this.tipoviPregleda = tipoviPregleda;
+	}
+	
+	
 
 }

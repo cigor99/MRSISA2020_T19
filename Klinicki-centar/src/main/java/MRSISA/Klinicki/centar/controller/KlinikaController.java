@@ -28,15 +28,18 @@ import MRSISA.Klinicki.centar.domain.AdministratorKlinike;
 import MRSISA.Klinicki.centar.domain.Cena;
 import MRSISA.Klinicki.centar.domain.Klinika;
 import MRSISA.Klinicki.centar.domain.Lek;
+import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.Pacijent;
+import MRSISA.Klinicki.centar.domain.TipPregleda;
 import MRSISA.Klinicki.centar.dto.AdminKDTO;
 import MRSISA.Klinicki.centar.dto.Admin_klinikaDTO;
 import MRSISA.Klinicki.centar.dto.KlinikaDTO;
 import MRSISA.Klinicki.centar.dto.LekDTO;
 import MRSISA.Klinicki.centar.dto.PacijentDTO;
-import MRSISA.Klinicki.centar.dto.PretragaDTO;
+import MRSISA.Klinicki.centar.dto.PretragaKlinikaDTO;
 import MRSISA.Klinicki.centar.service.AdminKService;
 import MRSISA.Klinicki.centar.service.KlinikaService;
+import MRSISA.Klinicki.centar.service.TipPregledaService;
 
 @RestController
 public class KlinikaController {
@@ -46,6 +49,9 @@ public class KlinikaController {
 	
 	@Autowired
 	private AdminKService adminService;
+	
+	@Autowired
+	private TipPregledaService tipPregledaService;
 	
 	@Autowired
 	HttpServletRequest request;
@@ -209,14 +215,21 @@ public class KlinikaController {
 	}
 	
 	@PostMapping("/klinika/searchPacijentoviParametri")
-	public ResponseEntity<List<KlinikaDTO>> searchKlinikaPacijentoviParametri(@RequestBody PretragaDTO pretraga){
+	public ResponseEntity<List<KlinikaDTO>> searchKlinikaPacijentoviParametri(@RequestBody PretragaKlinikaDTO pretraga){
 		List<KlinikaDTO> retVal = new ArrayList<>();
+		TipPregleda tip = tipPregledaService.findOne(pretraga.tip);
+		System.out.println(pretraga);
 		for(Klinika k : klinikaService.findAll()) {
-			//System.out.println(k.getNaziv());
-			//if(k.getNaziv().contains(pretraga)) {
-				KlinikaDTO dto = new KlinikaDTO(k);
-				retVal.add(dto);
-			//}
+			for(Lekar l :k.getLekari()) {
+				System.out.println(l);
+				System.out.println("ocena: " + l.getProsecnaOcena());
+				if(l.getTipoviPregleda().contains(tip) && l.getProsecnaOcena()>= pretraga.ocena) {
+					KlinikaDTO dto = new KlinikaDTO(k);
+					retVal.add(dto);
+				}
+			}
+				
+			
 		}
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}

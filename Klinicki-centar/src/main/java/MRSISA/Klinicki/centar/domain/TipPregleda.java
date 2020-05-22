@@ -45,12 +45,21 @@ public class TipPregleda {
 	private Set<Operacija> operacije = new HashSet<Operacija>();
 	
 	@ManyToMany(cascade= {CascadeType.ALL}, fetch = FetchType.LAZY)
-	@JoinTable(name = "lekar_tipLekara", joinColumns = @JoinColumn(name = "ID_lekara"), inverseJoinColumns = @JoinColumn(name = "ID_TipaPregleda"))
+	@JoinTable(name = "lekar_tipPregleda", joinColumns = @JoinColumn(name = "ID_Leka"), inverseJoinColumns = @JoinColumn(name = "ID_TipaPregleda"))
 	private Set<Lekar> lekari = new HashSet<Lekar>();
 
 	public TipPregleda() {
 		super();
 	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "TipPregleda [id=" + id + ", trajanje=" + trajanje + ", naziv=" + naziv + ", cena=" + cena + "]";
+	}
+
+
 
 	public TipPregleda(Integer id, Integer trajanje, String naziv, Set<Pregled> pregledi, Cena cena,
 			Set<Operacija> operacije) {
@@ -109,6 +118,14 @@ public class TipPregleda {
 
 	public void setPregledi(Set<Pregled> pregledi) {
 		this.pregledi = pregledi;
+	}
+
+	public Set<Lekar> getLekari() {
+		return lekari;
+	}
+
+	public void setLekari(Set<Lekar> lekari) {
+		this.lekari = lekari;
 	}
 
 }

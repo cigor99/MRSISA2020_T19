@@ -1,5 +1,6 @@
 package MRSISA.Klinicki.centar;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -7,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 
@@ -27,6 +29,7 @@ import MRSISA.Klinicki.centar.domain.KrvnaGrupa;
 import MRSISA.Klinicki.centar.domain.Lek;
 import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.MedicinskaSestra;
+import MRSISA.Klinicki.centar.domain.Ocena;
 import MRSISA.Klinicki.centar.domain.Pacijent;
 import MRSISA.Klinicki.centar.domain.Pol;
 import MRSISA.Klinicki.centar.domain.Pregled;
@@ -243,7 +246,41 @@ public class KlinickiCentarApplication {
 		lekar1.getPregledi().add(pregled);
 		tp1.setPregledi(new HashSet<Pregled>());
 		tp1.getPregledi().add(pregled);
-
+		
+		
+		HashSet<TipPregleda> tipovi = new HashSet<TipPregleda>();
+		HashSet<Lekar> lekari = new HashSet<Lekar>();
+		tipovi.add(tp1);
+		tipovi.add(tp2);
+		lekar1.setTipoviPregleda(tipovi);
+		tipovi.remove(tp1);
+		lekar2.setTipoviPregleda(tipovi);
+		//lekar3.setTipoviPregleda(tipovi);
+		
+		lekari.add(lekar1);
+		lekari.add(lekar2);
+		//lekari.add(lekar3);
+		tp1.setLekari(lekari);
+		tp2.setLekari(lekari);
+		
+		
+		ArrayList<Ocena> ocene = new ArrayList<>();
+		ocene.add(Ocena.PET);
+		ocene.add(Ocena.PET);
+		ocene.add(Ocena.PET);
+		ocene.add(Ocena.TRI);
+		
+		lekar1.setOcene(ocene);
+		
+		ArrayList<Ocena> ocene1 = new ArrayList<>();
+		ocene1.add(Ocena.JEDAN);
+		ocene1.add(Ocena.CETIRI);
+		ocene1.add(Ocena.JEDAN);
+		ocene1.add(Ocena.TRI);
+		
+		lekar2.setOcene(ocene1);
+		lekar3.setOcene(ocene);
+		
 		Connection conn = DriverManager.getConnection("jdbc:h2:mem:testdb", "sa", "sa");
 		try {
 			PreparedStatement ps1 = conn.prepareStatement(
@@ -984,6 +1021,69 @@ public class KlinickiCentarApplication {
 				ps16.close();
 			}
 			
+
+			PreparedStatement ps17 = conn.prepareStatement("INSERT INTO LEKAR_TIP_PREGLEDA (ID_LEKA, ID_TIPA_PREGLEDA) VALUES(?, ?)");
+			try {
+				ps17.setInt(1, lekar1.getId());
+				ps17.setInt(2, tp1.getId());
+				ps17.executeUpdate();
+				
+				ps17.setInt(1, lekar1.getId());
+				ps17.setInt(2, tp2.getId());
+				ps17.executeUpdate();
+				
+				ps17.setInt(1, lekar2.getId());
+				ps17.setInt(2, tp2.getId());
+				ps17.executeUpdate();
+				
+				
+				//OVDE JE GRESKA======================================================================================================================================================
+				ps17.setInt(1, lekar3.getId());
+				ps17.setInt(2, tp2.getId());
+				//ps17.executeUpdate();
+				
+			}catch (SQLException e) {
+				e.printStackTrace();
+				try {
+					ps17.close();
+
+				} catch (NullPointerException npe) {
+					npe.printStackTrace();
+				}
+			}finally {
+				ps17.close();
+			}
+			
+			PreparedStatement ps18 = conn.prepareStatement("INSERT INTO LEKAR_OCENE (LEKAR_ID_LEKARA, OCENE) VALUES(?, ?)");
+			try {
+				for(Ocena o : lekar1.getOcene()) {
+					ps18.setInt(1, lekar1.getId());
+					ps18.setInt(2, o.ordinal());
+					ps18.executeUpdate();
+				}
+				
+				for(Ocena o : lekar2.getOcene()) {
+					ps18.setInt(1, lekar2.getId());
+					ps18.setInt(2, o.ordinal());
+					ps18.executeUpdate();
+				}
+				
+				for(Ocena o : lekar3.getOcene()) {
+					ps18.setInt(1, lekar3.getId());
+					ps18.setInt(2, o.ordinal());
+					ps18.executeUpdate();
+				}
+			}catch (SQLException e) {
+				e.printStackTrace();
+				try {
+					ps18.close();
+
+				} catch (NullPointerException npe) {
+					npe.printStackTrace();
+				}
+			}finally {
+				ps18.close();
+			}
 		} catch (SQLException e) {
 			conn.close();
 		} finally {
