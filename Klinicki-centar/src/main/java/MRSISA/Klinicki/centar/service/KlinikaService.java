@@ -49,8 +49,8 @@ public class KlinikaService {
 	}
 	
 	public Klinika findOne(Integer ID) {
-		System.err.println(ID);
-		System.out.println("USAO U FINDONE");
+		//System.err.println(ID);
+		//System.out.println("USAO U FINDONE");
 		//System.out.println(klinikaRepository.findById(ID).orElseGet(null));
 		return klinikaRepository.findById(ID).orElse(null);
 	}

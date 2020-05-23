@@ -59,7 +59,6 @@ $(document).ready(function () {
 
 function pretraga(){
 	var trazi = $('#datum').val();
-	console.log(trazi);
 	if(trazi==""){
 		alert("Morate uneti parametar pretrage")
 		return;
@@ -71,7 +70,9 @@ function pretraga(){
 		type: 'get',
 		url: "/klinicki-centar/tipPregleda/all",
 		success: function(data){
+			console.log(data)
 			for(t of data){
+				console.log(t)
 				if(t.naziv == tipNaz){
 					tipID = t.id;
 					return;
@@ -80,13 +81,27 @@ function pretraga(){
 		},
 		error: function(data){
 			alert("Greska u tipPregleda/all");
-		}
+		},
+		async:false
 	});
 
-	if (tipID = null){
+	if (tipID == null){
 		alert("Tip nije pronadjen")
 		return;
 	}
+
+	var dateString = $("#datum").val();
+	var dateTokens=  dateString.split(".")
+	var date = new Date(dateTokens[2], dateTokens[1], dateTokens[0]);
+	console.log(date)
+
+	var ocenaTokens = $("#ocena").val().split("+")
+	var parametri = JSON.stringify({
+		datum: date,
+		tip : tipID,
+		ocena: ocenaTokens[0]
+	});
+	console.log(parametri)
 
 	var holder = $("#table-holder");
 	holder.empty();
@@ -110,9 +125,10 @@ function pretraga(){
 	$.ajax({
         type: "POST",
         contentType: "application/json",
-        url: "/klinicki-centar/klinika/search",
-        dataType: 'json',
-        data: trazi,
+        url: "/klinicki-centar/klinika/searchPacijentoviParametri",
+		dataType: 'json',
+		contentType : 'application/json',
+        data: parametri,
         success : function (data) {
             for (var klinika of data) {               
             	let tr = $("<tr id=\"tr" + klinika.id + "\"></tr>");

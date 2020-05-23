@@ -44,8 +44,8 @@ public class TipPregledaService {
 	}
 	
 	public TipPregleda findOne(Integer ID) {
-		System.err.println(ID);
-		System.out.println("USAO U FINDONE");
+		//System.err.println(ID);
+		//System.out.println("USAO U FINDONE");
 		return tipPregledaRepository.findById(ID).orElse(null);
 	}
 

@@ -13,7 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -41,10 +42,23 @@ public class TipPregleda {
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "tipPregleda")
 	private Set<Operacija> operacije = new HashSet<Operacija>();
+	
+	@ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+	@JoinTable(name = "lekar_tipPregleda", joinColumns = @JoinColumn(name = "ID_lekara"), inverseJoinColumns = @JoinColumn(name = "ID_TipaPregleda"))
+	private Set<Lekar> lekari = new HashSet<Lekar>();
 
 	public TipPregleda() {
 		super();
 	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "TipPregleda [id=" + id + ", trajanje=" + trajanje + ", naziv=" + naziv + ", cena=" + cena + "]";
+	}
+
+
 
 	public TipPregleda(Integer id, Integer trajanje, String naziv, Set<Pregled> pregledi, Cena cena,
 			Set<Operacija> operacije) {
@@ -103,6 +117,14 @@ public class TipPregleda {
 
 	public void setPregledi(Set<Pregled> pregledi) {
 		this.pregledi = pregledi;
+	}
+
+	public Set<Lekar> getLekari() {
+		return lekari;
+	}
+
+	public void setLekari(Set<Lekar> lekari) {
+		this.lekari = lekari;
 	}
 
 }
