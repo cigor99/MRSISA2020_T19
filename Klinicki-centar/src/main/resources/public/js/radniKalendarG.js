@@ -22,7 +22,7 @@ $(document).ready(function() {
                             let polje = $("#td" + mesec.toString() + dan.toString());
                             let color = Math.floor((Math.random() * 6) + 1);
                             let boja;
-                            switch (color % 6) {
+                            switch (color % 6) { //RANDOM BOJA POLJA
                                 case 0:
                                     boja = "#f54251";
                                     break;
@@ -48,37 +48,30 @@ $(document).ready(function() {
                             }
                             polje.append("Pregled " + dan.toString() + "." + mesec.toString())
                             polje.attr("onclick", "dobavi(" + dan.toString() + "," + mesec.toString() + ")");
-                            // tr.append(polje);
-                            // tbody.append(tr);
                         }
-
                     }
-
                 }
             }
-
         }
-
     });
 
 
 
-
+    //FUNKCIJA KOJA OTVARA NOVI PROZOR ZA ZADATI DATUM
     $("#pregled4").click(function() {
         window.open("recept.html", 'newwindow', 'width=1200,height=650');
     });
 });
 
+
+//DOBAVLJA PREGLEDE U NOVOM PROZORU ZA ZADATI DATUM
 function dobavi(dan, mesec) {
-    // if (mesec.toString().length == 1) {
-    //     mesec = "0" + mesec.toString();
-    // }
     window.open("proba.html?d=" + dan.toString() + "&m=" + mesec.toString(),
         'newwindow',
         'width=700,height=500');
 }
 
-
+//ISCRTAVA POCETNI KALENDAR, DODAJE SIVA POLJA ZA NEPOSTOJECE DATUME
 function iscrtaj() {
     let tbody = $("#tbody");
 
@@ -87,12 +80,10 @@ function iscrtaj() {
 
     for (dan = 1; dan < 32; dan++) {
         let tr = $("<tr></tr>");
-
-        // td.attr("id", mesec.toString() + dan.toString());
         for (mesec = 1; mesec < 13; mesec++) {
             let td;
-
             let uslov = true;
+
             if (mesec == 2) {
                 if (dan > 29) {
                     uslov = false;
@@ -102,6 +93,7 @@ function iscrtaj() {
                     tr.append(td);
                 }
             }
+
             if (mesec == 4 || mesec == 6 || mesec == 9 || mesec == 11) {
                 if (dan == 31) {
                     uslov = false;
@@ -117,7 +109,6 @@ function iscrtaj() {
                 td.attr("id", "td" + mesec.toString() + dan.toString());
                 tr.append(td);
             }
-
         }
         tbody.append(tr);
     }
