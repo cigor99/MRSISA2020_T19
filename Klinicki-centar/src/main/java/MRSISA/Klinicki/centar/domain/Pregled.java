@@ -79,6 +79,15 @@ public class Pregled {
 		this.recepti = recepti;
 		this.zahteviZaPregled = zahteviZaPregled;
 	}
+	
+
+	@Override
+	public String toString() {
+		return "Pregled [id=" + id + ", datum=" + datum + ", sala=" + sala + ", lekar=" + lekar + ", tipPregleda="
+				+ tipPregleda + ", pacijent=" + pacijent + ", popust=" + popust + ", slobodan=" + slobodan
+				+ ", izvestajiPregleda=" + izvestajiPregleda + ", recepti=" + recepti + ", zahteviZaPregled="
+				+ zahteviZaPregled + "]";
+	}
 
 	public Set<ZahtevZaPregled> getZahteviZaPregled() {
 		return zahteviZaPregled;
