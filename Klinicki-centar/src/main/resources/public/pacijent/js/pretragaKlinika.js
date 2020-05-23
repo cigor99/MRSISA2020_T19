@@ -64,6 +64,13 @@ function pretraga(){
 		return;
 	}
 
+	var regex = /^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/;
+
+	if(!regex.test(trazi)){
+		alert("Neispravan unos datuma");
+		return;
+	}
+
 	var tipID = null;
 	let tipNaz = $("#tip").val()
 	$.ajax({
