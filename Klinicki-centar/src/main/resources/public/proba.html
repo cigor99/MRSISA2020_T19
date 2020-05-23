@@ -1,0 +1,74 @@
+<html>
+
+<head>
+    <title>PROBA</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <H1>Dnevni pregled radnog kalendara</H1>
+
+    <div>
+        <table id="rez" border="1">
+            <thead>
+                <tr>
+                    <th>Datum</th>
+                    <th>Vreme</th>
+                    <th>Trajanje</th>
+                    <th>Pacijent</th>
+                    <th>Tip pregleda</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <script>
+        $(document).ready(function() {
+            var imeCoded = window.location.href.split("?")[1];
+            var imeJednako = imeCoded.split("&")[0];
+            var mesecJednako = imeCoded.split("&")[1];
+            var dan = imeJednako.split("=")[1];
+            var mesec = mesecJednako.split("=")[1];
+
+            $.ajax({
+                url: "/klinicki-centar/pregled/getDnevniPregled/" + dan + "/" + mesec,
+                type: 'get',
+                success: function(data) {
+                    let table = $("#rez")
+                    for (let pregled of data) {
+                        let tr = $("<tr></tr>");
+                        let datumTD = $("<td></td>");
+                        datumTD.append(pregled.datum);
+                        let vremeTD = $("<td></td>");
+                        vremeTD.append(pregled.vreme);
+                        let TrajanjeTD = $("<td></td>");
+                        TrajanjeTD.append(pregled.trajanje + " min");
+
+                        tr.append(datumTD);
+                        tr.append(vremeTD);
+                        tr.append(TrajanjeTD);
+                        table.append(tr);
+
+                        let imeTD = $("<td></td>");
+                        imeTD.append(pregled.pacijent);
+
+                        let tipPregledaTd = $("<td></td>");
+                        tipPregledaTd.append(pregled.tipPregleda);
+
+                        tr.append(imeTD);
+                        tr.append(tipPregledaTd);
+                        table.append(tr);
+
+                    }
+                    // alert(data);
+                },
+                error: function(jqXHR) {
+                    alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+                },
+            })
+        });
+    </script>
+
+
+</body>
+
+</html>

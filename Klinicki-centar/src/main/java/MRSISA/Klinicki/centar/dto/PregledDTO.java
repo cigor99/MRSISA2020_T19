@@ -77,7 +77,7 @@ public class PregledDTO {
 		this.lekar = pregled.getLekar().getIme() + " " + pregled.getLekar().getPrezime();
 		this.tipPregleda = pregled.getTipPregleda().getNaziv();
 		
-		if(pacijent != null) {
+		if(pregled.getPacijent() != null) {
 			this.pacijent = pregled.getPacijent().getIme() + " " + pregled.getPacijent().getPrezime();
 		}
 		else {
