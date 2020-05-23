@@ -217,12 +217,10 @@ public class KlinikaController {
 	@PostMapping("/klinika/searchPacijentoviParametri")
 	public ResponseEntity<List<KlinikaDTO>> searchKlinikaPacijentoviParametri(@RequestBody PretragaKlinikaDTO pretraga){
 		List<KlinikaDTO> retVal = new ArrayList<>();
+
 		TipPregleda tip = tipPregledaService.findOne(pretraga.tip);
-		System.out.println(pretraga);
 		for(Klinika k : klinikaService.findAll()) {
 			for(Lekar l :k.getLekari()) {
-				System.out.println(l);
-				System.out.println("ocena: " + l.getProsecnaOcena());
 				if(l.getTipoviPregleda().contains(tip) && l.getProsecnaOcena()>= pretraga.ocena) {
 					KlinikaDTO dto = new KlinikaDTO(k);
 					retVal.add(dto);

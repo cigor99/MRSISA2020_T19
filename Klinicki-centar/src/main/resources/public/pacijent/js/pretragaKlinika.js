@@ -58,7 +58,7 @@ $(document).ready(function () {
 });
 
 function pretraga(){
-	var trazi = $('#datum').val();
+	var trazi = $('#datepicker').val();
 	if(trazi==""){
 		alert("Morate uneti parametar pretrage")
 		return;
@@ -90,9 +90,17 @@ function pretraga(){
 		return;
 	}
 
-	var dateString = $("#datum").val();
-	var dateTokens=  dateString.split(".")
-	var date = new Date(dateTokens[2], dateTokens[1], dateTokens[0]);
+	var dateString = $("#datepicker").val();
+	var dateTokens=  dateString.split("/")
+	if(dateTokens[1].split()[0] == "0"){
+		dateTokens[1] = dateTokens[1].split()[1]
+	}
+
+	if(dateTokens[2].split()[0] == "0"){
+		dateTokens[2] = dateTokens[2].split()[1]
+	}
+	
+	var date = new Date(dateTokens[1], dateTokens[2], dateTokens[0]);
 	console.log(date)
 
 	var ocenaTokens = $("#ocena").val().split("+")
