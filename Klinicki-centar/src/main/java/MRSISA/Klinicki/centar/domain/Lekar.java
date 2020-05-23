@@ -17,11 +17,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotEmpty;
-
-import org.hibernate.annotations.ManyToAny;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class Lekar {
@@ -86,12 +81,20 @@ public class Lekar {
 	
 	
 	
+
+
+
 	@Override
 	public String toString() {
 		return "Lekar [id=" + id + ", email=" + email + ", lozinka=" + lozinka + ", jmbg=" + jmbg + ", ime=" + ime
-				+ ", prezime=" + prezime + ", ocene=" + ocene + ", prosecnaOcena=" + prosecnaOcena + ", tipoviPregleda="
-				+ tipoviPregleda + "]";
+				+ ", prezime=" + prezime + ", recepti=" + recepti + ", ocene=" + ocene + ", prosecnaOcena="
+				+ prosecnaOcena + ", klinika=" + klinika + ", pregledi=" + pregledi + ", izvestajiPregleda="
+				+ izvestajiPregleda + ", operacije=" + operacije + ", zahteviZaGodisnji=" + zahteviZaGodisnji
+				+ ", tipoviPregleda=" + tipoviPregleda + ", tipKorisnika=" + tipKorisnika + "]";
 	}
+
+
+
 
 
 

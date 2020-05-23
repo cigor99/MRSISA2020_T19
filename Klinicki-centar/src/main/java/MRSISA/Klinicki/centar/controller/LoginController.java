@@ -19,6 +19,7 @@ import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.MedicinskaSestra;
 import MRSISA.Klinicki.centar.domain.Pacijent;
 import MRSISA.Klinicki.centar.domain.StanjePacijenta;
+import MRSISA.Klinicki.centar.domain.TipPregleda;
 import MRSISA.Klinicki.centar.dto.AdminKCDTO;
 import MRSISA.Klinicki.centar.dto.AdminKDTO;
 import MRSISA.Klinicki.centar.dto.LekarDTO;
@@ -31,6 +32,7 @@ import MRSISA.Klinicki.centar.service.AdminKService;
 import MRSISA.Klinicki.centar.service.LekarService;
 import MRSISA.Klinicki.centar.service.MedicinskaSestraSerive;
 import MRSISA.Klinicki.centar.service.PacijentService;
+import MRSISA.Klinicki.centar.service.TipPregledaService;
 
 /*Kontroler u kom se nalaze metode za prijavu korisnika*/
 
@@ -52,6 +54,9 @@ public class LoginController {
 
 	@Autowired
 	private MedicinskaSestraSerive medSesService;
+	
+	@Autowired
+	private TipPregledaService tipPregledaService;
 	
 	@Autowired
 	HttpServletRequest request;
@@ -79,6 +84,14 @@ public class LoginController {
 		if(!loginDTO.proveraPolja()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+		List<TipPregleda> tipovi = tipPregledaService.findAll();
+		
+		for(TipPregleda tip : tipovi) {
+			for(Lekar l : tip.getLekari()) {
+				System.out.println(l);
+			}
+		}
+		
 		List<Pacijent> pacijenti = pacijentService.findAll();
 		for (Pacijent p : pacijenti) {
 			if (p.getStanjePacijenta().equals(StanjePacijenta.AKTIVAN) && p.getEmail().equals(loginDTO.getEmail())

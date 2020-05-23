@@ -15,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -44,8 +43,8 @@ public class TipPregleda {
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "tipPregleda")
 	private Set<Operacija> operacije = new HashSet<Operacija>();
 	
-	@ManyToMany(cascade= {CascadeType.ALL}, fetch = FetchType.LAZY)
-	@JoinTable(name = "lekar_tipPregleda", joinColumns = @JoinColumn(name = "ID_Leka"), inverseJoinColumns = @JoinColumn(name = "ID_TipaPregleda"))
+	@ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+	@JoinTable(name = "lekar_tipPregleda", joinColumns = @JoinColumn(name = "ID_lekara"), inverseJoinColumns = @JoinColumn(name = "ID_TipaPregleda"))
 	private Set<Lekar> lekari = new HashSet<Lekar>();
 
 	public TipPregleda() {
