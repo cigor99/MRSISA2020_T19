@@ -1,0 +1,294 @@
+<html>
+
+<head>
+    <title>Godišnji prikaz radnog kalendara</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="js/main.js"></script>
+    <link href="style.css" rel="stylesheet">
+    <script>
+        $(document).ready(function() {
+            ucitajZaglavlje();
+        });
+    </script>
+    <script src="js/radniKalendarG.js"></script>
+</head>
+
+<body>
+
+    <style>
+        .header {
+            background: #555;
+            color: #f1f1f1;
+        }
+        
+        td {
+            text-align: center;
+            font-size: 20px;
+            height: 70px;
+            min-width: 200px;
+        }
+        
+        .broj {
+            height: 70px;
+            min-width: 20px;
+        }
+        
+        .headcol {
+            height: 70px;
+            min-width: 20px;
+            position: absolute;
+            /* width: 5em; */
+            /* left: 0; */
+            top: auto;
+            /* border-right: 0px none black; */
+            /* border-top-width: 3px; */
+            /*only relevant for first row*/
+            /* margin-top: -3px; */
+            /*compensate for top border*/
+        }
+        
+        div.second {
+            width: 100%;
+            /* overflow-x: scroll; */
+            /* margin-left: 5em; */
+            /* overflow-y: hidden; */
+            padding-bottom: 1px;
+            /* height: auto; */
+        }
+        
+        div.first {
+            width: auto;
+            /* overflow-y: scroll; */
+            /* overflow-x: hidden; */
+            height: 600px;
+            padding-bottom: 1px;
+            position: absolute;
+            left: 0;
+            top: auto;
+        }
+        
+        #brojevi {
+            background-color: lightgreen;
+            color: black;
+            max-height: 70px;
+            max-width: 20px;
+            position: absolute;
+        }
+        
+        .meseci {
+            margin-left: 30px;
+        }
+        
+        thead {
+            background-color: lightgreen;
+            color: black;
+            height: 20px;
+            min-width: 20px;
+            /* position: ; */
+        }
+    </style>
+    <div id="navbardiv"></div>
+    <div class="naslov">
+        <h1>Godišnji prikaz radnog kalendara</h1>
+    </div>
+    <div>
+        <input type="button" value="Mesečni prikaz" class="button" id="mesecni">
+        <input type="button" value="Nedeljni prikaz" class="button" id="nedeljni">
+    </div>
+
+    <div class="first">
+        <div class="second">
+            <table border="1" class="second" id="brojevi">
+                <th>#</th>
+                <tr>
+                    <td class="broj">
+                        1.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        2.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        3.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        4.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        5.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        6.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        7.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        8.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        9.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        10.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        11.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        12.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        13.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        14.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        15.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        16.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        17.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        18.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        19.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        20.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        21.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        22.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        23.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        24.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        25.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        26.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        27.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        28.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        29.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        30.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="broj">
+                        31.
+                    </td>
+                </tr>
+
+            </table>
+            <table border="1" class="meseci">
+                <thead>
+                    <tr>
+                        <th>Januar</th>
+                        <th>Februar</th>
+                        <th>Mart</th>
+                        <th>April</th>
+                        <th>Maj</th>
+                        <th>Jun</th>
+                        <th>Jul</th>
+                        <th>Avgust</th>
+                        <th>Septembar</th>
+                        <th>Oktobar</th>
+                        <th>Novembar</th>
+                        <th>Decembar</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"> </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- FUNKCIJA KOJA POMERA TABELU SA BROJEVI ZAJENDO SA PROMENOM X POZICIJE (SCROLL-a) -->
+    <script>
+        var bb = document.getElementById('brojevi');
+        window.addEventListener('scroll', function(event) {
+            bb.style.marginLeft = window.scrollX + 'px';
+        });
+    </script>
+
+</body>
+
+</html>
