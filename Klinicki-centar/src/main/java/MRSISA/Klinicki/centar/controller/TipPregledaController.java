@@ -3,6 +3,8 @@ package MRSISA.Klinicki.centar.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,11 +20,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import MRSISA.Klinicki.centar.domain.Cena;
+import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.Sala;
 import MRSISA.Klinicki.centar.domain.TipPregleda;
+import MRSISA.Klinicki.centar.dto.AdminKDTO;
+import MRSISA.Klinicki.centar.dto.LekarDTO;
 import MRSISA.Klinicki.centar.dto.SalaDTO;
 import MRSISA.Klinicki.centar.dto.TipPregledaDTO;
 import MRSISA.Klinicki.centar.service.CenaService;
+import MRSISA.Klinicki.centar.service.LekarService;
 import MRSISA.Klinicki.centar.service.TipPregledaService;
 
 @RestController
@@ -33,6 +39,12 @@ public class TipPregledaController {
 	
 	@Autowired
 	private CenaService cenaService;
+	
+	@Autowired
+	private LekarService lekarService;
+	
+	@Autowired
+	HttpServletRequest request;
 	
 	@GetMapping("/tipPregleda/all")
 	public ResponseEntity<List<TipPregledaDTO>> getAllTipoviPregleda(){
@@ -107,6 +119,24 @@ public class TipPregledaController {
 		TipPregleda tipPregleda = tipPregledaService.findOne(id);
 		if(tipPregleda != null) {
 			return new ResponseEntity<>(new TipPregledaDTO(tipPregleda), HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}		
+	}
+	
+	@GetMapping("/tipPregleda/getLekari/{id}")
+	public ResponseEntity<List<LekarDTO>> getLekari(@PathVariable Integer id){
+		TipPregleda tipPregleda = tipPregledaService.findOne(id);
+		List<LekarDTO> lekariDTO = new ArrayList<LekarDTO>();
+		AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
+		int klinika = admink.getKlinikaID();
+		if(tipPregleda != null) {
+			for(Lekar l : lekarService.findAll()) {
+				if(l.getTipoviPregleda().contains(tipPregleda) && l.getKlinika().getId().equals(klinika)) {
+					lekariDTO.add(new LekarDTO(l));
+				}
+			}
+			return new ResponseEntity<>(lekariDTO, HttpStatus.OK);
 		}else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}		

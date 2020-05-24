@@ -27,11 +27,13 @@ import MRSISA.Klinicki.centar.domain.Klinika;
 import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.Pregled;
 import MRSISA.Klinicki.centar.domain.Sala;
+import MRSISA.Klinicki.centar.domain.TipPregleda;
 import MRSISA.Klinicki.centar.dto.AdminKDTO;
 import MRSISA.Klinicki.centar.dto.LekarDTO;
 import MRSISA.Klinicki.centar.dto.SalaDTO;
 import MRSISA.Klinicki.centar.service.KlinikaService;
 import MRSISA.Klinicki.centar.service.SalaService;
+import MRSISA.Klinicki.centar.service.TipPregledaService;
 
 @RestController
 public class SalaController {
@@ -41,6 +43,9 @@ public class SalaController {
 	
 	@Autowired
 	private KlinikaService klinikaService;
+	
+	@Autowired
+	private TipPregledaService tipPregledaService;
 	
 	@Autowired
 	HttpServletRequest request;
@@ -221,6 +226,49 @@ public class SalaController {
 		return new ResponseEntity<>(new SalaDTO(sala), HttpStatus.OK);
 	}
 	
+	@GetMapping("/sala/proveriDatum/{id}/{datum}/{tipPregledaId}")
+	public ResponseEntity<String> proveriDatum(@PathVariable int id, @PathVariable String datum, @PathVariable int tipPregledaId) {
+		Sala sala = salaService.findOne(id);
+		TipPregleda tipPregleda = tipPregledaService.findOne(tipPregledaId);
+		int trajanje = tipPregleda.getTrajanje();
+		if(sala != null) {
+			String stringdate = datum.replace("T", " ");
+			//System.out.println(stringdate);		
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			try {
+				Date date = sdf.parse(stringdate);
+				System.out.println(date);
+				Date date2 = new Date();
+				long tim = trajanje*60000;
+				date2.setTime(date.getTime()+tim);
+				//System.out.println(date2);
+				boolean moze = true;
+				for(Pregled p : sala.getPregledi()) {
+					Date datum1 = p.getDatum();
+					Date datum2 = new Date();
+					datum2.setTime(datum1.getTime()+p.getTipPregleda().getTrajanje());
+					if(date2.compareTo(datum1)<=0 || date.compareTo(datum2)>=0) {
+						moze = true;
+					}
+					else {
+						moze = false;
+					}					
+				}
+				if(moze) {
+					System.out.println("SLOBODNA");
+					return new ResponseEntity<>("slobodna", HttpStatus.OK);
+				}
+				else {
+					System.out.println("ZAUZETA");
+					return new ResponseEntity<>("zauzeta", HttpStatus.OK);
+				}
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}			
+		}
+		return new ResponseEntity<>("", HttpStatus.NOT_FOUND);
+	}
 	
 
 }
