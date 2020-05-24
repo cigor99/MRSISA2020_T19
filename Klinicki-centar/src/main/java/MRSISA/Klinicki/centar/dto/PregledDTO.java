@@ -1,5 +1,6 @@
 package MRSISA.Klinicki.centar.dto;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -12,6 +13,7 @@ import MRSISA.Klinicki.centar.domain.TipPregleda;
 public class PregledDTO {
 	
 	private int id;
+	private String datumivreme;
 	private String datum;
 	private String vreme;
 	private String sala;
@@ -27,6 +29,28 @@ public class PregledDTO {
 		super();
 	}
 	
+	public PregledDTO(int id, String datumivreme, String sala, String tipPregleda, String lekar, Double cena) {
+		this.id = id;
+		String[] dt = datumivreme.split("T");
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf2 = new SimpleDateFormat("dd.MM.yyyy");
+		Date date;
+		try {
+			date = sdf1.parse(dt[0]);
+			String d = sdf2.format(date);
+			this.datum = d;
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		this.vreme = dt[1];
+		this.sala = sala;
+		this.lekar = lekar;
+		this.tipPregleda = tipPregleda;
+		this.slobodan = true;
+		this.cena = cena;
+	}
 	
 
 	public PregledDTO(int id, String datum, String vreme, int trajanje, String sala, String lekar, String tipPregleda, String pacijent, float popust,
@@ -187,6 +211,14 @@ public class PregledDTO {
 
 	public void setTrajanje(int trajanje) {
 		this.trajanje = trajanje;
+	}
+
+	public String getDatumivreme() {
+		return datumivreme;
+	}
+
+	public void setDatumivreme(String datumivreme) {
+		this.datumivreme = datumivreme;
 	}
 	
 

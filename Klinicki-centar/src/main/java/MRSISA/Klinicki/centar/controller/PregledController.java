@@ -1,6 +1,9 @@
 package MRSISA.Klinicki.centar.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -27,10 +30,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
+import MRSISA.Klinicki.centar.domain.Klinika;
+import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.Pregled;
+import MRSISA.Klinicki.centar.domain.Sala;
+import MRSISA.Klinicki.centar.domain.TipPregleda;
+import MRSISA.Klinicki.centar.dto.AdminKDTO;
 import MRSISA.Klinicki.centar.dto.PregledDTO;
+import MRSISA.Klinicki.centar.dto.SalaDTO;
+import MRSISA.Klinicki.centar.service.LekarService;
 import MRSISA.Klinicki.centar.service.PregledService;
+import MRSISA.Klinicki.centar.service.SalaService;
+import MRSISA.Klinicki.centar.service.TipPregledaService;
 
 @RestController
 @RequestMapping("/pregled")
@@ -38,6 +49,15 @@ public class PregledController {
 	
 	@Autowired
 	private PregledService pregledService;
+	
+	@Autowired
+	private SalaService salaService;
+	
+	@Autowired
+	private TipPregledaService tipPregledaService;
+	
+	@Autowired
+	private LekarService lekarService;
 	
 	@Autowired
 	HttpServletRequest request;
@@ -76,6 +96,44 @@ public class PregledController {
 		}
 		return new ResponseEntity<>(preglediDTO, HttpStatus.OK);
 		//return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@PostMapping("/add")
+	public ResponseEntity<PregledDTO> addPregled(@RequestBody PregledDTO pregledDTO){
+		Pregled pregled = new Pregled();
+		int salaId = Integer.parseInt(pregledDTO.getSala());
+		int tipId = Integer.parseInt(pregledDTO.getTipPregleda());
+		int lekarId = Integer.parseInt(pregledDTO.getLekar());
+		Sala sala = salaService.findOne(salaId);	
+		TipPregleda tipPregleda = tipPregledaService.findOne(tipId);
+		Lekar lekar = lekarService.findOne(lekarId);
+		
+		pregled.setSala(sala);
+		pregled.setTipPregleda(tipPregleda);
+		pregled.setLekar(lekar);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		String datumvreme = pregledDTO.getDatumivreme().replace("T", " ");
+		Date date;
+		try {
+			date = sdf.parse(datumvreme);
+			System.out.println(date);
+			pregled.setDatum(date);	
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+			
+		
+		pregled = pregledService.addPregled(pregled);
+		
+		System.out.println("ADD PREGLED");
+		System.out.println(pregledDTO.getDatumivreme());
+		System.out.println(pregledDTO.getSala());
+		System.out.println(pregledDTO.getTipPregleda());
+		System.out.println(pregledDTO.getLekar());
+		System.out.println(pregledDTO.getCena());
+		
+		return new ResponseEntity<>(new PregledDTO(pregled), HttpStatus.CREATED);
 	}
 
 }
