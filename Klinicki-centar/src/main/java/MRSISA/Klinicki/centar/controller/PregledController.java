@@ -69,8 +69,8 @@ public class PregledController {
 	
 	@GetMapping("/getDnevniPregled/{dan}/{mesec}")
 	public ResponseEntity<Object> getDnevniPregled(@PathVariable String dan, @PathVariable String mesec){
-		System.out.println("DAN :" + dan);
-		System.err.println("MESEC: " +mesec);
+//		System.out.println("DAN :" + dan);
+//		System.err.println("MESEC: " +mesec);
 		
 		List<Pregled>pregledi =  pregledService.findAll();
 		List<PregledDTO> retVal = new ArrayList<PregledDTO>();

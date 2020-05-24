@@ -6,7 +6,6 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="js/radniKalendarN.js"></script>
     <script src="js/main.js"></script>
     <link href="style.css" rel="stylesheet">
     <script>
@@ -14,32 +13,58 @@
             ucitajZaglavlje();
         });
     </script>
+    <script src="js/radniKalendarN.js"></script>
 </head>
 
 <body>
     <style>
+        th {
+            text-align: center;
+            background-color: lightgreen;
+            color: black;
+            font-weight: 600;
+        }
+        
         td {
             text-align: center;
-            font-size: 20px;
+            font-size: 15px;
             height: 150px;
             min-width: 200px;
         }
         
         #tabele {
             display: inline-flex;
+            margin-left: 30px;
         }
         
         #brojevi {
-            background-color: black;
-            color: red;
+            background-color: lightgreen;
+            color: black;
+            font-weight: 600;
             height: 150px;
             min-width: 20px;
         }
+        
+        .dugmici {
+            display: flex;
+            align-items: center;
+            margin-left: 30px;
+        }
+        
+        .form-control {
+            width: 20%;
+            height: 44px;
+        }
     </style>
-    <h1>Nedeljni prikaz radnog kalendara</h1>
-    <div>
-        <input type="date" id="datum">
-        <input type="button" value="Primeni" id="primeni">
+    <div id="navbardiv"></div>
+    <div class="naslov">
+        <h1>Nedeljni prikaz radnog kalendara</h1>
+    </div>
+    <div class="dugmici">
+        <input type="date" id="datum" class="form-control">
+        <input type="button" value="Primeni" id="primeni" class="button">
+        <input type="button" value="Godišnji prikaz" class="button" id="godisnji">
+        <input type="button" value="Mesecni prikaz" class="button" id="mesecni">
     </div>
     <div id="tabele">
         <table id="vreme" border="1">
@@ -161,29 +186,6 @@
                 </tr>
             </thead>
             <tbody id="tbody">
-                <!-- <tr>
-                    <td id="0">
-
-                    </td>
-                    <td id="1">
-
-                    </td>
-                    <td id="2">
-
-                    </td>
-                    <td id="3">
-
-                    </td>
-                    <td id="4">
-
-                    </td>
-                    <td id="5">
-
-                    </td>
-                    <td id="6">
-
-                    </td>
-                </tr> -->
             </tbody>
         </table>
     </div>

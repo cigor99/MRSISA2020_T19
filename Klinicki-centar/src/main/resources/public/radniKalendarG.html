@@ -1,8 +1,17 @@
 <html>
 
 <head>
+    <title>Godišnji prikaz radnog kalendara</title>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="js/main.js"></script>
+    <link href="style.css" rel="stylesheet">
+    <script>
+        $(document).ready(function() {
+            ucitajZaglavlje();
+        });
+    </script>
     <script src="js/radniKalendarG.js"></script>
 </head>
 
@@ -61,10 +70,10 @@
         }
         
         #brojevi {
-            background-color: black;
-            color: red;
-            height: 70px;
-            min-width: 20px;
+            background-color: lightgreen;
+            color: black;
+            max-height: 70px;
+            max-width: 20px;
             position: absolute;
         }
         
@@ -73,14 +82,22 @@
         }
         
         thead {
-            background-color: black;
-            color: red;
+            background-color: lightgreen;
+            color: black;
             height: 20px;
             min-width: 20px;
             /* position: ; */
         }
     </style>
-    <h1>GODISNJI KALENDAR</h1>
+    <div id="navbardiv"></div>
+    <div class="naslov">
+        <h1>Godišnji prikaz radnog kalendara</h1>
+    </div>
+    <div>
+        <input type="button" value="Mesečni prikaz" class="button" id="mesecni">
+        <input type="button" value="Nedeljni prikaz" class="button" id="nedeljni">
+    </div>
+
     <div class="first">
         <div class="second">
             <table border="1" class="second" id="brojevi">

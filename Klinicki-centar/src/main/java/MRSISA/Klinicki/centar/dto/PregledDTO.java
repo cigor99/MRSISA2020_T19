@@ -16,6 +16,7 @@ public class PregledDTO {
 	private String vreme;
 	private String sala;
 	private String lekar;
+	private Integer lekarID;
 	private String tipPregleda;
 	private String pacijent;
 	private float popust;
@@ -64,6 +65,7 @@ public class PregledDTO {
 		}
 		this.popust = popust;
 		this.slobodan = slobodan;
+		
 	}
 	
 	public PregledDTO(Pregled pregled) {
@@ -87,6 +89,8 @@ public class PregledDTO {
 		this.slobodan = pregled.isSlobodan();
 		this.cena = pregled.getTipPregleda().getCena().getIznos();
 		this.trajanje = pregled.getTipPregleda().getTrajanje();
+		System.out.println(pregled.getLekar().getId());
+		this.lekarID = pregled.getLekar().getId();
 	}
 
 	public int getId() {
@@ -188,6 +192,20 @@ public class PregledDTO {
 	public void setTrajanje(int trajanje) {
 		this.trajanje = trajanje;
 	}
+
+
+
+	public Integer getLekarID() {
+		return lekarID;
+	}
+
+
+
+	public void setLekarID(Integer lekarID) {
+		this.lekarID = lekarID;
+	}
+	
+	
 	
 
 }

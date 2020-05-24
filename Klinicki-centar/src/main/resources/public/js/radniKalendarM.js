@@ -36,10 +36,10 @@ $(document).ready(function() {
                                 boja = "#2a6df4";
                                 break;
                             case 2:
-                                boja = "chocolate";
+                                boja = "darksalmon";
                                 break;
                             case 3:
-                                boja = "darkmagenta";
+                                boja = "bisque";
                                 break;
                             case 4:
                                 boja = "mediumspringgreen";
@@ -161,6 +161,14 @@ $(document).ready(function() {
 
     });
 
+    $("#godisnji").click(function() {
+        window.location.replace("radniKalendarG.html");
+    });
+
+    $("#nedeljni").click(function() {
+        window.location.replace("radniKalendarN.html");
+    });
+
 
 });
 
@@ -225,7 +233,7 @@ function iscrtaj() {
             if (counter <= DO) {
                 td.css('background-color', 'gray');
             } else {
-                td.css('background-color', 'white');
+                td.css('background-color', '#e6ffe6');
             }
 
             if (document.getElementById("td" + nedelje.toString() + dan.toString()) == null) {

@@ -1,10 +1,7 @@
 $(document).ready(function() {
-    // alert("RADI")
-
     iscrtaj();
     var d = new Date();
     pronalazenjeDatuma(d);
-
 
 
     $("#primeni").click(function() {
@@ -12,8 +9,18 @@ $(document).ready(function() {
         iscrtaj();
         pronalazenjeDatuma(d);
     });
+    $("#godisnji").click(function() {
+        window.location.replace("radniKalendarG.html");
+    });
+
+    $("#mesecni").click(function() {
+        window.location.replace("radniKalendarM.html");
+    });
+
+
 });
 
+//za izabrani datum pronalazi preostale datume iz iste nedelje
 function pronalazenjeDatuma(d) {
 
     let mesec = d.getMonth() + 1;
@@ -34,64 +41,22 @@ function pronalazenjeDatuma(d) {
 
         dict[d.getDate() - index] = 7 - index - 1;
     }
-    // let counter = 0;
     for (var key in dict) {
         dobavi(key, dict, d);
     }
 }
 
-
+//DOBAVLJA PODATKE PREGLEDA
 function dobavi(key, dict, d) {
     $.ajax({
         url: "/klinicki-centar/pregled/getDnevniPregled/" + key + "/" + parseInt(d.getMonth() + 1),
         type: 'get',
         success: function(data) {
             for (let pregled of data) {
-                alert(window.ulogovani)
-                alert(pregled.lekar)
-                if (window.ulogovani == pregled.lekar) {
-                    alert("td" + dict[key] + pregled.vreme);
-                    // let td = $("#td" + dict[key] + pregled.vreme);
+                if (window.ulogovani.id == pregled.lekarID) {
                     let td = document.getElementById("td" + dict[key] + pregled.vreme);
                     td.style.backgroundColor = boja();
-                    // for (let pregled of data) {
                     td.innerHTML = "<div><label> Datum:" + pregled.datum + " </label><br><label>Vreme: </label>" + pregled.vreme + "<br><label>Trajanje: </label>" + pregled.trajanje + " min<br><label>Pacijent: </label>" + pregled.pacijent + "<br><label>Tip pregleda: </label>" + pregled.tipPregleda + " </div > ";
-                    // let div = $("<div></div>")
-
-                    // div.css("background-color", boja())
-                    //     // let tr = $("<tr></tr>");
-                    // let datumLabel = $("<label>Datum: </label>");
-
-                    // div.append(datumLabel);
-                    // div.append(pregled.datum);
-                    // let vremeLabel = $("<br><label>Vreme: </label>");
-                    // div.append(vremeLabel.toString());
-                    // div.append(pregled.vreme);
-                    // let TrajanjeLabel = $("<br><label>Trajanje: </label>");
-                    // div.append(TrajanjeLabel);
-                    // div.append(pregled.trajanje + " min");
-
-                    // // tr.append(datumTD);
-                    // // tr.append(vremeTD);
-                    // // tr.append(TrajanjeTD);
-                    // // table.append(tr);
-
-                    // let pacijentLabel = $("<br><label>Pacijent: </label>");
-                    // div.append(pacijentLabel);
-                    // div.append(pregled.pacijent);
-
-                    // let tipPregledaLabel = $("<br><label>Tip pregleda: </label>");
-                    // div.append(tipPregledaLabel);
-                    // div.append(pregled.tipPregleda);
-
-                    // tr.append(imeTD);
-                    // tr.append(tipPregledaTd);
-                    // table.append(tr);
-                    // td.append("div");
-
-                    // alert(pregled.datum)
-                    // alert(getDatum(pregled.datum));
-                    // counter++;
                 }
             }
         },
@@ -140,6 +105,7 @@ function getDatum(datum) {
     return DO;
 }
 
+//ODREĐUJE RANDOM BOJU ZA POLJE U TABELI
 function boja() {
     let color = Math.floor((Math.random() * 6) + 1);
     let boja;
@@ -151,10 +117,10 @@ function boja() {
             boja = "#2a6df4";
             break;
         case 2:
-            boja = "chocolate";
+            boja = "darksalmon";
             break;
         case 3:
-            boja = "darkmagenta";
+            boja = "bisque";
             break;
         case 4:
             boja = "mediumspringgreen";
@@ -166,6 +132,7 @@ function boja() {
     return boja;
 }
 
+//ISCRTAVA POLJA POLJA TABELE
 function iscrtaj() {
     let counter = 8;
     let cetiri = 8;
@@ -176,8 +143,6 @@ function iscrtaj() {
     for (let vreme = 0; vreme < 33; vreme++) {
 
         let tr = $("<tr></tr>");
-        // uslov = true;
-        // cetiri = vreme;
         for (let dan = 0; dan < 7; dan++) {
             let td;
 
@@ -193,14 +158,8 @@ function iscrtaj() {
             } else {
                 td = (document.getElementById("td" + dan.toString() + ovo));
                 td.innerHTML = "";
-                td.style.backgroundColor = "white";
+                td.style.backgroundColor = "#e6ffe6";
             }
-
-
-
-
-
-            // alert(counter.toString() + getVreme(vreme))
 
             if (document.getElementById("td" + dan.toString() + ovo) == null) {
                 tr.append(td);
@@ -222,6 +181,7 @@ function iscrtaj() {
     }
 }
 
+//VRACE VREME U VREMENSKIM INTERVALIMA OD 15 MINUTA
 function getVreme(vreme) {
     let minuti;
     switch (vreme % 4) {

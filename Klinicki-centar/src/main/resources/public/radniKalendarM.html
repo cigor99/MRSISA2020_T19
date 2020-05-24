@@ -3,8 +3,15 @@
 <head>
     <meta charset="utf-8">
     <title>Mesečni radni kalendar</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+    <link href="style.css" rel="stylesheet">
+    <script>
+        $(document).ready(function() {
+            ucitajZaglavlje();
+        });
+    </script>
     <script src="js/radniKalendarM.js"></script>
 
     <style>
@@ -20,13 +27,14 @@
             margin: auto;
             width: 600px;
             display: inline-flex;
+            align-items: center;
         }
         
         .pagination a,
         .pagination strong {
             height: 30px;
             margin: 10px;
-            background: #fff;
+            background: #e6ffe6;
             display: inline-block;
             margin-right: 3px;
             padding: 4px 12px;
@@ -56,12 +64,18 @@
 </head>
 
 <body>
+    <div id="navbardiv"></div>
+    <div class="naslov">
+        <h1>Mesečni prikaz radnog kalendara</h1>
+    </div>
 
-    <h1>Mesečni radni kalendar</h1>
+
     <div class="pagination clearfix" id="meseci">
         <a id="prethodni">« </a>&nbsp;
         <h4 id="mesec">April</h4>
         <a id="sledeci">»</a>
+        <input type="button" value="Godišnji prikaz" class="button" id="godisnji">
+        <input type="button" value="Nedeljni prikaz" class="button" id="nedeljni">
     </div>
 
     <table border="1" id="tabela">

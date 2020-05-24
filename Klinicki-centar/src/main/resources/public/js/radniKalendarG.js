@@ -61,6 +61,15 @@ $(document).ready(function() {
     $("#pregled4").click(function() {
         window.open("recept.html", 'newwindow', 'width=1200,height=650');
     });
+
+    $("#mesecni").click(function() {
+        window.location.replace("radniKalendarM.html");
+    });
+
+    $("#nedeljni").click(function() {
+        window.location.replace("radniKalendarN.html");
+    });
+
 });
 
 
