@@ -52,7 +52,7 @@ $(document).ready(function() {
                         if (mesec.toString().length == 1) {
                             mesec = "0" + mesec.toString();
                         }
-                        polje.append("Pregled " + pregled.datum.substring(0, 2) + "." + mesec.toString())
+                        polje.append("Pregled " + pregled.datum.substring(0, 2) + "." + getMesec())
                         polje.attr("onclick", "dobavi(" + pregled.datum.substring(0, 2) + ")");
                         uslov = false;
                     }

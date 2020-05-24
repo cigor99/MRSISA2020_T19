@@ -259,77 +259,19 @@
                         <th>Decembar</th>
                     </tr>
                 </thead>
-                <tbody id="tbody">
-                    <!-- <tr>
-                        <td id="Januar1" style="background-color: #f54251;">
-                            Pregled 1 9:00 - 10:15;
-                        </td>
-                        <td id="Februar1" style="background-color: #2a6df4;">
-                            Pregled 2
-                        </td>
-                        <td style="background: hsl(31, 89%, 68%);">
-                            Pregled3
-                        </td>
-                        <td style="background-color: hsl(199, 25%, 46%);" id="pregled4">
-                            Pregled 4
-                        </td>
-                        <td>
-
-                        </td>
-                        <td>
-
-                        </td>
-                        <td>
-
-                        </td>
-                        <td>
-
-                        </td>
-                        <td>
-
-                        </td>
-                        <td>
-
-                        </td>
-                        <td>
-
-                        </td>
-                        <td>
-
-                        </td>
-                    </tr>
-                    
-                </tbody>
+                <tbody id="tbody"> </tbody>
             </table>
         </div>
     </div>
+
+    <!-- FUNKCIJA KOJA POMERA TABELU SA BROJEVI ZAJENDO SA PROMENOM X POZICIJE (SCROLL-a) -->
     <script>
-        window.onscroll = function() {
-            myFunction()
-        };
+        var bb = document.getElementById('brojevi');
+        window.addEventListener('scroll', function(event) {
+            bb.style.marginLeft = window.scrollX + 'px';
+        });
+    </script>
 
-        var header = document.getElementById("brojevi ");
-        var sticky = header.offsetTop;
-
-        function myFunction() {
-            if (window.pageXOffset > sticky) {
-                header.classList.add("sticky ");
-            } else {
-                header.classList.remove("sticky ");
-            }
-            // if (window.pageYOffset > sticky) {
-            //     header.classList.add("sticky ");
-            // } else {
-            //     header.classList.remove("sticky ");
-            // }
-        }
-    </script> -->
-                    <script>
-                        var bb = document.getElementById('brojevi');
-                        window.addEventListener('scroll', function(event) {
-                            bb.style.marginLeft = window.scrollX + 'px';
-                        });
-                    </script>
 </body>
 
 </html>
