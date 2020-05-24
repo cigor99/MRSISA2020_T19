@@ -7,12 +7,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <!-- <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script> -->
-    <script src="js/pregledi.js"></script>
+    <script src="js/pregled.js"></script>
     <script src="js/main.js"></script>
     <link href="style.css" rel="stylesheet">
     <script>
         $(document).ready(function() {
             ucitajZaglavlje();
+            ucitajListe();
         });
     </script>
 </head>
@@ -25,34 +26,39 @@
     <div class="forma-za-dodavanje">
         <form>
             <div class="form-group">
-                <label for="naziv">Datum i vreme:</label>
-                <input type="text" class="form-control" id="naziv" placeholder="Unesite naziv sale" name="naziv">
-                <p id="nazivError" style="display:hidden"></p>
+                <label for="date-time">Datum i vreme:</label>
+				<input class="form-control" style="max-width: 250px; margin-right: 20px" type="datetime-local" id="date-time"
+			      name="date-time">
+				<p id="datumError" style="display:hidden"></p>
             </div>
             <div class="form-group">
-                <label for="naziv">Sala:</label>
-                <input type="text" class="form-control" id="naziv" placeholder="Unesite naziv sale" name="naziv">
-                <p id="nazivError" style="display:hidden"></p>
+                <label for="sala">Sala:</label>
+                <select class="form-control" id="salaSelect">
+	    		<option value="" disabled selected>Izaberite salu</option>
+				</select>
+                <p id="salaError" style="display:hidden"></p>
             </div>
             <div class="form-group">
-                <label for="naziv">Datum i vreme:</label>
-                <input type="text" class="form-control" id="naziv" placeholder="Unesite naziv sale" name="naziv">
-                <p id="nazivError" style="display:hidden"></p>
-            </div>
-            <div class="form-group">
-                <label for="naziv">Datum i vreme:</label>
-                <input type="text" class="form-control" id="naziv" placeholder="Unesite naziv sale" name="naziv">
-                <p id="nazivError" style="display:hidden"></p>
-            </div>
-            <div class="form-group">
-                <label for="tip">Tip:</label>
-                <select class="form-control" id="tipSaleSelect">
-	    		<option value="ZA_PREGLED">sala za pregled</option>
-				<option value="OPERACIONA">operaciona sala</option>
-			</select>
+                <label for="tip">Tip pregleda:</label>
+                <select class="form-control" id="tipPregledaSelect">
+	    		<option value="" disabled selected>Izaberite tip pregleda</option>				
+				</select>
                 <p id="tipError" style="display:hidden"></p>
             </div>
-            <button class="button" type="button" id="dodajBtn" onclick="javascript:dodajSalu()">Dodaj</button>
+            <div class="form-group">
+                <label for="lekar">Lekar:</label>
+                <select class="form-control" id="lekarSelect">
+	    		<option value="" disabled selected>Izaberite lekara</option>				
+				</select>
+                <p id="lekarError" style="display:hidden"></p>
+            </div>
+            <!-- <div class="form-group">
+                <label for="cena">Cena:</label>
+                <input type="text" class="form-control" id="cena" placeholder="Unesite cenu">
+                <p id="cenaError" style="display:hidden"></p>
+            </div> -->
+            
+            <button class="button" type="button" id="dodajBtn" onclick="javascript:dodajPregled()">Dodaj</button>
         </form>
     </div>
 

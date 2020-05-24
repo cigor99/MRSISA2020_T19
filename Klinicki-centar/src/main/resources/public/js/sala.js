@@ -135,7 +135,6 @@ function dodajSalu() {
 	        }),
 	        success: function () {
 	            window.location.replace("sale.html")
-	            // alert("Uspesno dodavanje klinike!")
 	        }
 	    })
 	}
