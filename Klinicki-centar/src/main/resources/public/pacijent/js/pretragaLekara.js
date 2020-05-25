@@ -1,5 +1,4 @@
 $(document).ready(function () {
-	var klinika = null;
 	var imeCoded = window.location.href.split("?")[1];
     var imeJednako = imeCoded.split("&")[0];
     var imeParam = imeJednako.split("=")[1];
@@ -11,17 +10,14 @@ $(document).ready(function () {
     		type: "get",
     		url: "/klinicki-centar/klinika/getUpdate/" + imeParam,
     		success: function(data){
-    			klinika = data;
-    			//console.log(klinika);
+    			window.klinika = data;
     		},
     		error: function(data){
     			alert("error in get klinika");
     		},
     		async:false
     	});
-    	//console.log(klinika)
     }
-	//console.log(klinika)
 	$.ajax({
 		url: "/klinicki-centar/login/tipKorisnika",
         type: "get",
@@ -67,7 +63,7 @@ $(document).ready(function () {
     $('#idemo').checked = true;
     $.ajax({
         type: "get",
-        url: "/klinicki-centar/lekar/pageForPacijent/" + 0 + "/" + 6 + "/" + klinika.id,
+        url: "/klinicki-centar/lekar/pageForPacijent/" + 0 + "/" + 6 + "/" + window.klinika.id,
         success: function(data) {
             window.search = false;
             window.filter = false;
@@ -92,10 +88,10 @@ $(document).ready(function () {
                 dobavi(parseInt($("#treciBr").text()) - 1, 6)
             }
         }
-        if (window.search == true) { //if (window.search == true) 
+        if (window.search == true) {
 
             $.ajax({
-                url: "/klinicki-centar/lekar/searchLekaraForPacijent/" + $("#kriterijum").val() + "/"+$("#search").val() + "/" + klinika.id,
+                url: "/klinicki-centar/lekar/searchLekaraForPacijent/" + $("#kriterijum").val() + "/"+$("#search").val() + "/" + window.klinika.id,
                 type: "post",
                 success: function(data) {
                 	console.log(data);
@@ -117,7 +113,6 @@ $(document).ready(function () {
                     }
 
                     window.search = true;
-                    // window.filter = false;
                     $("#stranice").css('visibility', 'hidden');
                     $("#tabela").css('visibility', 'hidden');
                     $("#ROWDIV").empty();
@@ -174,9 +169,9 @@ $(document).ready(function () {
                 ul.attr("class", 'bottom')
                 let karton = $("<li></li>")
                 karton.attr("class", 'del');
-                let a = $("<a>Profil</a>")
+                let a = $("<a>Izaberi</a>")
                 a.attr("class", 'btn');
-                a.attr("href", 'profilLekara.html?id=' + lekar.id +"&klinika=" + klinika.id)
+                a.attr("href", 'zakazivanjePregleda.html?id=' + lekar.id +"&klinika=" + window.klinika.id)
                 
                 karton.append(a);
                 ul.append(karton)
@@ -239,7 +234,7 @@ $(document).ready(function () {
                 // let TDkarton = $("<td>" + "<a href=\"pacijentProfil.html?id=" + pacijent.id + "\">Karton</a></td>")
                 let TDprofil = $("<td></td>")
                 let profil = $("<a>Profil lekara</a>")
-                profil.attr("href", 'profilLekara.html?id=' + lekar.id +"&klinika=" + klinika.id)
+                profil.attr("href", 'profilLekara.html?id=' + lekar.id +"&klinika=" + window.klinika.id)
                 TDprofil.append(profil);
 
                 // tr.append(idTD)
@@ -261,7 +256,7 @@ $(document).ready(function () {
     let brStr;
     $.ajax({
         type: "post",
-        url: "/klinicki-centar/lekar/all" + "/" + klinika.id,
+        url: "/klinicki-centar/lekar/all" + "/" + window.klinika.id,
         success: function(data) {
             $("#stranice").css('visibility', 'visible')
             let div = $("#stranice")
@@ -478,7 +473,7 @@ $(document).ready(function () {
         if ($("#idemo").is(":checked") == true) {
             $.ajax({
                 type: "get",
-                url: "/klinicki-centar/lekar/pageForPacijent/" + od + "/" + dokle + "/" + klinika.id,
+                url: "/klinicki-centar/lekar/pageForPacijent/" + od + "/" + dokle + "/" + window.klinika.id,
                 success: function(data) {
                     tabela(data);
                 },
@@ -490,7 +485,7 @@ $(document).ready(function () {
         }
         $.ajax({
             type: "get",
-            url: "/klinicki-centar/lekar/pageForPacijent/" + od + "/" + dokle + "/" + klinika.id,
+            url: "/klinicki-centar/lekar/pageForPacijent/" + od + "/" + dokle + "/" + window.klinika.id,
             success: function(data) {
                 kartice(data);
             },
@@ -581,7 +576,7 @@ $(document).ready(function () {
         }
 
         $.ajax({
-            url: "/klinicki-centar/lekar/searchLekaraForPacijent/" + $("#kriterijum").val() + "/"+$("#search").val() + "/" + klinika.id,
+            url: "/klinicki-centar/lekar/searchLekaraForPacijent/" + $("#kriterijum").val() + "/"+$("#search").val() + "/" + window.klinika.id,
             type: "post",
             success: function(data) {
             	console.log(data);

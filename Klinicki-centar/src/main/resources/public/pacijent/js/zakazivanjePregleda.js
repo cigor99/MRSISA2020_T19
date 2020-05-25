@@ -1,5 +1,3 @@
-var klinika = null;
-var lekar = null;
 $(document).ready(function () {	
 	var imeCoded = window.location.href.split("?")[1];
     var imeJednako = imeCoded.split("&")[0];
@@ -16,7 +14,7 @@ $(document).ready(function () {
     		type: "get",
     		url: "/klinicki-centar/lekar/getOneLekar/" + imeParam,
     		success: function(data){
-    			lekar = data
+    			window.lekar = data
     		},
     		error: function(data){
     			alert("error in get lekar");
@@ -28,7 +26,7 @@ $(document).ready(function () {
     		type: "get",
     		url: "/klinicki-centar/klinika/getUpdate/" + klinikaParam,
     		success: function(data){
-    			klinika = data
+    			window.klinika = data
     		},
     		error: function(data){
     			alert("error in get klinika");
@@ -73,27 +71,10 @@ $(document).ready(function () {
 		            var naslov = $("#naslov");
 		        	naslov.empty();
 		    		naslov.append('<h1>'+window.ulogovani.ime+" " + window.ulogovani.prezime+'</h1>');
-		    		naslov.append('<h1>Lekar</h1>');
-		    		printLekar()
+		    		naslov.append('<h1>Zakazi pregled</h1>');
+		    		
 		        }
 		 });
 	}
 	
 });
-
-function printLekar(){
-	if(lekar == null){
-		return;
-	}
-	var imeDiv = $("#ime");
-	imeDiv.append("<label>"+lekar.ime+"</label>");
-    var prezimeDiv = $("#prezime");
-    prezimeDiv.append("<label>"+lekar.prezime+"</label>");
-    var emailDiv = $("#email");
-    emailDiv.append("<label>"+lekar.email+"</label>");
-    var ocenaDiv = $("#ocena");
-    ocenaDiv.append("<label>"+lekar.prosecnaOcena+"</label>");
-    var nazad = $("#nazad");
-    nazad.attr('href', 'pretragaLekara.html?id='+klinika.id);
-	
-}

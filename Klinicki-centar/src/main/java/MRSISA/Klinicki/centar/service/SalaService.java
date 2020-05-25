@@ -45,8 +45,8 @@ public class SalaService {
 	}
 	
 	public Sala findOne(Integer ID) {
-		System.err.println(ID);
-		System.out.println("USAO U FINDONE");
+		//System.err.println(ID);
+		//System.out.println("USAO U FINDONE");
 		return salaRepository.findById(ID).orElse(null);
 	}
 

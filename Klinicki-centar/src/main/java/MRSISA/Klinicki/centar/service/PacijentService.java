@@ -25,8 +25,8 @@ public class PacijentService {
 	}
 	
 	public Pacijent addPacijent(Pacijent pacijent) {
-		System.out.println("PacijentService-addPacijent");
-		System.out.println(pacijent);
+		//System.out.println("PacijentService-addPacijent");
+		//System.out.println(pacijent);
 		return pacijentRepo.save(pacijent);
 	}
 	
@@ -53,44 +53,7 @@ public class PacijentService {
 	public Pacijent findByjmbg(String jmbg) {
 		return pacijentRepo.findByjmbg(jmbg);
 	}
-	
-	/*
-	@Autowired
-	public PacijentService(@Qualifier("PacijentRepo") PacijentRepository pacijentRepo) {
-		this.pacijentRepo = pacijentRepo;
-	}
-	
-	public void dodajPacijenta(Pacijent pacijent) {
-		pacijentRepo.dodajPacijenta(pacijent);
-	}
-	
-	public List<Pacijent> vratiPacijente(){
-		ArrayList<Pacijent> pacijenti = new ArrayList<Pacijent>();
-		for(Pacijent p : pacijentRepo.vratiPacijente()) {
-			pacijenti.add(p);
-		}
-		return pacijenti;
-	}
-	
-	public Pacijent pronadjiPacijenta(String email) {
-		for(Pacijent p : pacijentRepo.vratiPacijente()) {
-			if(p.getEmail().equalsIgnoreCase(email))
-				return p;
-		}
-		return null;
-	}
-	
-	public Pacijent izmeniPacijenta(Pacijent pacijent) {
-		Pacijent p = pronadjiPacijenta(pacijent.getEmail());
-		if(p != null) {
-			pacijentRepo.izmeniPacijenta(p.getEmail(), pacijent);
-			return pacijent;
-		}else {
-			return null;
-		}
-	}
-	
-	*/
+
 	
 	
 	

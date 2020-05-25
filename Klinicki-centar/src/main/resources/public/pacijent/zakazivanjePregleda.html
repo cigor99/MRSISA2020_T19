@@ -9,7 +9,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script src="js/profilLekara.js"></script>
+    <script src="js/zakazivanjePregleda.js"></script>
     
     <link href="../style.css" rel="stylesheet">
 
@@ -37,31 +37,45 @@
 
     <div class="forma-za-dodavanje">
         <form action="">
-            <div class="form-group" id="ime">
-                <label>Ime:</label>
+            <div class="form-group" id="datum">
+                <label>Datum:</label>
+                <input type="text" class="form-control" id="datum" readonly>
             </div>
 
-            <div class="form-group" id="prezime">
-                <label>Prezime:</label>
+            <div class="form-group">
+                <label for="vreme">Vreme pregleda:</label>
+                <select class="form-control" id="vreme">			
+				</select>
             </div>
 
-            <div class="form-group" id="email">
-                <label>Email:</label>
+            <div class="form-group">
+                <label for="tip">Tip pregleda:</label>
+                <input type="text" class="form-control" id="tip" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="trajanje">Trajanje:</label>
+                <input type="text" class="form-control" id="trajanje" readonly>
+                <p id="trajanjeError" style="display:hidden"></p>
             </div>
             
-            <div class="form-group" id="ocena">
-            	<label>Ocena:</label>
+            <div class="form-group">
+                <label for="cena">Cena:</label>
+                <input type="text" class="form-control" id="cena" readonly>
+                <p id="cenaError" style="display:hidden"></p>
             </div>
+            
+            <div class="form-group">
+                <label for="sala">Sala:</label>
+                <select class="form-control" id="salaSelect">
+				</select>
+				<button class="button" type="button" onclick="javascript:pretraziSale()">Pretrazi sale</button>
+                <p id="salaError" style="display:hidden"></p>
+            </div>        
             
             <div>
             <a id="nazad">Nazad na pretragu lekara</a>
             </div>
-            
-            <!-- <div class="form-group">
-                <label>Prosečna ocena:</label>
-                <input type="text" id="ocena" readonly class="form-control">
-            </div> -->
-
             
         </form>
     </div>

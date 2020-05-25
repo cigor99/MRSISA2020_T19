@@ -6,7 +6,6 @@ public class LoginDTO {
 	private String email;
 	private String lozinka;
 	
-	
 	public LoginDTO(String email, String lozinka) {
 		super();
 		this.email = email;
