@@ -1,6 +1,7 @@
 package MRSISA.Klinicki.centar.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import MRSISA.Klinicki.centar.domain.Pregled;
 import MRSISA.Klinicki.centar.repository.PregledRepository;
+
+
+
 
 @Service
 public class PregledService {
@@ -46,5 +50,7 @@ public class PregledService {
 	public Pregled findOne(Integer id) {
 		return pregledRepository.findById(id).orElse(null);
 	}
+
+	
 
 }
