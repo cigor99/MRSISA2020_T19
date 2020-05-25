@@ -112,8 +112,8 @@ public class LekarController {
 		Pageable prvihDeset = PageRequest.of(0, 10);
 		System.out.println(request.getSession().getAttribute("current"));
 		AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
-		System.out.println(admink.getEmail());
-		System.out.println(admink.getKlinikaID());
+//		System.out.println(admink.getEmail());
+//		System.out.println(admink.getKlinikaID());
 		int klinika = admink.getKlinikaID();
 		Page<Lekar> lekari = lekarService.findAll(prvihDeset);
 		List<LekarDTO> lekariDTO = new ArrayList<LekarDTO>();

@@ -20,7 +20,6 @@ $(document).ready(function() {
         if (uslov) {
             return;
         }
-        alert(typeof($("#krajnji").val()))
         let podaci;
         if (window.tipKorisnika == "lekar") {
             podaci = JSON.stringify({

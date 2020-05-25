@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
     let table = $("#tabela");
-    let mesec = getMesec();
+    let mesec = prviPut();
     iscrtaj();
     popuni();
 
@@ -299,4 +299,50 @@ function getMesec() {
             break;
     }
     return mesec;
+}
+
+function prviPut() {
+    let dat = new Date();
+    // alert(dat.getMonth() + 1)
+    let mesec = $("#mesec").empty();
+    let month = dat.getMonth() + 1
+    switch (month.toString()) {
+        case "1":
+            mesec.append("Januar");
+            break;
+        case "2":
+            mesec.append("Februar");
+            break;
+        case "3":
+            mesec.append("Mart");
+            break;
+        case "4":
+            mesec.append("April");
+            break;
+        case "5":
+            mesec.append("Maj");
+            break;
+        case "6":
+            mesec.append("Jun");
+            break;
+        case "7":
+            mesec.append("Jul");
+            break;
+        case "8":
+            mesec.append("Avgust");
+            break;
+        case "9":
+            mesec.append("Septembar");
+            break;
+        case "10":
+            mesec.append("Oktobar");
+            break;
+        case "11":
+            mesec.append("Novembar");
+            break;
+        case "12":
+            mesec.append("Decembar");
+            break;
+    }
+    return dat.getMonth() + 1;
 }

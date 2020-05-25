@@ -81,24 +81,16 @@ public class ZahtevZGController {
 			lekar.getZahteviZaGodisnji().add(zahtev);
 			lekar = lekarService.save(lekar);
 			Set<Pregled> pregledi = lekar.getPregledi();
-//			List<Pregled> pregledMesec = new ArrayList<Pregled>();
 			Iterator<Pregled> value = pregledi.iterator();
-//			Iterator<Pregled> it = pregledi.iterator();
-//			while(it.hasNext()) {
-//				if(it.next().getDatum().getMonth() == zahtev.get)
-//			}
-			
-//			System.out.println(pregledi.size());
+
 			Date datum = null;
 			while (value.hasNext()) {
 				datum = value.next().getDatum();
-				if ((datum.after(zahtev.getPocetniDatum())
-						&& datum.before(zahtev.getKrajnjiDatum())) ) {
+				if ((datum.after(zahtev.getPocetniDatum()) && datum.before(zahtev.getKrajnjiDatum()))) {
 					return new ResponseEntity<>("Godišnji odmor za izabrani datum nije moguć", HttpStatus.BAD_REQUEST);
 				}
-				System.out.println(datum );
-				System.err.println(zahtev.getPocetniDatum());
-				if(sdf.format(datum).equals(sdf.format(zahtev.getPocetniDatum())) || sdf.format(datum).equals(sdf.format(zahtev.getKrajnjiDatum()))) {
+				if (sdf.format(datum).equals(sdf.format(zahtev.getPocetniDatum()))
+						|| sdf.format(datum).equals(sdf.format(zahtev.getKrajnjiDatum()))) {
 					return new ResponseEntity<>("Godišnji odmor za izabrani datum nije moguć", HttpStatus.BAD_REQUEST);
 				}
 			}
