@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Zahtev za godišnji odmor</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="style.css" rel="stylesheet">
+    <script src="js/main.js"></script>
+    <script>
+        $(document).ready(function() {
+            ucitajZaglavlje();
+        });
+    </script>
+    <script src="js/zahtevaZaGodisnji.js"></script>
+</head>
+
+<body>
+    <div id="navbardiv"></div>
+    <div class="naslov">
+        <h1>Zahtev za godišnji odmor</h1>
+    </div>
+
+    <div class="forma-za-dodavanje">
+        <form>
+            <div class="form-group">
+                <div>
+                    <label>Izaberite početni datum:</label>
+                    <input type="date" id="pocetni" class="form-control">
+                    <p id="pocetniERROR"></p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div>
+                    <label>Izaberite krajnji datum:</label>
+                    <input type="date" id="krajnji" class="form-control">
+                    <p id="KrajnjiERROR"></p>
+                </div>
+            </div>
+            <input class="button" type="button" value="Pošalji zahtev" id="posalji">
+        </form>
+    </div>
+</body>
+
+</html>

@@ -28,11 +28,11 @@ public class ZahtevZaGodisnjiOdmor {
 	private Date krajnjiDatum;
 
 	@ManyToOne
-	@JoinColumn(name = "lekar", referencedColumnName = "ID_lekara", nullable = false)
+	@JoinColumn(name = "lekar", referencedColumnName = "ID_lekara")
 	private Lekar lekar;
 
 	@ManyToOne
-	@JoinColumn(name = "medicinska_sestra", referencedColumnName = "ID_MedSes", nullable = false)
+	@JoinColumn(name = "medicinska_sestra", referencedColumnName = "ID_MedSes")
 	private MedicinskaSestra medicinskaSestra;
 
 	public ZahtevZaGodisnjiOdmor(){}
