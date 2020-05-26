@@ -16,45 +16,48 @@ $(document).ready(function() {
                 let prviDan = datum();
                 let nedelje;
                 let uslov;
-                for (let pregled of data) {
-                    let dan = (parseInt(pregled.datum.substring(0, 2)) + parseInt(prviDan))
-                    let danPOLJE = (parseInt(pregled.datum.substring(0, 2)) + parseInt(prviDan)) % 7;
-                    if (danPOLJE == 0) {
-                        danPOLJE = 7;
-                    }
-                    nedelje = Math.ceil(dan / 7);
-                    if ($("#td" + nedelje.toString() + danPOLJE.toString()).html() === "") {
-                        polje = $("#td" + nedelje.toString() + danPOLJE.toString())
+                if (window.tipKorisnika == "lekar") {
+                    for (let pregled of data) {
+                        let dan = (parseInt(pregled.datum.substring(0, 2)) + parseInt(prviDan))
+                        let danPOLJE = (parseInt(pregled.datum.substring(0, 2)) + parseInt(prviDan)) % 7;
+                        if (danPOLJE == 0) {
+                            danPOLJE = 7;
+                        }
+                        nedelje = Math.ceil(dan / 7);
+                        if ($("#td" + nedelje.toString() + danPOLJE.toString()).html() === "" &&
+                            window.ulogovani.id == pregled.lekarID) {
+                            polje = $("#td" + nedelje.toString() + danPOLJE.toString())
 
-                        let color = Math.floor((Math.random() * 6) + 1);
-                        let boja;
-                        switch (color % 6) {
-                            case 0:
-                                boja = "#f54251";
-                                break;
-                            case 1:
-                                boja = "#2a6df4";
-                                break;
-                            case 2:
-                                boja = "darksalmon";
-                                break;
-                            case 3:
-                                boja = "bisque";
-                                break;
-                            case 4:
-                                boja = "mediumspringgreen";
-                                break;
-                            case 5:
-                                boja = "turquoise";
-                                break;
+                            let color = Math.floor((Math.random() * 6) + 1);
+                            let boja;
+                            switch (color % 6) {
+                                case 0:
+                                    boja = "#f54251";
+                                    break;
+                                case 1:
+                                    boja = "#2a6df4";
+                                    break;
+                                case 2:
+                                    boja = "darksalmon";
+                                    break;
+                                case 3:
+                                    boja = "bisque";
+                                    break;
+                                case 4:
+                                    boja = "mediumspringgreen";
+                                    break;
+                                case 5:
+                                    boja = "turquoise";
+                                    break;
+                            }
+                            polje.css('background-color', boja);
+                            if (mesec.toString().length == 1) {
+                                mesec = "0" + mesec.toString();
+                            }
+                            polje.append("Pregled " + pregled.datum.substring(0, 2) + "." + getMesec())
+                            polje.attr("onclick", "dobavi(" + pregled.datum.substring(0, 2) + ")");
+                            uslov = false;
                         }
-                        polje.css('background-color', boja);
-                        if (mesec.toString().length == 1) {
-                            mesec = "0" + mesec.toString();
-                        }
-                        polje.append("Pregled " + pregled.datum.substring(0, 2) + "." + getMesec())
-                        polje.attr("onclick", "dobavi(" + pregled.datum.substring(0, 2) + ")");
-                        uslov = false;
                     }
                 }
             },

@@ -15,39 +15,42 @@ $(document).ready(function() {
 
                 var dan;
                 let mesec;
-
-                for (dan = 1; dan < 32; dan++) {
-                    for (mesec = 1; mesec < 13; mesec++) {
-                        if (mesec == mesecPregled && dan == danPregled && $("#td" + mesec.toString() + dan.toString()).html() === "") {
-                            let polje = $("#td" + mesec.toString() + dan.toString());
-                            let color = Math.floor((Math.random() * 6) + 1);
-                            let boja;
-                            switch (color % 6) { //RANDOM BOJA POLJA
-                                case 0:
-                                    boja = "#f54251";
-                                    break;
-                                case 1:
-                                    boja = "#2a6df4";
-                                    break;
-                                case 2:
-                                    boja = "chocolate";
-                                    break;
-                                case 3:
-                                    boja = "darkmagenta";
-                                    break;
-                                case 4:
-                                    boja = "mediumspringgreen";
-                                    break;
-                                case 5:
-                                    boja = "turquoise";
-                                    break;
+                if (window.tipKorisnika == "lekar") {
+                    for (dan = 1; dan < 32; dan++) {
+                        for (mesec = 1; mesec < 13; mesec++) {
+                            if (mesec == mesecPregled && dan == danPregled &&
+                                $("#td" + mesec.toString() + dan.toString()).html() === "" &&
+                                window.ulogovani.id == pregled.lekarID) {
+                                let polje = $("#td" + mesec.toString() + dan.toString());
+                                let color = Math.floor((Math.random() * 6) + 1);
+                                let boja;
+                                switch (color % 6) { //RANDOM BOJA POLJA
+                                    case 0:
+                                        boja = "#f54251";
+                                        break;
+                                    case 1:
+                                        boja = "#2a6df4";
+                                        break;
+                                    case 2:
+                                        boja = "chocolate";
+                                        break;
+                                    case 3:
+                                        boja = "darkmagenta";
+                                        break;
+                                    case 4:
+                                        boja = "mediumspringgreen";
+                                        break;
+                                    case 5:
+                                        boja = "turquoise";
+                                        break;
+                                }
+                                polje.css('background-color', boja);
+                                if (mesec.toString().length == 1) {
+                                    mesec = "0" + mesec.toString();
+                                }
+                                polje.append("Pregled " + dan.toString() + "." + mesec.toString())
+                                polje.attr("onclick", "dobavi(" + dan.toString() + "," + mesec.toString() + ")");
                             }
-                            polje.css('background-color', boja);
-                            if (mesec.toString().length == 1) {
-                                mesec = "0" + mesec.toString();
-                            }
-                            polje.append("Pregled " + dan.toString() + "." + mesec.toString())
-                            polje.attr("onclick", "dobavi(" + dan.toString() + "," + mesec.toString() + ")");
                         }
                     }
                 }

@@ -109,6 +109,7 @@ public class LoginController {
 		for (Lekar l : lekari) {
 			if (l.getEmail().equals(loginDTO.getEmail()) && l.getLozinka().equals(loginDTO.getLozinka())) {
 				LekarDTO lekarDTO = new LekarDTO(l);
+				System.out.println(request.getSession().getId());
 				request.getSession().setAttribute("current", lekarDTO);
 				request.getSession().setAttribute("tip", "lekar");
 

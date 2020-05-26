@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import MRSISA.Klinicki.centar.domain.Pregled;
 import MRSISA.Klinicki.centar.domain.Sala;
+import MRSISA.Klinicki.centar.domain.TipKorisnika;
 import MRSISA.Klinicki.centar.domain.TipPregleda;
 import MRSISA.Klinicki.centar.dto.AdminKDTO;
 import MRSISA.Klinicki.centar.dto.PregledDTO;

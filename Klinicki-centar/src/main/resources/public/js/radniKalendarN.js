@@ -3,11 +3,14 @@ $(document).ready(function() {
     var d = new Date();
     pronalazenjeDatuma(d);
 
+    godisnji(d);
+
 
     $("#primeni").click(function() {
         let d = new Date($("#datum").val());
         iscrtaj();
         pronalazenjeDatuma(d);
+        godisnji(d);
     });
     $("#godisnji").click(function() {
         window.location.replace("radniKalendarG.html");
@@ -19,6 +22,104 @@ $(document).ready(function() {
 
 
 });
+
+function godisnji(d) {
+    $.ajax({
+        url: "/klinicki-centar/ZZG/getZahtev",
+        type: "get",
+        success: function(data) {
+            let danPoc;
+            let danKraj;
+            let mesecPoc;
+            let mesecKraj;
+            let godPocetka;
+            let godKraj;
+            for (let zahtev of data) {
+                godPocetka = zahtev.pocetniDatum.substring(0, 4);
+                mesecPoc = zahtev.pocetniDatum.substring(5, 7);
+                danPoc = zahtev.pocetniDatum.substring(8, 10);
+                godKraj = zahtev.krajnjiDatum.substring(0, 4);
+                mesecKraj = zahtev.krajnjiDatum.substring(5, 7);
+                danKraj = zahtev.krajnjiDatum.substring(8, 10);
+
+
+                let nedelja = getNedelja(d);
+
+                let pocetak = getDatum(danPoc + " " + mesecPoc + " " + godPocetka);
+                let kraj = getDatum(danKraj + " " + mesecKraj + " " + godKraj);
+                let razlika = []
+                let counter = 0;
+                let dat1 = parseInt(danPoc) + counter;
+                for (let index = pocetak; index <= kraj; index++) {
+
+                    dat1 = daniUMesecu(mesecPoc, dat1);
+
+                    if (jQuery.inArray(dat1, razlika) == -1) {
+                        razlika.push(dat1);
+                    }
+
+                    dat1++;
+                }
+
+                dat1 = parseInt(danPoc) + counter;
+                if (pocetak > kraj) {
+                    for (let index = pocetak; index <= 6; index++) {
+
+                        dat1 = daniUMesecu(mesecPoc, dat1);
+
+                        if (jQuery.inArray(dat1, razlika) == -1) {
+                            razlika.push(dat1);
+                        }
+                        dat1++;
+                    }
+                    dat1 = parseInt(danPoc) + counter;
+                    for (let index = 0; index <= kraj; index++) {
+
+                        dat1 = daniUMesecu(mesecPoc, dat1);
+
+                        if (jQuery.inArray(dat1, razlika) == -1) {
+                            razlika.push(dat1);
+                        }
+                        dat1++;
+                    }
+                }
+                // counter = 0;
+
+                // alert(razlika)
+                for (let dat of razlika) {
+                    for (const [key, value] of Object.entries(nedelja)) {
+
+                        if (key == dat.toString() && (d.getMonth() + 1 == parseInt(mesecPoc) || d.getMonth() == parseInt(mesecKraj))) {
+                            let polje = $("[id^=" + "td" + nedelja[key] + "]");
+                            polje.css("background-color", "red");
+                        }
+                    }
+                }
+
+
+
+
+            }
+        }
+    })
+}
+
+function daniUMesecu(mesecPoc, dat1) {
+    if (mesecPoc == 1 || mesecPoc == 3 || mesecPoc == 5 || mesecPoc == 7 || mesecPoc == 8 || mesecPoc == 10 || mesecPoc == 12) {
+        if (dat1 > 31) {
+            dat1 = 1;
+        }
+    } else if (mesecPoc == 2) {
+        if (dat1 > 29) {
+            dat1 = 1;
+        }
+    } else {
+        if (dat1 > 30) {
+            dat1 = 1;
+        }
+    }
+    return dat1;
+}
 
 //za izabrani datum pronalazi preostale datume iz iste nedelje
 function pronalazenjeDatuma(d) {
@@ -33,6 +134,7 @@ function pronalazenjeDatuma(d) {
     }
     let danas = getDatum(dan + " " + mesec + " " + d.getFullYear());
     var dict = {}; //key = datum, value = pozicija u tabeli
+
     for (let index = danas; index <= 6; index++) {
         dict[d.getDate() + 6 - index] = index;
     }
@@ -46,17 +148,75 @@ function pronalazenjeDatuma(d) {
     }
 }
 
+
+//FUNKCIJA VRACA REČNIK, KLJUČ JE DATUM, VREDNOST JE POLJE U TABELI (DAN U NEDELJI)
+function getNedelja(d) {
+
+    let mesec = d.getMonth() + 1;
+    if (mesec.toString().length == 1) {
+        mesec = "0" + mesec.toString();
+    }
+    let dan = d.getDate();
+    if (dan.toString().length == 1) {
+        dan = "0" + dan.toString();
+    }
+    let danas = getDatum(dan + " " + mesec + " " + d.getFullYear());
+    var dict = {}; //key = datum, value = pozicija u tabeli
+    let dat = parseInt(d.getDate());
+
+    for (let index = danas; index <= 6; index++) {
+        if (mesec == 1 || mesec == 3 || mesec == 5 || mesec == 7 || mesec == 8 || mesec == 10 || mesec == 12) {
+            if (dat > 31) {
+                dat = 1;
+            }
+        } else if (mesec == 2) {
+            if (dat > 29) {
+                dat = 1;
+            }
+        } else {
+            if (dat > 30) {
+                dat = 1;
+            }
+        }
+        dict[dat] = index;
+        dat++;
+    }
+
+    let brojac = 0;
+    for (let index = danas; index > 0; index--) {
+        if (mesec == 1 || mesec == 3 || mesec == 5 || mesec == 7 || mesec == 8 || mesec == 10 || mesec == 12) {
+            if (dat > 31) {
+                dat = 1;
+            }
+        } else if (mesec == 2) {
+            if (dat > 29) {
+                dat = 1;
+            }
+        } else {
+            if (dat > 30) {
+                dat = 1;
+            }
+        }
+        dict[d.getDate() - index] = brojac;
+        brojac++;
+    }
+
+    return dict;
+}
+
 //DOBAVLJA PODATKE PREGLEDA
 function dobavi(key, dict, d) {
     $.ajax({
         url: "/klinicki-centar/pregled/getDnevniPregled/" + key + "/" + parseInt(d.getMonth() + 1),
         type: 'get',
         success: function(data) {
-            for (let pregled of data) {
-                if (window.ulogovani.id == pregled.lekarID) {
-                    let td = document.getElementById("td" + dict[key] + pregled.vreme);
-                    td.style.backgroundColor = boja();
-                    td.innerHTML = "<div><label> Datum:" + pregled.datum + " </label><br><label>Vreme: </label>" + pregled.vreme + "<br><label>Trajanje: </label>" + pregled.trajanje + " min<br><label>Pacijent: </label>" + pregled.pacijent + "<br><label>Tip pregleda: </label>" + pregled.tipPregleda + " </div > ";
+            if (window.tipKorisnika == "lekar") {
+                for (let pregled of data) {
+                    if (window.ulogovani.id == pregled.lekarID) {
+                        let td = document.getElementById("td" + dict[key] + pregled.vreme);
+                        td.style.backgroundColor = boja();
+                        td.innerHTML = "<div><label> Datum:" + pregled.datum + " </label><br><label>Vreme: </label>" + pregled.vreme + "<br><label>Trajanje: </label>" + pregled.trajanje + " min<br><label>Pacijent: </label>" + pregled.pacijent + "<br><label>Tip pregleda: </label>" + pregled.tipPregleda + " </div > ";
+                    }
                 }
             }
         },

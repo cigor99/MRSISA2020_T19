@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,7 @@ import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.MedicinskaSestra;
 import MRSISA.Klinicki.centar.domain.Pregled;
 import MRSISA.Klinicki.centar.domain.ZahtevZaGodisnjiOdmor;
+import MRSISA.Klinicki.centar.dto.LekarDTO;
 import MRSISA.Klinicki.centar.dto.ZahtevZaGodisnjiDTO;
 import MRSISA.Klinicki.centar.service.LekarService;
 import MRSISA.Klinicki.centar.service.MedicinskaSestraSerive;
@@ -33,8 +36,12 @@ public class ZahtevZGController {
 
 	@Autowired
 	private LekarService lekarService;
+
 	@Autowired
 	private MedicinskaSestraSerive medicinskaSestraSerive;
+
+	@Autowired
+	HttpServletRequest request;
 
 	@PostMapping("/ZZG/add")
 	public ResponseEntity<Object> addZahtev(@RequestBody ZahtevZaGodisnjiDTO zahtevDTO) {
@@ -60,10 +67,24 @@ public class ZahtevZGController {
 				|| zahtev.getKrajnjiDatum().before(zahtev.getPocetniDatum())) {
 			return new ResponseEntity<>("Neispravan redosled datuma", HttpStatus.BAD_REQUEST);
 		}
+		List<ZahtevZaGodisnjiOdmor> zahtevi = zahtevService.findAll();
 
 		if (zahtevDTO.getLekar() != null) {
 			lekar = lekarService.findOne(zahtevDTO.getLekar());
 		}
+//		for (ZahtevZaGodisnjiOdmor zahtevZaGodisnjiOdmor : zahtevi) {
+//			if(zahtevZaGodisnjiOdmor.getKrajnjiDatum().equals(zahtev.getKrajnjiDatum()) && zahtevZaGodisnjiOdmor.getId() == zahtevDTO.getId()) {
+//				return new ResponseEntity<>("Zahtev nije moguć", HttpStatus.BAD_REQUEST);
+//			}
+//			if(zahtevZaGodisnjiOdmor.getPocetniDatum().equals(zahtev.getPocetniDatum()) && zahtevZaGodisnjiOdmor.getId() == zahtevDTO.getId()) {
+//				return new ResponseEntity<>("Zahtev nije moguć", HttpStatus.BAD_REQUEST);
+//			}
+//			if(zahtevZaGodisnjiOdmor.getPocetniDatum().after(zahtev.getPocetniDatum()) && zahtevZaGodisnjiOdmor.getId() == zahtevDTO.getId()) {
+//				return new ResponseEntity<>("Zahtev nije moguć", HttpStatus.BAD_REQUEST);
+//			}
+//			
+//		}
+		
 		if (zahtevDTO.getMedicinskaSestra() != null) {
 			medSes = medicinskaSestraSerive.findOne(zahtevDTO.getMedicinskaSestra());
 		}
@@ -104,6 +125,27 @@ public class ZahtevZGController {
 		zahtev = zahtevService.save(zahtev);
 
 		return new ResponseEntity<>(new ZahtevZaGodisnjiDTO(zahtev), HttpStatus.OK);
+	}
+
+	@GetMapping("/ZZG/getZahtev")
+	public ResponseEntity<Object> getAll() {
+		Object logged = request.getSession().getAttribute("current");
+		Object tipKorisnika = request.getSession().getAttribute("tip");
+		System.out.println(request.getSession().getId());
+		System.out.println(logged);
+		System.err.println(tipKorisnika);
+		List<ZahtevZaGodisnjiOdmor> godisnji = zahtevService.findAll();
+		List<ZahtevZaGodisnjiDTO> retVal = new ArrayList<ZahtevZaGodisnjiDTO>();
+		if (tipKorisnika.equals("lekar")) {
+
+			for (ZahtevZaGodisnjiOdmor zahtevZaGodisnjiOdmor : godisnji) {
+				if (zahtevZaGodisnjiOdmor.getLekar().getId() == ((LekarDTO) logged).getId()) {
+					retVal.add(new ZahtevZaGodisnjiDTO(zahtevZaGodisnjiOdmor));
+				}
+			}
+		}
+
+		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
 
 }
