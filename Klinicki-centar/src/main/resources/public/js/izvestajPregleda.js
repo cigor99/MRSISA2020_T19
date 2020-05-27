@@ -97,6 +97,25 @@ $(document).ready(function() {
         if (uslov) {
             return;
         }
+        if (pregledID == undefined) {
+            let danas = new Date();
+            // alert("OVDE")
+            $.ajax({
+                url: '/klinicki-centar/pregled/getDnevniPregled/' + danas.getDate() + '/' + parseInt(danas.getMonth() + 1),
+                type: "get",
+                success: function(data) {
+                    for (let pregled of data) {
+                        if (pregled.pacijentID == IDpacijenta) {
+                            pregledID = pregled.id;
+                        }
+                    }
+                },
+                error: function(jqXHR) {
+                    alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+                },
+                async: false,
+            })
+        }
         let receptID;
         let receptJednako;
         let podaci
@@ -104,6 +123,7 @@ $(document).ready(function() {
             let receptJednako = imeCoded.split("&")[4];
             let receptID = receptJednako.split("=")[1];
             // alert(receptID);
+
             podaci = JSON.stringify({
                 id: 1,
                 opis: $("#opis").val(),
