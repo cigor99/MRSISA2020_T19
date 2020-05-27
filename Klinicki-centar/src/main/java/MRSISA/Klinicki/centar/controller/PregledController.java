@@ -126,6 +126,8 @@ public class PregledController {
 		
 		return new ResponseEntity<>(new PregledDTO(pregled), HttpStatus.CREATED);
 	}
+	
+//	Funkcija vraća listu pregleda za određeni dan i mesec
 	@GetMapping("/getDnevniPregled/{dan}/{mesec}")
 	public ResponseEntity<Object> getDnevniPregled(@PathVariable String dan, @PathVariable String mesec){
 		
@@ -139,6 +141,7 @@ public class PregledController {
 		
 		return new ResponseEntity<>(retVal, HttpStatus.OK); 
 	}
+//	Funkcija vraća listu pregleda za određeni mesec
 	@GetMapping("/getDnevniPregled/{mesec}")
 	public ResponseEntity<Object> getDnevniPregled(@PathVariable String mesec){
 		List<Pregled>pregledi =  pregledService.findAll();
