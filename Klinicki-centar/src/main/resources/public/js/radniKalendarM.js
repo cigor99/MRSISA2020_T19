@@ -4,6 +4,7 @@ $(document).ready(function() {
     let mesec = prviPut();
     iscrtaj();
     popuni();
+    // odmor();
 
 
     //POPUNJAVA TABELU SA PREGLEDIMA
@@ -12,51 +13,170 @@ $(document).ready(function() {
             url: "/klinicki-centar/pregled/getDnevniPregled/" + getMesec(),
             type: 'get',
             success: function(data) {
+                let zahtevi = []
+                $.ajax({
+                    url: "/klinicki-centar/ZZG/getZahtev",
+                    type: "get",
+                    success: function(data) {
+                        for (let zahtev of data) {
+                            // alert(zahtev.pocetniDatum);
+                            zahtevi.push(zahtev);
+                        }
+                    },
+                    async: false,
+                });
+                // alert(zahtevi)
                 let polje;
                 let prviDan = datum();
                 let nedelje;
-                let uslov;
-                if (window.tipKorisnika == "lekar") {
-                    for (let pregled of data) {
-                        let dan = (parseInt(pregled.datum.substring(0, 2)) + parseInt(prviDan))
-                        let danPOLJE = (parseInt(pregled.datum.substring(0, 2)) + parseInt(prviDan)) % 7;
-                        if (danPOLJE == 0) {
-                            danPOLJE = 7;
-                        }
-                        nedelje = Math.ceil(dan / 7);
-                        if ($("#td" + nedelje.toString() + danPOLJE.toString()).html() === "" &&
-                            window.ulogovani.id == pregled.lekarID) {
-                            polje = $("#td" + nedelje.toString() + danPOLJE.toString())
 
-                            let color = Math.floor((Math.random() * 6) + 1);
-                            let boja;
-                            switch (color % 6) {
-                                case 0:
-                                    boja = "#f54251";
-                                    break;
-                                case 1:
-                                    boja = "#2a6df4";
-                                    break;
-                                case 2:
-                                    boja = "darksalmon";
-                                    break;
-                                case 3:
-                                    boja = "bisque";
-                                    break;
-                                case 4:
-                                    boja = "mediumspringgreen";
-                                    break;
-                                case 5:
-                                    boja = "turquoise";
-                                    break;
+
+                let danPoc;
+                let danKraj;
+                let mesecPoc;
+                let mesecKraj;
+                let dan;
+                let danPOLJE;
+                let trenutniMesec = getMesec();
+                for (let zah of zahtevi) {
+                    danPoc = zah.pocetniDatum.substring(8, 10);
+                    danKraj = zah.krajnjiDatum.substring(8, 10);
+                    mesecPoc = zah.pocetniDatum.substring(5, 7);
+                    mesecKraj = zah.krajnjiDatum.substring(5, 7);
+                    if (mesecPoc == mesecKraj) {
+                        for (let index = danPoc; index <= danKraj; index++) { //AKO JE ISTI MESEC
+
+                            dan = parseInt(index) + parseInt(prviDan);
+                            danPOLJE = (parseInt(index) + parseInt(prviDan)) % 7;
+                            if (danPOLJE == 0) {
+                                danPOLJE = 7;
                             }
-                            polje.css('background-color', boja);
-                            if (mesec.toString().length == 1) {
-                                mesec = "0" + mesec.toString();
+                            nedelje = Math.ceil(dan / 7);
+                            if (window.tipKorisnika == "lekar") {
+                                if (window.ulogovani.id == zah.lekar && (parseInt(mesecPoc) == trenutniMesec || trenutniMesec == parseInt(mesecKraj))) {
+
+                                    polje = $("#td" + nedelje.toString() + danPOLJE.toString())
+                                    polje.empty();
+                                    polje.css('background-color', 'greenyellow');
+                                    polje.append("Godišnji odmor")
+                                }
+                            } else if (window.tipKorisnika == "sestra") {
+                                if (window.ulogovani.id == zah.medicinskaSestra && (parseInt(mesecPoc) == trenutniMesec || trenutniMesec == parseInt(mesecKraj))) {
+
+                                    polje = $("#td" + nedelje.toString() + danPOLJE.toString())
+                                    polje.empty();
+                                    polje.css('background-color', 'greenyellow');
+                                    polje.append("Godišnji odmor")
+                                }
                             }
-                            polje.append("Pregled " + pregled.datum.substring(0, 2) + "." + getMesec())
-                            polje.attr("onclick", "dobavi(" + pregled.datum.substring(0, 2) + ")");
-                            uslov = false;
+                        }
+                    } else { // AKO SE GODISNJI PROTEZE KROZ DVA MESECA
+                        let brDana = brojaDanaUMesecu(trenutniMesec);
+                        if (trenutniMesec == parseInt(mesecPoc)) { //ISPIS ZA PRVI MESEC
+                            for (let index = danPoc; index <= brDana; index++) {
+                                dan = parseInt(index) + parseInt(prviDan);
+                                danPOLJE = (parseInt(index) + parseInt(prviDan)) % 7;
+                                if (danPOLJE == 0) {
+                                    danPOLJE = 7;
+                                }
+                                nedelje = Math.ceil(dan / 7);
+
+                                if (window.tipKorisnika == "lekar") {
+                                    if (window.ulogovani.id == zah.lekar && (parseInt(mesecPoc) == trenutniMesec || trenutniMesec == parseInt(mesecKraj))) {
+                                        polje = $("#td" + nedelje.toString() + danPOLJE.toString())
+                                        polje.empty();
+                                        polje.css('background-color', 'greenyellow');
+                                        polje.append("Godišnji odmor")
+                                    }
+                                } else if (window.tipKorisnika == "sestra") {
+                                    if (window.ulogovani.id == zah.medicinskaSestra && (parseInt(mesecPoc) == trenutniMesec || trenutniMesec == parseInt(mesecKraj))) {
+                                        polje = $("#td" + nedelje.toString() + danPOLJE.toString())
+                                        polje.empty();
+                                        polje.css('background-color', 'greenyellow');
+                                        polje.append("Godišnji odmor")
+                                    }
+                                }
+
+                            }
+                        } else if (trenutniMesec == parseInt(mesecKraj)) { //ISPIS ZA DRUGI MESEC
+                            for (let index = 0; index <= danKraj; index++) {
+
+                                dan = parseInt(index) + parseInt(prviDan);
+                                danPOLJE = (parseInt(index) + parseInt(prviDan)) % 7;
+                                if (danPOLJE == 0) {
+                                    danPOLJE = 7;
+                                }
+                                nedelje = Math.ceil(dan / 7);
+                                if (window.tipKorisnika == "lekar") {
+                                    if (window.ulogovani.id == zah.lekar) {
+                                        if ($("#td" + nedelje.toString() + danPOLJE.toString()).html() != "") {
+                                            polje = $("#td" + nedelje.toString() + danPOLJE.toString())
+                                            polje.empty();
+                                            polje.css('background-color', 'greenyellow');
+                                            polje.append("Godišnji odmor")
+                                        }
+                                    }
+                                } else if (window.tipKorisnika == "sestra") {
+                                    if (window.ulogovani.id == zah.medicinskaSestra) {
+                                        if ($("#td" + nedelje.toString() + danPOLJE.toString()).html() != "") {
+                                            polje = $("#td" + nedelje.toString() + danPOLJE.toString())
+                                            polje.empty();
+                                            polje.css('background-color', 'greenyellow');
+                                            polje.append("Godišnji odmor")
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+
+                for (let pregled of data) {
+                    if (window.tipKorisnika == "lekar") {
+                        if (window.ulogovani.id == pregled.lekarID) {
+                            let dan = (parseInt(pregled.datum.substring(0, 2)) + parseInt(prviDan))
+                            let danPOLJE = (parseInt(pregled.datum.substring(0, 2)) + parseInt(prviDan)) % 7;
+                            if (danPOLJE == 0) {
+                                danPOLJE = 7;
+                            }
+                            nedelje = Math.ceil(dan / 7);
+                            if ($("#td" + nedelje.toString() + danPOLJE.toString()).html().length < 5 &&
+                                window.ulogovani.id == pregled.lekarID && $("#td" + nedelje.toString() + danPOLJE.toString()).html() != "") {
+                                polje = $("#td" + nedelje.toString() + danPOLJE.toString())
+                                polje.empty();
+
+                                let color = Math.floor((Math.random() * 6) + 1);
+                                let boja;
+                                switch (color % 6) {
+                                    case 0:
+                                        boja = "#f54251";
+                                        break;
+                                    case 1:
+                                        boja = "#2a6df4";
+                                        break;
+                                    case 2:
+                                        boja = "darksalmon";
+                                        break;
+                                    case 3:
+                                        boja = "bisque";
+                                        break;
+                                    case 4:
+                                        boja = "mediumspringgreen";
+                                        break;
+                                    case 5:
+                                        boja = "turquoise";
+                                        break;
+                                }
+                                polje.css('background-color', boja);
+                                if (mesec.toString().length == 1) {
+                                    mesec = "0" + mesec.toString();
+                                }
+                                polje.append("Pregled " + pregled.datum.substring(0, 2) + "." + getMesec())
+                                polje.attr("onclick", "dobavi(" + pregled.datum.substring(0, 2) + ")");
+                                uslov = false;
+                            }
                         }
                     }
                 }
@@ -175,6 +295,19 @@ $(document).ready(function() {
 
 });
 
+function odmor() {
+
+    $.ajax({
+        url: "/klinicki-centar/ZZG/getZahtev",
+        type: "get",
+        success: function(data) {
+            for (let zahtev of data) {
+                alert(zahtev.pocetniDatum);
+            }
+        }
+    });
+}
+
 
 //ODREDJUJE DAN OD KOG DANA POCINJE POPUNJAVANJE KALENDARA, DA LI IMA PRAZNIH POLJA NA POCETKU
 function datum() {
@@ -217,10 +350,11 @@ function iscrtaj() {
     let tbody = $("#tbody");
     let counter = 1;
     let DO = datum();
-
+    let mesec = getMesec();
     let tr;
     let td;
     let uslov;
+    let brojac = 1;
     for (let nedelje = 1; nedelje < 6; nedelje++) {
         let tr = $("<tr></tr>");
         uslov = true;
@@ -237,10 +371,31 @@ function iscrtaj() {
                 td.css('background-color', 'gray');
             } else {
                 td.css('background-color', '#e6ffe6');
+
+                if (mesec == 1 || mesec == 3 || mesec == 5 || mesec == 7 || mesec == 8 || mesec == 10 || mesec == 12) {
+                    if (brojac > 31) {
+                        brojac = -100;
+                    }
+                } else if (mesec == 2) {
+                    if (brojac > 29) {
+                        brojac = -100;
+                    }
+                } else {
+                    if (brojac > 30) {
+                        brojac = -100;
+                    }
+                }
+                if (brojac > 0) {
+                    td.append(brojac + "." + mesec);
+                } else {
+                    td.css('background-color', 'gray');
+                }
+                brojac++;
             }
 
             if (document.getElementById("td" + nedelje.toString() + dan.toString()) == null) {
                 td.attr("id", "td" + nedelje.toString() + dan.toString());
+
                 tr.append(td);
             }
             counter++;
@@ -251,6 +406,16 @@ function iscrtaj() {
     }
 }
 
+function brojaDanaUMesecu(mesec) {
+    if (mesec == 1 || mesec == 3 || mesec == 5 || mesec == 7 || mesec == 8 || mesec == 10 || mesec == 12) {
+        brojac = 31;
+    } else if (mesec == 2) {
+        brojac = 29;
+    } else {
+        brojac = 30;
+    }
+    return brojac;
+}
 
 //FUNKCIJA KOJA OTVARA NOVI PROZOR ZA ZADATI DATUM
 function dobavi(dan) {

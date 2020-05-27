@@ -43,61 +43,72 @@ function godisnji(d) {
                 danKraj = zahtev.krajnjiDatum.substring(8, 10);
 
 
-                let nedelja = getNedelja(d);
+                // let nedelja = getNedelja(d);
+                let nedelja = [];
 
-                let pocetak = getDatum(danPoc + " " + mesecPoc + " " + godPocetka);
-                let kraj = getDatum(danKraj + " " + mesecKraj + " " + godKraj);
-                let razlika = []
-                let counter = 0;
-                let dat1 = parseInt(danPoc) + counter;
-                for (let index = pocetak; index <= kraj; index++) {
+                var curr = new Date($("#datum").val());
 
-                    dat1 = daniUMesecu(mesecPoc, dat1);
 
-                    if (jQuery.inArray(dat1, razlika) == -1) {
-                        razlika.push(dat1);
-                    }
+                var firstday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 1));
+                var lastday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 7));
+                lastday.setHours(0, 0, 0, 0);
+                firstday.setHours(0, 0, 0, 0);
+                let datumPocetka = new Date(mesecPoc + ' ' + danPoc + ' ' + godPocetka);
+                let datumKraja = new Date(mesecKraj + ' ' + danKraj + " " + godKraj);
+                // let param = curr.getDate();
 
-                    dat1++;
+                let mesec = datumPocetka.getMonth() + 1;
+                if (mesec.toString().length == 1) {
+                    mesec = "0" + mesec.toString();
                 }
+                let dan = datumPocetka.getDate();
+                if (dan.toString().length == 1) {
+                    dan = "0" + dan.toString();
+                }
+                let danas = getDatum(dan + " " + mesec + " " + curr.getFullYear());
 
-                dat1 = parseInt(danPoc) + counter;
-                if (pocetak > kraj) {
-                    for (let index = pocetak; index <= 6; index++) {
 
-                        dat1 = daniUMesecu(mesecPoc, dat1);
 
-                        if (jQuery.inArray(dat1, razlika) == -1) {
-                            razlika.push(dat1);
+                if (firstday <= datumPocetka && datumPocetka <= lastday) {
+                    if (datumKraja > lastday) {
+                        while (datumPocetka <= lastday) {
+                            let polje = $("[id^=" + "td" + danas + "]");
+                            polje.css('background-color', 'greenyellow');
+                            polje.append("Godišnji odmor")
+                            polje.append($("<br>"));
+                            polje.append("Datum:" + datumPocetka.getDate() + "." + parseInt(datumPocetka.getMonth() + 1))
+                            datumPocetka.setDate(datumPocetka.getDate() + 1);
+                            danas++;
                         }
-                        dat1++;
+                    } else {
+                        while (datumPocetka <= datumKraja) {
+
+                            // alert(datumPocetka);
+
+                            let polje = $("[id^=" + "td" + danas + "]");
+                            polje.css('background-color', 'greenyellow');
+                            polje.append("Godišnji odmor")
+                            polje.append($("<br>"));
+                            polje.append("Datum:" + datumPocetka.getDate() + "." + parseInt(datumPocetka.getMonth() + 1))
+                            datumPocetka.setDate(datumPocetka.getDate() + 1);
+                            danas++;
+
+                        }
                     }
-                    dat1 = parseInt(danPoc) + counter;
-                    for (let index = 0; index <= kraj; index++) {
-
-                        dat1 = daniUMesecu(mesecPoc, dat1);
-
-                        if (jQuery.inArray(dat1, razlika) == -1) {
-                            razlika.push(dat1);
+                } else {
+                    danas = 0;
+                    while (datumPocetka <= datumKraja) {
+                        if (firstday <= datumPocetka && datumPocetka <= lastday) {
+                            let polje = $("[id^=" + "td" + danas + "]");
+                            polje.css('background-color', 'greenyellow');
+                            polje.append("Godišnji odmor")
+                            polje.append($("<br>"));
+                            polje.append("Datum:" + datumPocetka.getDate() + "." + parseInt(datumPocetka.getMonth() + 1))
+                            danas++;
                         }
-                        dat1++;
+                        datumPocetka.setDate(datumPocetka.getDate() + 1);
                     }
                 }
-                // counter = 0;
-
-                // alert(razlika)
-                for (let dat of razlika) {
-                    for (const [key, value] of Object.entries(nedelja)) {
-
-                        if (key == dat.toString() && (d.getMonth() + 1 == parseInt(mesecPoc) || d.getMonth() == parseInt(mesecKraj))) {
-                            let polje = $("[id^=" + "td" + nedelja[key] + "]");
-                            polje.css("background-color", "red");
-                        }
-                    }
-                }
-
-
-
 
             }
         }
@@ -135,33 +146,6 @@ function pronalazenjeDatuma(d) {
     let danas = getDatum(dan + " " + mesec + " " + d.getFullYear());
     var dict = {}; //key = datum, value = pozicija u tabeli
 
-    for (let index = danas; index <= 6; index++) {
-        dict[d.getDate() + 6 - index] = index;
-    }
-
-    for (let index = danas; index > 0; index--) {
-
-        dict[d.getDate() - index] = 7 - index - 1;
-    }
-    for (var key in dict) {
-        dobavi(key, dict, d);
-    }
-}
-
-
-//FUNKCIJA VRACA REČNIK, KLJUČ JE DATUM, VREDNOST JE POLJE U TABELI (DAN U NEDELJI)
-function getNedelja(d) {
-
-    let mesec = d.getMonth() + 1;
-    if (mesec.toString().length == 1) {
-        mesec = "0" + mesec.toString();
-    }
-    let dan = d.getDate();
-    if (dan.toString().length == 1) {
-        dan = "0" + dan.toString();
-    }
-    let danas = getDatum(dan + " " + mesec + " " + d.getFullYear());
-    var dict = {}; //key = datum, value = pozicija u tabeli
     let dat = parseInt(d.getDate());
 
     for (let index = danas; index <= 6; index++) {
@@ -198,6 +182,99 @@ function getNedelja(d) {
             }
         }
         dict[d.getDate() - index] = brojac;
+        brojac++;
+    }
+    for (var key in dict) {
+        dobavi(key, dict, d);
+    }
+}
+
+
+//FUNKCIJA VRACA REČNIK, KLJUČ JE DATUM, VREDNOST JE POLJE U TABELI (DAN U NEDELJI)
+function getNedelja(d) {
+
+    let mesec = d.getMonth() + 1;
+    if (mesec.toString().length == 1) {
+        mesec = "0" + mesec.toString();
+    }
+    let dan = d.getDate();
+    if (dan.toString().length == 1) {
+        dan = "0" + dan.toString();
+    }
+    let danas = getDatum(dan + " " + mesec + " " + d.getFullYear());
+    var dict = {}; //key = datum, value = pozicija u tabeli
+    let dat = parseInt(d.getDate());
+    let prethodniMesec;
+    let prethodniMESEC = mesec - 1;
+    for (let index = danas; index <= 6; index++) {
+        if (mesec == 1 || mesec == 3 || mesec == 5 || mesec == 7 || mesec == 8 || mesec == 10 || mesec == 12) {
+            if (dat > 31) {
+                dat = 1;
+            } else {
+                prethodniMesec = 31;
+            }
+        } else if (mesec == 2) {
+            if (dat > 29) {
+                dat = 1;
+            } else {
+                prethodniMesec = 29;
+            }
+        } else {
+            if (dat > 30) {
+                dat = 1;
+            } else {
+                prethodniMesec = 30;
+            }
+        }
+        dict[dat] = index;
+        dat++;
+    }
+
+    if (prethodniMESEC == 1 || prethodniMESEC == 3 || prethodniMESEC == 5 || prethodniMESEC == 7 || prethodniMESEC == 8 || prethodniMESEC == 10 || prethodniMESEC == 12) {
+        if (dat > 31) {
+            dat = 1;
+        } else {
+            prethodniMesec = 31;
+        }
+    } else if (prethodniMESEC == 2) {
+        if (dat > 29) {
+            dat = 1;
+        } else {
+            prethodniMesec = 29;
+        }
+    } else {
+        if (dat > 30) {
+            dat = 1;
+        } else {
+            prethodniMesec = 30;
+        }
+    }
+
+
+
+    let brojac = 0;
+
+    for (let index = danas; index > 0; index--) {
+        if (mesec == 1 || mesec == 3 || mesec == 5 || mesec == 7 || mesec == 8 || mesec == 10 || mesec == 12) {
+            if (dat > 31) {
+                dat = 1;
+            }
+        } else if (mesec == 2) {
+            if (dat > 29) {
+                dat = 1;
+            }
+        } else {
+            if (dat > 30) {
+                dat = 1;
+            }
+        }
+        if (d.getDate() - index > 0) {
+            dict[d.getDate() - index] = brojac;
+        } else {
+            dict[prethodniMesec] = index - 1;
+            prethodniMesec--;
+        }
+
         brojac++;
     }
 

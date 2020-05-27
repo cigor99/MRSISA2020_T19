@@ -23,6 +23,7 @@ import MRSISA.Klinicki.centar.domain.MedicinskaSestra;
 import MRSISA.Klinicki.centar.domain.Pregled;
 import MRSISA.Klinicki.centar.domain.ZahtevZaGodisnjiOdmor;
 import MRSISA.Klinicki.centar.dto.LekarDTO;
+import MRSISA.Klinicki.centar.dto.MedicinskaSestraDTO;
 import MRSISA.Klinicki.centar.dto.ZahtevZaGodisnjiDTO;
 import MRSISA.Klinicki.centar.service.LekarService;
 import MRSISA.Klinicki.centar.service.MedicinskaSestraSerive;
@@ -72,19 +73,7 @@ public class ZahtevZGController {
 		if (zahtevDTO.getLekar() != null) {
 			lekar = lekarService.findOne(zahtevDTO.getLekar());
 		}
-//		for (ZahtevZaGodisnjiOdmor zahtevZaGodisnjiOdmor : zahtevi) {
-//			if(zahtevZaGodisnjiOdmor.getKrajnjiDatum().equals(zahtev.getKrajnjiDatum()) && zahtevZaGodisnjiOdmor.getId() == zahtevDTO.getId()) {
-//				return new ResponseEntity<>("Zahtev nije moguć", HttpStatus.BAD_REQUEST);
-//			}
-//			if(zahtevZaGodisnjiOdmor.getPocetniDatum().equals(zahtev.getPocetniDatum()) && zahtevZaGodisnjiOdmor.getId() == zahtevDTO.getId()) {
-//				return new ResponseEntity<>("Zahtev nije moguć", HttpStatus.BAD_REQUEST);
-//			}
-//			if(zahtevZaGodisnjiOdmor.getPocetniDatum().after(zahtev.getPocetniDatum()) && zahtevZaGodisnjiOdmor.getId() == zahtevDTO.getId()) {
-//				return new ResponseEntity<>("Zahtev nije moguć", HttpStatus.BAD_REQUEST);
-//			}
-//			
-//		}
-		
+
 		if (zahtevDTO.getMedicinskaSestra() != null) {
 			medSes = medicinskaSestraSerive.findOne(zahtevDTO.getMedicinskaSestra());
 		}
@@ -104,6 +93,26 @@ public class ZahtevZGController {
 			Set<Pregled> pregledi = lekar.getPregledi();
 			Iterator<Pregled> value = pregledi.iterator();
 
+//			Set<ZahtevZaGodisnjiOdmor> godisnji = lekar.getZahteviZaGodisnji();
+//			Iterator<ZahtevZaGodisnjiOdmor> it1 = godisnji.iterator();
+//			Date datumPoc = null;
+//			Date datumKraj = null;
+//			ZahtevZaGodisnjiOdmor zzg = null;
+//			while (it1.hasNext()) {
+//				zzg = it1.next();
+//				System.out.println(zzg.getId());
+//				if (zzg != null) {
+//					
+//					datumKraj = zzg.getKrajnjiDatum();
+//					datumPoc = zzg.getPocetniDatum();
+//					System.out.println(datumPoc + "       " + datumKraj);
+//					if (datumPoc.after(zahtev.getPocetniDatum()) && datumKraj.before(zahtev.getKrajnjiDatum())) {
+//						return new ResponseEntity<>("U izabranom terminu ste već na godišnjem odmoru",
+//								HttpStatus.BAD_REQUEST);
+//					}
+//				}
+//			}
+
 			Date datum = null;
 			while (value.hasNext()) {
 				datum = value.next().getDatum();
@@ -120,6 +129,7 @@ public class ZahtevZGController {
 			zahtev.setMedicinskaSestra(medSes);
 			medSes.getZahteviZaGodisnji().add(zahtev);
 			medSes = medicinskaSestraSerive.save(medSes);
+
 		}
 
 		zahtev = zahtevService.save(zahtev);
@@ -139,8 +149,18 @@ public class ZahtevZGController {
 		if (tipKorisnika.equals("lekar")) {
 
 			for (ZahtevZaGodisnjiOdmor zahtevZaGodisnjiOdmor : godisnji) {
-				if (zahtevZaGodisnjiOdmor.getLekar().getId() == ((LekarDTO) logged).getId()) {
-					retVal.add(new ZahtevZaGodisnjiDTO(zahtevZaGodisnjiOdmor));
+				if (zahtevZaGodisnjiOdmor.getLekar() != null) {
+					if (zahtevZaGodisnjiOdmor.getLekar().getId() == ((LekarDTO) logged).getId()) {
+						retVal.add(new ZahtevZaGodisnjiDTO(zahtevZaGodisnjiOdmor));
+					}
+				}
+			}
+		} else if (tipKorisnika.equals("sestra")) {
+			for (ZahtevZaGodisnjiOdmor zahtevZaGodisnjiOdmor : godisnji) {
+				if (zahtevZaGodisnjiOdmor.getMedicinskaSestra() != null) {
+					if (zahtevZaGodisnjiOdmor.getMedicinskaSestra().getId() == ((MedicinskaSestraDTO) logged).getId()) {
+						retVal.add(new ZahtevZaGodisnjiDTO(zahtevZaGodisnjiOdmor));
+					}
 				}
 			}
 		}
