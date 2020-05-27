@@ -20,20 +20,20 @@ public class IzvestajPregledaDTO {
 	private Integer id;
 	private String opis;
 	private String dijagnoza;// SIFRA DIJAGNOZE(Ne ID)
-//	private Integer pregled;
+	private Integer pregled;
 	private Integer lekar;
 	private Integer recept;
 
 	public IzvestajPregledaDTO() {
 
 	}
-	public IzvestajPregledaDTO(Integer id,String opis, String dijagnoza, Integer lekar) {
+
+	public IzvestajPregledaDTO(Integer id, String opis, String dijagnoza, Integer lekar) {
 		System.out.println("Konstruktor 2");
 		this.id = id;
 		this.opis = opis;
 		this.dijagnoza = dijagnoza;
 		this.lekar = lekar;
-		
 	}
 
 	public IzvestajPregledaDTO(IzvestajPregleda izvestajPregleda) {
@@ -42,11 +42,18 @@ public class IzvestajPregledaDTO {
 		this.id = izvestajPregleda.getId();
 		this.opis = izvestajPregleda.getOpis();
 		this.lekar = izvestajPregleda.getLekar().getId();
-//		System.out.println(izvestajPregleda.getRecept().getId());
-//		this.recept = izvestajPregleda.getRecept().getId();
+		if (izvestajPregleda.getRecept() != null) {
+			System.out.println(izvestajPregleda.getRecept().getId());
+			this.recept = izvestajPregleda.getRecept().getId();
+		}
+		if (izvestajPregleda.getPregled() != null) {
+			this.pregled = izvestajPregleda.getPregled().getId();
+		}
+
 	}
 
-	public IzvestajPregledaDTO(Integer id,String opis, String dijagnoza, Integer lekar, Integer recept) {
+	public IzvestajPregledaDTO(Integer id, String opis, String dijagnoza, Integer lekar, Integer recept,
+			Integer pregled) {
 		super();
 		System.out.println("Konstruktor 1");
 		this.id = id;
@@ -54,8 +61,8 @@ public class IzvestajPregledaDTO {
 		this.dijagnoza = dijagnoza;
 		this.lekar = lekar;
 		this.recept = recept;
+		this.pregled = pregled;
 	}
-	
 
 	public Integer getId() {
 		return id;
@@ -96,5 +103,15 @@ public class IzvestajPregledaDTO {
 	public void setRecept(Integer recept) {
 		this.recept = recept;
 	}
+
+	public Integer getPregled() {
+		return pregled;
+	}
+
+	public void setPregled(Integer pregled) {
+		this.pregled = pregled;
+	}
+	
+	
 
 }

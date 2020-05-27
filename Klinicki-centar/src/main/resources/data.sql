@@ -47,8 +47,8 @@ INSERT INTO ZAHTEVI_ZA_REGISTRACIJU (ID_ZZR, STANJE_ZAHTEVA, KLINICKI_CENTAR, PA
 (2,1,1,4);
 
 INSERT INTO ADMINI_KLINIKE (ID_ADMINK, EMAIL, IME, JMBG, LOZINKA, PREZIME, TIP_KORISNIKA, KLINIKA) VALUES
-(1, 'ilijag@hotmail.com', 'Marko', '1234567891011', 'nemam', 'Markovic', NULL, 1),
-(2, 'GDBxNS98@gmail.com', 'Mirko', '1234567891012', 'nema', 'Mirkovic', NULL, 2);
+(1, 'ilijag123@hotmail.com', 'Marko', '1234567891011', 'nemam', 'Markovic', 1, 1),
+(2, 'GDBxNS98@gmail.com', 'Mirko', '1234567891012', 'nema', 'Mirkovic', 1, 2);
 
 INSERT INTO LEKAR (ID_LEKARA, EMAIL, IME, JMBG, LOZINKA, PREZIME, OCENA, TIP_KORISNIKA, KLINIKA) VALUES
 (1, 'lekar1@gmail.com', 'Nikola', '1234567891041', '123', 'Milosevic', NULL, 2, 1),

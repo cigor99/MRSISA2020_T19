@@ -45,7 +45,7 @@ public class IzvestajPregleda {
 	@JoinColumn(name = "lekar", referencedColumnName = "ID_lekara", nullable = false)
 	private Lekar lekar;
 
-	@OneToOne()//cascade = { CascadeType.ALL }
+	@OneToOne()  //cascade = { CascadeType.ALL }
 	@JoinColumn(name = "recept", referencedColumnName = "ID_Recepta")
 	private Recept recept;
 

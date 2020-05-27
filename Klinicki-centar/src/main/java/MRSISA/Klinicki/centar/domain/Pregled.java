@@ -50,7 +50,7 @@ public class Pregled {
 	@Column(name = "slobodan", unique = false, nullable = false)
 	private boolean slobodan;
 
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "pregled")
+	@OneToMany( fetch = FetchType.LAZY, mappedBy = "pregled")
 	private Set<IzvestajPregleda> izvestajiPregleda = new HashSet<IzvestajPregleda>();
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "pregled")

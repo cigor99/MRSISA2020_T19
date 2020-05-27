@@ -1,7 +1,7 @@
 package MRSISA.Klinicki.centar.dto;
 
 public class PrvoLogovanjeDTO {
-	private Integer id;
+	private Integer id; //JMBG KORISNIKA
 	private String sifra;
 
 	public PrvoLogovanjeDTO() {

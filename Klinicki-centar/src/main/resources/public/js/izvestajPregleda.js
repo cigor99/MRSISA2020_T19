@@ -2,18 +2,34 @@ $(document).ready(function() {
     var imeCoded = window.location.href.split("?")[1];
     var imeJednako = imeCoded.split("&")[0];
     var IDpacijenta = imeJednako.split("=")[1];
+    var pregledID;
 
-    if (imeCoded.split("&")[3] != undefined) {
-        let receptJednako = imeCoded.split("&")[3];
-        let receptID = receptJednako.split("=")[1];
-        $("#recepti").text("Dodali ste recept").css("visibility", 'visible').css('color', 'blue').css("font-style", 'italic').css("font-weight", 'bold');
+    if (imeCoded.split("&")[4] != undefined) {
+        let receptJednako = imeCoded.split("&")[4];
+        if (receptJednako.split("=")[0] == "rID") {
+            let receptID = receptJednako.split("=")[1];
+            $("#recepti").text("Dodali ste recept").css("visibility", 'visible').css('color', 'blue').css("font-style", 'italic').css("font-weight", 'bold');
+        }
 
     } else {
         $("#recepti").text("Nema nijedan recept").css("visibility", 'visible');
     }
     if (imeCoded.split("&")[1] != undefined) {
         var opisJednako = imeCoded.split("&")[1];
-        $("#opis").text(opisJednako.split("=")[1])
+        if (opisJednako.split("=")[0] == "opis") {
+            $("#opis").text(opisJednako.split("=")[1].split("%20").join(" "));
+        } else {
+            pregledID = opisJednako.split("=")[1];
+            // alert(pregledID);
+        }
+    }
+
+    if (imeCoded.split("&")[3] != undefined) {
+        let pregled = imeCoded.split("&")[3];
+        if (pregled.split("=")[0] == "prID") {
+            pregledID = pregled.split("=")[1];
+            // alert(pregledID);
+        }
     }
 
     $.ajax({
@@ -54,8 +70,15 @@ $(document).ready(function() {
         // window.open("recept.html?pID=" + IDpacijenta,
         //     'newwindow',
         //     'width=1200,height=650');
+
         window.location.replace("recept.html?pID=" + IDpacijenta + "&opis=" + $("#opis").val() + "&dgnz=" +
-            $("#select").val());
+            $("#select").val() + "&prID=" + pregledID);
+
+        // } else {
+        //     window.location.replace("recept.html?pID=" + IDpacijenta + "&opis=" + $("#opis").val() + "&dgnz=" +
+        //         $("#select").val() + "&prID=" + );
+
+        // }
     });
 
 
@@ -78,15 +101,16 @@ $(document).ready(function() {
         let receptJednako;
         let podaci
         if (imeCoded.split("&")[3] != undefined) {
-            receptJednako = imeCoded.split("&")[3];
-            receptID = receptJednako.split("=")[1];
-            alert(receptID);
+            let receptJednako = imeCoded.split("&")[4];
+            let receptID = receptJednako.split("=")[1];
+            // alert(receptID);
             podaci = JSON.stringify({
                 id: 1,
                 opis: $("#opis").val(),
                 dijagnoza: $("#select").val(),
                 lekar: window.ulogovani.id,
                 recept: parseInt(receptID),
+                pregled: pregledID,
             })
         } else {
             podaci = JSON.stringify({
@@ -94,6 +118,7 @@ $(document).ready(function() {
                 opis: $("#opis").val(),
                 dijagnoza: $("#select").val(),
                 lekar: window.ulogovani.id,
+                pregled: pregledID,
             })
         }
         // alert(window.ulogovani.id)

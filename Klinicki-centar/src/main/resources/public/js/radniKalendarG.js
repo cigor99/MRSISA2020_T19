@@ -170,8 +170,7 @@ function brojaDanaUMesecu(mesec) {
 //DOBAVLJA PREGLEDE U NOVOM PROZORU ZA ZADATI DATUM
 function dobavi(dan, mesec) {
     window.open("proba.html?d=" + dan.toString() + "&m=" + mesec.toString(),
-        'newwindow',
-        'width=700,height=500');
+        '_blank', );
 }
 
 //ISCRTAVA POCETNI KALENDAR, DODAJE SIVA POLJA ZA NEPOSTOJECE DATUME

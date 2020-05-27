@@ -37,7 +37,7 @@ public class ZdravstveniKarton {
 	@Column(name = "dioptrija", unique = false)
 	private double dioptrija;
 
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "zdravstveniKarton")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "zdravstveniKarton")
 	private Set<IzvestajPregleda> izvestaji;
 
 	@OneToOne(mappedBy = "zdravstveniKarton")
