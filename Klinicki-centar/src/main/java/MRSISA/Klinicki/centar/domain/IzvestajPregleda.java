@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "Izvestaji_Pregleda")
 public class IzvestajPregleda {
@@ -33,6 +35,7 @@ public class IzvestajPregleda {
 	@JoinColumn(name = "zdravstevniKarton", referencedColumnName = "ID_Zdravstvenog_kartona")
 	private ZdravstveniKarton zdravstveniKarton;
 
+	@JsonIgnoreProperties("dijagnoza")
 	@ManyToOne
 	@JoinColumn(name = "dijagnoza", referencedColumnName = "ID_Dijagnoza", nullable = false)
 	private Dijagnoza dijagnoza;

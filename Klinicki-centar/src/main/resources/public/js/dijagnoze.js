@@ -1,9 +1,9 @@
-$(document).ready(function(){
+$(document).ready(function() {
     $.ajax({
-        url:"/klinicki-centar/KC/sifarnikDijagnoza/getAll",
+        url: "/klinicki-centar/KC/sifarnikDijagnoza/getAll",
         type: "GET",
-        success:function(data){
-            for(let dijagnoza of data){
+        success: function(data) {
+            for (let dijagnoza of data) {
                 let table = $("#dijagnoze");
                 let tr = $("<tr id=\"tr" + dijagnoza.id + "\"></tr>");
 
@@ -20,28 +20,32 @@ $(document).ready(function(){
                 table.append(tr);
             }
         },
-        error: function (jqXHR) {
+        error: function(jqXHR) {
             alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
         }
 
     });
 
-    $("#dodaj").click(function(){
+    $("#dodaj").click(function() {
         window.location.replace("dodajDijagnozu.html");
     })
 
 
-    $("#obrisi").click(function(){
+    $("#obrisi").click(function() {
         $.ajax({
-            url: "/klinicki-centar/sifarnikDijagnoza/delete/"+ $("#IDBrisanja").val(),
+            url: "/klinicki-centar/sifarnikDijagnoza/delete/" + $("#IDBrisanja").val(),
             type: "DELETE",
-            success:function(){
+            success: function() {
                 $("#tr" + $("#IDBrisanja").val()).remove();
                 $("#IDBrisanja").val("");
                 alert("USPESNO BRISANJE DIJAGNOZE");
             },
-            error: function (jqXHR) {
-                alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+            error: function(jqXHR) {
+                if (jqXHR.status == 400) {
+                    alert("Nije moguće brisanje izabrane dijagnoze, jer se nalazi u izveštaju pregleda")
+                } else {
+                    alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+                }
             },
         })
     })

@@ -1,7 +1,9 @@
 package MRSISA.Klinicki.centar.controller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 //import java.lang.module.FindException;
 
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import MRSISA.Klinicki.centar.domain.Dijagnoza;
+import MRSISA.Klinicki.centar.domain.IzvestajPregleda;
 import MRSISA.Klinicki.centar.domain.KlinickiCentar;
 import MRSISA.Klinicki.centar.dto.DijagnozaDTO;
 import MRSISA.Klinicki.centar.service.DijagnozaService;
@@ -43,6 +46,12 @@ public class DijagnozaController {
 	@DeleteMapping("/sifarnikDijagnoza/delete/{id}")
 	public ResponseEntity<Void> deleteDijagnoza(@PathVariable Integer id){
 		Dijagnoza dijagnoza = dijaService.findOne(id);
+		Set<IzvestajPregleda> izvestaji = dijagnoza.getIzvestajiPregleda();
+		
+		if(dijagnoza.getIzvestajiPregleda().size() != 0) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
 		if(dijagnoza != null) {
 			dijaService.remove(id);
 			return new ResponseEntity<>(HttpStatus.OK);

@@ -1,9 +1,9 @@
-$(document).ready(function () {
-    $("#dodaj").click(function () {
-        var regex = /^[a-zA-Z0-9]{1,20}$/;
+$(document).ready(function() {
+    $("#dodaj").click(function() {
+        var regex = /^[a-zA-Z0-9 ]{1,20}$/;
         $("#sifraERROR").css('visibility', 'hidden')
         $("#nazivERROR").css('visibility', 'hidden')
-        
+
         if ($("#naziv").val() == "") {
             $("#nazivERROR").html("Naziv je obavezno polje").css('visibility', 'visible').css('color', 'red');
             return;
@@ -36,11 +36,11 @@ $(document).ready(function () {
                 sifra: $("#sifra").val(),
                 opis: $("#opis").val()
             }),
-            success: function (data) {
+            success: function(data) {
                 // alert("USPESNO")
                 window.location.replace("dijagnoze.html")
             },
-            error: function (jqXHR) {
+            error: function(jqXHR) {
                 alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
             },
 

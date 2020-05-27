@@ -287,11 +287,30 @@ function dobavi(key, dict, d) {
         url: "/klinicki-centar/pregled/getDnevniPregled/" + key + "/" + parseInt(d.getMonth() + 1),
         type: 'get',
         success: function(data) {
+            let color;
             if (window.tipKorisnika == "lekar") {
                 for (let pregled of data) {
                     if (window.ulogovani.id == pregled.lekarID) {
                         let td = document.getElementById("td" + dict[key] + pregled.vreme);
-                        td.style.backgroundColor = boja();
+                        color = boja();
+                        if (parseInt(pregled.trajanje) > 15) {
+                            let brPuta = (pregled.trajanje / 15);
+                            let minuti = 0;
+                            let sati;
+                            sati = parseInt(pregled.vreme.substring(0, 2));
+                            minuti = parseInt(pregled.vreme.substring(3, 6));
+                            for (let index = 0; index < brPuta - 1; index++) {
+                                minuti = parseInt(minuti) + 15;
+                                if (minuti == 60) {
+                                    minuti = "00"
+                                    sati++;
+                                }
+                                let td = document.getElementById("td" + dict[key] + sati.toString() + ":" + (minuti).toString());
+                                td.style.backgroundColor = color;
+                            }
+                        }
+
+                        td.style.backgroundColor = color;
                         td.innerHTML = "<div><label> Datum:" + pregled.datum + " </label><br><label>Vreme: </label>" + pregled.vreme + "<br><label>Trajanje: </label>" + pregled.trajanje + " min<br><label>Pacijent: </label>" + pregled.pacijent + "<br><label>Tip pregleda: </label>" + pregled.tipPregleda + " </div > ";
                     }
                 }

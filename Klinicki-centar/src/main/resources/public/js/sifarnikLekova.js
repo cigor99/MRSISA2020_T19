@@ -1,8 +1,8 @@
-$(document).ready(function () {
+$(document).ready(function() {
     $.ajax({
         type: "get",
         url: "/klinicki-centar/KC/sifarnikLekova/getAll",
-        success: function (data) {
+        success: function(data) {
 
             // alert(JSON.stringify(data));
             for (let lek of data) {
@@ -22,26 +22,30 @@ $(document).ready(function () {
             }
 
         },
-        error: function (jqXHR) {
+        error: function(jqXHR) {
             alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
         }
     });
 
-    $("#dodaj").click(function () {
+    $("#dodaj").click(function() {
         window.location.replace("dodajLek.html");
     });
 
-    $("#obrisi").click(function () {
+    $("#obrisi").click(function() {
         $.ajax({
             url: "/klinicki-centar/sifarnikLekova/deleteLek/" + $("#IDBrisanja").val(),
             type: "DELETE",
-            success: function () {
+            success: function() {
                 $("#tr" + $("#IDBrisanja").val()).remove();
                 $("#IDBrisanja").val("");
                 alert("USPESNO BRISANJE LEKA");
             },
-            error: function (jqXHR) {
-                alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+            error: function(jqXHR) {
+                if (jqXHR.status == 400) {
+                    alert("Nije moguće brisanje izabranog leka, jer se on već nalazi u receptu")
+                } else {
+                    alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+                }
             },
         })
     });
