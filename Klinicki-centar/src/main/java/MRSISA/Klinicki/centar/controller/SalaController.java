@@ -165,22 +165,34 @@ public class SalaController {
 			long tim = Long.parseLong(f[1])*60000;
 			date2.setTime(date.getTime()+tim);
 			System.out.println(date2);
+			int klinika = -1;
+			String tip = (String) request.getSession().getAttribute("tip");
+			if(tip.equals("adminKlinike")) {
+				AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
+				klinika = admink.getKlinikaID();
+			}
+			else if(tip.equals("lekar")) {
+				LekarDTO lekar = (LekarDTO) request.getSession().getAttribute("current");
+				klinika = lekar.getKlinikaID();
+			}				
 			for(Sala s : salaService.findAll()) {
-				boolean moze = true;
-				for(Pregled p : s.getPregledi()) {
-					Date datum1 = p.getDatum();
-					Date datum2 = new Date();
-					datum2.setTime(datum1.getTime()+p.getTipPregleda().getTrajanje());
-					if(date2.compareTo(datum1)<=0 || date.compareTo(datum2)>=0) {
-						moze = true;
+				if(klinika != -1 && s.getKlinika().getId().equals(klinika)) {
+					boolean moze = true;
+					for(Pregled p : s.getPregledi()) {
+						Date datum1 = p.getDatum();
+						Date datum2 = new Date();
+						datum2.setTime(datum1.getTime()+p.getTipPregleda().getTrajanje());
+						if(date2.compareTo(datum1)<=0 || date.compareTo(datum2)>=0) {
+							moze = true;
+						}
+						else {
+							moze = false;
+						}					
 					}
-					else {
-						moze = false;
-					}					
-				}
-				if(moze) {
-					SalaDTO sala = new SalaDTO(s);
-					retVal.add(sala);
+					if(moze) {
+						SalaDTO sala = new SalaDTO(s);
+						retVal.add(sala);
+					}
 				}
 			}
 		} catch (ParseException e) {
