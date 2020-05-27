@@ -171,6 +171,24 @@ public class ZahtevZGController {
 				}
 			}
 
+		}else if (lekar == null) {
+			SimpleDateFormat sdf1 = new SimpleDateFormat("dd.MM.yyyy.");
+			Object logged = request.getSession().getAttribute("current");
+			SimpleMailMessage msg = new SimpleMailMessage();
+			for (AdministratorKlinike admin : medSes.getKlinika().getAdministratori()) {
+				msg.setTo(admin.getEmail());
+				msg.setSubject("Zahtev za godišnji odmor");
+				msg.setText(((MedicinskaSestraDTO) logged).getIme() + " " + ((MedicinskaSestraDTO) logged).getPrezime()
+						+ " je zatražio godišnji odmor u periodu od " + sdf1.format(zahtev.getPocetniDatum()) + " do "
+						+ sdf1.format(zahtev.getKrajnjiDatum()));
+
+				try {
+					javaMailSender.send(msg);
+				} catch (MailException e) {
+//					 e.printStackTrace();
+					return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				}
+			}
 		}
 
 		return new ResponseEntity<>(new ZahtevZaGodisnjiDTO(zahtev), HttpStatus.OK);
