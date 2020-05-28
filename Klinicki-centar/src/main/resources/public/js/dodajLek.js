@@ -1,14 +1,14 @@
-$(document).ready(function () {
-    $("#dodaj").click(function () {
-        var regex = /^[a-zA-Z0-9]{1,20}$/;
+$(document).ready(function() {
+    $("#dodaj").click(function() {
+        var regex = /^[a-zA-Z0-9 ]{1,20}$/;
         $("#nazivERROR").css('visibility', 'hidden')
         $("#sifraERROR").css('visibility', 'hidden')
 
-        if($("#naziv").val() == ""){
+        if ($("#naziv").val() == "") {
             $("#nazivERROR").html("Naziv je obavezno polje").css('visibility', 'visible').css('color', 'red');
             return;
         }
-        if($("#sifra").val() == ""){
+        if ($("#sifra").val() == "") {
             $("#sifraERROR").html("Šifra je obavezno polje").css('visibility', 'visible').css('color', 'red');
             return;
         }
@@ -31,10 +31,10 @@ $(document).ready(function () {
                 naziv: $("#naziv").val(),
                 sifra: $("#sifra").val()
             }),
-            success: function (data) {
+            success: function(data) {
                 window.location.replace("sifarnikLekova.html")
             },
-            error: function (jqXHR) {
+            error: function(jqXHR) {
                 alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
             },
 

@@ -3,11 +3,14 @@ $(document).ready(function() {
     var d = new Date();
     pronalazenjeDatuma(d);
 
+    godisnji(d);
+
 
     $("#primeni").click(function() {
         let d = new Date($("#datum").val());
         iscrtaj();
         pronalazenjeDatuma(d);
+        godisnji(d);
     });
     $("#godisnji").click(function() {
         window.location.replace("radniKalendarG.html");
@@ -19,6 +22,115 @@ $(document).ready(function() {
 
 
 });
+
+function godisnji(d) {
+    $.ajax({
+        url: "/klinicki-centar/ZZG/getZahtev",
+        type: "get",
+        success: function(data) {
+            let danPoc;
+            let danKraj;
+            let mesecPoc;
+            let mesecKraj;
+            let godPocetka;
+            let godKraj;
+            for (let zahtev of data) {
+                godPocetka = zahtev.pocetniDatum.substring(0, 4);
+                mesecPoc = zahtev.pocetniDatum.substring(5, 7);
+                danPoc = zahtev.pocetniDatum.substring(8, 10);
+                godKraj = zahtev.krajnjiDatum.substring(0, 4);
+                mesecKraj = zahtev.krajnjiDatum.substring(5, 7);
+                danKraj = zahtev.krajnjiDatum.substring(8, 10);
+
+
+                // let nedelja = getNedelja(d);
+                let nedelja = [];
+
+                var curr = new Date($("#datum").val());
+
+
+                var firstday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 1));
+                var lastday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 7));
+                lastday.setHours(0, 0, 0, 0);
+                firstday.setHours(0, 0, 0, 0);
+                let datumPocetka = new Date(mesecPoc + ' ' + danPoc + ' ' + godPocetka);
+                let datumKraja = new Date(mesecKraj + ' ' + danKraj + " " + godKraj);
+                // let param = curr.getDate();
+
+                let mesec = datumPocetka.getMonth() + 1;
+                if (mesec.toString().length == 1) {
+                    mesec = "0" + mesec.toString();
+                }
+                let dan = datumPocetka.getDate();
+                if (dan.toString().length == 1) {
+                    dan = "0" + dan.toString();
+                }
+                let danas = getDatum(dan + " " + mesec + " " + curr.getFullYear());
+
+
+
+                if (firstday <= datumPocetka && datumPocetka <= lastday) {
+                    if (datumKraja > lastday) {
+                        while (datumPocetka <= lastday) {
+                            let polje = $("[id^=" + "td" + danas + "]");
+                            polje.css('background-color', 'greenyellow');
+                            polje.append("Godišnji odmor")
+                            polje.append($("<br>"));
+                            polje.append("Datum:" + datumPocetka.getDate() + "." + parseInt(datumPocetka.getMonth() + 1))
+                            datumPocetka.setDate(datumPocetka.getDate() + 1);
+                            danas++;
+                        }
+                    } else {
+                        while (datumPocetka <= datumKraja) {
+
+                            // alert(datumPocetka);
+
+                            let polje = $("[id^=" + "td" + danas + "]");
+                            polje.css('background-color', 'greenyellow');
+                            polje.append("Godišnji odmor")
+                            polje.append($("<br>"));
+                            polje.append("Datum:" + datumPocetka.getDate() + "." + parseInt(datumPocetka.getMonth() + 1))
+                            datumPocetka.setDate(datumPocetka.getDate() + 1);
+                            danas++;
+
+                        }
+                    }
+                } else {
+                    danas = 0;
+                    while (datumPocetka <= datumKraja) {
+                        if (firstday <= datumPocetka && datumPocetka <= lastday) {
+                            let polje = $("[id^=" + "td" + danas + "]");
+                            polje.css('background-color', 'greenyellow');
+                            polje.append("Godišnji odmor")
+                            polje.append($("<br>"));
+                            polje.append("Datum:" + datumPocetka.getDate() + "." + parseInt(datumPocetka.getMonth() + 1))
+                            danas++;
+                        }
+                        datumPocetka.setDate(datumPocetka.getDate() + 1);
+                    }
+                }
+
+            }
+        }
+    })
+}
+
+function daniUMesecu(mesecPoc, dat1) {
+    if (mesecPoc == 1 || mesecPoc == 3 || mesecPoc == 5 || mesecPoc == 7 || mesecPoc == 8 || mesecPoc == 10 || mesecPoc == 12) {
+        if (dat1 > 31) {
+            dat1 = 1;
+        }
+    } else if (mesecPoc == 2) {
+        if (dat1 > 29) {
+            dat1 = 1;
+        }
+    } else {
+        if (dat1 > 30) {
+            dat1 = 1;
+        }
+    }
+    return dat1;
+}
 
 //za izabrani datum pronalazi preostale datume iz iste nedelje
 function pronalazenjeDatuma(d) {
@@ -33,17 +145,140 @@ function pronalazenjeDatuma(d) {
     }
     let danas = getDatum(dan + " " + mesec + " " + d.getFullYear());
     var dict = {}; //key = datum, value = pozicija u tabeli
+
+    let dat = parseInt(d.getDate());
+
     for (let index = danas; index <= 6; index++) {
-        dict[d.getDate() + 6 - index] = index;
+        if (mesec == 1 || mesec == 3 || mesec == 5 || mesec == 7 || mesec == 8 || mesec == 10 || mesec == 12) {
+            if (dat > 31) {
+                dat = 1;
+            }
+        } else if (mesec == 2) {
+            if (dat > 29) {
+                dat = 1;
+            }
+        } else {
+            if (dat > 30) {
+                dat = 1;
+            }
+        }
+        dict[dat] = index;
+        dat++;
     }
 
+    let brojac = 0;
     for (let index = danas; index > 0; index--) {
-
-        dict[d.getDate() - index] = 7 - index - 1;
+        if (mesec == 1 || mesec == 3 || mesec == 5 || mesec == 7 || mesec == 8 || mesec == 10 || mesec == 12) {
+            if (dat > 31) {
+                dat = 1;
+            }
+        } else if (mesec == 2) {
+            if (dat > 29) {
+                dat = 1;
+            }
+        } else {
+            if (dat > 30) {
+                dat = 1;
+            }
+        }
+        dict[d.getDate() - index] = brojac;
+        brojac++;
     }
     for (var key in dict) {
         dobavi(key, dict, d);
     }
+}
+
+
+//FUNKCIJA VRACA REČNIK, KLJUČ JE DATUM, VREDNOST JE POLJE U TABELI (DAN U NEDELJI)
+function getNedelja(d) {
+
+    let mesec = d.getMonth() + 1;
+    if (mesec.toString().length == 1) {
+        mesec = "0" + mesec.toString();
+    }
+    let dan = d.getDate();
+    if (dan.toString().length == 1) {
+        dan = "0" + dan.toString();
+    }
+    let danas = getDatum(dan + " " + mesec + " " + d.getFullYear());
+    var dict = {}; //key = datum, value = pozicija u tabeli
+    let dat = parseInt(d.getDate());
+    let prethodniMesec;
+    let prethodniMESEC = mesec - 1;
+    for (let index = danas; index <= 6; index++) {
+        if (mesec == 1 || mesec == 3 || mesec == 5 || mesec == 7 || mesec == 8 || mesec == 10 || mesec == 12) {
+            if (dat > 31) {
+                dat = 1;
+            } else {
+                prethodniMesec = 31;
+            }
+        } else if (mesec == 2) {
+            if (dat > 29) {
+                dat = 1;
+            } else {
+                prethodniMesec = 29;
+            }
+        } else {
+            if (dat > 30) {
+                dat = 1;
+            } else {
+                prethodniMesec = 30;
+            }
+        }
+        dict[dat] = index;
+        dat++;
+    }
+
+    if (prethodniMESEC == 1 || prethodniMESEC == 3 || prethodniMESEC == 5 || prethodniMESEC == 7 || prethodniMESEC == 8 || prethodniMESEC == 10 || prethodniMESEC == 12) {
+        if (dat > 31) {
+            dat = 1;
+        } else {
+            prethodniMesec = 31;
+        }
+    } else if (prethodniMESEC == 2) {
+        if (dat > 29) {
+            dat = 1;
+        } else {
+            prethodniMesec = 29;
+        }
+    } else {
+        if (dat > 30) {
+            dat = 1;
+        } else {
+            prethodniMesec = 30;
+        }
+    }
+
+
+
+    let brojac = 0;
+
+    for (let index = danas; index > 0; index--) {
+        if (mesec == 1 || mesec == 3 || mesec == 5 || mesec == 7 || mesec == 8 || mesec == 10 || mesec == 12) {
+            if (dat > 31) {
+                dat = 1;
+            }
+        } else if (mesec == 2) {
+            if (dat > 29) {
+                dat = 1;
+            }
+        } else {
+            if (dat > 30) {
+                dat = 1;
+            }
+        }
+        if (d.getDate() - index > 0) {
+            dict[d.getDate() - index] = brojac;
+        } else {
+            dict[prethodniMesec] = index - 1;
+            prethodniMesec--;
+        }
+
+        brojac++;
+    }
+
+    return dict;
 }
 
 //DOBAVLJA PODATKE PREGLEDA
@@ -52,11 +287,32 @@ function dobavi(key, dict, d) {
         url: "/klinicki-centar/pregled/getDnevniPregled/" + key + "/" + parseInt(d.getMonth() + 1),
         type: 'get',
         success: function(data) {
-            for (let pregled of data) {
-                if (window.ulogovani.id == pregled.lekarID) {
-                    let td = document.getElementById("td" + dict[key] + pregled.vreme);
-                    td.style.backgroundColor = boja();
-                    td.innerHTML = "<div><label> Datum:" + pregled.datum + " </label><br><label>Vreme: </label>" + pregled.vreme + "<br><label>Trajanje: </label>" + pregled.trajanje + " min<br><label>Pacijent: </label>" + pregled.pacijent + "<br><label>Tip pregleda: </label>" + pregled.tipPregleda + " </div > ";
+            let color;
+            if (window.tipKorisnika == "lekar") {
+                for (let pregled of data) {
+                    if (window.ulogovani.id == pregled.lekarID) {
+                        let td = document.getElementById("td" + dict[key] + pregled.vreme);
+                        color = boja();
+                        if (parseInt(pregled.trajanje) > 15) {
+                            let brPuta = (pregled.trajanje / 15);
+                            let minuti = 0;
+                            let sati;
+                            sati = parseInt(pregled.vreme.substring(0, 2));
+                            minuti = parseInt(pregled.vreme.substring(3, 6));
+                            for (let index = 0; index < brPuta - 1; index++) {
+                                minuti = parseInt(minuti) + 15;
+                                if (minuti == 60) {
+                                    minuti = "00"
+                                    sati++;
+                                }
+                                let td = document.getElementById("td" + dict[key] + sati.toString() + ":" + (minuti).toString());
+                                td.style.backgroundColor = color;
+                            }
+                        }
+
+                        td.style.backgroundColor = color;
+                        td.innerHTML = "<div><label> Datum:" + pregled.datum + " </label><br><label>Vreme: </label>" + pregled.vreme + "<br><label>Trajanje: </label>" + pregled.trajanje + " min<br><label>Pacijent: </label>" + pregled.pacijent + "<br><label>Tip pregleda: </label>" + pregled.tipPregleda + " </div > ";
+                    }
                 }
             }
         },

@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import MRSISA.Klinicki.centar.domain.Klinika;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import MRSISA.Klinicki.centar.domain.Pregled;
 import MRSISA.Klinicki.centar.domain.Sala;
+import MRSISA.Klinicki.centar.domain.TipKorisnika;
 import MRSISA.Klinicki.centar.domain.TipPregleda;
 import MRSISA.Klinicki.centar.dto.AdminKDTO;
 import MRSISA.Klinicki.centar.dto.PregledDTO;
@@ -123,10 +126,10 @@ public class PregledController {
 		
 		return new ResponseEntity<>(new PregledDTO(pregled), HttpStatus.CREATED);
 	}
+	
+//	Funkcija vraća listu pregleda za određeni dan i mesec
 	@GetMapping("/getDnevniPregled/{dan}/{mesec}")
 	public ResponseEntity<Object> getDnevniPregled(@PathVariable String dan, @PathVariable String mesec){
-//		System.out.println("DAN :" + dan);
-//		System.err.println("MESEC: " +mesec);
 		
 		List<Pregled>pregledi =  pregledService.findAll();
 		List<PregledDTO> retVal = new ArrayList<PregledDTO>();
@@ -138,6 +141,7 @@ public class PregledController {
 		
 		return new ResponseEntity<>(retVal, HttpStatus.OK); 
 	}
+//	Funkcija vraća listu pregleda za određeni mesec
 	@GetMapping("/getDnevniPregled/{mesec}")
 	public ResponseEntity<Object> getDnevniPregled(@PathVariable String mesec){
 		List<Pregled>pregledi =  pregledService.findAll();

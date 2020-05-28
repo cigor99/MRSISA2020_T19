@@ -56,7 +56,7 @@ public class MedicinskaSestra {
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "medicinskaSestra")
 	private Set<Recept> recepti = new HashSet<Recept>();
 
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "medicinskaSestra")
+	@OneToMany( fetch = FetchType.LAZY, mappedBy = "medicinskaSestra")
 	private Set<ZahtevZaGodisnjiOdmor> zahteviZaGodisnji = new HashSet<ZahtevZaGodisnjiOdmor>();
 	
 	private TipKorisnika tipKorisnika = TipKorisnika.MEDICINSKA_SESTRA;

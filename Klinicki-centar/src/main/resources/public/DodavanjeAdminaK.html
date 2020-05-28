@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dodavanje admina klinike</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script> -->
+    <script src="js/main.js"></script>
+    <script src="js/validacija.js"></script>
+    <script src="js/DodavanjeAdminaK.js"></script>
+    <link href="style.css" rel="stylesheet">
+    <script>
+        $(document).ready(function() {
+            ucitajZaglavlje();
+        });
+    </script>
+</head>
+
+<body>
+    <div id="navbardiv"></div>
+    <div class="naslov">
+        <h1>Dodavanje administratora klinike</h1>
+    </div>
+    <div class="forma-za-dodavanje">
+        <form>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" class="form-control" id="email" required autofocus>
+                <p id="emailError" style="visibility: hidden;"></p>
+            </div>
+            <div class="form-group">
+                <label for="ime">Ime:</label>
+                <input type="text" class="form-control" id="ime" required>
+                <p id="imeError" style="visibility: hidden;"></p>
+            </div>
+            <div class="form-group">
+                <label for="prezime">Prezime:</label>
+                <input type="text" class="form-control" id="prezime" required>
+                <p id="prezimeError" style="visibility: hidden;"></p>
+            </div>
+            <div class="form-group">
+                <label for="jmbg">JMBG:</label>
+                <input type="number" class="form-control" required id="jmbg">
+                <p id="jmbgError" style="visibility: hidden;"></p>
+            </div>
+            <input class="button" type="button" value="Dodaj admina" id="dodaj">
+        </form>
+    </div>
+
+</body>
+
+</html>

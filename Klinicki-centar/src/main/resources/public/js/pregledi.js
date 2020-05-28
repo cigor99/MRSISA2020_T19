@@ -15,7 +15,7 @@ function ucitajTabelu() {
                 let lekar = $("<td>" + pregled.lekar + "</td>");
                 let tip = $("<td>" + pregled.tipPregleda + "</td>");   
                 let cena = $("<td>" + pregled.cena + "</td>")                
-                let ukloni = $(`<td><button  type="button" id="ukloniBtn" onclick="ukloniSalu('${pregled.id}')">Ukloni</button></td>`)
+                //let ukloni = $(`<td><button  type="button" id="ukloniBtn" onclick="ukloniSalu('${pregled.id}')">Ukloni</button></td>`)
                 tr.append(id);
                 tr.append(datum);
                 tr.append(vreme);
@@ -24,7 +24,7 @@ function ucitajTabelu() {
                 tr.append(lekar);
                 tr.append(tip);               
                 tr.append(cena);
-                tr.append(ukloni);
+                //tr.append(ukloni);
                 table.append(tr);
             }
 
@@ -64,8 +64,7 @@ function ucitajSale() {
                 let id = $("<td>" + sala.id + "</td>")
                 let naziv = $("<td>" + sala.naziv + "</td>")
                 let tip = $("<td>" + sala.tip + "</td>")      
-                
-                let izaberi = $("<td>" + "<a href=\"dodavanjePregleda.html?id=" + sala.id + "\">Izaberi</a></td>")
+                let izaberi = $(`<td><button  type="button" id="izaberiBtn" onclick="izaberiSalu('${sala.id}')">Izaberi</button></td>`)
                 tr.append(id);
                 tr.append(naziv);
                 tr.append(tip);               
@@ -76,6 +75,8 @@ function ucitajSale() {
         }
     });
 }
+
+
 
 function datumVreme(){
 	var dt = $("#date-time").val();

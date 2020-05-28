@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import MRSISA.Klinicki.centar.domain.KlinickiCentar;
 import MRSISA.Klinicki.centar.domain.Lek;
+import MRSISA.Klinicki.centar.domain.Recept;
 import MRSISA.Klinicki.centar.dto.LekDTO;
 import MRSISA.Klinicki.centar.service.LekService;
 
@@ -45,6 +46,9 @@ public class LekController {
 		Lek lek = lekService.findOne(id);
 
 		if (lek != null) {
+			if(lek.getRecepti().size() != 0) {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
 			lekService.remove(id);
 			return new ResponseEntity<>(HttpStatus.OK);
 		}else {

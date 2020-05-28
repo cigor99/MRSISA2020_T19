@@ -2,6 +2,9 @@ $(document).ready(function() {
     var imeCoded = window.location.href.split("?")[1];
     var imeJednako = imeCoded.split("&")[0];
     var imeParam = imeJednako.split("=")[1];
+    if (window.tipKorisnika == 'sestra') {
+        $("#pregled").css('visibility', 'hidden');
+    }
 
     $.ajax({
         url: "/klinicki-centar/pacijent/getOnePacijent/" + imeParam,
@@ -27,7 +30,7 @@ $(document).ready(function() {
     });
 
     $("#karton").click(function() {
-        window.location.replace("zdravsteniKarton.html?id=" + $("#ID").val());
+        window.location.replace("zdravsteniKarton.html?id=" + $("#jmbg").val());
     });
 
 

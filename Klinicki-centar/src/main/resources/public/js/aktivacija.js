@@ -129,7 +129,26 @@ $(document).ready(function() {
                 }
             })
         } else if (window.user.tipKorisnika == "ADMINISTRATOR_KLINIKE") {
-            alert("U IZDRADI");
+            $.ajax({
+                url: "/klinicki-centar/adminK/prvaSifra",
+                type: "put",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    id: window.user.id,
+                    sifra: $("#password").val()
+                }),
+                success: function(data) {
+                    let rez = $("#rezultat").empty();
+                    rez.append("Uspešno ste aktivirali nalog!");
+                    $("#sifra").remove();
+                    $("#sacuvaj").css('visibility', 'hidden');
+                    $("#nazad").css('visibility', 'visible');
+                },
+                error: function(jqXHR) {
+                    alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+                }
+            })
         }
     });
 });

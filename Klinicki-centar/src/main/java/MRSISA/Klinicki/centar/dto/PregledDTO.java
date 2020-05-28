@@ -11,7 +11,7 @@ import MRSISA.Klinicki.centar.domain.Sala;
 import MRSISA.Klinicki.centar.domain.TipPregleda;
 
 public class PregledDTO {
-	
+
 	private int id;
 	private String datumivreme;
 	private String datum;
@@ -25,11 +25,12 @@ public class PregledDTO {
 	private boolean slobodan;
 	private Double cena;
 	private int trajanje;
+	private Integer pacijentID;
 
 	public PregledDTO() {
 		super();
 	}
-	
+
 	public PregledDTO(int id, String datumivreme, String sala, String tipPregleda, String lekar, Double cena) {
 		this.id = id;
 		String[] dt = datumivreme.split("T");
@@ -52,10 +53,9 @@ public class PregledDTO {
 		this.slobodan = true;
 		this.cena = cena;
 	}
-	
 
-	public PregledDTO(int id, String datum, String vreme, int trajanje, String sala, String lekar, String tipPregleda, String pacijent, float popust,
-			boolean slobodan, Double cena) {
+	public PregledDTO(int id, String datum, String vreme, int trajanje, String sala, String lekar, String tipPregleda,
+			String pacijent, float popust, boolean slobodan, Double cena) {
 		super();
 		this.id = id;
 		this.datum = datum;
@@ -69,8 +69,6 @@ public class PregledDTO {
 		this.trajanje = trajanje;
 	}
 
-
-
 	public PregledDTO(int id, Date datum, Sala sala, Lekar lekar, TipPregleda tipPregleda, Pacijent pacijent,
 			float popust, boolean slobodan) {
 		super();
@@ -79,19 +77,18 @@ public class PregledDTO {
 		String d = sdf.format(datum);
 		this.datum = d;
 		this.sala = sala.getNaziv();
-		this.lekar = lekar.getIme() + " " +lekar.getPrezime();
+		this.lekar = lekar.getIme() + " " + lekar.getPrezime();
 		this.tipPregleda = tipPregleda.getNaziv();
-		if(pacijent != null) {
+		if (pacijent != null) {
 			this.pacijent = pacijent.getIme() + " " + pacijent.getPrezime();
-		}
-		else {
+		} else {
 			this.pacijent = " ";
 		}
 		this.popust = popust;
 		this.slobodan = slobodan;
-		
+
 	}
-	
+
 	public PregledDTO(Pregled pregled) {
 		super();
 		this.id = pregled.getId();
@@ -102,19 +99,18 @@ public class PregledDTO {
 		this.sala = pregled.getSala().getNaziv();
 		this.lekar = pregled.getLekar().getIme() + " " + pregled.getLekar().getPrezime();
 		this.tipPregleda = pregled.getTipPregleda().getNaziv();
-		
-		if(pregled.getPacijent() != null) {
+
+		if (pregled.getPacijent() != null) {
 			this.pacijent = pregled.getPacijent().getIme() + " " + pregled.getPacijent().getPrezime();
-		}
-		else {
+		} else {
 			this.pacijent = " ";
 		}
 		this.popust = pregled.getPopust();
 		this.slobodan = pregled.isSlobodan();
 		this.cena = pregled.getTipPregleda().getCena().getIznos();
 		this.trajanje = pregled.getTipPregleda().getTrajanje();
-		System.out.println(pregled.getLekar().getId());
 		this.lekarID = pregled.getLekar().getId();
+		this.pacijentID = pregled.getPacijent().getId();
 	}
 
 	public int getId() {
@@ -181,37 +177,25 @@ public class PregledDTO {
 		this.slobodan = slobodan;
 	}
 
-
-
 	public String getVreme() {
 		return vreme;
 	}
-
-
 
 	public void setVreme(String vreme) {
 		this.vreme = vreme;
 	}
 
-
-
 	public Double getCena() {
 		return cena;
 	}
-
-
 
 	public void setCena(Double cena) {
 		this.cena = cena;
 	}
 
-
-
 	public int getTrajanje() {
 		return trajanje;
 	}
-
-
 
 	public void setTrajanje(int trajanje) {
 		this.trajanje = trajanje;
@@ -225,18 +209,20 @@ public class PregledDTO {
 		this.datumivreme = datumivreme;
 	}
 
-
 	public Integer getLekarID() {
 		return lekarID;
 	}
 
-
-
 	public void setLekarID(Integer lekarID) {
 		this.lekarID = lekarID;
 	}
-	
-	
-	
+
+	public Integer getPacijentID() {
+		return pacijentID;
+	}
+
+	public void setPacijentID(Integer pacijentID) {
+		this.pacijentID = pacijentID;
+	}
 
 }

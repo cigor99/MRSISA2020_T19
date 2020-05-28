@@ -40,6 +40,7 @@ public class Dijagnoza {
 	@JoinColumn(name = "klinicki_centar", referencedColumnName = "ID_KC")
 	private KlinickiCentar klinickiCentar;
 
+	@JsonIgnoreProperties({"zdravstveniKarton", "opis", "dijagnoza", "pregled", "recept", "lekar"})
 	@OneToMany( fetch = FetchType.LAZY, mappedBy = "dijagnoza")//cascade = { CascadeType.ALL },
 	private Set<IzvestajPregleda> izvestajiPregleda = new HashSet<IzvestajPregleda>();
 

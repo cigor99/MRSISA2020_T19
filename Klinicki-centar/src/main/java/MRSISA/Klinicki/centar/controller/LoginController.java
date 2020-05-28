@@ -76,6 +76,7 @@ public class LoginController {
 	 *Ako jesu trazi se da li postoji korisnik sa tim login podacima
 	 *Ako da zakaci se za sesiju
 	 *Ako ne onda se vraca error 400 */
+	
 	@PostMapping("/prijava")
 	public ResponseEntity<Object> login(@RequestBody LoginDTO loginDTO) {
 		if(loginDTO.getLozinka().equals("XAEA12")) {
@@ -108,6 +109,7 @@ public class LoginController {
 		for (Lekar l : lekari) {
 			if (l.getEmail().equals(loginDTO.getEmail()) && l.getLozinka().equals(loginDTO.getLozinka())) {
 				LekarDTO lekarDTO = new LekarDTO(l);
+				System.out.println(request.getSession().getId());
 				request.getSession().setAttribute("current", lekarDTO);
 				request.getSession().setAttribute("tip", "lekar");
 

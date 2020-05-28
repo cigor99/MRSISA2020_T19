@@ -1,7 +1,8 @@
 <html>
 
 <head>
-    <title>PROBA</title>
+    <title>Dnevni pregled radnog kalendara</title>
+    <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- <script src="js/main.js"></script>
@@ -59,6 +60,7 @@
                     <th>Trajanje</th>
                     <th>Pacijent</th>
                     <th>Tip pregleda</th>
+                    <th>Započni pregled</th>
                 </tr>
             </thead>
         </table>
@@ -84,11 +86,16 @@
                         vremeTD.append(pregled.vreme);
                         let TrajanjeTD = $("<td></td>");
                         TrajanjeTD.append(pregled.trajanje + " min");
+                        let pregledTD = $("<td></td>");
+                        let a = $("<a>Započni pregled</a>");
+                        a.attr("href", 'izvestajPregleda.html?pID=' + pregled.pacijent + "&prID=" + pregled.id);
+                        pregledTD.append(a);
 
                         tr.append(datumTD);
                         tr.append(vremeTD);
                         tr.append(TrajanjeTD);
-                        table.append(tr);
+
+                        // table.append(tr);
 
                         let imeTD = $("<td></td>");
                         imeTD.append(pregled.pacijent);
@@ -98,6 +105,7 @@
 
                         tr.append(imeTD);
                         tr.append(tipPregledaTd);
+                        tr.append(pregledTD);
                         table.append(tr);
 
                     }

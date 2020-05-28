@@ -28,23 +28,36 @@ public class ZahtevZaGodisnjiOdmor {
 	private Date krajnjiDatum;
 
 	@ManyToOne
-	@JoinColumn(name = "lekar", referencedColumnName = "ID_lekara", nullable = false)
+	@JoinColumn(name = "lekar", referencedColumnName = "ID_lekara")
 	private Lekar lekar;
 
+	@Column(name = "stanje")
+	private StanjeZahteva stanjeZahteva;
+
 	@ManyToOne
-	@JoinColumn(name = "medicinska_sestra", referencedColumnName = "ID_MedSes", nullable = false)
+	@JoinColumn(name = "medicinska_sestra", referencedColumnName = "ID_MedSes")
 	private MedicinskaSestra medicinskaSestra;
 
-	public ZahtevZaGodisnjiOdmor(){}
+	public ZahtevZaGodisnjiOdmor() {
+	}
 
 	public ZahtevZaGodisnjiOdmor(Integer id, Date pocetniDatum, Date krajnjiDatum, Lekar lekar,
-			MedicinskaSestra medicinskaSestra) {
+			MedicinskaSestra medicinskaSestra, StanjeZahteva stanje) {
 		super();
 		this.id = id;
 		this.pocetniDatum = pocetniDatum;
 		this.krajnjiDatum = krajnjiDatum;
 		this.lekar = lekar;
 		this.medicinskaSestra = medicinskaSestra;
+		this.stanjeZahteva = stanje;
+	}
+
+	public StanjeZahteva getStanjeZahteva() {
+		return stanjeZahteva;
+	}
+
+	public void setStanjeZahteva(StanjeZahteva stanjeZahteva) {
+		this.stanjeZahteva = stanjeZahteva;
 	}
 
 	public Lekar getLekar() {
