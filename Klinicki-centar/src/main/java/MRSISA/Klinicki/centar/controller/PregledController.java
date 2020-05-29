@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,27 +15,39 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailAuthenticationException;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import MRSISA.Klinicki.centar.domain.AdministratorKlinike;
 import MRSISA.Klinicki.centar.domain.Klinika;
 import MRSISA.Klinicki.centar.domain.Lekar;
+import MRSISA.Klinicki.centar.domain.Pacijent;
+
 import org.springframework.web.bind.annotation.RestController;
 
 import MRSISA.Klinicki.centar.domain.Pregled;
 import MRSISA.Klinicki.centar.domain.Sala;
+import MRSISA.Klinicki.centar.domain.StanjeZahteva;
 import MRSISA.Klinicki.centar.domain.TipKorisnika;
 import MRSISA.Klinicki.centar.domain.TipPregleda;
+import MRSISA.Klinicki.centar.domain.ZahtevZaPregled;
 import MRSISA.Klinicki.centar.dto.AdminKDTO;
+import MRSISA.Klinicki.centar.dto.PacijentDTO;
 import MRSISA.Klinicki.centar.dto.PregledDTO;
 import MRSISA.Klinicki.centar.dto.SalaDTO;
 import MRSISA.Klinicki.centar.service.LekarService;
+import MRSISA.Klinicki.centar.service.PacijentService;
 import MRSISA.Klinicki.centar.service.PregledService;
 import MRSISA.Klinicki.centar.service.SalaService;
 import MRSISA.Klinicki.centar.service.TipPregledaService;
+import MRSISA.Klinicki.centar.service.ZahtevZPService;
 
 @RestController
 @RequestMapping("/pregled")
@@ -54,6 +67,16 @@ public class PregledController {
 	
 	@Autowired
 	HttpServletRequest request;
+	
+	@Autowired
+	private JavaMailSender javaMailSender;
+	
+	@Autowired
+	private ZahtevZPService zzpService;
+	
+	@Autowired
+	private PacijentService pacijentService;
+
 	
 	@GetMapping("/all")
 	public ResponseEntity<List<PregledDTO>> getAllPregledi(){
@@ -153,6 +176,45 @@ public class PregledController {
 		}
 		
 		return new ResponseEntity<>(retVal, HttpStatus.OK); 
+	}
+	
+	@PostMapping("/brzoZakazivanje/{idPregleda}")
+	public ResponseEntity<PregledDTO> brzoZakazivanje(@PathVariable Integer idPregleda){
+		List<Pregled> pregledi = pregledService.findAll();
+		for(Pregled p: pregledi) {
+			if(p.getId().equals(idPregleda)) {
+				if(p.isSlobodan()) {
+					p.setSlobodan(false);
+					ZahtevZaPregled zzp = new ZahtevZaPregled(1, StanjeZahteva.NA_CEKANJU, p);
+					PacijentDTO pacijentDTO = (PacijentDTO) request.getSession().getAttribute("current");
+					Pacijent pacijent = pacijentService.findOne(pacijentDTO.getId());
+					if(pacijent == null) {
+						return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+					}
+					p.setPacijent(pacijent);
+					Klinika klinika = p.getLekar().getKlinika();
+					Set<AdministratorKlinike> admini = klinika.getAdministratori();
+					SimpleMailMessage msg = new SimpleMailMessage();
+					for(AdministratorKlinike admin: admini) {
+						msg.setTo("igi.l.1999@gmail.com");
+						msg.setSubject("Novi zahtev za pregled");
+						msg.setText(zzp.toString());
+						try {
+							javaMailSender.send(msg);
+						} catch (MailAuthenticationException e) {
+							// e.printStackTrace();
+							return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+						} catch (MailException e) {
+							// e.printStackTrace();
+							return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+						}
+					}
+					zzpService.save(zzp);
+					return new ResponseEntity<>(new PregledDTO(), HttpStatus.CREATED);
+				}
+			}
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
 }

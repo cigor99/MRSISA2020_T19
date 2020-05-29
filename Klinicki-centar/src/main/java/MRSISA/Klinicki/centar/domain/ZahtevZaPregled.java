@@ -35,6 +35,13 @@ public class ZahtevZaPregled {
 		this.stanjeZahteva = stanjeZahteva;
 		this.pregled = pregled;
 	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "ZahtevZaPregled pregled id=" + pregled.getId() + "pacijent" + pregled.getPacijent().getId() +"]";
+	}
 
 	public Integer getId() {
 		return id;

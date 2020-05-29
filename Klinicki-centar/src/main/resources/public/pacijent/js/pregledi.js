@@ -15,8 +15,8 @@ function ucitajTabelu() {
                 let lekar = $("<td>" + pregled.lekar + "</td>");
                 let tip = $("<td>" + pregled.tipPregleda + "</td>");   
                 let cena = $("<td>" + pregled.cena + "</td>")                
-                //let zakazi = $(`<td><button  type="button" id="zakaziBtn" onclick="zakazi('${pregled.id}')">Zakazi</button></td>`)
-                let zakazi = $(`<td><button  type="button" id="zakaziBtn">Zakazi</button></td>`)
+                let zakazi = $(`<td><button  type="button" id="zakaziBtn" onclick="zakazi('${pregled.id}')">Zakazi</button></td>`)
+                //let zakazi = $(`<td><button  type="button" id="zakaziBtn">Zakazi</button></td>`)
                 tr.append(id);
                 tr.append(datum);
                 tr.append(vreme);
@@ -29,6 +29,8 @@ function ucitajTabelu() {
                 table.append(tr);
             }
 
+        },error: function(jqXHR) {
+            alert("Error: " + jqXHR.status + ", " + jqXHR.responseText);
         }
     });
 }
@@ -53,6 +55,8 @@ function ucitajSale() {
                 table.append(tr);
             }
 
+        },error: function(jqXHR) {
+            alert("Error: " + jqXHR.status + ", " + jqXHR.responseText);
         }
     });
 }
@@ -89,7 +93,26 @@ function datumVreme(){
                 table.append(tr);
             }
 
-		},
+		},error: function(jqXHR) {
+            alert("Error: " + jqXHR.status + ", " + jqXHR.responseText);
+        }
         
+    });
+}
+
+
+function zakazi(idPregleda){
+    $.ajax({
+        type: "POST",
+        contentType: "text",
+        url: "/klinicki-centar/pregled/brzoZakazivanje/" + idPregleda,
+        success : function(data){
+            console.log("uspeo");
+            alert("Uspesno poslat zahtev")
+            window.location.replace("/klinicki-centar/pacijent/pacijentHomePage.html");
+        },
+        error: function(jqXHR) {
+            alert("Error: " + jqXHR.status + ", " + jqXHR.responseText);
+        }
     });
 }

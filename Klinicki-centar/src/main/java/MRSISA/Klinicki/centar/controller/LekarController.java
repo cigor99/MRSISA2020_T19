@@ -7,7 +7,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -49,6 +52,7 @@ import MRSISA.Klinicki.centar.domain.Lek;
 import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.MedicinskaSestra;
 import MRSISA.Klinicki.centar.domain.Pacijent;
+import MRSISA.Klinicki.centar.domain.Pregled;
 import MRSISA.Klinicki.centar.domain.Sala;
 import MRSISA.Klinicki.centar.dto.AdminKCDTO;
 import MRSISA.Klinicki.centar.dto.AdminKDTO;
@@ -67,6 +71,7 @@ import MRSISA.Klinicki.centar.service.KlinikaService;
 import MRSISA.Klinicki.centar.service.LekarService;
 import MRSISA.Klinicki.centar.service.MedicinskaSestraSerive;
 import MRSISA.Klinicki.centar.service.PacijentService;
+import MRSISA.Klinicki.centar.service.PregledService;
 
 @RestController
 public class LekarController {
@@ -96,6 +101,9 @@ public class LekarController {
 
 	@Autowired
 	HttpServletRequest request;
+	
+	@Autowired
+	private PregledService pregledService;
 
 	@GetMapping("/lekar/all")
 	public ResponseEntity<List<LekarDTO>> getAllLekari() {
@@ -110,7 +118,7 @@ public class LekarController {
 	@GetMapping("/lekar/page")
 	public ResponseEntity<List<LekarDTO>> getLekarPage() {
 		Pageable prvihDeset = PageRequest.of(0, 10);
-		System.out.println(request.getSession().getAttribute("current"));
+		//System.out.println(request.getSession().getAttribute("current"));
 		AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
 //		System.out.println(admink.getEmail());
 //		System.out.println(admink.getKlinikaID());
@@ -468,15 +476,27 @@ public class LekarController {
 	}
 
 	@PostMapping("/lekar/all/{klinika}")
-	public ResponseEntity<List<LekarDTO>> getAllLekariInKlinika(@PathVariable Integer klinika) {
+	public ResponseEntity<Set<LekarDTO>> getAllLekariInKlinika(@PathVariable Integer klinika) {
 		List<Lekar> lekari = lekarService.findAll();
-		List<LekarDTO> lekariDTO = new ArrayList<LekarDTO>();
+		Set<LekarDTO> lekariDTO = new HashSet<LekarDTO>();
+		List<Pregled> pregledi = pregledService.findAll();
 		for (Lekar l : lekari) {
 			if (l.getKlinika().getId().equals(klinika)) {
 				lekariDTO.add(new LekarDTO(l));
 			}
 		}
 		return new ResponseEntity<>(lekariDTO, HttpStatus.OK);
+	}
+	
+	private boolean proveriZauzetost(Date pregled, Date pretraga) {
+		if(pregled.getYear() == pretraga.getYear()) {
+			if(pregled.getMonth() == pretraga.getMonth()) {
+				if(pregled.getDay() == pretraga.getDay()) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 }
