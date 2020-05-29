@@ -81,12 +81,12 @@ public class Pregled {
 	}
 	
 
+	
+
 	@Override
 	public String toString() {
-		return "Pregled [id=" + id + ", datum=" + datum + ", sala=" + sala + ", lekar=" + lekar + ", tipPregleda="
-				+ tipPregleda + ", pacijent=" + pacijent + ", popust=" + popust + ", slobodan=" + slobodan
-				+ ", izvestajiPregleda=" + izvestajiPregleda + ", recepti=" + recepti + ", zahteviZaPregled="
-				+ zahteviZaPregled + "]";
+		return "Pregled [id=" + id + ", datum=" + datum + ", lekar=" + lekar.getId() + ", tipPregleda=" + tipPregleda.getNaziv()
+				+ ", pacijent=" + pacijent.getId() + ", slobodan=" + slobodan + "]";
 	}
 
 	public Set<ZahtevZaPregled> getZahteviZaPregled() {

@@ -1,7 +1,11 @@
 package MRSISA.Klinicki.centar.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -30,6 +34,7 @@ import MRSISA.Klinicki.centar.domain.Klinika;
 import MRSISA.Klinicki.centar.domain.Lek;
 import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.Pacijent;
+import MRSISA.Klinicki.centar.domain.Pregled;
 import MRSISA.Klinicki.centar.domain.TipPregleda;
 import MRSISA.Klinicki.centar.dto.AdminKDTO;
 import MRSISA.Klinicki.centar.dto.Admin_klinikaDTO;
@@ -39,6 +44,7 @@ import MRSISA.Klinicki.centar.dto.PacijentDTO;
 import MRSISA.Klinicki.centar.dto.PretragaKlinikaDTO;
 import MRSISA.Klinicki.centar.service.AdminKService;
 import MRSISA.Klinicki.centar.service.KlinikaService;
+import MRSISA.Klinicki.centar.service.PregledService;
 import MRSISA.Klinicki.centar.service.TipPregledaService;
 
 @RestController
@@ -52,6 +58,9 @@ public class KlinikaController {
 	
 	@Autowired
 	private TipPregledaService tipPregledaService;
+	
+	@Autowired
+	private PregledService pregledService;
 	
 	@Autowired
 	HttpServletRequest request;
@@ -215,20 +224,44 @@ public class KlinikaController {
 	}
 	
 	@PostMapping("/klinika/searchPacijentoviParametri")
-	public ResponseEntity<List<KlinikaDTO>> searchKlinikaPacijentoviParametri(@RequestBody PretragaKlinikaDTO pretraga){
-		List<KlinikaDTO> retVal = new ArrayList<>();
-
+	public ResponseEntity<Set<KlinikaDTO>> searchKlinikaPacijentoviParametri(@RequestBody PretragaKlinikaDTO pretraga){
+		Set<KlinikaDTO> retVal = new HashSet<>();
 		TipPregleda tip = tipPregledaService.findOne(pretraga.tip);
+		List<Pregled> pregledi = pregledService.findAll();
 		for(Klinika k : klinikaService.findAll()) {
 			for(Lekar l :k.getLekari()) {
+				
 				if(l.getTipoviPregleda().contains(tip) && l.getProsecnaOcena()>= pretraga.ocena) {
-					KlinikaDTO dto = new KlinikaDTO(k);
-					retVal.add(dto);
+					for(Pregled p : pregledi) {
+						if( (p.getLekar().getId().equals(l.getId())) ) {
+							if(!proveriZauzetost(p.getDatum(), pretraga.datum)) {
+								KlinikaDTO dto = new KlinikaDTO(k);
+								if(!retVal.contains(dto)) {
+									retVal.add(dto);
+								}
+							}
+						}else {
+							KlinikaDTO dto = new KlinikaDTO(k);
+							if(!retVal.contains(dto)) {
+								retVal.add(dto);
+							}
+						}
+					}
 				}
 			}
-				
-			
 		}
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
+	}
+	
+	
+	private boolean proveriZauzetost(Date pregled, Date pretraga) {
+		if(pregled.getYear() == pretraga.getYear()) {
+			if(pregled.getMonth() == pretraga.getMonth()) {
+				if(pregled.getDay() == pretraga.getDay()) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }

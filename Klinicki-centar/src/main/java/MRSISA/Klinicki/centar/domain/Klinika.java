@@ -60,6 +60,16 @@ public class Klinika {
 	public Klinika() {
 		
 	}
+	
+	
+	@Override
+	public String toString() {
+		String l = "";
+		for(Lekar lekar: lekari) {
+			l+= lekar.getId()+"\n";
+		}
+		return "Klinika [id=" + id + ", naziv=" + naziv + ", lekari=\n" + l + "]";
+	}
 	public Klinika(Integer id, String naziv, String adresa, String opis, Cenovnik cenovnik) {
 		super();
 		this.id = id;

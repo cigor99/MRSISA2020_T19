@@ -80,20 +80,13 @@ public class Lekar {
 	}
 	
 	
-	
-
 
 
 	@Override
 	public String toString() {
-		return "Lekar [id=" + id + ", email=" + email + ", lozinka=" + lozinka + ", jmbg=" + jmbg + ", ime=" + ime
-				+ ", prezime=" + prezime + ", recepti=" + recepti + ", ocene=" + ocene + ", prosecnaOcena="
-				+ prosecnaOcena + ", klinika=" + klinika + ", pregledi=" + pregledi + ", izvestajiPregleda="
-				+ izvestajiPregleda + ", operacije=" + operacije + ", zahteviZaGodisnji=" + zahteviZaGodisnji
-				+ ", tipoviPregleda=" + tipoviPregleda + ", tipKorisnika=" + tipKorisnika + "]";
+		return "Lekar [id=" + id + ", email=" + email + ", lozinka=" + lozinka + ", ime=" + ime + ", prezime=" + prezime
+				+ ", prosecnaOcena=" + prosecnaOcena + "]";
 	}
-
-
 
 
 

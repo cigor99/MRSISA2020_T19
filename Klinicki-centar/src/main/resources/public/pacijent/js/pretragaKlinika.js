@@ -71,6 +71,45 @@ function pretraga(){
 		return;
 	}
 
+	var today = new Date();
+	var tdd = String(today.getDate()).padStart(2, '0');
+	var tmm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+	var tyyyy = today.getFullYear();
+	console.log(tdd);
+	
+	var dateString = $("#datepicker").val();
+	var dateTokens=  dateString.split("/")
+	if(dateTokens[1].split()[0] == "0"){
+		dateTokens[1] = dateTokens[1].split()[1]
+	}
+	if(dateTokens[2].split()[0] == "0"){
+		dateTokens[2] = dateTokens[2].split()[1]
+	}
+	var date = new Date(dateTokens[2], dateTokens[0], dateTokens[1]);
+	
+	var tdint = parseInt(tdd);
+	var tmint = parseInt(tmm);
+	var tyint = parseInt(tyyyy);
+	var ddint = parseInt(dateTokens[1]);
+	var dmint = parseInt(dateTokens[0]);
+	var dyint = parseInt(dateTokens[2]);
+
+	if(dyint < tyint){
+		alert("Ne smete izabrati datum koji je vec prosao")
+		return;
+	}else if(dmint < tmint){
+		alert("Ne smete izabrati datum koji je vec prosao")
+		return;
+	}else if(ddint < tdint){
+		alert("Ne smete izabrati datum koji je vec prosao")
+		return;
+	}
+
+
+
+	
+
+
 	var tipID = null;
 	let tipNaz = $("#tip").val()
 	$.ajax({
@@ -96,19 +135,6 @@ function pretraga(){
 		alert("Tip nije pronadjen")
 		return;
 	}
-
-	var dateString = $("#datepicker").val();
-	var dateTokens=  dateString.split("/")
-	if(dateTokens[1].split()[0] == "0"){
-		dateTokens[1] = dateTokens[1].split()[1]
-	}
-
-	if(dateTokens[2].split()[0] == "0"){
-		dateTokens[2] = dateTokens[2].split()[1]
-	}
-	
-	var date = new Date(dateTokens[1], dateTokens[2], dateTokens[0]);
-	console.log(date)
 
 	var ocenaTokens = $("#ocena").val().split("+")
 	var parametri = JSON.stringify({
