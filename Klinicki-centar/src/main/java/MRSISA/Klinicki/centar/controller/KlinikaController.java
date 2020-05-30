@@ -254,6 +254,8 @@ public class KlinikaController {
 	}
 	
 	
+	
+	
 	private boolean proveriZauzetost(Date pregled, Date pretraga) {
 		if(pregled.getYear() == pretraga.getYear()) {
 			if(pregled.getMonth() == pretraga.getMonth()) {

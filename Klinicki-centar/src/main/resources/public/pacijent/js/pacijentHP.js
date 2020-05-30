@@ -73,7 +73,7 @@ function prikaziZK(){
             krvLabelTD.append("Krvna grupa")
             tr4.append(krvLabelTD)
             tr4.append(krvTD)
-            krvTD.append(data.krvnaGrupa);
+            krvTD.append(grupaIspis(data.krvnaGrupa));
 
             table.append(tr2)
             table.append(tr3)
@@ -82,4 +82,18 @@ function prikaziZK(){
         }
 	});
 	
+}
+
+function grupaIspis(grupa){
+	switch(grupa){
+		case "NULTAPOZITIVNA": return "0+";
+		case "NULTANEGATIVNA": return "0-";
+		case "APOZITIVNA": return "A+";
+		case "ANEGATIVNA": return "A-";
+		case "BPOZITIVNA": return "B+";
+		case "BNEGATIVNA": return "B-";
+		case "ABPOZITIVNA": return "AB+";
+		case "ABNEGATIVNA": return "AB-";
+		default: return "GRESKA";
+	}
 }

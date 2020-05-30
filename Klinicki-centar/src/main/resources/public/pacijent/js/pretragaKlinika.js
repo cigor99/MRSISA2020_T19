@@ -75,7 +75,6 @@ function pretraga(){
 	var tdd = String(today.getDate()).padStart(2, '0');
 	var tmm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
 	var tyyyy = today.getFullYear();
-	console.log(tdd);
 	
 	var dateString = $("#datepicker").val();
 	var dateTokens=  dateString.split("/")
@@ -104,11 +103,6 @@ function pretraga(){
 		alert("Ne smete izabrati datum koji je vec prosao")
 		return;
 	}
-
-
-
-	
-
 
 	var tipID = null;
 	let tipNaz = $("#tip").val()
