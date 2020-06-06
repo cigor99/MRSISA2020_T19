@@ -26,6 +26,9 @@ public class ZahtevZaGodisnjiOdmor {
 
 	@Column(name = "krajnji_datum", unique = false, nullable = false)
 	private Date krajnjiDatum;
+	
+	@Column(name = "razlog", unique = false, nullable = true)
+	private String razlogOdbijanja;
 
 	@ManyToOne
 	@JoinColumn(name = "lekar", referencedColumnName = "ID_lekara")
@@ -42,7 +45,7 @@ public class ZahtevZaGodisnjiOdmor {
 	}
 
 	public ZahtevZaGodisnjiOdmor(Integer id, Date pocetniDatum, Date krajnjiDatum, Lekar lekar,
-			MedicinskaSestra medicinskaSestra, StanjeZahteva stanje) {
+			MedicinskaSestra medicinskaSestra, StanjeZahteva stanje, String razlog) {
 		super();
 		this.id = id;
 		this.pocetniDatum = pocetniDatum;
@@ -50,6 +53,7 @@ public class ZahtevZaGodisnjiOdmor {
 		this.lekar = lekar;
 		this.medicinskaSestra = medicinskaSestra;
 		this.stanjeZahteva = stanje;
+		this.razlogOdbijanja = razlog;
 	}
 
 	public StanjeZahteva getStanjeZahteva() {
@@ -98,6 +102,14 @@ public class ZahtevZaGodisnjiOdmor {
 
 	public void setKrajnjiDatum(Date krajnjiDatum) {
 		this.krajnjiDatum = krajnjiDatum;
+	}
+
+	public String getRazlogOdbijanja() {
+		return razlogOdbijanja;
+	}
+
+	public void setRazlogOdbijanja(String razlogOdbijanja) {
+		this.razlogOdbijanja = razlogOdbijanja;
 	}
 
 }

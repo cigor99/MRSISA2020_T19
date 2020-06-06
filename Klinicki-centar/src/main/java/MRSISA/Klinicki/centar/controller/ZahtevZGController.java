@@ -20,22 +20,28 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import MRSISA.Klinicki.centar.domain.AdministratorKlinike;
+import MRSISA.Klinicki.centar.domain.ConfirmationToken;
 import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.MedicinskaSestra;
 import MRSISA.Klinicki.centar.domain.Pregled;
 import MRSISA.Klinicki.centar.domain.Sala;
+import MRSISA.Klinicki.centar.domain.StanjePacijenta;
 import MRSISA.Klinicki.centar.domain.StanjeZahteva;
 import MRSISA.Klinicki.centar.domain.ZahtevZaGodisnjiOdmor;
+import MRSISA.Klinicki.centar.domain.ZahtevZaRegistraciju;
 import MRSISA.Klinicki.centar.dto.AdminKDTO;
 import MRSISA.Klinicki.centar.dto.LekarDTO;
 import MRSISA.Klinicki.centar.dto.MedicinskaSestraDTO;
 import MRSISA.Klinicki.centar.dto.SalaDTO;
 import MRSISA.Klinicki.centar.dto.ZahtevZaGodisnjiDTO;
+import MRSISA.Klinicki.centar.dto.ZahtevZaRegDTO;
 import MRSISA.Klinicki.centar.service.LekarService;
 import MRSISA.Klinicki.centar.service.MedicinskaSestraSerive;
 import MRSISA.Klinicki.centar.service.ZahtevZGService;
@@ -264,5 +270,69 @@ public class ZahtevZGController {
 		
 		return new ResponseEntity<>(zahteviDTO, HttpStatus.OK);
 	}
+	
+	@PutMapping("/ZZG/Prihvati/{id}")
+	public ResponseEntity<ZahtevZaGodisnjiDTO> prihvatiZZR(@PathVariable Integer id) {
+		ZahtevZaGodisnjiOdmor zahtev = zahtevService.findById(id);
+
+		if (zahtev != null) {
+			zahtev.setStanjeZahteva(StanjeZahteva.PRIHVACEN);
+			zahtev = zahtevService.save(zahtev);
+
+			SimpleMailMessage msg = new SimpleMailMessage();
+
+			if(zahtev.getLekar() != null) {
+				msg.setTo(zahtev.getLekar().getEmail());
+			}
+			else {
+				msg.setTo(zahtev.getMedicinskaSestra().getEmail());
+			}			
+
+			msg.setSubject("Zahtev za odsustvom je prihvacen");
+			msg.setText("Zahtev za odsustvom od "+zahtev.getPocetniDatum()+" do "+zahtev.getKrajnjiDatum()+" je prihvacen.");
+			try {
+				javaMailSender.send(msg);
+			} catch (MailException e) {
+				// e.printStackTrace();
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
+
+			return new ResponseEntity<>(new ZahtevZaGodisnjiDTO(zahtev), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@PutMapping("/ZZG/Odbij/{id}/{razlogOdbijanja}")
+	public ResponseEntity<ZahtevZaGodisnjiDTO> odbijZZR(@PathVariable Integer id, @PathVariable String razlogOdbijanja) {
+		ZahtevZaGodisnjiOdmor zahtev = zahtevService.findById(id);
+		//String razlogOdbijnja = "razlog";
+		System.out.println(razlogOdbijanja);
+		zahtev.setRazlogOdbijanja(razlogOdbijanja);
+
+		zahtev.setStanjeZahteva(StanjeZahteva.ODBIJEN);
+		
+		SimpleMailMessage msg = new SimpleMailMessage();
+
+		if(zahtev.getLekar() != null) {
+			msg.setTo(zahtev.getLekar().getEmail());
+		}
+		else {
+			msg.setTo(zahtev.getMedicinskaSestra().getEmail());
+		}			
+
+		msg.setSubject("Zahtev za odsustvom je odbijen");
+		msg.setText("Zahtev za odsustvom od "+zahtev.getPocetniDatum()+" do "+zahtev.getKrajnjiDatum()+" je odbijen.\nRazlog odbijanja: "+zahtev.getRazlogOdbijanja());
+		
+		try {
+			javaMailSender.send(msg);
+		} catch (MailException e) {
+			// e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		return new ResponseEntity<>(new ZahtevZaGodisnjiDTO(zahtev), HttpStatus.OK);
+	}
+
 
 }

@@ -34,7 +34,7 @@ $(document).ready(function() {
                 let odbij = $("<td  id=\"odbij" + zahtev.id + "\"></td>")
                 let a2 = $("<a>Odbij</a>");
                 // alert(zahtev.pacijent)
-                a2.attr("onclick", "odbij(" + zahtev.id + "," + zahtev.pacijent + ");");
+                a2.attr("onclick", "odbij(" + zahtev.id + ");");
                 a2.attr("href", '#')
                     // a2.attr("target", '_blank')
                 odbij.append(a2)
@@ -55,7 +55,56 @@ $(document).ready(function() {
         }
     });
 
-
-
-
 });
+
+
+function prihvati(IDZahteva) {
+    let conf = confirm('Da li ste sigurni da želite da potrvdite zahtev za odsustvom br.' + IDZahteva + "?")
+    if (conf == true) {
+        $.ajax({
+            url: "/klinicki-centar/ZZG/Prihvati/" + IDZahteva,
+            contentType: "application/json",
+            dataType: 'json',
+            type: "put",
+            success: function() {
+                $("#td" + IDZahteva).html("PRIHVACEN")
+                $("#odbij" + IDZahteva).remove()
+                $("#prihvatiTD" + IDZahteva).remove()
+            }
+        });
+    } else {
+        return;
+    }
+
+}
+
+
+function odbij(IDZahteva) {
+	var razlog = prompt("Razlog odbijanja zahteva: ", "");
+	console.log(razlog);
+    let conf = confirm('Da li ste sigurni da želite da odbijete zahtev za odsustvom br.' + IDZahteva + "?");
+    if (conf == true) {
+        $("#odbij" + IDZahteva).remove()
+        $("#prihvatiTD" + IDZahteva).remove()
+        $("#td" + IDZahteva).html("ODBIJEN")
+
+        $.ajax({
+            url: "/klinicki-centar/ZZG/Odbij/" + IDZahteva + "/" + razlog,
+            contentType: "application/json",
+            dataType: 'json',
+            type: "put",
+            success: function() {
+                $("#td" + IDZahteva).html("ODBIJEN")
+                $("#odbij" + IDZahteva).remove()
+                $("#prihvatiTD" + IDZahteva).remove()
+            },
+            //async: false
+        });
+
+    } else {
+        return;
+    }
+
+
+
+}

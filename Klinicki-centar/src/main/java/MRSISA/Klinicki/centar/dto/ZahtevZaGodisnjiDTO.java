@@ -15,6 +15,7 @@ public class ZahtevZaGodisnjiDTO {
 	private String email;
 	private Integer medicinskaSestra;
 	private String stanje;
+	//private String razlogOdbijanja;
 
 	public ZahtevZaGodisnjiDTO() {
 	}
