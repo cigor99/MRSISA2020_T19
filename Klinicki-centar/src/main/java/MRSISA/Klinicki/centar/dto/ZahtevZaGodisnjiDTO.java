@@ -12,7 +12,9 @@ public class ZahtevZaGodisnjiDTO {
 	private String pocetniDatum;
 	private String krajnjiDatum;
 	private Integer lekar;
+	private String email;
 	private Integer medicinskaSestra;
+	private String stanje;
 
 	public ZahtevZaGodisnjiDTO() {
 	}
@@ -22,11 +24,14 @@ public class ZahtevZaGodisnjiDTO {
 		this.id = zahtev.getId();
 		this.pocetniDatum = zahtev.getPocetniDatum().toString();
 		this.krajnjiDatum = zahtev.getKrajnjiDatum().toString();
+		this.stanje = zahtev.getStanjeZahteva().name();
 		if (zahtev.getLekar() != null) {
 			this.lekar = zahtev.getLekar().getId();
+			this.email = zahtev.getLekar().getEmail();
 		}
 		if (zahtev.getMedicinskaSestra() != null) {
 			this.medicinskaSestra = zahtev.getMedicinskaSestra().getId();
+			this.email = zahtev.getMedicinskaSestra().getEmail();
 		}
 	}
 
@@ -79,6 +84,22 @@ public class ZahtevZaGodisnjiDTO {
 
 	public void setMedicinskaSestra(Integer medicinskaSestra) {
 		this.medicinskaSestra = medicinskaSestra;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getStanje() {
+		return stanje;
+	}
+
+	public void setStanje(String stanje) {
+		this.stanje = stanje;
 	}
 
 }

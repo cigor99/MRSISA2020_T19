@@ -11,6 +11,9 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
@@ -25,10 +28,13 @@ import MRSISA.Klinicki.centar.domain.AdministratorKlinike;
 import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.MedicinskaSestra;
 import MRSISA.Klinicki.centar.domain.Pregled;
+import MRSISA.Klinicki.centar.domain.Sala;
 import MRSISA.Klinicki.centar.domain.StanjeZahteva;
 import MRSISA.Klinicki.centar.domain.ZahtevZaGodisnjiOdmor;
+import MRSISA.Klinicki.centar.dto.AdminKDTO;
 import MRSISA.Klinicki.centar.dto.LekarDTO;
 import MRSISA.Klinicki.centar.dto.MedicinskaSestraDTO;
+import MRSISA.Klinicki.centar.dto.SalaDTO;
 import MRSISA.Klinicki.centar.dto.ZahtevZaGodisnjiDTO;
 import MRSISA.Klinicki.centar.service.LekarService;
 import MRSISA.Klinicki.centar.service.MedicinskaSestraSerive;
@@ -200,7 +206,7 @@ public class ZahtevZGController {
 	 * 
 	 */
 	@GetMapping("/ZZG/getZahtev")
-	public ResponseEntity<Object> getAll() {
+	public ResponseEntity<Object> getPrihvaceni() {
 		Object logged = request.getSession().getAttribute("current");
 		Object tipKorisnika = request.getSession().getAttribute("tip");
 		List<ZahtevZaGodisnjiOdmor> godisnji = zahtevService.findAll();
@@ -227,6 +233,36 @@ public class ZahtevZGController {
 		}
 
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
+	}
+	
+	@GetMapping("/ZZG/page")
+	public ResponseEntity<List<ZahtevZaGodisnjiDTO>> getZZGPage(){
+		System.out.println("ZAHTEVI");
+		Pageable prvihDeset = PageRequest.of(0, 10);
+		Page<ZahtevZaGodisnjiOdmor> zahtevi =  zahtevService.findAll(prvihDeset);
+		List<ZahtevZaGodisnjiDTO> zahteviDTO = new ArrayList<ZahtevZaGodisnjiDTO>();
+		int klinika = -1;
+		String tip = (String) request.getSession().getAttribute("tip");
+		if(tip.equals("adminKlinike")) {
+			AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
+			klinika = admink.getKlinikaID();
+		}
+		if(klinika != -1) {			
+			for(ZahtevZaGodisnjiOdmor z : zahtevi) {
+				if(z.getLekar() != null) {
+					if(z.getLekar().getKlinika().getId().equals(klinika)) {
+						zahteviDTO.add(new ZahtevZaGodisnjiDTO(z));
+					}
+				}
+				else {
+					if(z.getMedicinskaSestra().getKlinika().getId().equals(klinika)) {
+						zahteviDTO.add(new ZahtevZaGodisnjiDTO(z));
+					}
+				}
+			}
+		}
+		
+		return new ResponseEntity<>(zahteviDTO, HttpStatus.OK);
 	}
 
 }
