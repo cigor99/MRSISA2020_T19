@@ -38,7 +38,6 @@ import MRSISA.Klinicki.centar.domain.Pregled;
 import MRSISA.Klinicki.centar.domain.StanjePacijenta;
 import MRSISA.Klinicki.centar.domain.StanjeZahteva;
 import MRSISA.Klinicki.centar.domain.ZahtevZaRegistraciju;
-import MRSISA.Klinicki.centar.dto.IstorijaPregledaDTO;
 import MRSISA.Klinicki.centar.dto.OperacijaDTO;
 import MRSISA.Klinicki.centar.dto.Osoba;
 import MRSISA.Klinicki.centar.dto.PacijentDTO;
