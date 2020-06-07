@@ -235,7 +235,7 @@ $(document).ready(function () {
                 // let TDkarton = $("<td>" + "<a href=\"pacijentProfil.html?id=" + pacijent.id + "\">Karton</a></td>")
                 let TDprofil = $("<td></td>")
                 let profil = $("<a>Profil lekara</a>")
-                profil.attr("href", 'profilLekara.html?id=' + lekar.id +"&klinika=" + window.klinika.id)
+                profil.attr("href", 'zakazivanjePregleda.html?id=' + lekar.id +"&klinika=" + window.klinika.id)
                 TDprofil.append(profil);
 
                 // tr.append(idTD)

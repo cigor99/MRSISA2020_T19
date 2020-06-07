@@ -1,7 +1,11 @@
 package MRSISA.Klinicki.centar.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,12 +32,17 @@ import MRSISA.Klinicki.centar.domain.AdministratorKlinike;
 import MRSISA.Klinicki.centar.domain.KlinickiCentar;
 import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.MedicinskaSestra;
+import MRSISA.Klinicki.centar.domain.Operacija;
 import MRSISA.Klinicki.centar.domain.Pacijent;
+import MRSISA.Klinicki.centar.domain.Pregled;
 import MRSISA.Klinicki.centar.domain.StanjePacijenta;
 import MRSISA.Klinicki.centar.domain.StanjeZahteva;
 import MRSISA.Klinicki.centar.domain.ZahtevZaRegistraciju;
+import MRSISA.Klinicki.centar.dto.IstorijaPregledaDTO;
+import MRSISA.Klinicki.centar.dto.OperacijaDTO;
 import MRSISA.Klinicki.centar.dto.Osoba;
 import MRSISA.Klinicki.centar.dto.PacijentDTO;
+import MRSISA.Klinicki.centar.dto.PregledDTO;
 import MRSISA.Klinicki.centar.service.AdminKCSerivce;
 import MRSISA.Klinicki.centar.service.AdminKService;
 import MRSISA.Klinicki.centar.service.LekarService;
@@ -66,6 +75,9 @@ public class PacijentController {
 
 	@Autowired
 	private MedicinskaSestraSerive medSesService;
+	
+	@Autowired
+	HttpServletRequest request;
 
 	/*
 	 * Get zahtev Vraca sve pacijente iz baze
@@ -381,6 +393,26 @@ public class PacijentController {
 
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
+	
+	@GetMapping("/istorijaPregleda")
+	public ResponseEntity<Set<PregledDTO>> getIstorija(){
+		Set<PregledDTO> istorija = new HashSet<>();
+		Object current = request.getSession().getAttribute("current");
+		PacijentDTO curr = null;
+		try {
+			curr = (PacijentDTO) current;
+		}catch (ClassCastException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+		Pacijent p = pacijentService.findOne(curr.getId());
+		for(Pregled pregled : p.getIstorijaPregleda()) {
+			istorija.add(new PregledDTO(pregled));
+		}
+		
+		return new ResponseEntity<>(istorija, HttpStatus.OK);
+		
+	}
 
 	/* Funkcija koja proverava da li postoji dati email u bazi */
 	private boolean jedinstvenEmail(Osoba osoba, Boolean dodavanje) {
@@ -500,5 +532,7 @@ public class PacijentController {
 		}
 		return true;
 	}
+	
+	
 
 }
