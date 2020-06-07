@@ -49,11 +49,13 @@ function ucitaj(tipKorisnika) {
     } else if (tipKorisnika == "superAdmin") {
         // header = "adminKlinikeHeader.html";
         console.log(tipKorisnika);
+        header = "superadminHeader.html";
         let h1 = $("<h1></h1>");
         h1.append("Super administrator");
         h1.css("background", "#ed5e5e");
         $("#naslov").append(h1);
     } else if (tipKorisnika == "adminKC") {
+    	header = "adminKCHeader.html";
         $("#naslov").append("<h1>Admin KC</h1>");
     } else if (tipKorisnika == "lekar") {
     	header = "lekarHeader.html";
