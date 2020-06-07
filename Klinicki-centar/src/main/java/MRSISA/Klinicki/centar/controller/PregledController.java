@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -215,6 +216,24 @@ public class PregledController {
 			}
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+	
+	@GetMapping("/definisaniPregledi/{idKlinike}")
+	public ResponseEntity<Object> definisaniPregledi(@PathVariable Integer idKlinike){
+		List<Pregled> pregledi = pregledService.findAll();
+		Set<PregledDTO> slobodni = new HashSet<PregledDTO>();
+		Date danas = new Date();
+		for(Pregled p: pregledi) {
+			if(p.isSlobodan()) {
+				if(p.getLekar().getKlinika().getId().equals(idKlinike)) {
+					if(p.getDatum().before(danas))
+						continue;
+					slobodni.add(new PregledDTO(p));
+				}
+			}
+		}
+		return new ResponseEntity<>(slobodni, HttpStatus.OK);
+		
 	}
 
 }

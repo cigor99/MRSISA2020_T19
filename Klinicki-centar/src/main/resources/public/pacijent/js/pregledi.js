@@ -1,7 +1,57 @@
+$(document).ready( function() {	
+    var imeCoded = window.location.href.split("?")[1];
+    var imeJednako = imeCoded.split("&")[0];
+    var imeParam = imeJednako.split("=")[1];if(imeParam == undefined){
+    	alert("Morate prvo izabrati kliniku")
+    	window.location.replace("/klinicki-centar/pretragaKlinika.html");
+    }else{
+    	$.ajax({
+    		type: "get",
+    		url: "/klinicki-centar/klinika/getUpdate/" + imeParam,
+    		success: function(data){
+    			window.klinika = data;
+    		},
+    		error: function(data){
+    			alert("error in get klinika");
+    		},
+    		async:false
+        });
+        $.ajax({
+            url: "/klinicki-centar/login/tipKorisnika",
+            type: "get",
+            success: function(data) {
+                window.tipKorisnika = data
+                console.log(data)
+            },
+            error: function(data){
+                alert("error getTipKorisnika")
+            },
+            async: false
+        });
+        
+        if(window.tipKorisnika != "pacijent"){
+            alert("Ovo je samo za pacijenta")
+            $.ajax({
+                type: "get",
+                url: "/klinicki-centar/login/logout",
+                success: function(data) {
+                    window.location.replace("/klinicki-centar/login.html");
+                },
+                error: function(jqXHR) {
+                    alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+                },
+            });
+        }else{
+            ucitajTabelu();
+        }
+    }
+    //ucitajTabelu();
+});
+
 function ucitajTabelu() {
     $.ajax({
         type: "get",
-        url: "/klinicki-centar/pregled/page",
+        url: "/klinicki-centar/pregled/definisaniPregledi/" + window.klinika.id,
         success: function (data) {
         	console.log("success");
         	var table = $("#pregledi")
@@ -34,72 +84,6 @@ function ucitajTabelu() {
         }
     });
 }
-
-function ucitajSale() {
-    $.ajax({
-        type: "get",
-        url: "/klinicki-centar/sala/page",
-        success: function (data) {
-        	var table = $("#sale")
-            for (var sala of data) {               
-                let tr = $("<tr id=\"tr" + sala.id + "\"></tr>");
-                let id = $("<td>" + sala.id + "</td>")
-                let naziv = $("<td>" + sala.naziv + "</td>")
-                let tip = $("<td>" + sala.tip + "</td>")      
-                
-                let izaberi = $("<td>" + "<a href=\"dodavanjePregleda.html?id=" + sala.id + "\">Izaberi</a></td>")
-                tr.append(id);
-                tr.append(naziv);
-                tr.append(tip);               
-                tr.append(izaberi);
-                table.append(tr);
-            }
-
-        },error: function(jqXHR) {
-            alert("Error: " + jqXHR.status + ", " + jqXHR.responseText);
-        }
-    });
-}
-
-function datumVreme(){
-	var dt = $("#date-time").val();
-	console.log(dt);
-	var trajanje = $("#trajanje").val();
-	console.log(trajanje);
-	/*var data = JSON.stringify({
-        datumVreme: dt,
-        trajanje: trajanje,
-    });*/
-	$.ajax({
-        type: "POST",
-        contentType: "application/json",
-        url: "/klinicki-centar/sala/filterTime",
-        dataType: 'json',
-        data: dt+";"+trajanje,
-        success : function (sale) {
-        	console.log(sale);
-        	$("#table_body").empty();
-        	var table = $("#sale")
-            for (var sala of sale) {               
-                let tr = $("<tr id=\"tr" + sala.id + "\"></tr>");
-                let id = $("<td>" + sala.id + "</td>")
-                let naziv = $("<td>" + sala.naziv + "</td>")
-                let tip = $("<td>" + sala.tip + "</td>")                
-                let izaberi = $("<td>" + "<a href=\"dodavanjePregleda.html?id=" + sala.id + "\">Izaberi</a></td>")
-                tr.append(id);
-                tr.append(naziv);
-                tr.append(tip);               
-                tr.append(izaberi);
-                table.append(tr);
-            }
-
-		},error: function(jqXHR) {
-            alert("Error: " + jqXHR.status + ", " + jqXHR.responseText);
-        }
-        
-    });
-}
-
 
 function zakazi(idPregleda){
     $.ajax({

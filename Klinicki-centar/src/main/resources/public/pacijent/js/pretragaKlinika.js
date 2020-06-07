@@ -96,13 +96,20 @@ function pretraga(){
 	if(dyint < tyint){
 		alert("Ne smete izabrati datum koji je vec prosao")
 		return;
-	}else if(dmint < tmint){
-		alert("Ne smete izabrati datum koji je vec prosao")
-		return;
-	}else if(ddint < tdint){
-		alert("Ne smete izabrati datum koji je vec prosao")
-		return;
 	}
+	if(dyint == tyint){
+		if(dmint < tmint){
+			alert("Ne smete izabrati datum koji je vec prosao")
+			return;
+		}
+		if(dmint == tmint){
+			if(ddint < tdint){
+				alert("Ne smete izabrati datum koji je vec prosao")
+				return;
+			}
+		}
+	}
+
 
 	var tipID = null;
 	let tipNaz = $("#tip").val()

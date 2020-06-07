@@ -50,10 +50,11 @@ $(document).ready(function () {
 		        type: "get",
 		        success: function(data) {
 		            window.ulogovani = data;
-		            
+		            console.log(window.klinika);
 		            var naslov = $("#naslov");
 		        	naslov.empty();
-		    		naslov.append('<h1>'+window.ulogovani.ime+" " + window.ulogovani.prezime+'</h1>');
+                    naslov.append('<h1>'+window.klinika.naziv+'</h1>');
+                    naslov.append('<a href="pregledi.html?id=' + window.klinika.id +'"><h1>Brzo zakazivanje<h1></a>');
 		    		naslov.append('<h1>Lekari</h1>');
 		        }
 		 });
