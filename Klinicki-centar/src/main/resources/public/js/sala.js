@@ -75,6 +75,10 @@ function pretraga(){
 		w = "ZA_PREGLED";
 		console.log(w);
 	}
+	else if(pp[1] == "operacija"){
+		w = "OPERACIONA"
+	}
+	
 	var trazi = $('#trazi').val();
 	console.log(trazi);
 	if(trazi == ""){
@@ -128,8 +132,18 @@ function filtriranje(){
 		filter = tipSelected.options[tipSelected.selectedIndex].value;
 	}
 	else {
-		filter = "ZA_PREGLED";
+		var pp = p.split("=");
+		var w = "";
+		if(pp[1] == "pregled"){
+			filter = "ZA_PREGLED";
+			console.log(w);
+		}
+		else if(pp[1] == "operacija"){
+			filter = "OPERACIONA"
+		}
+		
 	}
+	
 	console.log(filter);
 	$.ajax({
         type: "POST",
@@ -460,12 +474,23 @@ function datumVreme(){
 	console.log(dt);
 	var trajanje = $("#trajanje").val();
 	console.log(trajanje);
-
+	
+	var p = window.location.search.substr(1);
+	var pp = p.split("=");
+	var w = "";	
+	if(pp[1] == "pregled"){
+		w = "ZA_PREGLED";
+	}
+	else if(pp[1] == "operacija"){
+		w = "OPERACIONA"
+	}
+	console.log(w);
+	
 	if(trajanje != "" && dt != ""){
 		$.ajax({
 	        type: "POST",
 	        contentType: "application/json",
-	        url: "/klinicki-centar/sala/filterTime",
+	        url: "/klinicki-centar/sala/filterTime/"+w,
 	        dataType: 'json',
 	        data: dt+";"+trajanje,
 	        success : function (sale) {

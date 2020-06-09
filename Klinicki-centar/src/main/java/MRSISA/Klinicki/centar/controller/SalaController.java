@@ -142,17 +142,9 @@ public class SalaController {
 		System.out.println(w);
 		if(klinika != -1) {
 			for(Sala s : salaService.findAll()) {
-				if(s.getNaziv().contains(pretraga)  && s.getKlinika().getId().equals(klinika)) {
-					if(w.equals("ZA_PREGLED")) {
-						if(s.getTip().equals(TipSale.ZA_PREGLED)) {
-							SalaDTO sala = new SalaDTO(s);
-							retVal.add(sala);
-						}
-					}
-					else {
-						SalaDTO sala = new SalaDTO(s);
-						retVal.add(sala);
-					}
+				if(s.getNaziv().contains(pretraga)  && s.getKlinika().getId().equals(klinika) && s.getTip().toString().equals(w)) {					
+					SalaDTO sala = new SalaDTO(s);
+					retVal.add(sala);					
 				}
 			}
 		}
@@ -185,8 +177,8 @@ public class SalaController {
 	
 	}
 	
-	@PostMapping("/sala/filterTime")
-	public ResponseEntity<List<SalaDTO>> filterSalaTime(@RequestBody String filter){
+	@PostMapping("/sala/filterTime/{w}")
+	public ResponseEntity<List<SalaDTO>> filterSalaTime(@RequestBody String filter, @PathVariable String w){
 		List<SalaDTO> retVal = new ArrayList<SalaDTO>();
 		System.out.println(filter);
 		String[] f = filter.split(";");
@@ -212,7 +204,7 @@ public class SalaController {
 				klinika = lekar.getKlinikaID();
 			}				
 			for(Sala s : salaService.findAll()) {
-				if(klinika != -1 && s.getKlinika().getId().equals(klinika) && s.getTip().equals(TipSale.ZA_PREGLED)) {
+				if(klinika != -1 && s.getKlinika().getId().equals(klinika) && s.getTip().toString().equals(w)) {
 					boolean moze = true;
 					for(Pregled p : s.getPregledi()) {
 						Date datum1 = p.getDatum();
