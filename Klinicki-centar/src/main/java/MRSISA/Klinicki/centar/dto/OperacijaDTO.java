@@ -1,15 +1,11 @@
 package MRSISA.Klinicki.centar.dto;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.Operacija;
-import MRSISA.Klinicki.centar.domain.Sala;
-
 public class OperacijaDTO {
 	private int id;
 	private String datumivreme;
@@ -27,6 +23,25 @@ public class OperacijaDTO {
 	public OperacijaDTO() {
 		super();
 	}
+	
+	
+
+	public OperacijaDTO(int id, String datumivreme, String datum, String vreme, String sala, String tipPregleda,
+			Double cena, int trajanje, Integer pacijent, Set<String> lekari) {
+		super();
+		this.id = id;
+		this.datumivreme = datumivreme;
+		this.datum = datum;
+		this.vreme = vreme;
+		this.sala = sala;
+		this.tipPregleda = tipPregleda;
+		this.cena = cena;
+		this.trajanje = trajanje;
+		this.pacijent = pacijent;
+		this.lekari = lekari;
+	}
+
+
 
 	public OperacijaDTO(Operacija o) {
 		this.id = o.getId();
@@ -37,7 +52,7 @@ public class OperacijaDTO {
 		this.sala = o.getSala().getNaziv();
 		Set<String> imena = new HashSet<>();
 		for(Lekar l : o.getLekari()) {
-			imena.add(""+l.getIme()+ " " + l.getPrezime());
+			imena.add(l.getIme()+ " " + l.getPrezime());
 		}
 		this.lekari = imena;
 		this.tipPregleda = o.getTipPregleda().getNaziv();
@@ -68,4 +83,85 @@ public class OperacijaDTO {
 		return true;
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getDatumivreme() {
+		return datumivreme;
+	}
+
+	public void setDatumivreme(String datumivreme) {
+		this.datumivreme = datumivreme;
+	}
+
+	public String getDatum() {
+		return datum;
+	}
+
+	public void setDatum(String datum) {
+		this.datum = datum;
+	}
+
+	public String getVreme() {
+		return vreme;
+	}
+
+	public void setVreme(String vreme) {
+		this.vreme = vreme;
+	}
+
+	public String getSala() {
+		return sala;
+	}
+
+	public void setSala(String sala) {
+		this.sala = sala;
+	}
+
+	public String getTipPregleda() {
+		return tipPregleda;
+	}
+
+	public void setTipPregleda(String tipPregleda) {
+		this.tipPregleda = tipPregleda;
+	}
+
+	public Double getCena() {
+		return cena;
+	}
+
+	public void setCena(Double cena) {
+		this.cena = cena;
+	}
+
+	public int getTrajanje() {
+		return trajanje;
+	}
+
+	public void setTrajanje(int trajanje) {
+		this.trajanje = trajanje;
+	}
+
+	public Integer getPacijent() {
+		return pacijent;
+	}
+
+	public void setPacijent(Integer pacijent) {
+		this.pacijent = pacijent;
+	}
+
+	public Set<String> getLekari() {
+		return lekari;
+	}
+
+	public void setLekari(Set<String> lekari) {
+		this.lekari = lekari;
+	}
+
+	
 }
