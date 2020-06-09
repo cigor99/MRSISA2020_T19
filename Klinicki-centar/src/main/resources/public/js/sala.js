@@ -4,13 +4,13 @@ function ucitajTabelu() {
     console.log(p);
     if(p != ""){
     	document.getElementById('dodajSalu').style.visibility = 'hidden';
-    	document.getElementById('div_podaci').style.display = 'block';
+    	//document.getElementById('div_podaci').style.display = 'block';
     	document.getElementById('filter').style.display = 'none';
     	filtriranje();
     }
     else {
     	document.getElementById('dodajSalu').style.visibility = 'visible';
-    	document.getElementById('div_podaci').style.display = 'none';
+    	//document.getElementById('div_podaci').style.display = 'none';
     	document.getElementById('filter').style.display = 'block';
     
 	    $.ajax({
@@ -70,7 +70,7 @@ function proveriKorisnika(){
 function pretraga(){
 	var p = window.location.search.substr(1);
 	var pp = p.split("=");
-	var w = "";
+	var w = "nista";
 	if(pp[1] == "pregled"){
 		w = "ZA_PREGLED";
 		console.log(w);
@@ -477,7 +477,7 @@ function datumVreme(){
 	
 	var p = window.location.search.substr(1);
 	var pp = p.split("=");
-	var w = "";	
+	var w = "nista";	
 	if(pp[1] == "pregled"){
 		w = "ZA_PREGLED";
 	}
@@ -498,7 +498,7 @@ function datumVreme(){
 	        	$("#table_body").empty();
 	        	var table = $("#sale")
 	            for (var sala of sale) {
-	                let tr = $("<tr id=\"tr" + sala.id + "\"></tr>");
+	            	let tr = $("<tr id=\"tr" + sala.id + "\"></tr>");
 	                let id = $("<td>" + sala.id + "</td>");
 	                let naziv = $("<td>" + sala.naziv + "</td>");
 	                let tip = $("<td>" + sala.tip + "</td>");
@@ -509,8 +509,14 @@ function datumVreme(){
 	                tr.append(id);
 	                tr.append(naziv);
 	                tr.append(tip);
-	                tr.append(slobodna);               
-	                tr.append(izaberi);	                              
+	                tr.append(slobodna);
+	                if(p == ""){
+	                	tr.append(izmeni);
+	                    tr.append(ukloni);
+	                }
+	                else {
+	                	tr.append(izaberi);
+	                }                
 	                table.append(tr);
 	            }
 

@@ -139,12 +139,19 @@ public class SalaController {
 			LekarDTO lekar = (LekarDTO) request.getSession().getAttribute("current");
 			klinika = lekar.getKlinikaID();
 		}
-		System.out.println(w);
+		System.out.println("w: "+w);
 		if(klinika != -1) {
 			for(Sala s : salaService.findAll()) {
-				if(s.getNaziv().contains(pretraga)  && s.getKlinika().getId().equals(klinika) && s.getTip().toString().equals(w)) {					
-					SalaDTO sala = new SalaDTO(s);
-					retVal.add(sala);					
+				if(s.getNaziv().contains(pretraga)  && s.getKlinika().getId().equals(klinika)) {					
+					if(w.equals("nista")) {
+						SalaDTO sala = new SalaDTO(s);
+						retVal.add(sala);	
+					}
+					else if(s.getTip().toString().equals(w)) {
+						SalaDTO sala = new SalaDTO(s);
+						retVal.add(sala);
+					}
+										
 				}
 			}
 		}
@@ -204,23 +211,44 @@ public class SalaController {
 				klinika = lekar.getKlinikaID();
 			}				
 			for(Sala s : salaService.findAll()) {
-				if(klinika != -1 && s.getKlinika().getId().equals(klinika) && s.getTip().toString().equals(w)) {
-					boolean moze = true;
-					for(Pregled p : s.getPregledi()) {
-						Date datum1 = p.getDatum();
-						Date datum2 = new Date();
-						datum2.setTime(datum1.getTime()+p.getTipPregleda().getTrajanje());
-						if(date2.compareTo(datum1)<=0 || date.compareTo(datum2)>=0) {
-							moze = true;
+				if(klinika != -1 && s.getKlinika().getId().equals(klinika)) {
+					if(w.equals("nista")) {
+						boolean moze = true;
+						for(Pregled p : s.getPregledi()) {
+							Date datum1 = p.getDatum();
+							Date datum2 = new Date();
+							datum2.setTime(datum1.getTime()+p.getTipPregleda().getTrajanje());
+							if(date2.compareTo(datum1)<=0 || date.compareTo(datum2)>=0) {
+								moze = true;
+							}
+							else {
+								moze = false;
+							}					
 						}
-						else {
-							moze = false;
-						}					
+						if(moze) {
+							SalaDTO sala = new SalaDTO(s);
+							retVal.add(sala);
+						}	
 					}
-					if(moze) {
-						SalaDTO sala = new SalaDTO(s);
-						retVal.add(sala);
+					else if(s.getTip().toString().equals(w)) {
+						boolean moze = true;
+						for(Pregled p : s.getPregledi()) {
+							Date datum1 = p.getDatum();
+							Date datum2 = new Date();
+							datum2.setTime(datum1.getTime()+p.getTipPregleda().getTrajanje());
+							if(date2.compareTo(datum1)<=0 || date.compareTo(datum2)>=0) {
+								moze = true;
+							}
+							else {
+								moze = false;
+							}					
+						}
+						if(moze) {
+							SalaDTO sala = new SalaDTO(s);
+							retVal.add(sala);
+						}
 					}
+					
 				}
 			}
 		} catch (ParseException e) {
