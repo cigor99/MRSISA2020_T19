@@ -53,6 +53,12 @@ public class Klinika {
 	
 	@Column(name = "ocena", unique = false)
 	private Double prosecnaOcena = 3.0;
+	
+	@Column(name="pocetak_RV", unique=false)
+	private String pocetakRadnogVremena;
+	
+	@Column(name="kraj_RV", unique=false)
+	private String krajRadnogVremena;
 
 	public String getNaziv() {
 		return naziv;
@@ -87,9 +93,19 @@ public class Klinika {
 		this.adresa = adresa;
 		this.opis = opis;
 	}
+	
+	public Klinika(Integer id, String naziv, String adresa, String opis, String pocetakRV, String krajRV) {
+		super();
+		this.id = id;
+		this.naziv = naziv;
+		this.adresa = adresa;
+		this.opis = opis;
+		this.pocetakRadnogVremena = pocetakRV;
+		this.krajRadnogVremena = krajRV;
+	}
 
 	public Klinika(Integer id, String naziv, String adresa, String opis, Set<AdministratorKlinike> administratori,
-			Set<Lekar> lekari, Cenovnik cenovnik, Set<Sala> sale, Set<Ocena> ocene) {
+			Set<Lekar> lekari, Cenovnik cenovnik, Set<Sala> sale, Set<Ocena> ocene, String pocetakRV, String krajRV) {
 		super();
 		this.id = id;
 		this.naziv = naziv;
@@ -101,6 +117,8 @@ public class Klinika {
 		this.sale = sale;
 		this.ocene = ocene;
 		this.prosecnaOcena = izracunajProsecnuOcenu();
+		this.pocetakRadnogVremena = pocetakRV;
+		this.krajRadnogVremena = krajRV;
 	}
 	
 	public double izracunajProsecnuOcenu() {

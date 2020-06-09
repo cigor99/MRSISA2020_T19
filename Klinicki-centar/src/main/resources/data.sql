@@ -18,9 +18,9 @@ INSERT INTO PACIJENTI (ID_PACIJENTA, ADRESA, BROJ_TELEFONA, DRZAVA, EMAIL, GRAD,
 (7, 'Patrijarha Pavla 20', '+352623653333', 'Srbija', 'jovan7@hotmail.com', 'Subotica', 'Jovan', '7', '1234567891024', 'Sifra1', 0, 'Jovanovic', 2, NULL, 7),
 (8, 'Kosovska 12', '+352623656633', 'Srbija', 'jovanaj@hotmail.com', 'Novi Sad', 'Jovana', '8', '1234567891025', 'Laptop43', 1, 'Jovic', 2, NULL, 8);
 
-INSERT INTO Klinike (ID_Klinike, ADRESA, NAZIV, OPIS) VALUES
-(1, 'Adresa Klinike 1', 'klinika 1', 'opis'),
-(2, 'Adresa Klinike 2', 'klinika 2', 'opis');
+INSERT INTO Klinike (ID_Klinike, ADRESA, NAZIV, OPIS, POCETAK_RV, KRAJ_RV) VALUES
+(1, 'Adresa Klinike 1', 'klinika 1', 'opis', '08:00', '16:00'),
+(2, 'Adresa Klinike 2', 'klinika 2', 'opis', '08:00', '16:00');
 
 INSERT INTO KLINICKI_CENTAR (ID_KC) VALUES (1);
 
