@@ -29,6 +29,9 @@ public class Operacija {
 
 	@Column(name = "datum", unique = false, nullable = false)
 	private Date datum;
+	
+	@Column(name = "trajanje", unique = false, nullable = false)
+	private int trajanje;
 
 	@ManyToOne
 	@JoinColumn(name = "sala", referencedColumnName = "ID_Sale", nullable = false)
@@ -147,6 +150,14 @@ public class Operacija {
 
 	public void setPacijent(Pacijent pacijent) {
 		this.pacijent = pacijent;
+	}
+
+	public int getTrajanje() {
+		return trajanje;
+	}
+
+	public void setTrajanje(int trajanje) {
+		this.trajanje = trajanje;
 	}
 
 }

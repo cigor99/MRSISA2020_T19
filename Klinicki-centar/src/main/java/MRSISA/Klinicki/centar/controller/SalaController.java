@@ -47,6 +47,7 @@ public class SalaController {
 	@Autowired
 	private TipPregledaService tipPregledaService;
 	
+	
 	@Autowired
 	HttpServletRequest request;
 
@@ -96,6 +97,7 @@ public class SalaController {
 			for(Sala s : sale) {
 				if(s.getKlinika().getId().equals(klinika)) {
 					saleDTO.add(new SalaDTO(s));
+					System.out.println(s.getNaziv());
 				}
 			}
 		}
@@ -126,10 +128,22 @@ public class SalaController {
 	public ResponseEntity<List<SalaDTO>> searchSala(@RequestBody String pretraga){
 		List<SalaDTO> retVal = new ArrayList<SalaDTO>();
 		System.out.println(pretraga);
-		for(Sala s : salaService.findAll()) {
-			if(s.getNaziv().contains(pretraga)) {
-				SalaDTO sala = new SalaDTO(s);
-				retVal.add(sala);
+		int klinika = -1;
+		String tip = (String) request.getSession().getAttribute("tip");
+		if(tip.equals("adminKlinike")) {
+			AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
+			klinika = admink.getKlinikaID();
+		}
+		else if(tip.equals("lekar")) {
+			LekarDTO lekar = (LekarDTO) request.getSession().getAttribute("current");
+			klinika = lekar.getKlinikaID();
+		}
+		if(klinika != -1) {
+			for(Sala s : salaService.findAll()) {
+				if(s.getNaziv().contains(pretraga)  && s.getKlinika().getId().equals(klinika)) {
+					SalaDTO sala = new SalaDTO(s);
+					retVal.add(sala);
+				}
 			}
 		}
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
@@ -139,10 +153,22 @@ public class SalaController {
 	@PostMapping("/sala/filter")
 	public ResponseEntity<List<SalaDTO>> filterSala(@RequestBody String filter){
 		List<SalaDTO> retVal = new ArrayList<SalaDTO>();
-		for(Sala s : salaService.findAll()) {
-			if(s.getTip().toString().equals(filter)) {
-				SalaDTO sala = new SalaDTO(s);
-				retVal.add(sala);
+		int klinika = -1;
+		String tip = (String) request.getSession().getAttribute("tip");
+		if(tip.equals("adminKlinike")) {
+			AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
+			klinika = admink.getKlinikaID();
+		}
+		else if(tip.equals("lekar")) {
+			LekarDTO lekar = (LekarDTO) request.getSession().getAttribute("current");
+			klinika = lekar.getKlinikaID();
+		}
+		if(klinika != -1) {
+			for(Sala s : salaService.findAll()) {
+				if(s.getTip().toString().equals(filter) && s.getKlinika().getId().equals(klinika)) {
+					SalaDTO sala = new SalaDTO(s);
+					retVal.add(sala);
+				}
 			}
 		}
 		return new ResponseEntity<>(retVal, HttpStatus.OK);

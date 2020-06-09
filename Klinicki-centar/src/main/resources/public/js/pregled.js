@@ -333,8 +333,10 @@ function proveriDatum(salaId, datum, tipPregledaId) {
 }
 
 function pretraziSale() {
-    myWindow = window.open("http://localhost:8080/klinicki-centar/izborSaleZaPregled.html", "", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=100,width=800,height=500");
-    console.log(myWindow);
+	//window.sale = "izbor";
+    //myWindow = window.open("http://localhost:8080/klinicki-centar/izborSaleZaPregled.html", "", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=100,width=800,height=500");
+    myWindow = window.open("http://localhost:8080/klinicki-centar/sale.html?w=izbor", "", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=100,width=800,height=500");
+    //console.log(myWindow);
     console.log(myWindow.parent);
 }
 

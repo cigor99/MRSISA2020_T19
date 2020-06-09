@@ -3,6 +3,7 @@ function ucitajZaglavlje() {
     //var tipKorisnika = "adminKlinike";
     var tipKorisnika = "";
     window.tipKorisnika = "";
+    window.sale = "";
     $.ajax({
         url: "/klinicki-centar/login/getLoggedUser",
         type: "get",
