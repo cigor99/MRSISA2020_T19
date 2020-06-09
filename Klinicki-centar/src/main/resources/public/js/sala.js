@@ -4,40 +4,46 @@ function ucitajTabelu() {
     console.log(p);
     if(p != ""){
     	document.getElementById('dodajSalu').style.visibility = 'hidden';
+    	document.getElementById('div_podaci').style.display = 'block';
+    	document.getElementById('filter').style.display = 'none';
+    	filtriranje();
     }
     else {
-    	//document.getElementById('div_podaci').style.display = 'none';
+    	document.getElementById('dodajSalu').style.visibility = 'visible';
+    	document.getElementById('div_podaci').style.display = 'none';
+    	document.getElementById('filter').style.display = 'block';
+    
+	    $.ajax({
+	        type: "get",
+	        url: "/klinicki-centar/sala/page",
+	        success: function (data) {
+	        	var table = $("#sale")
+	            for (var sala of data) {
+	                let tr = $("<tr id=\"tr" + sala.id + "\"></tr>");
+	                let id = $("<td>" + sala.id + "</td>");
+	                let naziv = $("<td>" + sala.naziv + "</td>");
+	                let tip = $("<td>" + sala.tip + "</td>");
+	                let slobodna = $("<td>" + sala.prviSlobodanTermin + "</td>");
+	                let izmeni = $("<td>" + "<a href=\"izmeniSalu.html?id=" + sala.id + "\">Izmeni</a></td>")
+	                let ukloni = $(`<td><button  type="button" id="ukloniBtn" onclick="ukloniSalu('${sala.id}')">Ukloni</button></td>`)
+	                let izaberi = $(`<td><button  type="button" id="izaberiBtn" onclick="izaberiSalu('${sala.id}')">Izaberi</button></td>`)
+	                tr.append(id);
+	                tr.append(naziv);
+	                tr.append(tip);
+	                tr.append(slobodna);
+	                if(p == ""){
+	                	tr.append(izmeni);
+	                    tr.append(ukloni);
+	                }
+	                else {
+	                	tr.append(izaberi);
+	                }                
+	                table.append(tr);
+	            }
+	
+	        }
+	    });
     }
-    $.ajax({
-        type: "get",
-        url: "/klinicki-centar/sala/page",
-        success: function (data) {
-        	var table = $("#sale")
-            for (var sala of data) {
-                let tr = $("<tr id=\"tr" + sala.id + "\"></tr>");
-                let id = $("<td>" + sala.id + "</td>");
-                let naziv = $("<td>" + sala.naziv + "</td>");
-                let tip = $("<td>" + sala.tip + "</td>");
-                let slobodna = $("<td>" + sala.prviSlobodanTermin + "</td>");
-                let izmeni = $("<td>" + "<a href=\"izmeniSalu.html?id=" + sala.id + "\">Izmeni</a></td>")
-                let ukloni = $(`<td><button  type="button" id="ukloniBtn" onclick="ukloniSalu('${sala.id}')">Ukloni</button></td>`)
-                let izaberi = $(`<td><button  type="button" id="izaberiBtn" onclick="izaberiSalu('${sala.id}')">Izaberi</button></td>`)
-                tr.append(id);
-                tr.append(naziv);
-                tr.append(tip);
-                tr.append(slobodna);
-                if(p == ""){
-                	tr.append(izmeni);
-                    tr.append(ukloni);
-                }
-                else {
-                	tr.append(izaberi);
-                }                
-                table.append(tr);
-            }
-
-        }
-    });
     
 }
 
@@ -63,6 +69,12 @@ function proveriKorisnika(){
 
 function pretraga(){
 	var p = window.location.search.substr(1);
+	var pp = p.split("=");
+	var w = "";
+	if(pp[1] == "pregled"){
+		w = "ZA_PREGLED";
+		console.log(w);
+	}
 	var trazi = $('#trazi').val();
 	console.log(trazi);
 	if(trazi == ""){
@@ -72,14 +84,14 @@ function pretraga(){
 	$.ajax({
         type: "POST",
         contentType: "application/json",
-        url: "/klinicki-centar/sala/search",
+        url: "/klinicki-centar/sala/search/"+w,
         dataType: 'json',
         data: trazi,
         success : function (sale) {
         	console.log(sale);
         	$("#table_body").empty();
         	var table = $("#sale")
-            for (var sala of data) {
+            for (var sala of sale) {
                 let tr = $("<tr id=\"tr" + sala.id + "\"></tr>");
                 let id = $("<td>" + sala.id + "</td>");
                 let naziv = $("<td>" + sala.naziv + "</td>");
@@ -110,8 +122,14 @@ function pretraga(){
 
 function filtriranje(){
 	var p = window.location.search.substr(1);
-	var tipSelected = document.getElementById("tipSaleSelect");
-	var filter = tipSelected.options[tipSelected.selectedIndex].value;
+	var filter;
+	if(p == ""){
+		var tipSelected = document.getElementById("tipSaleSelect");
+		filter = tipSelected.options[tipSelected.selectedIndex].value;
+	}
+	else {
+		filter = "ZA_PREGLED";
+	}
 	console.log(filter);
 	$.ajax({
         type: "POST",
@@ -123,7 +141,7 @@ function filtriranje(){
         	console.log(sale);
         	$("#table_body").empty();
         	var table = $("#sale")
-            for (var sala of data) {
+            for (var sala of sale) {
                 let tr = $("<tr id=\"tr" + sala.id + "\"></tr>");
                 let id = $("<td>" + sala.id + "</td>");
                 let naziv = $("<td>" + sala.naziv + "</td>");
@@ -454,16 +472,20 @@ function datumVreme(){
 	        	console.log(sale);
 	        	$("#table_body").empty();
 	        	var table = $("#sale")
-	            for (var sala of sale) {               
+	            for (var sala of sale) {
 	                let tr = $("<tr id=\"tr" + sala.id + "\"></tr>");
-	                let id = $("<td>" + sala.id + "</td>")
-	                let naziv = $("<td>" + sala.naziv + "</td>")
-	                let tip = $("<td>" + sala.tip + "</td>")                
+	                let id = $("<td>" + sala.id + "</td>");
+	                let naziv = $("<td>" + sala.naziv + "</td>");
+	                let tip = $("<td>" + sala.tip + "</td>");
+	                let slobodna = $("<td>" + sala.prviSlobodanTermin + "</td>");
+	                let izmeni = $("<td>" + "<a href=\"izmeniSalu.html?id=" + sala.id + "\">Izmeni</a></td>")
+	                let ukloni = $(`<td><button  type="button" id="ukloniBtn" onclick="ukloniSalu('${sala.id}')">Ukloni</button></td>`)
 	                let izaberi = $(`<td><button  type="button" id="izaberiBtn" onclick="izaberiSalu('${sala.id}')">Izaberi</button></td>`)
 	                tr.append(id);
 	                tr.append(naziv);
-	                tr.append(tip);               
-	                tr.append(izaberi);
+	                tr.append(tip);
+	                tr.append(slobodna);               
+	                tr.append(izaberi);	                              
 	                table.append(tr);
 	            }
 

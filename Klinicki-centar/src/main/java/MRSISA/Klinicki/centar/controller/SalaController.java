@@ -28,6 +28,7 @@ import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.Pregled;
 import MRSISA.Klinicki.centar.domain.Sala;
 import MRSISA.Klinicki.centar.domain.TipPregleda;
+import MRSISA.Klinicki.centar.domain.TipSale;
 import MRSISA.Klinicki.centar.dto.AdminKDTO;
 import MRSISA.Klinicki.centar.dto.LekarDTO;
 import MRSISA.Klinicki.centar.dto.SalaDTO;
@@ -124,8 +125,8 @@ public class SalaController {
 		return new ResponseEntity<>(new SalaDTO(sala), HttpStatus.CREATED);
 	}
 	
-	@PostMapping("/sala/search")
-	public ResponseEntity<List<SalaDTO>> searchSala(@RequestBody String pretraga){
+	@PostMapping("/sala/search/{w}")
+	public ResponseEntity<List<SalaDTO>> searchSala(@RequestBody String pretraga, @PathVariable String w){
 		List<SalaDTO> retVal = new ArrayList<SalaDTO>();
 		System.out.println(pretraga);
 		int klinika = -1;
@@ -138,11 +139,20 @@ public class SalaController {
 			LekarDTO lekar = (LekarDTO) request.getSession().getAttribute("current");
 			klinika = lekar.getKlinikaID();
 		}
+		System.out.println(w);
 		if(klinika != -1) {
 			for(Sala s : salaService.findAll()) {
 				if(s.getNaziv().contains(pretraga)  && s.getKlinika().getId().equals(klinika)) {
-					SalaDTO sala = new SalaDTO(s);
-					retVal.add(sala);
+					if(w.equals("ZA_PREGLED")) {
+						if(s.getTip().equals(TipSale.ZA_PREGLED)) {
+							SalaDTO sala = new SalaDTO(s);
+							retVal.add(sala);
+						}
+					}
+					else {
+						SalaDTO sala = new SalaDTO(s);
+						retVal.add(sala);
+					}
 				}
 			}
 		}
@@ -202,7 +212,7 @@ public class SalaController {
 				klinika = lekar.getKlinikaID();
 			}				
 			for(Sala s : salaService.findAll()) {
-				if(klinika != -1 && s.getKlinika().getId().equals(klinika)) {
+				if(klinika != -1 && s.getKlinika().getId().equals(klinika) && s.getTip().equals(TipSale.ZA_PREGLED)) {
 					boolean moze = true;
 					for(Pregled p : s.getPregledi()) {
 						Date datum1 = p.getDatum();
