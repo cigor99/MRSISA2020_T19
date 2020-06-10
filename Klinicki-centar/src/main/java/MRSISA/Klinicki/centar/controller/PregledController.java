@@ -40,6 +40,7 @@ import MRSISA.Klinicki.centar.domain.TipKorisnika;
 import MRSISA.Klinicki.centar.domain.TipPregleda;
 import MRSISA.Klinicki.centar.domain.ZahtevZaPregled;
 import MRSISA.Klinicki.centar.dto.AdminKDTO;
+import MRSISA.Klinicki.centar.dto.LekarDTO;
 import MRSISA.Klinicki.centar.dto.PacijentDTO;
 import MRSISA.Klinicki.centar.dto.PregledDTO;
 import MRSISA.Klinicki.centar.dto.SalaDTO;
@@ -83,8 +84,27 @@ public class PregledController {
 	public ResponseEntity<List<PregledDTO>> getAllPregledi(){
 		List<Pregled> pregledi = pregledService.findAll();
 		List<PregledDTO> preglediDTO = new ArrayList<PregledDTO>();
-		for(Pregled p : pregledi) {
-			preglediDTO.add(new PregledDTO(p));
+		
+		int klinika = -1;
+		String tip = (String) request.getSession().getAttribute("tip");
+		if(tip.equals("adminKlinike")) {
+			AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
+			klinika = admink.getKlinikaID();
+			for(Pregled p : pregledi) {
+				if(p.getSala().getKlinika().getId().equals(klinika) && (p.getPacijent() == null)) {
+					preglediDTO.add(new PregledDTO(p));
+				}
+			}
+		}
+		else if(tip.equals("lekar")) {
+			LekarDTO lekarDTO = (LekarDTO) request.getSession().getAttribute("current");
+			Lekar lekar = lekarService.findOne(lekarDTO.getId());
+			//klinika = lekar.getKlinika().getId();			
+			for(Pregled p : lekar.getPregledi()) {		
+				if(p.getPacijent() != null) {
+					preglediDTO.add(new PregledDTO(p));
+				}			
+			}
 		}
 		return new ResponseEntity<>(preglediDTO, HttpStatus.OK);
 	}
@@ -94,9 +114,29 @@ public class PregledController {
 		Pageable prvihDeset = PageRequest.of(0,10);
 		Page<Pregled> pregledi = pregledService.findAll(prvihDeset);
 		List<PregledDTO> preglediDTO = new ArrayList<PregledDTO>();
-		for(Pregled p : pregledi) {
-			preglediDTO.add(new PregledDTO(p));
+		int klinika = -1;
+		String tip = (String) request.getSession().getAttribute("tip");
+		if(tip.equals("adminKlinike")) {
+			AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
+			klinika = admink.getKlinikaID();
+			for(Pregled p : pregledi) {
+				if(p.getSala().getKlinika().getId().equals(klinika)) {
+					preglediDTO.add(new PregledDTO(p));
+				}
+			}
 		}
+		else if(tip.equals("lekar")) {
+			LekarDTO lekarDTO = (LekarDTO) request.getSession().getAttribute("current");
+			Lekar lekar = lekarService.findOne(lekarDTO.getId());
+			//klinika = lekar.getKlinika().getId();			
+			for(Pregled p : lekar.getPregledi()) {				
+				preglediDTO.add(new PregledDTO(p));				
+			}
+		}
+		
+		/*for(Pregled p : pregledi) {
+			preglediDTO.add(new PregledDTO(p));
+		}*/
 		for(PregledDTO p : preglediDTO) {
 			System.out.println(p.getId());
 			System.out.println(p.getDatum());

@@ -106,6 +106,32 @@ public class SalaController {
 		return new ResponseEntity<>(saleDTO, HttpStatus.OK);
 	}
 	
+	@GetMapping("/sala/zaPregled")
+	public ResponseEntity<List<SalaDTO>> getSaleZaPregled(){		
+		List<Sala> sale =  salaService.findAll();
+		List<SalaDTO> saleDTO = new ArrayList<SalaDTO>();
+		int klinika = -1;
+		String tip = (String) request.getSession().getAttribute("tip");
+		if(tip.equals("adminKlinike")) {
+			AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
+			klinika = admink.getKlinikaID();
+		}
+		else if(tip.equals("lekar")) {
+			LekarDTO lekar = (LekarDTO) request.getSession().getAttribute("current");
+			klinika = lekar.getKlinikaID();
+		}
+		if(klinika != -1) {			
+			for(Sala s : sale) {
+				if(s.getKlinika().getId().equals(klinika) && s.getTip().equals(TipSale.ZA_PREGLED)) {
+					saleDTO.add(new SalaDTO(s));
+				}
+			}
+		}
+		
+		
+		return new ResponseEntity<>(saleDTO, HttpStatus.OK);
+	}
+	
 	@PostMapping("/sala/add")
 	public ResponseEntity<SalaDTO> addSala(@RequestBody SalaDTO salaDTO){
 		Sala sala = new Sala();
