@@ -24,13 +24,15 @@ function ucitajTabelu() {
 	                let naziv = $("<td>" + sala.naziv + "</td>");
 	                let tip = $("<td>" + sala.tip + "</td>");
 	                let slobodna = $("<td>" + sala.prviSlobodanTermin + "</td>");
-	                let izmeni = $("<td>" + "<a href=\"izmeniSalu.html?id=" + sala.id + "\">Izmeni</a></td>")
+	                let izmeni = $("<td>" + "<a href=\"izmeniSalu.html?id=" + sala.id + "\">Izmeni</a></td>");
+	                let kalendar = $("<td>" + "<a href=\"kalendarZauzecaSale.html?id=" + sala.id + "\">Kalendar</a></td>");
 	                let ukloni = $(`<td><button  type="button" id="ukloniBtn" onclick="ukloniSalu('${sala.id}')">Ukloni</button></td>`)
 	                let izaberi = $(`<td><button  type="button" id="izaberiBtn" onclick="izaberiSalu('${sala.id}')">Izaberi</button></td>`)
 	                tr.append(id);
 	                tr.append(naziv);
 	                tr.append(tip);
 	                tr.append(slobodna);
+	                tr.append(kalendar);
 	                if(p == ""){
 	                	tr.append(izmeni);
 	                    tr.append(ukloni);

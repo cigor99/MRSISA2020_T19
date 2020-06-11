@@ -1,0 +1,101 @@
+<html>
+
+<head>
+    <title>Dnevni pregled zauzetosti sale</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <style>
+        body {
+            background: #b3e6b3;
+        }
+        
+        th {
+            text-align: center;
+            background-color: lightgreen;
+            color: black;
+            font-weight: 600;
+        }
+        
+        td {
+            text-align: center;
+            font-size: 15px;
+            height: 40px;
+            min-width: 50px;
+        }
+        
+        #rez {
+            width: 95%;
+            margin: auto;
+        }
+        
+        .naslov {
+            width: 100%;
+            /*background: #ed5e5e;*/
+            padding-left: 10px;
+            text-align: center;
+            color: black;
+            /*color: #ed5e5e;*/
+        }
+    </style>
+</head>
+
+<body>
+   
+    <div class="naslov">
+        <H1 id="datum"></H1>
+    </div>
+    <div>
+        <table id="rez" border="1">
+            <thead>
+                <tr>
+                    <th>Od</th>
+                    <th>Do</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <script>
+        $(document).ready(function() {
+            var imeCoded = window.location.href.split("?")[1];
+            var imeJednako = imeCoded.split("&")[0];
+            var danJednako = imeCoded.split("&")[1];
+            var mesecJednako = imeCoded.split("&")[2];
+            var id = imeJednako.split("=")[1];
+            var dan = danJednako.split("=")[1];
+            var mesec = mesecJednako.split("=")[1];
+            document.getElementById("datum").innerHTML = "Dnevni pregled zauzetosti sale za "+dan+"."+mesec+".";
+
+            $.ajax({
+                url: "/klinicki-centar/sala/getDnevniRaspored/" + id + "/" + dan + "/" + mesec,
+                type: 'get',
+                success: function(data) {
+                    let table = $("#rez")
+                    for (let pregled of data) {
+                    	console.log(pregled);
+                    	let tr = $("<tr></tr>");
+                        
+                        let vremeTD = $("<td></td>");
+                        vremeTD.append(pregled.vreme);                       
+                        
+                        let krajTD = $("<td></td>");
+                        krajTD.append(pregled.kraj);
+                        
+                        tr.append(vremeTD);
+                        tr.append(krajTD);
+
+                        table.append(tr);
+
+                    }
+                },
+                error: function(jqXHR) {
+                    alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+                },
+            })
+        });
+    </script>
+
+
+</body>
+
+</html>

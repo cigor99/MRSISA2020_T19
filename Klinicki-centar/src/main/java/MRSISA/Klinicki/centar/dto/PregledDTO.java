@@ -16,6 +16,7 @@ public class PregledDTO {
 	private String datumivreme;
 	private String datum;
 	private String vreme;
+	private String kraj;
 	private String sala;
 	private String lekar;
 	private Integer lekarID;
@@ -110,7 +111,17 @@ public class PregledDTO {
 		this.cena = pregled.getTipPregleda().getCena().getIznos();
 		this.trajanje = pregled.getTipPregleda().getTrajanje();
 		this.lekarID = pregled.getLekar().getId();
+		this.kraj = krajPregleda(pregled.getDatum(), pregled.getTipPregleda().getTrajanje());
 		//this.pacijentID = pregled.getPacijent().getId();
+	}
+	
+	private String krajPregleda(Date pocetak, int trajanje) {
+		long k = pocetak.getTime()+trajanje*60000;
+		Date datum = new Date(k);
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy. HH:mm");
+		String d = sdf.format(datum);
+		String kraj = d.split(" ")[1];
+		return kraj;
 	}
 	
 	
@@ -247,6 +258,14 @@ public class PregledDTO {
 
 	public void setPacijentID(Integer pacijentID) {
 		this.pacijentID = pacijentID;
+	}
+
+	public String getKraj() {
+		return kraj;
+	}
+
+	public void setKraj(String kraj) {
+		this.kraj = kraj;
 	}
 
 }
