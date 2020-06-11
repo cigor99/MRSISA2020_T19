@@ -230,7 +230,6 @@ public class KlinikaController {
 		List<Pregled> pregledi = pregledService.findAll();
 		for(Klinika k : klinikaService.findAll()) {
 			for(Lekar l :k.getLekari()) {
-				
 				if(l.getTipoviPregleda().contains(tip) && l.getProsecnaOcena()>= pretraga.ocena) {
 					for(Pregled p : pregledi) {
 						if( (p.getLekar().getId().equals(l.getId())) ) {

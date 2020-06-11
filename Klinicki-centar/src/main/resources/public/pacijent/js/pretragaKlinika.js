@@ -4,7 +4,6 @@ $(document).ready(function () {
         type: "get",
         success: function(data) {
         	window.tipKorisnika = data
-        	console.log(data)
         },
         error: function(data){
         	alert("error getTipKorisnika")
@@ -110,14 +109,12 @@ function pretraga(){
 
 
 	var tipID = null;
-	let tipNaz = $("#tip").val()
+	let tipNaz = $("#tip").val();
 	$.ajax({
 		type: 'get',
 		url: "/klinicki-centar/tipPregleda/all",
 		success: function(data){
-			console.log(data)
 			for(t of data){
-				console.log(t)
 				if(t.naziv == tipNaz){
 					tipID = t.id;
 					return;
@@ -134,14 +131,13 @@ function pretraga(){
 		alert("Tip nije pronadjen")
 		return;
 	}
-
-	var ocenaTokens = $("#ocena").val().split("+")
+	let oc = $("#ocenaSel").val()
+	var ocenaTokens = oc.split("+");
 	var parametri = JSON.stringify({
 		datum: date,
 		tip : tipID,
 		ocena: ocenaTokens[0]
 	});
-	console.log(parametri)
 
 	var holder = $("#table-holder");
 	holder.empty();
