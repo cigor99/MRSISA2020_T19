@@ -28,6 +28,7 @@ import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.Pregled;
 import MRSISA.Klinicki.centar.domain.Sala;
 import MRSISA.Klinicki.centar.domain.TipPregleda;
+import MRSISA.Klinicki.centar.domain.TipSale;
 import MRSISA.Klinicki.centar.dto.AdminKDTO;
 import MRSISA.Klinicki.centar.dto.LekarDTO;
 import MRSISA.Klinicki.centar.dto.SalaDTO;
@@ -46,6 +47,7 @@ public class SalaController {
 	
 	@Autowired
 	private TipPregledaService tipPregledaService;
+	
 	
 	@Autowired
 	HttpServletRequest request;
@@ -96,9 +98,36 @@ public class SalaController {
 			for(Sala s : sale) {
 				if(s.getKlinika().getId().equals(klinika)) {
 					saleDTO.add(new SalaDTO(s));
+					System.out.println(s.getNaziv());
 				}
 			}
 		}
+		
+		return new ResponseEntity<>(saleDTO, HttpStatus.OK);
+	}
+	
+	@GetMapping("/sala/zaPregled")
+	public ResponseEntity<List<SalaDTO>> getSaleZaPregled(){		
+		List<Sala> sale =  salaService.findAll();
+		List<SalaDTO> saleDTO = new ArrayList<SalaDTO>();
+		int klinika = -1;
+		String tip = (String) request.getSession().getAttribute("tip");
+		if(tip.equals("adminKlinike")) {
+			AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
+			klinika = admink.getKlinikaID();
+		}
+		else if(tip.equals("lekar")) {
+			LekarDTO lekar = (LekarDTO) request.getSession().getAttribute("current");
+			klinika = lekar.getKlinikaID();
+		}
+		if(klinika != -1) {			
+			for(Sala s : sale) {
+				if(s.getKlinika().getId().equals(klinika) && s.getTip().equals(TipSale.ZA_PREGLED)) {
+					saleDTO.add(new SalaDTO(s));
+				}
+			}
+		}
+		
 		
 		return new ResponseEntity<>(saleDTO, HttpStatus.OK);
 	}
@@ -122,14 +151,34 @@ public class SalaController {
 		return new ResponseEntity<>(new SalaDTO(sala), HttpStatus.CREATED);
 	}
 	
-	@PostMapping("/sala/search")
-	public ResponseEntity<List<SalaDTO>> searchSala(@RequestBody String pretraga){
+	@PostMapping("/sala/search/{w}")
+	public ResponseEntity<List<SalaDTO>> searchSala(@RequestBody String pretraga, @PathVariable String w){
 		List<SalaDTO> retVal = new ArrayList<SalaDTO>();
 		System.out.println(pretraga);
-		for(Sala s : salaService.findAll()) {
-			if(s.getNaziv().contains(pretraga)) {
-				SalaDTO sala = new SalaDTO(s);
-				retVal.add(sala);
+		int klinika = -1;
+		String tip = (String) request.getSession().getAttribute("tip");
+		if(tip.equals("adminKlinike")) {
+			AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
+			klinika = admink.getKlinikaID();
+		}
+		else if(tip.equals("lekar")) {
+			LekarDTO lekar = (LekarDTO) request.getSession().getAttribute("current");
+			klinika = lekar.getKlinikaID();
+		}
+		System.out.println("w: "+w);
+		if(klinika != -1) {
+			for(Sala s : salaService.findAll()) {
+				if(s.getNaziv().contains(pretraga)  && s.getKlinika().getId().equals(klinika)) {					
+					if(w.equals("nista")) {
+						SalaDTO sala = new SalaDTO(s);
+						retVal.add(sala);	
+					}
+					else if(s.getTip().toString().equals(w)) {
+						SalaDTO sala = new SalaDTO(s);
+						retVal.add(sala);
+					}
+										
+				}
 			}
 		}
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
@@ -139,18 +188,30 @@ public class SalaController {
 	@PostMapping("/sala/filter")
 	public ResponseEntity<List<SalaDTO>> filterSala(@RequestBody String filter){
 		List<SalaDTO> retVal = new ArrayList<SalaDTO>();
-		for(Sala s : salaService.findAll()) {
-			if(s.getTip().toString().equals(filter)) {
-				SalaDTO sala = new SalaDTO(s);
-				retVal.add(sala);
+		int klinika = -1;
+		String tip = (String) request.getSession().getAttribute("tip");
+		if(tip.equals("adminKlinike")) {
+			AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
+			klinika = admink.getKlinikaID();
+		}
+		else if(tip.equals("lekar")) {
+			LekarDTO lekar = (LekarDTO) request.getSession().getAttribute("current");
+			klinika = lekar.getKlinikaID();
+		}
+		if(klinika != -1) {
+			for(Sala s : salaService.findAll()) {
+				if(s.getTip().toString().equals(filter) && s.getKlinika().getId().equals(klinika)) {
+					SalaDTO sala = new SalaDTO(s);
+					retVal.add(sala);
+				}
 			}
 		}
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	
 	}
 	
-	@PostMapping("/sala/filterTime")
-	public ResponseEntity<List<SalaDTO>> filterSalaTime(@RequestBody String filter){
+	@PostMapping("/sala/filterTime/{w}")
+	public ResponseEntity<List<SalaDTO>> filterSalaTime(@RequestBody String filter, @PathVariable String w){
 		List<SalaDTO> retVal = new ArrayList<SalaDTO>();
 		System.out.println(filter);
 		String[] f = filter.split(";");
@@ -177,22 +238,43 @@ public class SalaController {
 			}				
 			for(Sala s : salaService.findAll()) {
 				if(klinika != -1 && s.getKlinika().getId().equals(klinika)) {
-					boolean moze = true;
-					for(Pregled p : s.getPregledi()) {
-						Date datum1 = p.getDatum();
-						Date datum2 = new Date();
-						datum2.setTime(datum1.getTime()+p.getTipPregleda().getTrajanje());
-						if(date2.compareTo(datum1)<=0 || date.compareTo(datum2)>=0) {
-							moze = true;
+					if(w.equals("nista")) {
+						boolean moze = true;
+						for(Pregled p : s.getPregledi()) {
+							Date datum1 = p.getDatum();
+							Date datum2 = new Date();
+							datum2.setTime(datum1.getTime()+p.getTipPregleda().getTrajanje());
+							if(date2.compareTo(datum1)<=0 || date.compareTo(datum2)>=0) {
+								moze = true;
+							}
+							else {
+								moze = false;
+							}					
 						}
-						else {
-							moze = false;
-						}					
+						if(moze) {
+							SalaDTO sala = new SalaDTO(s);
+							retVal.add(sala);
+						}	
 					}
-					if(moze) {
-						SalaDTO sala = new SalaDTO(s);
-						retVal.add(sala);
+					else if(s.getTip().toString().equals(w)) {
+						boolean moze = true;
+						for(Pregled p : s.getPregledi()) {
+							Date datum1 = p.getDatum();
+							Date datum2 = new Date();
+							datum2.setTime(datum1.getTime()+p.getTipPregleda().getTrajanje());
+							if(date2.compareTo(datum1)<=0 || date.compareTo(datum2)>=0) {
+								moze = true;
+							}
+							else {
+								moze = false;
+							}					
+						}
+						if(moze) {
+							SalaDTO sala = new SalaDTO(s);
+							retVal.add(sala);
+						}
 					}
+					
 				}
 			}
 		} catch (ParseException e) {

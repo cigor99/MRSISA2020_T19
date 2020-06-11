@@ -1,28 +1,50 @@
 
 function ucitajTabelu() {
-    $.ajax({
-        type: "get",
-        url: "/klinicki-centar/sala/page",
-        success: function (data) {
-        	var table = $("#sale")
-            for (var sala of data) {               
-                let tr = $("<tr id=\"tr" + sala.id + "\"></tr>");
-                let id = $("<td>" + sala.id + "</td>")
-                let naziv = $("<td>" + sala.naziv + "</td>")
-                let tip = $("<td>" + sala.tip + "</td>")      
-                
-                let izmeni = $("<td>" + "<a href=\"izmeniSalu.html?id=" + sala.id + "\">Izmeni</a></td>")
-                let ukloni = $(`<td><button  type="button" id="ukloniBtn" onclick="ukloniSalu('${sala.id}')">Ukloni</button></td>`)
-                tr.append(id);
-                tr.append(naziv);
-                tr.append(tip);               
-                tr.append(izmeni);
-                tr.append(ukloni);
-                table.append(tr);
-            }
-
-        }
-    });
+	var p = window.location.search.substr(1);
+    console.log(p);
+    if(p != ""){
+    	document.getElementById('dodajSalu').style.visibility = 'hidden';
+    	//document.getElementById('div_podaci').style.display = 'block';
+    	document.getElementById('filter').style.display = 'none';
+    	filtriranje();
+    }
+    else {
+    	document.getElementById('dodajSalu').style.visibility = 'visible';
+    	//document.getElementById('div_podaci').style.display = 'none';
+    	document.getElementById('filter').style.display = 'block';
+    
+	    $.ajax({
+	        type: "get",
+	        url: "/klinicki-centar/sala/page",
+	        success: function (data) {
+	        	var table = $("#sale")
+	            for (var sala of data) {
+	                let tr = $("<tr id=\"tr" + sala.id + "\"></tr>");
+	                let id = $("<td>" + sala.id + "</td>");
+	                let naziv = $("<td>" + sala.naziv + "</td>");
+	                let tip = $("<td>" + sala.tip + "</td>");
+	                let slobodna = $("<td>" + sala.prviSlobodanTermin + "</td>");
+	                let izmeni = $("<td>" + "<a href=\"izmeniSalu.html?id=" + sala.id + "\">Izmeni</a></td>")
+	                let ukloni = $(`<td><button  type="button" id="ukloniBtn" onclick="ukloniSalu('${sala.id}')">Ukloni</button></td>`)
+	                let izaberi = $(`<td><button  type="button" id="izaberiBtn" onclick="izaberiSalu('${sala.id}')">Izaberi</button></td>`)
+	                tr.append(id);
+	                tr.append(naziv);
+	                tr.append(tip);
+	                tr.append(slobodna);
+	                if(p == ""){
+	                	tr.append(izmeni);
+	                    tr.append(ukloni);
+	                }
+	                else {
+	                	tr.append(izaberi);
+	                }                
+	                table.append(tr);
+	            }
+	
+	        }
+	    });
+    }
+    
 }
 
 function proveriKorisnika(){
@@ -46,6 +68,17 @@ function proveriKorisnika(){
 }
 
 function pretraga(){
+	var p = window.location.search.substr(1);
+	var pp = p.split("=");
+	var w = "nista";
+	if(pp[1] == "pregled"){
+		w = "ZA_PREGLED";
+		console.log(w);
+	}
+	else if(pp[1] == "operacija"){
+		w = "OPERACIONA"
+	}
+	
 	var trazi = $('#trazi').val();
 	console.log(trazi);
 	if(trazi == ""){
@@ -55,25 +88,33 @@ function pretraga(){
 	$.ajax({
         type: "POST",
         contentType: "application/json",
-        url: "/klinicki-centar/sala/search",
+        url: "/klinicki-centar/sala/search/"+w,
         dataType: 'json',
         data: trazi,
         success : function (sale) {
         	console.log(sale);
         	$("#table_body").empty();
         	var table = $("#sale")
-            for (var sala of sale) {               
+            for (var sala of sale) {
                 let tr = $("<tr id=\"tr" + sala.id + "\"></tr>");
-                let id = $("<td>" + sala.id + "</td>")
-                let naziv = $("<td>" + sala.naziv + "</td>")
-                let tip = $("<td>" + sala.tip + "</td>")                
+                let id = $("<td>" + sala.id + "</td>");
+                let naziv = $("<td>" + sala.naziv + "</td>");
+                let tip = $("<td>" + sala.tip + "</td>");
+                let slobodna = $("<td>" + sala.prviSlobodanTermin + "</td>");
                 let izmeni = $("<td>" + "<a href=\"izmeniSalu.html?id=" + sala.id + "\">Izmeni</a></td>")
                 let ukloni = $(`<td><button  type="button" id="ukloniBtn" onclick="ukloniSalu('${sala.id}')">Ukloni</button></td>`)
+                let izaberi = $(`<td><button  type="button" id="izaberiBtn" onclick="izaberiSalu('${sala.id}')">Izaberi</button></td>`)
                 tr.append(id);
                 tr.append(naziv);
-                tr.append(tip);               
-                tr.append(izmeni);
-                tr.append(ukloni);
+                tr.append(tip);
+                tr.append(slobodna);
+                if(p == ""){
+                	tr.append(izmeni);
+                    tr.append(ukloni);
+                }
+                else {
+                	tr.append(izaberi);
+                }                
                 table.append(tr);
             }
 
@@ -84,8 +125,25 @@ function pretraga(){
 
 
 function filtriranje(){
-	var tipSelected = document.getElementById("tipSaleSelect");
-	var filter = tipSelected.options[tipSelected.selectedIndex].value;
+	var p = window.location.search.substr(1);
+	var filter;
+	if(p == ""){
+		var tipSelected = document.getElementById("tipSaleSelect");
+		filter = tipSelected.options[tipSelected.selectedIndex].value;
+	}
+	else {
+		var pp = p.split("=");
+		var w = "";
+		if(pp[1] == "pregled"){
+			filter = "ZA_PREGLED";
+			console.log(w);
+		}
+		else if(pp[1] == "operacija"){
+			filter = "OPERACIONA"
+		}
+		
+	}
+	
 	console.log(filter);
 	$.ajax({
         type: "POST",
@@ -97,18 +155,26 @@ function filtriranje(){
         	console.log(sale);
         	$("#table_body").empty();
         	var table = $("#sale")
-            for (var sala of sale) {               
+            for (var sala of sale) {
                 let tr = $("<tr id=\"tr" + sala.id + "\"></tr>");
-                let id = $("<td>" + sala.id + "</td>")
-                let naziv = $("<td>" + sala.naziv + "</td>")
-                let tip = $("<td>" + sala.tip + "</td>")                
+                let id = $("<td>" + sala.id + "</td>");
+                let naziv = $("<td>" + sala.naziv + "</td>");
+                let tip = $("<td>" + sala.tip + "</td>");
+                let slobodna = $("<td>" + sala.prviSlobodanTermin + "</td>");
                 let izmeni = $("<td>" + "<a href=\"izmeniSalu.html?id=" + sala.id + "\">Izmeni</a></td>")
                 let ukloni = $(`<td><button  type="button" id="ukloniBtn" onclick="ukloniSalu('${sala.id}')">Ukloni</button></td>`)
+                let izaberi = $(`<td><button  type="button" id="izaberiBtn" onclick="izaberiSalu('${sala.id}')">Izaberi</button></td>`)
                 tr.append(id);
                 tr.append(naziv);
-                tr.append(tip);               
-                tr.append(izmeni);
-                tr.append(ukloni);
+                tr.append(tip);
+                tr.append(slobodna);
+                if(p == ""){
+                	tr.append(izmeni);
+                    tr.append(ukloni);
+                }
+                else {
+                	tr.append(izaberi);
+                }                
                 table.append(tr);
             }
 
@@ -401,6 +467,103 @@ function izmenaSale() {
     	}
         
     });
+}
+
+function datumVreme(){
+	var dt = $("#date-time").val();
+	console.log(dt);
+	var trajanje = $("#trajanje").val();
+	console.log(trajanje);
+	
+	var p = window.location.search.substr(1);
+	var pp = p.split("=");
+	var w = "nista";	
+	if(pp[1] == "pregled"){
+		w = "ZA_PREGLED";
+	}
+	else if(pp[1] == "operacija"){
+		w = "OPERACIONA"
+	}
+	console.log(w);
+	
+	if(trajanje != "" && dt != ""){
+		$.ajax({
+	        type: "POST",
+	        contentType: "application/json",
+	        url: "/klinicki-centar/sala/filterTime/"+w,
+	        dataType: 'json',
+	        data: dt+";"+trajanje,
+	        success : function (sale) {
+	        	console.log(sale);
+	        	$("#table_body").empty();
+	        	var table = $("#sale")
+	            for (var sala of sale) {
+	            	let tr = $("<tr id=\"tr" + sala.id + "\"></tr>");
+	                let id = $("<td>" + sala.id + "</td>");
+	                let naziv = $("<td>" + sala.naziv + "</td>");
+	                let tip = $("<td>" + sala.tip + "</td>");
+	                let slobodna = $("<td>" + sala.prviSlobodanTermin + "</td>");
+	                let izmeni = $("<td>" + "<a href=\"izmeniSalu.html?id=" + sala.id + "\">Izmeni</a></td>")
+	                let ukloni = $(`<td><button  type="button" id="ukloniBtn" onclick="ukloniSalu('${sala.id}')">Ukloni</button></td>`)
+	                let izaberi = $(`<td><button  type="button" id="izaberiBtn" onclick="izaberiSalu('${sala.id}')">Izaberi</button></td>`)
+	                tr.append(id);
+	                tr.append(naziv);
+	                tr.append(tip);
+	                tr.append(slobodna);
+	                if(p == ""){
+	                	tr.append(izmeni);
+	                    tr.append(ukloni);
+	                }
+	                else {
+	                	tr.append(izaberi);
+	                }                
+	                table.append(tr);
+	            }
+
+			},
+	        
+	    });
+	}
+	
+}
+
+function proveriFilter() {
+    $("#datumError").css('visibility', 'hidden');
+    $("#trajanjeError").css('visibility', 'hidden');
+
+    var trajanje = $("#trajanje").val();
+    var datum = $("#date-time").val();
+
+    var retVal = true;
+
+   
+    if (trajanje.val() == "") {
+        $("#trajanjeError").text("Unesite trajanje").css('visibility', 'visible').css('color', 'red');
+        retVal = false;
+    } else {
+        $("#trajanjeError").css('visibility', 'hidden')
+    }
+    if (datum == "") {
+        $("#datumError").text("Unesite datum i vreme").css('visibility', 'visible').css('color', 'red');
+        retVal = false;
+    } else {
+        $("#datumError").css('visibility', 'hidden')
+    }
+
+
+    return retVal;
+}
+
+function izaberiSalu(idSale){	
+	var dt = $("#date-time").val();
+	//console.log(opener)
+	close();
+	var el = opener.document.getElementById("salaSelect");
+	opener.console.log(el);
+
+	var sala = $("#salaSelect option[value='"+idSale+"']", opener.document).prop('selected', true);
+	$("#date-time", opener.document).val(dt);
+	opener.console.log(sala);
 }
 
 

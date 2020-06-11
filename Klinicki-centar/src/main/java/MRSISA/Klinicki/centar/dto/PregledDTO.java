@@ -110,7 +110,7 @@ public class PregledDTO {
 		this.cena = pregled.getTipPregleda().getCena().getIznos();
 		this.trajanje = pregled.getTipPregleda().getTrajanje();
 		this.lekarID = pregled.getLekar().getId();
-		this.pacijentID = pregled.getPacijent().getId();
+		//this.pacijentID = pregled.getPacijent().getId();
 	}
 	
 	

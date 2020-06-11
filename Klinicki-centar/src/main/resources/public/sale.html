@@ -26,6 +26,20 @@
 <h1>Sale</h1>
 </div>
 
+<div class="filter" id="div_podaci">
+	<form>
+	<div class="form-inline" style="visibility:visible">
+		<label for="date-time">Datum i vreme:</label>
+		<input class="form-control" style="max-width: 250px; margin-right: 20px" type="datetime-local" id="date-time"
+	      name="date-time"> <!-- value="2018-06-12T19:30"
+	      min="2018-06-07T00:00" max="2018-06-14T00:00"> -->		
+		<label for="tip">Trajanje pregleda u minutima:</label>
+		<input class="form-control" style="max-width: 250px; margin-right: 20px" id="trajanje" placeholder="Unesite trajanje pregleda">
+		<button class="button" type="button" onclick="javascript:datumVreme()">Ok</button>
+	</div>
+	</form>
+</div>
+
 <div class="main_div">
 <div class="table-holder">      
   <table id="sale" name="sale" class="table">
@@ -34,6 +48,7 @@
         <th id="id">ID</th>
 		<th id="naziv">Naziv</th>
 		<th id="tip">Tip sale</th>
+		<th id="slobodna">Prvi slobodan termin</th>
 		<th></th>
 		<th></th>
       </tr>
@@ -54,7 +69,7 @@
 </form>
 </div>
 
-<div class="filter" >
+<div class="filter" id="filter" >
 	<form>
 	<!--  <div class="form-group" style="visibility:hidden">
 	<label for="meeting-time">Datum i vreme:</label>

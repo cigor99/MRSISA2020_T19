@@ -1,9 +1,13 @@
 var myWindow = null;
 
 function ucitajTabelu() {
+	//var selected = document.getElementById("terminiSelect");
+	//filter = selected.options[selected.selectedIndex].value;
+	console.log(window.tipKorisnika);
+	
     $.ajax({
         type: "get",
-        url: "/klinicki-centar/pregled/page",
+        url: "/klinicki-centar/pregled/all",
         success: function (data) {
         	console.log("success");
         	var table = $("#pregledi")
@@ -17,7 +21,6 @@ function ucitajTabelu() {
                 let lekar = $("<td>" + pregled.lekar + "</td>");
                 let tip = $("<td>" + pregled.tipPregleda + "</td>");   
                 let cena = $("<td>" + pregled.cena + "</td>")                
-                //let ukloni = $(`<td><button  type="button" id="ukloniBtn" onclick="ukloniSalu('${pregled.id}')">Ukloni</button></td>`)
                 tr.append(id);
                 tr.append(datum);
                 tr.append(vreme);
@@ -26,13 +29,41 @@ function ucitajTabelu() {
                 tr.append(lekar);
                 tr.append(tip);               
                 tr.append(cena);
-                //tr.append(ukloni);
+                if(window.tipKorisnika == "adminKlinike"){            		            	
+                	let ukloni = $(`<td><button  type="button" id="ukloniBtn" onclick="ukloniPregled('${pregled.id}')">Ukloni</button></td>`)
+                	tr.append(ukloni);
+                }
+                else if(window.tipKorisnika == "lekar"){
+                	document.getElementById("pacijent").innerHTML = "Pacijent";
+                	let pacijent = $("<td>" + pregled.pacijent + "</td>");
+                	tr.append(pacijent);
+                	let zapocni = $("<td>" + "<a href=\"unosPodatakaOPregledu.html?id=" + pregled.id + "\">Zapocni pregled</a></td>")
+                	tr.append(zapocni);
+                }
                 table.append(tr);
             }
 
         }
     });
 }
+
+function ukloniPregled(id) {
+	
+    $.ajax({
+        type: "DELETE",
+
+        url: "/klinicki-centar/pregled/delete/" + id,
+        success: function () {
+            $("#tr" + id).remove();
+            alert("USPESNO BRISANJE PREGLEDA");
+        },
+        error: function (jqXHR) {
+            alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+        },
+    });
+}
+
+
 
 function proveriKorisnika(){
 	$.ajax({
@@ -120,7 +151,7 @@ function datumVreme(){
 function ucitajListe() {
     $.ajax({
         type: "get",
-        url: "/klinicki-centar/sala/page",
+        url: "/klinicki-centar/sala/zaPregled",
         success: function(data) {
             for (var sala of data) {
                 console.log(sala.naziv);
@@ -333,8 +364,10 @@ function proveriDatum(salaId, datum, tipPregledaId) {
 }
 
 function pretraziSale() {
-    myWindow = window.open("http://localhost:8080/klinicki-centar/izborSaleZaPregled.html", "", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=100,width=800,height=500");
-    console.log(myWindow);
+	//window.sale = "izbor";
+    //myWindow = window.open("http://localhost:8080/klinicki-centar/izborSaleZaPregled.html", "", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=100,width=800,height=500");
+    myWindow = window.open("http://localhost:8080/klinicki-centar/sale.html?w=pregled", "", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=100,width=800,height=500");
+    //console.log(myWindow);
     console.log(myWindow.parent);
 }
 
