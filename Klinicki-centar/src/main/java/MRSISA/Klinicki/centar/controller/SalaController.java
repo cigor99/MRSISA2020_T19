@@ -25,12 +25,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import MRSISA.Klinicki.centar.domain.Klinika;
 import MRSISA.Klinicki.centar.domain.Lekar;
+import MRSISA.Klinicki.centar.domain.Operacija;
 import MRSISA.Klinicki.centar.domain.Pregled;
 import MRSISA.Klinicki.centar.domain.Sala;
 import MRSISA.Klinicki.centar.domain.TipPregleda;
 import MRSISA.Klinicki.centar.domain.TipSale;
 import MRSISA.Klinicki.centar.dto.AdminKDTO;
 import MRSISA.Klinicki.centar.dto.LekarDTO;
+import MRSISA.Klinicki.centar.dto.OperacijaDTO;
+import MRSISA.Klinicki.centar.dto.PregledDTO;
 import MRSISA.Klinicki.centar.dto.SalaDTO;
 import MRSISA.Klinicki.centar.service.KlinikaService;
 import MRSISA.Klinicki.centar.service.SalaService;
@@ -363,6 +366,60 @@ public class SalaController {
 		}
 		return new ResponseEntity<>("", HttpStatus.NOT_FOUND);
 	}
+	
+	@GetMapping("/sala/getDnevniRaspored/{id}/{mesec}")
+	public ResponseEntity<Object> getDnevniRaspored1(@PathVariable int id, @PathVariable String mesec){
+		Sala sala =  salaService.findOne(id);
+		if(sala.getTip().equals(TipSale.ZA_PREGLED)) {
+			List<PregledDTO> retVal = new ArrayList<PregledDTO>();
+			for(Pregled p: sala.getPregledi()) {
+				if((p.getDatum().getMonth()+1+"").equals(mesec+"")){
+					retVal.add(new PregledDTO(p));
+				}
+			}
+			return new ResponseEntity<>(retVal, HttpStatus.OK); 
+		}
+		else {
+			List<OperacijaDTO> retVal = new ArrayList<OperacijaDTO>();
+			for(Operacija o: sala.getOperacije()) {
+				if((o.getDatum().getMonth()+1+"").equals(mesec+"")){
+					retVal.add(new OperacijaDTO(o));
+				}
+			}
+			return new ResponseEntity<>(retVal, HttpStatus.OK); 
+		}
+
+	}
+	
+	@GetMapping("/sala/getDnevniRaspored/{id}/{dan}/{mesec}")
+	public ResponseEntity<Object> getDnevniRaspored2(@PathVariable int id, @PathVariable String dan, @PathVariable String mesec){
+		Sala sala =  salaService.findOne(id);
+		System.out.println("OVDE"+dan+mesec);
+		long time = System.currentTimeMillis();
+		Date d = new Date(time);
+		int y = d.getYear();
+		if(sala.getTip().equals(TipSale.ZA_PREGLED)) {
+			List<PregledDTO> retVal = new ArrayList<PregledDTO>();
+			for(Pregled p: sala.getPregledi()) {
+				System.out.println(p.getDatum().getDate());
+				if((p.getDatum().getMonth()+1+"").equals(mesec+"") && (p.getDatum().getDate()+"").equals(dan+"")){
+					retVal.add(new PregledDTO(p));
+					System.out.println("PREGLED "+ p);
+				}
+			}
+			return new ResponseEntity<>(retVal, HttpStatus.OK); 
+		}
+		else {
+			List<OperacijaDTO> retVal = new ArrayList<OperacijaDTO>();
+			for(Operacija o: sala.getOperacije()) {
+				if((o.getDatum().getMonth()+1+"").equals(mesec+"") && (o.getDatum().getDay()+"").equals(dan+"")){
+					retVal.add(new OperacijaDTO(o));
+				}
+			}
+			return new ResponseEntity<>(retVal, HttpStatus.OK); 
+		}
+	}
+	
 	
 
 }
