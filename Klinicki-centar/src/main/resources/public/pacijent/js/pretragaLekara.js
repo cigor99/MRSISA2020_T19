@@ -1,7 +1,8 @@
 $(document).ready(function () {
 	var imeCoded = window.location.href.split("?")[1];
     var imeJednako = imeCoded.split("&")[0];
-    var imeParam = imeJednako.split("=")[1];
+    var imeParam = imeJednako[0].split("=")[1];
+    var nacin = imeJednako[1].split("=")[1]
     if(imeParam == undefined){
     	alert("Morate prvo izabrati kliniku")
     	window.location.replace("/klinicki-centar/pretragaKlinika.html");

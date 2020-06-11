@@ -49,6 +49,8 @@ $(document).ready(function () {
 		
 	});
 
+	prikaziKlinike()
+
 	$("#reset").click(function(){
 		$("#table-holder").empty()
 	});
@@ -188,7 +190,7 @@ function pretraga(){
 				
                 // let izaberiTD = $("<td>" + "<a href=\"#izabrana?id=" +
 				// klinika.id + ">Izaberi</a></td>")
-                let izaberiTD = $("<td><a href='pretragaLekara.html?id="+klinika.id+"'>Izaberi</a></td>")
+                let izaberiTD = $("<td><a href='pretragaLekara.html?id="+klinika.id+"&nacin="+ 1 +"'>Izaberi</a></td>")
                 tr.append(idTD);
 				tr.append(nazivTd);
 				tr.append(ocenaTD);
@@ -201,5 +203,54 @@ function pretraga(){
 
 		},
         
-    });
+	});
 }
+
+function prikaziKlinike(){
+	var holder = $("#table-holder");
+holder.empty();
+var table = $('<table id="klinike" name="klinike" class="table"></table>')
+var thead = $("<thead></thead>");
+var trHead= $("<tr></tr>");
+var idTH = $('<th id="ID">ID</th>');
+var nazivTH = $('<th id="naziv">Naziv</th>');
+var ocenaTH = $('<th id="ocena">Ocena</th>');
+var adresaTH = $('<th id="adresa">Adresa</th>');
+var izaberiTH = $('<th>Profil</th>');
+trHead.append(idTH);
+trHead.append(nazivTH);
+trHead.append(ocenaTH);
+trHead.append(adresaTH);
+trHead.append(izaberiTH);
+thead.append(trHead);
+table.append(thead);
+$.ajax({
+	type: "GET",
+	url: "/klinicki-centar/klinika/page",
+	success : function (data) {
+		for (var klinika of data) {               
+			let tr = $("<tr id=\"tr" + klinika.id + "\"></tr>");
+
+			let idTD = $("<td>" + klinika.id + "</td>")
+			let nazivTd = $("<td>" + klinika.naziv + "</td>")
+			let ocenaTD = $("<td>" + klinika.prosencaOcena + "</td>")
+			let adresaTD = $("<td>" + klinika.adresa + "</td>")
+			
+			// let izaberiTD = $("<td>" + "<a href=\"#izabrana?id=" +
+			// klinika.id + ">Izaberi</a></td>")
+			let izaberiTD = $("<td><a href='pretragaLekara.html?id="+klinika.id+"&nacin="+ 2 +"'>Izaberi</a></td>")
+			tr.append(idTD);
+			tr.append(nazivTd);
+			tr.append(ocenaTD);
+			tr.append(adresaTD);
+			tr.append(izaberiTD);
+			table.append(tr);
+			holder.append(table);
+		}
+
+	},
+	
+});
+}
+
+
