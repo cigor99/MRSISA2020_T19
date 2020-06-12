@@ -7,16 +7,21 @@ public class ZahtevZaOpDTO {
 	private Integer id;
 	private Integer operacija;
 	private String stanjeZahteva;
+	private Integer sala;
+	private String datumVreme;
 
 	public ZahtevZaOpDTO() {
 
 	}
 
-	public ZahtevZaOpDTO(Integer id, Integer operacija, String stanjeZahteva) {
+	public ZahtevZaOpDTO(Integer id, Integer operacija, String stanjeZahteva, Integer sala, String datumVreme) {
 		super();
 		this.id = id;
 		this.operacija = operacija;
 		this.stanjeZahteva = stanjeZahteva;
+		this.sala = sala;
+		this.datumVreme = datumVreme;
+
 	}
 
 	public ZahtevZaOpDTO(ZahtevZaOperaciju zahtev) {
@@ -47,6 +52,28 @@ public class ZahtevZaOpDTO {
 
 	public void setStanjeZahteva(String stanjeZahteva) {
 		this.stanjeZahteva = stanjeZahteva;
+	}
+
+	public Integer getSala() {
+		return sala;
+	}
+
+	public void setSala(Integer sala) {
+		this.sala = sala;
+	}
+
+	public String getDatumVreme() {
+		return datumVreme;
+	}
+
+	public void setDatumVreme(String datumVreme) {
+		this.datumVreme = datumVreme;
+	}
+
+	@Override
+	public String toString() {
+		return "ZahtevZaOpDTO [id=" + id + ", operacija=" + operacija + ", stanjeZahteva=" + stanjeZahteva + ", sala="
+				+ sala + ", datumVreme=" + datumVreme + "]";
 	}
 
 }

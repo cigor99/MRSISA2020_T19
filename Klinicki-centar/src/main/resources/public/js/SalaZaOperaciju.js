@@ -32,7 +32,7 @@ $(document).ready(function() {
                     },
                     async: false,
                 })
-                a.attr("href", 'sale.html?w=' + 'operacija' + '&dat=' + datumTD.html() + "&vr=" + vremeTD.html() + "&tr=" + trajanjeTD.html() + "&sa=" + salaTD.html() + "&op=" + zahtev.operacija);
+                a.attr("href", 'sale.html?w=' + 'operacija' + '&dat=' + datumTD.html() + "&vr=" + vremeTD.html() + "&tr=" + trajanjeTD.html() + "&sa=" + salaTD.html() + "&op=" + zahtev.operacija + "&zz=" + zahtev.id);
                 rezervisiTD.append(a);
 
                 tr.append(idTD);

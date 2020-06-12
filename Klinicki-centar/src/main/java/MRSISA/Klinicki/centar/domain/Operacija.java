@@ -38,8 +38,8 @@ public class Operacija {
 	private Sala sala;
 
 	// MOZDA STAVITI EAGER
-	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
-	@JoinTable(name = "lekar_operacija", joinColumns = @JoinColumn(name = "ID_lekara"), inverseJoinColumns = @JoinColumn(name = "ID_Operacije"))
+	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	@JoinTable(name = "lekar_operacija", joinColumns = @JoinColumn(name = "ID_Operacije"), inverseJoinColumns = @JoinColumn(name = "ID_Lekara"))
 	private Set<Lekar> lekari = new HashSet<Lekar>();
 
 //	@ManyToOne

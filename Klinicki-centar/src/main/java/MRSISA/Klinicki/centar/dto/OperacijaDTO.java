@@ -13,6 +13,7 @@ public class OperacijaDTO {
 	private String datum;
 	private String vreme;
 	private String sala;
+	private Integer salaID;
 	private String tipPregleda;
 	private Double cena;
 	private int trajanje;
@@ -33,6 +34,7 @@ public class OperacijaDTO {
 		this.vreme = d.split(" ")[1];
 		System.err.println(d.split(" ")[1]);
 		this.sala = o.getSala().getNaziv();
+		this.salaID = o.getSala().getId();
 		Set<String> imena = new HashSet<>();
 		for (Lekar l : o.getLekari()) {
 			imena.add("" + l.getIme() + " " + l.getPrezime());
@@ -145,6 +147,21 @@ public class OperacijaDTO {
 
 	public void setLekari(Set<String> lekari) {
 		this.lekari = lekari;
+	}
+
+	public Integer getSalaID() {
+		return salaID;
+	}
+
+	public void setSalaID(Integer salaID) {
+		this.salaID = salaID;
+	}
+
+	@Override
+	public String toString() {
+		return "OperacijaDTO [id=" + id + ", datumivreme=" + datumivreme + ", datum=" + datum + ", vreme=" + vreme
+				+ ", sala=" + sala + ", tipPregleda=" + tipPregleda + ", cena=" + cena + ", trajanje=" + trajanje
+				+ ", pacijent=" + pacijent + ", lekari=" + lekari + "]";
 	}
 
 }

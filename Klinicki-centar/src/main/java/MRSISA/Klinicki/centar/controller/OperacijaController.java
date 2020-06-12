@@ -24,6 +24,7 @@ public class OperacijaController {
 			return new ResponseEntity<>("Operacija nije pronadjena", HttpStatus.BAD_REQUEST);
 		}
 		
+		
 		return new ResponseEntity<>(new OperacijaDTO(op), HttpStatus.OK);
 	}
 	

@@ -78,6 +78,17 @@ public class SalaController {
 		return new ResponseEntity<>(saleDTO, HttpStatus.OK);
 	}
 	
+	@GetMapping("/sala/getOne/{id}")
+	public ResponseEntity<Object> getOne(@PathVariable Integer id){
+		Sala sala = salaService.findOne(id);
+		if(sala == null) {
+			return new ResponseEntity<>("Sala nije pronađena", HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<>(new SalaDTO(sala), HttpStatus.OK);
+		
+	}
+	
 	
 	@GetMapping("/sala/page")
 	public ResponseEntity<List<SalaDTO>> getSalaPage(){
