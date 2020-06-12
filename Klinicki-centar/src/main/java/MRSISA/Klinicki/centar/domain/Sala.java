@@ -36,14 +36,14 @@ public class Sala {
 	@Column(name = "prvi_slobodan_termin", unique = false, nullable = true)
 	private Date prviSlobodanTermin;
 
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "sala")
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, mappedBy = "sala")
 	private Set<Pregled> pregledi = new HashSet<Pregled>();
 
 	@ManyToOne
 	@JoinColumn(name = "klinika", referencedColumnName = "ID_Klinike", nullable = false)
 	private Klinika klinika;
 
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "sala")
+	@OneToMany(cascade = { CascadeType.ALL }, mappedBy = "sala", fetch = FetchType.EAGER)// fetch = FetchType.LAZY,
 	private Set<Operacija> operacije = new HashSet<Operacija>();
 
 	public Sala() {
@@ -125,22 +125,22 @@ public class Sala {
 					int mins = p.getDatum().getMinutes();
 					Date krajPregleda = p.getDatum();
 					krajPregleda.setMinutes(mins+p.getTipPregleda().getTrajanje());
-					System.out.println("Pocetak: "+p.getDatum()+"; kraj: "+krajPregleda);
+//					System.out.println("Pocetak: "+p.getDatum()+"; kraj: "+krajPregleda);
 					if(pocetni.compareTo(p.getDatum()) > 0) { //stari
-						System.out.println("Prvi");
+//						System.out.println("Prvi");
 						continue;
 					}
 					if(date.compareTo(p.getDatum()) < 0 && (p.getDatum().getTime() - date.getTime() < 900000)) { //uskoro
-						System.out.println(p.getDatum().getTime() - date.getTime());
-						System.out.println("Drugi");
+//						System.out.println(p.getDatum().getTime() - date.getTime());
+//						System.out.println("Drugi");
 						date = krajPregleda;
 					}
 					else if(date.compareTo(p.getDatum())>=0 && date.compareTo(krajPregleda) < 0) { //preklapa se
-						System.out.println("Treci");
+//						System.out.println("Treci");
 						date = krajPregleda;
 					}
 					else {
-						System.out.println("Cetvrti");
+//						System.out.println("Cetvrti");
 						i = 1;
 						break;
 					}				
@@ -156,22 +156,22 @@ public class Sala {
 					int mins = o.getDatum().getMinutes();
 					Date krajOperacije = o.getDatum();
 					krajOperacije.setMinutes(mins+o.getTrajanje());
-					System.out.println("Pocetak: "+o.getDatum()+"; kraj: "+krajOperacije);
+//					System.out.println("Pocetak: "+o.getDatum()+"; kraj: "+krajOperacije);
 					if(pocetni.compareTo(o.getDatum()) > 0) { //stari
-						System.out.println("Prvi");
+//						System.out.println("Prvi");
 						continue;
 					}
 					if(date.compareTo(o.getDatum()) < 0 && (o.getDatum().getTime() - date.getTime() < 900000)) { //uskoro
-						System.out.println(o.getDatum().getTime() - date.getTime());
-						System.out.println("Drugi");
+//						System.out.println(o.getDatum().getTime() - date.getTime());
+//						System.out.println("Drugi");
 						date = krajOperacije;
 					}
 					else if(date.compareTo(o.getDatum())>=0 && date.compareTo(krajOperacije) < 0) { //preklapa se
-						System.out.println("Treci");
+//						System.out.println("Treci");
 						date = krajOperacije;
 					}
 					else {
-						System.out.println("Cetvrti");
+//						System.out.println("Cetvrti");
 						i = 1;
 						break;
 					}				
@@ -185,7 +185,7 @@ public class Sala {
 		//System.out.println("OSTATAK: "+ostatak);
 		int x = 15-ostatak;
 		date.setMinutes(minuti+x);
-		System.out.println("Prvi slobodan termin: "+formatter.format(date));
+//		System.out.println("Prvi slobodan termin: "+formatter.format(date));
 		/*for(Pregled p : this.pregledi) {
 			
 		}*/

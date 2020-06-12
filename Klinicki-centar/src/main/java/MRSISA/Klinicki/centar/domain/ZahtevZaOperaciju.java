@@ -59,5 +59,7 @@ public class ZahtevZaOperaciju {
 	public void setStanjeZahteva(StanjeZahteva stanjeZahteva) {
 		this.stanjeZahteva = stanjeZahteva;
 	}
+	
+	
 
 }

@@ -12,12 +12,13 @@ public class OperacijaDTO {
 	private String datum;
 	private String vreme;
 	private String sala;
+	private Integer salaID;
 	private String tipPregleda;
 	private Double cena;
 	private int trajanje;
 	private Integer pacijent;
-	//private Date datum;
-	//private Sala sala;
+	// private Date datum;
+	// private Sala sala;
 	private Set<String> lekari;
 
 	public OperacijaDTO() {
@@ -45,22 +46,25 @@ public class OperacijaDTO {
 
 	public OperacijaDTO(Operacija o) {
 		this.id = o.getId();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy. HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		String d = sdf.format(o.getDatum());
 		this.datum = d.split(" ")[0];
 		this.vreme = d.split(" ")[1];
+		System.err.println(d.split(" ")[1]);
 		this.sala = o.getSala().getNaziv();
+		this.salaID = o.getSala().getId();
 		Set<String> imena = new HashSet<>();
-		for(Lekar l : o.getLekari()) {
-			imena.add(l.getIme()+ " " + l.getPrezime());
+		for (Lekar l : o.getLekari()) {
+			imena.add("" + l.getIme() + " " + l.getPrezime());
 		}
+		this.trajanje = o.getTrajanje();
 		this.lekari = imena;
-		this.tipPregleda = o.getTipPregleda().getNaziv();
+//		this.tipPregleda = o.getTipPregleda().getNaziv();
 		this.pacijent = o.getPacijent().getId();
-		this.cena = o.getTipPregleda().getCena().getIznos();
-		this.trajanje  = o.getTipPregleda().getTrajanje();
+//		this.cena = o.getTipPregleda().getCena().getIznos();
+//		this.trajanje  = o.getTipPregleda().getTrajanje();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -163,5 +167,19 @@ public class OperacijaDTO {
 		this.lekari = lekari;
 	}
 
-	
+	public Integer getSalaID() {
+		return salaID;
+	}
+
+	public void setSalaID(Integer salaID) {
+		this.salaID = salaID;
+	}
+
+	@Override
+	public String toString() {
+		return "OperacijaDTO [id=" + id + ", datumivreme=" + datumivreme + ", datum=" + datum + ", vreme=" + vreme
+				+ ", sala=" + sala + ", tipPregleda=" + tipPregleda + ", cena=" + cena + ", trajanje=" + trajanje
+				+ ", pacijent=" + pacijent + ", lekari=" + lekari + "]";
+	}
+
 }
