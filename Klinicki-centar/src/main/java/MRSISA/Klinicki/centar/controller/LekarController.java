@@ -38,6 +38,8 @@ import MRSISA.Klinicki.centar.domain.Operacija;
 import MRSISA.Klinicki.centar.domain.Pacijent;
 import MRSISA.Klinicki.centar.domain.Pregled;
 import MRSISA.Klinicki.centar.domain.StanjePacijenta;
+import MRSISA.Klinicki.centar.domain.StanjeZahteva;
+import MRSISA.Klinicki.centar.domain.ZahtevZaGodisnjiOdmor;
 import MRSISA.Klinicki.centar.dto.AdminKDTO;
 import MRSISA.Klinicki.centar.dto.LekarDTO;
 import MRSISA.Klinicki.centar.dto.OperacijaDTO;
@@ -107,7 +109,7 @@ public class LekarController {
 		for (Lekar l : lekari) {
 			System.out.println(l.getId());
 			uslov = true;
-			//Proverava da li u zadatom terminu lekar ima pregled
+			// Proverava da li u zadatom terminu lekar ima pregled
 			for (Pregled pregled : l.getPregledi()) {
 
 				Date zahtevDatum = null;
@@ -126,8 +128,8 @@ public class LekarController {
 					uslov = false;
 				}
 			}
-			
-			//Proverava da li u zadatom terminu lekar ima operaciju
+
+			// Proverava da li u zadatom terminu lekar ima operaciju
 			for (Operacija operacija : l.getOperacije()) {
 				System.out.println(operacija.getId());
 				Date zahtevDatum = null;
@@ -143,10 +145,28 @@ public class LekarController {
 				System.out.println(kraj);
 				System.out.println(zahtevDatum);
 				System.out.println(operDatum);
-				if (zahtevDatum.after(operDatum) && zahtevDatum.before(kraj)
-						|| zahtevDatum.equals(operDatum) || zahtevDatum.equals(kraj)) {
+				if (zahtevDatum.after(operDatum) && zahtevDatum.before(kraj) || zahtevDatum.equals(operDatum)
+						|| zahtevDatum.equals(kraj)) {
 					uslov = false;
 				}
+			}
+
+			for (ZahtevZaGodisnjiOdmor zahtev : l.getZahteviZaGodisnji()) {
+				Date zahtevDatum = null;
+				try {
+					zahtevDatum = sdf.parse(operacijaDTo.getDatumivreme());
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if (zahtev.getStanjeZahteva().equals(StanjeZahteva.PRIHVACEN)) {
+					if (zahtevDatum.after(zahtev.getPocetniDatum()) && zahtevDatum.before(zahtev.getKrajnjiDatum())
+							|| zahtev.getKrajnjiDatum().equals(zahtevDatum)
+							|| zahtev.getPocetniDatum().equals(zahtevDatum)) {
+						uslov = false;
+					}
+				}
+
 			}
 			if (uslov) {
 				lekariDTO.add(new LekarDTO(l));
@@ -155,7 +175,7 @@ public class LekarController {
 		return new ResponseEntity<>(lekariDTO, HttpStatus.OK);
 	}
 
-	//Pretraga lekara uz proveru da li je slobodan za termin operacije
+	// Pretraga lekara uz proveru da li je slobodan za termin operacije
 	@PostMapping("/lekar/searchOperacija/{pretraga}")
 	public ResponseEntity<Object> search(@PathVariable String pretraga, @RequestBody OperacijaDTO operacijaDTo) {
 		List<LekarDTO> retVal = new ArrayList<LekarDTO>();
@@ -187,7 +207,7 @@ public class LekarController {
 						uslov = false;
 					}
 				}
-				//Proverava da li u zadatom terminu lekar ima operaciju
+				// Proverava da li u zadatom terminu lekar ima operaciju
 				for (Operacija operacija : l.getOperacije()) {
 					System.out.println(operacija.getId());
 					Date zahtevDatum = null;
@@ -198,14 +218,32 @@ public class LekarController {
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
-					Date kraj = new Date(operacija.getDatum().getTime() + (operacija.getTrajanje() * ONE_MINUTE_IN_MILLIS));
+					Date kraj = new Date(
+							operacija.getDatum().getTime() + (operacija.getTrajanje() * ONE_MINUTE_IN_MILLIS));
 					System.out.println(kraj);
 					System.out.println(zahtevDatum);
 					System.out.println(operDatum);
-					if (zahtevDatum.after(operDatum) && zahtevDatum.before(kraj)
-							|| zahtevDatum.equals(operDatum) || zahtevDatum.equals(kraj)) {
+					if (zahtevDatum.after(operDatum) && zahtevDatum.before(kraj) || zahtevDatum.equals(operDatum)
+							|| zahtevDatum.equals(kraj)) {
 						uslov = false;
 					}
+				}
+				for (ZahtevZaGodisnjiOdmor zahtev : l.getZahteviZaGodisnji()) {
+					Date zahtevDatum = null;
+					try {
+						zahtevDatum = sdf.parse(operacijaDTo.getDatumivreme());
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					if (zahtev.getStanjeZahteva().equals(StanjeZahteva.PRIHVACEN)) {
+						if (zahtevDatum.after(zahtev.getPocetniDatum()) && zahtevDatum.before(zahtev.getKrajnjiDatum())
+								|| zahtev.getKrajnjiDatum().equals(zahtevDatum)
+								|| zahtev.getPocetniDatum().equals(zahtevDatum)) {
+							uslov = false;
+						}
+					}
+
 				}
 				if (uslov) {
 

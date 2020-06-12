@@ -164,7 +164,7 @@ public class ZZOController {
 		return new ResponseEntity<>(new LekarDTO(lekar), HttpStatus.OK);
 	}
 
-	@Scheduled(cron = "20 44 2 * * *") // 0 59 23
+	@Scheduled(cron = "0 59 23 * * *") // 0 59 23
 	public void autoDodelaTermina() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		List<ZahtevZaOperaciju> zahtevi = zzoService.findAll();
