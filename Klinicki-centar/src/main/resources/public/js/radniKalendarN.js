@@ -310,8 +310,18 @@ function dobavi(key, dict, d) {
                             }
                         }
 
+                        let pacijent;
                         td.style.backgroundColor = color;
-                        td.innerHTML = "<div><label> Datum:" + pregled.datum + " </label><br><label>Vreme: </label>" + pregled.vreme + "<br><label>Trajanje: </label>" + pregled.trajanje + " min<br><label>Pacijent: </label>" + pregled.pacijent + "<br><label>Tip pregleda: </label>" + pregled.tipPregleda + " </div > ";
+                        $.ajax({
+                            url: '/klinicki-centar/pacijent/getOnePacijent/' + pregled.pacijentId,
+                            type: 'get',
+                            success: function(data) {
+                                pacijent = (data.ime + " " + data.prezime);
+                            },
+                            async: false,
+                        })
+                        td.innerHTML = "<div onclick = 'izvestaj(" + "\"" + pacijent + "\"" + "," + pregled.id + ")'><label> Datum:" + pregled.datum + " </label><br><label>Vreme: </label>" + pregled.vreme + "<br><label>Trajanje: </label>" + pregled.trajanje + " min<br><label>Pacijent: </label>" + pacijent + "<br><label>Tip pregleda: </label>" + pregled.tipPregleda + " </div > ";
+                        // td.onclick = izvestaj(pregled.pacijent, pregled.id);
                     }
                 }
             }
@@ -320,7 +330,51 @@ function dobavi(key, dict, d) {
             alert("Error: " + jqXHR.status + ", " + jqXHR.responseText);
         },
         async: false,
-    })
+    });
+
+    $.ajax({
+        url: "/klinicki-centar/getDnevneOperacije/" + key + "/" + parseInt(d.getMonth() + 1),
+        type: "get",
+        success: function(data) {
+            let color;
+            if (window.tipKorisnika == "lekar") {
+                for (let operacija of data) {
+
+                    let td = document.getElementById("td" + dict[key] + operacija.vreme.substring(0, 5));
+                    color = boja();
+                    if (parseInt(operacija.trajanje) > 15) {
+                        let brPuta = (operacija.trajanje / 15);
+                        let minuti = 0;
+                        let sati;
+                        sati = parseInt(operacija.vreme.substring(0, 2));
+                        minuti = parseInt(operacija.vreme.substring(3, 6));
+                        for (let index = 0; index < brPuta - 1; index++) {
+                            minuti = parseInt(minuti) + 15;
+                            if (minuti == 60) {
+                                minuti = "00"
+                                sati++;
+                            }
+                            let td = document.getElementById("td" + dict[key] + sati.toString() + ":" + (minuti).toString());
+                            td.style.backgroundColor = color;
+                        }
+                    }
+                    let pacijent;
+                    td.style.backgroundColor = color;
+                    $.ajax({
+                        url: '/klinicki-centar/pacijent/getOnePacijent/' + operacija.pacijent,
+                        type: 'get',
+                        success: function(data) {
+                            pacijent = (data.ime + " " + data.prezime);
+                        },
+                        async: false,
+                    })
+                    td.innerHTML = "<div><label> Datum:" + operacija.datum + " </label><br><label>Vreme: </label>" + operacija.vreme + "<br><label>Trajanje: </label>" + operacija.trajanje + " min<br><label>Pacijent: </label>" + pacijent + "<br><label>Tip pregleda: </label>" + "operacija" + " </div > ";
+
+                }
+            }
+        },
+        async: false,
+    });
 }
 
 //ODREĐUJE DAN U NEDELJI NA OSNOVU DATUMA
@@ -390,13 +444,13 @@ function boja() {
 
 //ISCRTAVA POLJA POLJA TABELE
 function iscrtaj() {
-    let counter = 8;
-    let cetiri = 8;
+    let counter = 0;
+    let cetiri = 0;
     let uslov = true;
     let brojac = 0;
     let table = $("#tbody");
     let counterIspis;
-    for (let vreme = 0; vreme < 33; vreme++) {
+    for (let vreme = 0; vreme < 97; vreme++) {
 
         let tr = $("<tr></tr>");
         for (let dan = 0; dan < 7; dan++) {
@@ -455,4 +509,8 @@ function getVreme(vreme) {
             break;
     }
     return minuti;
+}
+
+function izvestaj(imePacijenta, id) {
+    window.open('izvestajPregleda.html?pID=' + imePacijenta + "&prID=" + id, '_blank', );
 }

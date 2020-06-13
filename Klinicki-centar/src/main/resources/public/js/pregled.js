@@ -36,7 +36,7 @@ function ucitajTabelu() {
                     document.getElementById("pacijent").innerHTML = "Pacijent";
                     let pacijent = $("<td>" + pregled.pacijent + "</td>");
                     tr.append(pacijent);
-                    let zapocni = $("<td>" + "<a href=\"izvestajPregleda.html?id=" + pregled.id + "\">Zapocni pregled</a></td>")
+                    let zapocni = $("<td>" + "<a href=\"izvestajPregleda.html?id=" + pregled.pacijent + "&prID=" + pregled.id + "\">Zapocni pregled</a></td>")
                     tr.append(zapocni);
                 }
                 table.append(tr);

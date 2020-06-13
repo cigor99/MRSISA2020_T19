@@ -54,24 +54,28 @@ function ucitajTabelu() {
 
 function proveriKorisnika() {
     var url = window.location.href.split("?")[1];
+    var w = url.split("&")[0];
 
-    var dat = url.split("&")[1];
-    datum = dat.split("=")[1];
+    if (w.split("=")[1] == 'operacija') {
 
-    var vr = url.split("&")[2];
-    vreme = vr.split("=")[1];
+        var dat = url.split("&")[1];
+        datum = dat.split("=")[1];
 
-    var tr = url.split("&")[3];
-    trajanje = tr.split("=")[1];
+        var vr = url.split("&")[2];
+        vreme = vr.split("=")[1];
 
-    var sl = url.split("&")[4];
-    sala = sl.split("=")[1];
+        var tr = url.split("&")[3];
+        trajanje = tr.split("=")[1];
 
-    var op = url.split("&")[5];
-    operacija = op.split("=")[1];
+        var sl = url.split("&")[4];
+        sala = sl.split("=")[1];
 
-    var zah = url.split("&")[6];
-    zahtevID = zah.split("=")[1];
+        var op = url.split("&")[5];
+        operacija = op.split("=")[1];
+
+        var zah = url.split("&")[6];
+        zahtevID = zah.split("=")[1];
+    }
 
     $.ajax({
         type: "get",

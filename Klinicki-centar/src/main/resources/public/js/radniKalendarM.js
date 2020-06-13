@@ -7,13 +7,14 @@ $(document).ready(function() {
     // odmor();
 
 
-    //POPUNJAVA TABELU SA PREGLEDIMA
+    //POPUNJAVA TABELU SA PREGLEDIMA, GODISNJIM ODMOROM I OPERACIJAMA
     function popuni() {
         $.ajax({
             url: "/klinicki-centar/pregled/getDnevniPregled/" + getMesec(),
             type: 'get',
             success: function(data) {
-                let zahtevi = []
+                let zahtevi = [];
+                let operacije = [];
                 $.ajax({
                     url: "/klinicki-centar/ZZG/getZahtev",
                     type: "get",
@@ -21,6 +22,19 @@ $(document).ready(function() {
                         for (let zahtev of data) {
                             // alert(zahtev.pocetniDatum);
                             zahtevi.push(zahtev);
+                        }
+                    },
+                    async: false,
+                });
+                $.ajax({
+                    url: "/klinicki-centar/Operacija/getAllLekar/" + window.ulogovani.id,
+                    type: "get",
+                    success: function(data) {
+                        alert(data);
+                        for (let operacija of data) {
+
+                            // alert(zahtev.pocetniDatum);
+                            operacije.push(operacija);
                         }
                     },
                     async: false,
@@ -131,7 +145,51 @@ $(document).ready(function() {
                     }
 
                 }
+                for (let operacija of operacije) {
+                    if (window.tipKorisnika == "lekar") {
+                        let dan = (parseInt(operacija.datum.substring(0, 2)) + parseInt(prviDan))
+                        let danPOLJE = (parseInt(operacija.datum.substring(0, 2)) + parseInt(prviDan)) % 7;
+                        if (danPOLJE == 0) {
+                            danPOLJE = 7;
+                        }
+                        nedelje = Math.ceil(dan / 7);
+                        if ($("#td" + nedelje.toString() + danPOLJE.toString()).html().length < 5 &&
+                            $("#td" + nedelje.toString() + danPOLJE.toString()).html() != "") {
+                            polje = $("#td" + nedelje.toString() + danPOLJE.toString())
+                            polje.empty();
 
+                            let color = Math.floor((Math.random() * 6) + 1);
+                            let boja;
+                            switch (color % 6) {
+                                case 0:
+                                    boja = "#f54251";
+                                    break;
+                                case 1:
+                                    boja = "#2a6df4";
+                                    break;
+                                case 2:
+                                    boja = "darksalmon";
+                                    break;
+                                case 3:
+                                    boja = "bisque";
+                                    break;
+                                case 4:
+                                    boja = "mediumspringgreen";
+                                    break;
+                                case 5:
+                                    boja = "turquoise";
+                                    break;
+                            }
+                            polje.css('background-color', boja);
+                            if (mesec.toString().length == 1) {
+                                mesec = "0" + mesec.toString();
+                            }
+                            polje.append(operacija.datum.substring(0, 2) + "." + getMesec())
+                            polje.attr("onclick", "dobavi(" + operacija.datum.substring(0, 2) + ")");
+                            uslov = false;
+                        }
+                    }
+                }
 
                 for (let pregled of data) {
                     if (window.tipKorisnika == "lekar") {
@@ -173,7 +231,7 @@ $(document).ready(function() {
                                 if (mesec.toString().length == 1) {
                                     mesec = "0" + mesec.toString();
                                 }
-                                polje.append("Pregled " + pregled.datum.substring(0, 2) + "." + getMesec())
+                                polje.append(pregled.datum.substring(0, 2) + "." + getMesec())
                                 polje.attr("onclick", "dobavi(" + pregled.datum.substring(0, 2) + ")");
                                 uslov = false;
                             }

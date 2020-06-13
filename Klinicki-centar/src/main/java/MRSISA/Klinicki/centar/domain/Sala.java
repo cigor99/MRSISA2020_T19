@@ -17,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import javax.print.attribute.standard.DateTimeAtCompleted;
 
 @Entity
@@ -45,6 +46,10 @@ public class Sala {
 
 	@OneToMany(cascade = { CascadeType.ALL }, mappedBy = "sala", fetch = FetchType.EAGER)// fetch = FetchType.LAZY,
 	private Set<Operacija> operacije = new HashSet<Operacija>();
+	
+	@Version
+	@Column(name = "verzija", nullable = false, unique = false)
+	private int version;
 
 	public Sala() {
 		super();

@@ -10,17 +10,30 @@ $(document).ready(function() {
             let mesecPoc;
             let mesecKraj;
             let zahtevi = [];
+            let operacije = [];
             $.ajax({
                 url: "/klinicki-centar/ZZG/getZahtev",
                 type: "get",
                 success: function(data) {
                     for (let zahtev of data) {
-                        // alert(zahtev.pocetniDatum);
                         zahtevi.push(zahtev);
                     }
                 },
                 async: false,
             });
+            $.ajax({
+                url: "/klinicki-centar/Operacija/getAllLekar/" + window.ulogovani.id,
+                type: "get",
+                success: function(data) {
+                    for (let operacija of data) {
+                        operacije.push(operacija);
+                    }
+                },
+                async: false,
+            });
+
+
+
             for (let zah of zahtevi) {
                 danPoc = zah.pocetniDatum.substring(8, 10);
                 danKraj = zah.krajnjiDatum.substring(8, 10);
@@ -81,6 +94,55 @@ $(document).ready(function() {
                 }
 
             }
+            for (let op of operacije) {
+                let danOper = op.datum.substring(0, 2);
+                let mesecOper = op.datum.substring(3, 5)
+                if (mesecOper.substring(0, 1) == "0") {
+                    mesecOper = mesecOper.substring(1, 2);
+                }
+                let tbody = $("#tbody");
+                var dan;
+                let mesec;
+                if (window.tipKorisnika == "lekar") {
+                    for (dan = 1; dan < 32; dan++) {
+                        for (mesec = 1; mesec < 13; mesec++) {
+                            if (mesec == mesecOper && dan == danOper &&
+                                $("#td" + mesec.toString() + dan.toString()).html() === "") {
+                                let polje = $("#td" + mesec.toString() + dan.toString());
+                                let color = Math.floor((Math.random() * 6) + 1);
+                                let boja;
+                                switch (color % 6) { //RANDOM BOJA POLJA
+                                    case 0:
+                                        boja = "#f54251";
+                                        break;
+                                    case 1:
+                                        boja = "#2a6df4";
+                                        break;
+                                    case 2:
+                                        boja = "chocolate";
+                                        break;
+                                    case 3:
+                                        boja = "darkmagenta";
+                                        break;
+                                    case 4:
+                                        boja = "mediumspringgreen";
+                                        break;
+                                    case 5:
+                                        boja = "turquoise";
+                                        break;
+                                }
+                                polje.css('background-color', boja);
+                                if (mesec.toString().length == 1) {
+                                    mesec = "0" + mesec.toString();
+                                }
+                                polje.append(dan.toString() + "." + mesec.toString())
+                                polje.attr("onclick", "dobavi(" + dan.toString() + "," + mesec.toString() + ")");
+                            }
+                        }
+                    }
+                }
+
+            }
 
 
 
@@ -127,7 +189,7 @@ $(document).ready(function() {
                                 if (mesec.toString().length == 1) {
                                     mesec = "0" + mesec.toString();
                                 }
-                                polje.append("Pregled " + dan.toString() + "." + mesec.toString())
+                                polje.append(dan.toString() + "." + mesec.toString())
                                 polje.attr("onclick", "dobavi(" + dan.toString() + "," + mesec.toString() + ")");
                             }
                         }

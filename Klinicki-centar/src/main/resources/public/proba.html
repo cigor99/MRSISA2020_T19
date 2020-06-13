@@ -5,13 +5,14 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <!-- <script src="js/main.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/proba.js"></script>
     <link href="style.css" rel="stylesheet">
     <script>
         $(document).ready(function() {
             ucitajZaglavlje();
         });
-    </script> -->
+    </script>
 </head>
 
 <body>
@@ -34,7 +35,7 @@
             min-width: 50px;
         }
         
-        #rez {
+        table {
             width: 95%;
             margin: auto;
         }
@@ -51,6 +52,9 @@
     <div class="naslov">
         <H1>Dnevni pregled radnog kalendara</H1>
     </div>
+    <div class="naslov">
+        <H1>Pregledi</H1>
+    </div>
     <div>
         <table id="rez" border="1">
             <thead>
@@ -64,58 +68,22 @@
                 </tr>
             </thead>
         </table>
+        <div class="naslov">
+            <H1>Operacije</H1>
+        </div>
+
+        <table id="operacije" border="1">
+            <thead>
+                <tr>
+                    <th>Datum</th>
+                    <th>Vreme</th>
+                    <th>Trajanje</th>
+                    <th>Pacijent</th>
+                </tr>
+            </thead>
+        </table>
     </div>
     <script>
-        $(document).ready(function() {
-            var imeCoded = window.location.href.split("?")[1];
-            var imeJednako = imeCoded.split("&")[0];
-            var mesecJednako = imeCoded.split("&")[1];
-            var dan = imeJednako.split("=")[1];
-            var mesec = mesecJednako.split("=")[1];
-
-            $.ajax({
-                url: "/klinicki-centar/pregled/getDnevniPregled/" + dan + "/" + mesec,
-                type: 'get',
-                success: function(data) {
-                    let table = $("#rez")
-                    for (let pregled of data) {
-                        let tr = $("<tr></tr>");
-                        let datumTD = $("<td></td>");
-                        datumTD.append(pregled.datum);
-                        let vremeTD = $("<td></td>");
-                        vremeTD.append(pregled.vreme);
-                        let TrajanjeTD = $("<td></td>");
-                        TrajanjeTD.append(pregled.trajanje + " min");
-                        let pregledTD = $("<td></td>");
-                        let a = $("<a>Započni pregled</a>");
-                        a.attr("href", 'izvestajPregleda.html?pID=' + pregled.pacijent + "&prID=" + pregled.id);
-                        pregledTD.append(a);
-
-                        tr.append(datumTD);
-                        tr.append(vremeTD);
-                        tr.append(TrajanjeTD);
-
-                        // table.append(tr);
-
-                        let imeTD = $("<td></td>");
-                        imeTD.append(pregled.pacijent);
-
-                        let tipPregledaTd = $("<td></td>");
-                        tipPregledaTd.append(pregled.tipPregleda);
-
-                        tr.append(imeTD);
-                        tr.append(tipPregledaTd);
-                        tr.append(pregledTD);
-                        table.append(tr);
-
-                    }
-                    // alert(data);
-                },
-                error: function(jqXHR) {
-                    alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
-                },
-            })
-        });
     </script>
 
 

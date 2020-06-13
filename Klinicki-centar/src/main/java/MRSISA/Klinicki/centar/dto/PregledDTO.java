@@ -22,6 +22,7 @@ public class PregledDTO {
 	private Integer lekarID;
 	private String tipPregleda;
 	private String pacijent;
+	private int pacijentId;
 	private float popust;
 	private boolean slobodan;
 	private Double cena;
@@ -93,6 +94,7 @@ public class PregledDTO {
 	public PregledDTO(Pregled pregled) {
 		super();
 		this.id = pregled.getId();
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy. HH:mm");
 		String d = sdf.format(pregled.getDatum());
 		this.datum = d.split(" ")[0];
@@ -103,6 +105,7 @@ public class PregledDTO {
 
 		if (pregled.getPacijent() != null) {
 			this.pacijent = pregled.getPacijent().getIme() + " " + pregled.getPacijent().getPrezime();
+			this.pacijentId = pregled.getPacijent().getId();
 		} else {
 			this.pacijent = " ";
 		}
@@ -112,19 +115,17 @@ public class PregledDTO {
 		this.trajanje = pregled.getTipPregleda().getTrajanje();
 		this.lekarID = pregled.getLekar().getId();
 		this.kraj = krajPregleda(pregled.getDatum(), pregled.getTipPregleda().getTrajanje());
-		//this.pacijentID = pregled.getPacijent().getId();
+		// this.pacijentID = pregled.getPacijent().getId();
 	}
-	
+
 	private String krajPregleda(Date pocetak, int trajanje) {
-		long k = pocetak.getTime()+trajanje*60000;
+		long k = pocetak.getTime() + trajanje * 60000;
 		Date datum = new Date(k);
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy. HH:mm");
 		String d = sdf.format(datum);
 		String kraj = d.split(" ")[1];
 		return kraj;
 	}
-	
-	
 
 	@Override
 	public int hashCode() {
@@ -266,6 +267,14 @@ public class PregledDTO {
 
 	public void setKraj(String kraj) {
 		this.kraj = kraj;
+	}
+
+	public int getPacijentId() {
+		return pacijentId;
+	}
+
+	public void setPacijentId(int pacijentId) {
+		this.pacijentId = pacijentId;
 	}
 
 }
