@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Sale</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="js/rezervacijaSale.js"></script>
+    <script src="js/main.js"></script>
+    <link href="style.css" rel="stylesheet">
+    <script>
+        $(document).ready(function() {
+            ucitajZaglavlje();
+            ucitajTabelu();
+        });
+    </script>
+    <style>
+        .podaci {
+            background: #e6ffe6;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 10px;
+            margin-top: 30px;
+            overflow: hidden;
+            display: inline-flex;
+            width: 98%;
+            height: 60px;
+        }
+        
+        .pod {
+            min-width: 300px;
+        }
+    </style>
+</head>
+
+
+<body>    
+    <div id="navbardiv"></div>
+    <div class="naslov">
+        <h1>Rezervacija sale</h1>
+    </div>
+
+    <div class="filter" id="datumivreme">
+        <form>
+            <div class="form-inline" style="visibility:visible">
+                <label for="date-time">Datum i vreme:</label>
+                <input class="form-control" style="max-width: 250px; margin-right: 20px" type="datetime-local" id="date-time" name="date-time">                
+            </div>
+        </form>
+        
+        <label style="visibility: hidden" id="label1">Nema slobodnih sala za ovaj termin.</label>
+        <button style="visibility: hidden" id="button1" class="button" type="button" onclick="javascript:prviSlobodanTermin()">Pogledaj prvi slobodan termin</button>
+    </div>
+
+    <div class="main_div">
+        <div class="table-holder">
+            <table id="sale" name="sale" class="table">
+                <thead>
+                    <tr>
+                        <th id="id">ID</th>
+                        <th id="naziv">Naziv</th>
+                        <th id="tip">Tip sale</th>
+                        <th id="slobodna" style="visibility: hidden">Prvi slobodan termin</th>
+                        <th id="izaberi"></th>
+                    </tr>
+                </thead>
+                <tbody id="table_body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

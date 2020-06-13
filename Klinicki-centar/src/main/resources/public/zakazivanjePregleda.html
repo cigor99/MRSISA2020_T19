@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Zakazivanje pregleda</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="js/pregled.js"></script>
+<script src="js/main.js"></script>
+<link href="style.css" rel="stylesheet">
+<script>
+	$(document).ready( function() {
+		ucitajPacijenta();		
+	});
+</script>
+</head>
+
+<body>
+<div id="navbardiv"></div>
+<div class="naslov">
+<h1>Zakazivanje pregleda</h1>
+</div>
+
+<div class="forma-za-dodavanje">
+<form>
+<div class="form-group">
+<label for="date-time">Datum i vreme:</label>
+<input class="form-control" style="max-width: 250px; margin-right: 20px" type="datetime-local" id="date-time" name="date-time">
+<p id="datumError" style="display:hidden"></p>
+</div>
+<div class="form-group">
+<label for="pacijent">Pacijent:</label>
+<input type="text" class="form-control" id="pacijent" readonly>
+</div>
+<button class="button" type="button" id="zakaziBtn" onclick="javascript:zakaziPregled()">Zakazi pregled</button>
+</form>
+</div>
+
+
+</body>
+</html>
