@@ -11,6 +11,8 @@ $(document).ready(function() {
             $("#naziv").val(klinika.naziv)
             $("#adresa").val(klinika.adresa)
             $("#opis").val(klinika.opis)
+            window.nazivKlinike = klinika.naziv;
+            window.adresaKlinike = klinika.adresa;
         },
         error: function(jqXHR) {
             alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
