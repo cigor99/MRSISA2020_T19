@@ -37,26 +37,15 @@ import MRSISA.Klinicki.centar.domain.MedicinskaSestra;
 import MRSISA.Klinicki.centar.domain.Operacija;
 import MRSISA.Klinicki.centar.domain.Pacijent;
 import MRSISA.Klinicki.centar.domain.Pregled;
-import MRSISA.Klinicki.centar.domain.Sala;
-import MRSISA.Klinicki.centar.dto.AdminKCDTO;
-import MRSISA.Klinicki.centar.dto.AdminKDTO;
-import MRSISA.Klinicki.centar.dto.KlinikaDTO;
-import MRSISA.Klinicki.centar.dto.LekarDTO;
-import MRSISA.Klinicki.centar.domain.StanjePacijenta;
-import MRSISA.Klinicki.centar.domain.TipPregleda;
-
 import MRSISA.Klinicki.centar.domain.StanjePacijenta;
 import MRSISA.Klinicki.centar.domain.StanjeZahteva;
+import MRSISA.Klinicki.centar.domain.TipPregleda;
 import MRSISA.Klinicki.centar.domain.ZahtevZaGodisnjiOdmor;
 import MRSISA.Klinicki.centar.dto.AdminKDTO;
-
 import MRSISA.Klinicki.centar.dto.LekarDTO;
 import MRSISA.Klinicki.centar.dto.OperacijaDTO;
 import MRSISA.Klinicki.centar.dto.Osoba;
-
-import MRSISA.Klinicki.centar.dto.PacijentDTO;
 import MRSISA.Klinicki.centar.dto.PretragaKlinikaDTO;
-
 import MRSISA.Klinicki.centar.dto.PrvoLogovanjeDTO;
 import MRSISA.Klinicki.centar.service.AdminKCSerivce;
 import MRSISA.Klinicki.centar.service.AdminKService;
@@ -365,9 +354,7 @@ public class LekarController {
 //		System.out.println(pretraga);
 
 		for (Lekar l : lekarService.findAll()) {
-
 //			System.out.println(l.getIme());
-
 			if (l.getIme().toLowerCase().contains(pretraga.toLowerCase())
 					|| l.getPrezime().toLowerCase().contains(pretraga.toLowerCase())
 					|| l.getEmail().toLowerCase().contains(pretraga.toLowerCase())) {
