@@ -12,6 +12,7 @@ public class SalaDTO {
 	private String naziv;
 	private TipSale tip;
 	private String prviSlobodanTermin;
+	private Integer klinikaID;
 	
 	public SalaDTO() {
 		super();
@@ -25,6 +26,7 @@ public class SalaDTO {
 	}
 	
 	public SalaDTO(Sala sala) {
+		this.klinikaID = sala.getKlinika().getId();
 		this.id = sala.getId();
 		this.naziv = sala.getNaziv();
 		this.tip = sala.getTip();
@@ -64,7 +66,14 @@ public class SalaDTO {
 	public void setPrviSlobodanTermin(String prviSlobodanTermin) {
 		this.prviSlobodanTermin = prviSlobodanTermin;
 	}
-	
+
+	public Integer getKlinikaID() {
+		return klinikaID;
+	}
+
+	public void setKlinikaID(Integer klinikaID) {
+		this.klinikaID = klinikaID;
+	}
 	
 
 }

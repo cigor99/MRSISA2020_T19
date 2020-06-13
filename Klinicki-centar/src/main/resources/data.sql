@@ -9,7 +9,7 @@ INSERT INTO ZDRAVSTEVNI_KARTONI (ID_ZDRAVSTVENOG_KARTONA, DIOPTRIJA, KRVNA_GRUPA
 (8, 0.55, 4, 60.0, 158.0);
 
 INSERT INTO PACIJENTI (ID_PACIJENTA, ADRESA, BROJ_TELEFONA, DRZAVA, EMAIL, GRAD, IME, JEDINSTVENI_BROJ_OSIGURANIKA, JMBG, LOZINKA, POL, PREZIME, STANJE_PACIJENTA, TIP_KORISNIKA, ZDRAVSTENI_KARTON) VALUES
-(1, 'Bul Oslobodjenja 12', '+38162222222', 'Srbija', 'neko@gmail.com', 'Novi Sad', 'Marko', '1', '1234567891017', 'Password1', 0, 'Markovic', 2, NULL, 1),
+(1, 'Bul Oslobodjenja 12', '+38162222222', 'Srbija', 'gdbxns98@gmail.com', 'Novi Sad', 'Marko', '1', '1234567891017', 'Password1', 0, 'Markovic', 2, NULL, 1),
 (2, 'Bul Oslobodjenja 15', '+38163333333', 'Srbija', 'neko2@gmail.com', 'Novi Sad', 'Marko', '2', '1234567891019', 'Password2', 0, 'Maric', 2, NULL, 2),
 (3, 'Nemanjina 15', '+378623332533', 'Srbija', 'ili@hotmail.com', 'Beograd', 'Ana', '3', '1234567891020', 'Sifraaa1', 1, 'Anic', 1, NULL, 3),
 (4, 'Nemanjina 20', '+345623653333', 'Srbija', 'neko4@hotmail.com', 'Nis', 'Marko', '4', '1234567891021', 'Stolica12', 0, 'Nemanjic', 2, NULL, 4),
@@ -19,8 +19,8 @@ INSERT INTO PACIJENTI (ID_PACIJENTA, ADRESA, BROJ_TELEFONA, DRZAVA, EMAIL, GRAD,
 (8, 'Kosovska 12', '+352623656633', 'Srbija', 'jovanaj@hotmail.com', 'Novi Sad', 'Jovana', '8', '1234567891025', 'Laptop43', 1, 'Jovic', 2, NULL, 8);
 
 INSERT INTO Klinike (ID_Klinike, ADRESA, NAZIV, OPIS, POCETAK_RV, KRAJ_RV) VALUES
-(1, 'Adresa Klinike 1', 'klinika 1', 'opis', '08:00', '16:00'),
-(2, 'Adresa Klinike 2', 'klinika 2', 'opis', '08:00', '16:00');
+(1, 'Bulevar Oslobođenja 29, Novi Sad', 'klinika 1', 'opis', '08:00', '16:00'),
+(2, 'Balzakova 16, Novi Sad', 'klinika 2', 'opis', '08:00', '16:00');
 
 INSERT INTO KLINICKI_CENTAR (ID_KC) VALUES (1);
 
@@ -53,7 +53,9 @@ INSERT INTO ADMINI_KLINIKE (ID_ADMINK, EMAIL, IME, JMBG, LOZINKA, PREZIME, TIP_K
 INSERT INTO LEKAR (ID_LEKARA, EMAIL, IME, JMBG, LOZINKA, PREZIME, OCENA, TIP_KORISNIKA, KLINIKA) VALUES
 (1, 'lekar1@gmail.com', 'Nikola', '1234567891041', '123', 'Milosevic', NULL, 2, 1),
 (2, 'lekar2@gmail.com', 'Nikolas', '1234567891052', '123', 'Dragutinovic', NULL, 2, 2),
-(3, 'lekar3@gmail.com', 'Milos', '1234567891063', '123', 'Jokic', NULL, 2, 1);
+(3, 'lekar3@gmail.com', 'Milos', '1234567891063', '123', 'Jokic', NULL, 2, 1),
+(4, 'anagrk@gmail.com', 'Marko', '1234567891864', '123', 'Markovic', NULL, 2, 1),
+(5, 'lekar5@gmail.com', 'Nemanja', '9934567651052', '123', 'Nikolic', NULL, 2, 2);
 
 INSERT INTO MEDICINSKE_SESTRE (ID_MED_SES, EMAIL, IME, JMBG, LOZINKA, PREZIME, OCENA, TIP_KORISNIKA, KLINIKA) VALUES
 (1, 'sestra1@gmail.com', 'Sestraprva', '1234567891014', '111', 'Prezime', NULL, 3, 1),
@@ -105,7 +107,7 @@ INSERT INTO PREGLEDI (ID_PREGLEDA, DATE, POPUST, SLOBODAN, LEKAR, PACIJENT, SALA
 (9, '2020-05-21 14:00:00', '0.5', TRUE, 1, 6, 2, 2),
 (10, '2020-05-27 09:45:00', '0.5', TRUE, 1, 1, 2, 2),
 (11, '2020-08-01 10:45:00', '0', TRUE, 2, NULL, 4, 1),
-(12, '2020-08-01 11:45:00', '0', TRUE, 1, NULL, 2, 1),
+(12, '2020-06-10 10:00:00', '0', TRUE, 1, NULL, 2, 1),
 (13, '2020-08-01 12:45:00', '0', TRUE, 3, NULL, 1, 2);
 
 INSERT INTO LEKAR_TIP_PREGLEDA (ID_LEKARA, ID_TIPA_PREGLEDA) VALUES
@@ -137,6 +139,19 @@ INSERT INTO ZAHTEVI_ZA_GODISNJI (ID_ZZG, KRAJNJI_DATUM, POCETNI_DATUM, LEKAR, ME
 
 INSERT INTO IZVESTAJI_PREGLEDA (ID_IZVESTAJA, OPIS, DIJAGNOZA, LEKAR, PREGLED, RECEPT, ZDRAVSTEVNI_KARTON) VALUES
 (1, 'Pregled krajnika', 1, 1, 1,1, 1);
+
+INSERT INTO OPERACIJE ( ID_OPERACIJE, DATUM, PACIJENT, SALA, TRAJANJE) VALUES
+(1, '2020-06-10 10:00:00', 1, 1, 30),
+(2, '2020-06-09 11:00:00', 1, 3, 15),
+(3, '2020-06-10 10:15:00', 2, 2, 60);
+
+INSERT INTO ZAHTEVI_ZA_OPERACIJU (ID_ZZO, STANJE_ZAHTEVA, OPERACIJA) VALUES
+(1, 1, 1),
+(2, 1, 2),
+(3, 0, 3);
+
+INSERT INTO LEKAR_OPERACIJA (ID_LEKARA, ID_OPERACIJE) VALUES
+(3, 3);
 
 INSERT INTO KLINIKA_OCENE (KLINIKA_ID_KLINIKE, OCENE) VALUES
 (1,4),

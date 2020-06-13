@@ -40,8 +40,8 @@ public class TipPregleda {
 	@JoinColumn(name = "cena", referencedColumnName = "ID_Cene")
 	private Cena cena; // Id za klasu cena
 
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "tipPregleda")
-	private Set<Operacija> operacije = new HashSet<Operacija>();
+//	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "tipPregleda")
+//	private Set<Operacija> operacije = new HashSet<Operacija>();
 	
 	@ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
 	@JoinTable(name = "lekar_tipPregleda", joinColumns = @JoinColumn(name = "ID_lekara"), inverseJoinColumns = @JoinColumn(name = "ID_TipaPregleda"))
@@ -57,49 +57,16 @@ public class TipPregleda {
 	public String toString() {
 		return "TipPregleda [id=" + id + ", trajanje=" + trajanje + ", naziv=" + naziv + ", cena=" + cena + "]";
 	}
-	
-	
 
 
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TipPregleda other = (TipPregleda) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
-
-
-
-	public TipPregleda(Integer id, Integer trajanje, String naziv, Set<Pregled> pregledi, Cena cena,
-			Set<Operacija> operacije) {
+	public TipPregleda(Integer id, Integer trajanje, String naziv, Set<Pregled> pregledi, Cena cena) {
 		super();
 		this.id = id;
 		this.trajanje = trajanje;
 		this.naziv = naziv;
 		this.pregledi = pregledi;
 		this.cena = cena;
-		this.operacije = operacije;
 	}
 
 	public Integer getId() {
@@ -132,14 +99,6 @@ public class TipPregleda {
 
 	public void setCena(Cena cena) {
 		this.cena = cena;
-	}
-
-	public Set<Operacija> getOperacije() {
-		return operacije;
-	}
-
-	public void setOperacije(Set<Operacija> operacije) {
-		this.operacije = operacije;
 	}
 
 	public Set<Pregled> getPregledi() {

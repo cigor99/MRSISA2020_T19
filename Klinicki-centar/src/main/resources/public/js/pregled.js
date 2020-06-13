@@ -1,44 +1,43 @@
 var myWindow = null;
 
 function ucitajTabelu() {
-	//var selected = document.getElementById("terminiSelect");
-	//filter = selected.options[selected.selectedIndex].value;
-	console.log(window.tipKorisnika);
-	
+    //var selected = document.getElementById("terminiSelect");
+    //filter = selected.options[selected.selectedIndex].value;
+    console.log(window.tipKorisnika);
+
     $.ajax({
         type: "get",
         url: "/klinicki-centar/pregled/all",
-        success: function (data) {
-        	console.log("success");
-        	var table = $("#pregledi")
-            for (var pregled of data) {               
+        success: function(data) {
+            console.log("success");
+            var table = $("#pregledi")
+            for (var pregled of data) {
                 let tr = $("<tr id=\"tr" + pregled.id + "\"></tr>");
                 let id = $("<td>" + pregled.id + "</td>");
                 let datum = $("<td>" + pregled.datum + "</td>");
-                let vreme = $("<td>" + pregled.vreme + "</td>");                
+                let vreme = $("<td>" + pregled.vreme + "</td>");
                 let sala = $("<td>" + pregled.sala + "</td>");
                 let trajanje = $("<td>" + pregled.trajanje + "</td>");
                 let lekar = $("<td>" + pregled.lekar + "</td>");
-                let tip = $("<td>" + pregled.tipPregleda + "</td>");   
-                let cena = $("<td>" + pregled.cena + "</td>")                
+                let tip = $("<td>" + pregled.tipPregleda + "</td>");
+                let cena = $("<td>" + pregled.cena + "</td>")
                 tr.append(id);
                 tr.append(datum);
                 tr.append(vreme);
                 tr.append(sala);
                 tr.append(trajanje);
                 tr.append(lekar);
-                tr.append(tip);               
+                tr.append(tip);
                 tr.append(cena);
-                if(window.tipKorisnika == "adminKlinike"){            		            	
-                	let ukloni = $(`<td><button  type="button" id="ukloniBtn" onclick="ukloniPregled('${pregled.id}')">Ukloni</button></td>`)
-                	tr.append(ukloni);
-                }
-                else if(window.tipKorisnika == "lekar"){
-                	document.getElementById("pacijent").innerHTML = "Pacijent";
-                	let pacijent = $("<td>" + pregled.pacijent + "</td>");
-                	tr.append(pacijent);
-                	let zapocni = $("<td>" + "<a href=\"unosPodatakaOPregledu.html?id=" + pregled.id + "\">Zapocni pregled</a></td>")
-                	tr.append(zapocni);
+                if (window.tipKorisnika == "adminKlinike") {
+                    let ukloni = $(`<td><button  type="button" id="ukloniBtn" onclick="ukloniPregled('${pregled.id}')">Ukloni</button></td>`)
+                    tr.append(ukloni);
+                } else if (window.tipKorisnika == "lekar") {
+                    document.getElementById("pacijent").innerHTML = "Pacijent";
+                    let pacijent = $("<td>" + pregled.pacijent + "</td>");
+                    tr.append(pacijent);
+                    let zapocni = $("<td>" + "<a href=\"izvestajPregleda.html?id=" + pregled.id + "\">Zapocni pregled</a></td>")
+                    tr.append(zapocni);
                 }
                 table.append(tr);
             }
@@ -48,16 +47,16 @@ function ucitajTabelu() {
 }
 
 function ukloniPregled(id) {
-	
+
     $.ajax({
         type: "DELETE",
 
         url: "/klinicki-centar/pregled/delete/" + id,
-        success: function () {
+        success: function() {
             $("#tr" + id).remove();
             alert("USPESNO BRISANJE PREGLEDA");
         },
-        error: function (jqXHR) {
+        error: function(jqXHR) {
             alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
         },
     });
@@ -65,16 +64,16 @@ function ukloniPregled(id) {
 
 
 
-function proveriKorisnika(){
-	$.ajax({
+function proveriKorisnika() {
+    $.ajax({
         type: "get",
         url: "/klinicki-centar/login/tipKorisnika",
-        success: function(data) {       
+        success: function(data) {
             console.log(data);
             tipKorisnika = data;
             //window.tipKorisnika = data;
-            if(tipKorisnika == "lekar"){
-            	$("#dodajPregled").css('visibility', 'hidden');
+            if (tipKorisnika == "lekar") {
+                $("#dodajPregled").css('visibility', 'hidden');
             }
 
         },
@@ -90,17 +89,17 @@ function ucitajSale() {
     $.ajax({
         type: "get",
         url: "/klinicki-centar/sala/page",
-        success: function (data) {
-        	var table = $("#sale")
-            for (var sala of data) {               
+        success: function(data) {
+            var table = $("#sale")
+            for (var sala of data) {
                 let tr = $("<tr id=\"tr" + sala.id + "\"></tr>");
                 let id = $("<td>" + sala.id + "</td>")
                 let naziv = $("<td>" + sala.naziv + "</td>")
-                let tip = $("<td>" + sala.tip + "</td>")      
+                let tip = $("<td>" + sala.tip + "</td>")
                 let izaberi = $(`<td><button  type="button" id="izaberiBtn" onclick="izaberiSalu('${sala.id}')">Izaberi</button></td>`)
                 tr.append(id);
                 tr.append(naziv);
-                tr.append(tip);               
+                tr.append(tip);
                 tr.append(izaberi);
                 table.append(tr);
             }
@@ -111,47 +110,47 @@ function ucitajSale() {
 
 
 
-function datumVreme(){
-	var dt = $("#date-time").val();
-	console.log(dt);
-	var trajanje = $("#trajanje").val();
-	console.log(trajanje);
+function datumVreme() {
+    var dt = $("#date-time").val();
+    console.log(dt);
+    var trajanje = $("#trajanje").val();
+    console.log(trajanje);
 
-	if(trajanje != "" && dt != ""){
-		$.ajax({
-	        type: "POST",
-	        contentType: "application/json",
-	        url: "/klinicki-centar/sala/filterTime",
-	        dataType: 'json',
-	        data: dt+";"+trajanje,
-	        success : function (sale) {
-	        	console.log(sale);
-	        	$("#table_body").empty();
-	        	var table = $("#sale")
-	            for (var sala of sale) {               
-	                let tr = $("<tr id=\"tr" + sala.id + "\"></tr>");
-	                let id = $("<td>" + sala.id + "</td>")
-	                let naziv = $("<td>" + sala.naziv + "</td>")
-	                let tip = $("<td>" + sala.tip + "</td>")                
-	                let izaberi = $(`<td><button  type="button" id="izaberiBtn" onclick="izaberiSalu('${sala.id}')">Izaberi</button></td>`)
-	                tr.append(id);
-	                tr.append(naziv);
-	                tr.append(tip);               
-	                tr.append(izaberi);
-	                table.append(tr);
-	            }
+    if (trajanje != "" && dt != "") {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/klinicki-centar/sala/filterTime",
+            dataType: 'json',
+            data: dt + ";" + trajanje,
+            success: function(sale) {
+                console.log(sale);
+                $("#table_body").empty();
+                var table = $("#sale")
+                for (var sala of sale) {
+                    let tr = $("<tr id=\"tr" + sala.id + "\"></tr>");
+                    let id = $("<td>" + sala.id + "</td>")
+                    let naziv = $("<td>" + sala.naziv + "</td>")
+                    let tip = $("<td>" + sala.tip + "</td>")
+                    let izaberi = $(`<td><button  type="button" id="izaberiBtn" onclick="izaberiSalu('${sala.id}')">Izaberi</button></td>`)
+                    tr.append(id);
+                    tr.append(naziv);
+                    tr.append(tip);
+                    tr.append(izaberi);
+                    table.append(tr);
+                }
 
-			},
-	        
-	    });
-	}
-	
+            },
+
+        });
+    }
+
 }
 
 function ucitajListe() {
     $.ajax({
         type: "get",
-        url: "/klinicki-centar/sala/zaPregled",
+        url: "/klinicki-centar/sala/page",
         success: function(data) {
             for (var sala of data) {
                 console.log(sala.naziv);
@@ -316,7 +315,7 @@ function proveriFilter() {
 
     var retVal = true;
 
-   
+
     if (trajanje.val() == "") {
         $("#trajanjeError").text("Unesite trajanje").css('visibility', 'visible').css('color', 'red');
         retVal = false;
@@ -364,26 +363,21 @@ function proveriDatum(salaId, datum, tipPregledaId) {
 }
 
 function pretraziSale() {
-	//window.sale = "izbor";
+    //window.sale = "izbor";
     //myWindow = window.open("http://localhost:8080/klinicki-centar/izborSaleZaPregled.html", "", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=100,width=800,height=500");
     myWindow = window.open("http://localhost:8080/klinicki-centar/sale.html?w=pregled", "", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=100,width=800,height=500");
     //console.log(myWindow);
     console.log(myWindow.parent);
 }
 
-function izaberiSalu(idSale){	
-	var dt = $("#date-time").val();
-	//console.log(opener)
-	close();
-	var el = opener.document.getElementById("salaSelect");
-	opener.console.log(el);
+function izaberiSalu(idSale) {
+    var dt = $("#date-time").val();
+    //console.log(opener)
+    close();
+    var el = opener.document.getElementById("salaSelect");
+    opener.console.log(el);
 
-	var sala = $("#salaSelect option[value='"+idSale+"']", opener.document).prop('selected', true);
-	$("#date-time", opener.document).val(dt);
-	opener.console.log(sala);
+    var sala = $("#salaSelect option[value='" + idSale + "']", opener.document).prop('selected', true);
+    $("#date-time", opener.document).val(dt);
+    opener.console.log(sala);
 }
-
-
-
-
-

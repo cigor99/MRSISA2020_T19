@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+    <title>Web Map</title>
+    <link
+      rel="stylesheet"
+      href="ol/ol.css"
+      type="text/css"
+    />
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="js/webMap.js"></script>
+    <script>
+    $(document).ready( function() {
+    	ucitajLokaciju();
+    	//prikazi();
+    });
+    </script>
+    
+   
+  </head>
+
+  <body>
+    <div style="display: flex;flex-direction: row">
+      <!-- <button onclick="moveTo(london);">Move To London</button><br />
+      <button onclick="moveTo(delhi);">Move To New Delhi</button><br /> -->
+      <!-- <input type="checkbox" id="checkbox"  checked> Show Map</input> -->
+    </div>
+    <div id="map" class="map"></div>
+
+    <script src="ol/ol.js"></script>
+    
+  </body>
+</html>

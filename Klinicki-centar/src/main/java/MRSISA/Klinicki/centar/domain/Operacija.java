@@ -38,13 +38,13 @@ public class Operacija {
 	private Sala sala;
 
 	// MOZDA STAVITI EAGER
-	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
-	@JoinTable(name = "lekar_operacija", joinColumns = @JoinColumn(name = "ID_lekara"), inverseJoinColumns = @JoinColumn(name = "ID_Operacije"))
+	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	@JoinTable(name = "lekar_operacija", joinColumns = @JoinColumn(name = "ID_Operacije"), inverseJoinColumns = @JoinColumn(name = "ID_Lekara"))
 	private Set<Lekar> lekari = new HashSet<Lekar>();
 
-	@ManyToOne
-	@JoinColumn(name = "tip_pregleda", referencedColumnName = "ID_TipaPregleda", nullable = false)
-	private TipPregleda tipPregleda;
+//	@ManyToOne
+//	@JoinColumn(name = "tip_pregleda", referencedColumnName = "ID_TipaPregleda", nullable = false)
+//	private TipPregleda tipPregleda;
 
 	@ManyToOne
 	@JoinColumn(name = "pacijent", referencedColumnName = "ID_Pacijenta", nullable = false)
@@ -64,7 +64,7 @@ public class Operacija {
 		this.datum = datum;
 		this.sala = sala;
 		this.lekari = lekari;
-		this.tipPregleda = tipPregleda;
+//		this.tipPregleda = tipPregleda;
 		this.pacijent = pacijent;
 		this.zahteviZaOperaciju = zahteviZaOperaciju;
 	}
@@ -136,13 +136,6 @@ public class Operacija {
 		this.zahteviZaOperaciju = zahteviZaOperaciju;
 	}
 
-	public TipPregleda getTipPregleda() {
-		return tipPregleda;
-	}
-
-	public void setTipPregleda(TipPregleda tipPregleda) {
-		this.tipPregleda = tipPregleda;
-	}
 
 	public Pacijent getPacijent() {
 		return pacijent;

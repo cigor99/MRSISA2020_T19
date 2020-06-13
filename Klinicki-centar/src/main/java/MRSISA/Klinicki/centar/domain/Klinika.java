@@ -38,14 +38,14 @@ public class Klinika {
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "klinika")
 	private Set<AdministratorKlinike> administratori = new HashSet<AdministratorKlinike>();
 
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "klinika")
+	@OneToMany(cascade = { CascadeType.ALL }, mappedBy = "klinika", fetch = FetchType.EAGER)//fetch = FetchType.LAZY, 
 	private Set<Lekar> lekari = new HashSet<Lekar>();
 
 	@ManyToOne
 	@JoinColumn(name = "cenovnik", referencedColumnName = "ID_Cenovnika")
 	private Cenovnik cenovnik;
 
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "klinika")
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER, mappedBy = "klinika")
 	private Set<Sala> sale = new HashSet<Sala>();
 	
 	@ElementCollection
@@ -204,6 +204,7 @@ public class Klinika {
 	public Double getProsecnaOcena() {
 		return izracunajProsecnuOcenu();
 	}
+	
 	
 	
 }
