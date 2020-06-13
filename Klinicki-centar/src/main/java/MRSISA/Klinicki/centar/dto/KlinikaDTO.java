@@ -20,6 +20,11 @@ public class KlinikaDTO {
 		this.naziv = klinika.getNaziv();
 		this.opis = klinika.getOpis();
 		this.prosecnaOcena = klinika.getProsecnaOcena();
+		double a = this.prosecnaOcena * 100;
+		double i = (Math.round(a));
+		double p = i/100;
+		this.prosecnaOcena = p;
+
 	}
 
 	public KlinikaDTO(int id, String naziv, String opis, String adresa, Double prosecnaOcena) {
@@ -29,6 +34,10 @@ public class KlinikaDTO {
 		this.opis = opis;
 		this.adresa = adresa;
 		this.prosecnaOcena = prosecnaOcena;
+		double a = this.prosecnaOcena * 100;
+		double i = (Math.round(a));
+		double p = i/100;
+		this.prosecnaOcena = p;
 	}
 	
 	

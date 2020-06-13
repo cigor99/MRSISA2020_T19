@@ -52,16 +52,16 @@ public class KlinikaController {
 
 	@Autowired
 	private KlinikaService klinikaService;
-	
+
 	@Autowired
 	private AdminKService adminService;
-	
+
 	@Autowired
 	private TipPregledaService tipPregledaService;
-	
+
 	@Autowired
 	private PregledService pregledService;
-	
+
 	@Autowired
 	HttpServletRequest request;
 
@@ -149,9 +149,9 @@ public class KlinikaController {
 
 		return new ResponseEntity<>(new KlinikaDTO(klinika), HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/klinika/addAdmin")
-	public ResponseEntity<Admin_klinikaDTO> addAdmin(@RequestBody Admin_klinikaDTO admin_klinika){
+	public ResponseEntity<Admin_klinikaDTO> addAdmin(@RequestBody Admin_klinikaDTO admin_klinika) {
 		System.out.println("ADMIN_KLINIKA");
 		System.out.println(admin_klinika.getAdminID());
 		System.out.println(admin_klinika.getKlinikaID());
@@ -160,34 +160,33 @@ public class KlinikaController {
 		Klinika klinika = klinikaService.findOne(admin_klinika.getKlinikaID());
 		System.out.println(admin);
 		System.out.println(klinika);
-		if(klinika != null && admin != null) {
+		if (klinika != null && admin != null) {
 			klinika.getAdministratori().add(admin);
 			admin.setKlinika(klinika);
 			klinika = klinikaService.save(klinika);
 			admin = adminService.save(admin);
 			return new ResponseEntity<>(new Admin_klinikaDTO(admin.getId(), klinika.getId()), HttpStatus.OK);
-		}else {
+		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		
+
 	}
-	
-	
+
 	@PostMapping("/klinika/search")
-	public ResponseEntity<List<KlinikaDTO>> searchKlinika(@RequestBody String pretraga){
+	public ResponseEntity<List<KlinikaDTO>> searchKlinika(@RequestBody String pretraga) {
 		List<KlinikaDTO> retVal = new ArrayList<>();
 		System.out.println(pretraga);
 		System.out.println("======================");
-		for(Klinika k : klinikaService.findAll()) {
+		for (Klinika k : klinikaService.findAll()) {
 			System.out.println(k.getNaziv());
-			if(k.getNaziv().contains(pretraga)) {
+			if (k.getNaziv().contains(pretraga)) {
 				KlinikaDTO dto = new KlinikaDTO(k);
 				retVal.add(dto);
 			}
 		}
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/klinika/getKlinika/{id}")
 	public ResponseEntity<KlinikaDTO> getKlinika(@PathVariable Integer id) {
 		Klinika klinika = klinikaService.findOne(id);
@@ -197,68 +196,69 @@ public class KlinikaController {
 			return new ResponseEntity<>(new KlinikaDTO(klinika), HttpStatus.OK);
 		}
 	}
-	
+
 	@GetMapping("/klinika/getCurrent")
 	public ResponseEntity<Integer> getCurrent() {
-		AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");		
+		AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
 		int id = admink.getKlinikaID();
-		//Klinika klinika = klinikaService.findOne(id);
-		
+		// Klinika klinika = klinikaService.findOne(id);
+
 		return new ResponseEntity<>(id, HttpStatus.OK);
-		
+
 	}
-	
+
 	@GetMapping("/klinika/getCenaTipaPoID/{idKlinike}/{idTipa}")
-	public ResponseEntity<Double> getCenaTipaPoID(@PathVariable Integer idKlinike, @PathVariable Integer idTipa){
+	public ResponseEntity<Double> getCenaTipaPoID(@PathVariable Integer idKlinike, @PathVariable Integer idTipa) {
 		Klinika klinika = klinikaService.findOne(idKlinike);
 		try {
-			for(Cena c : klinika.getCenovnik().getCene()) {
-				if(c.getTipPregleda().getId().equals(idTipa)) {
+			for (Cena c : klinika.getCenovnik().getCene()) {
+				if (c.getTipPregleda().getId().equals(idTipa)) {
 					return new ResponseEntity<>(c.getIznos(), HttpStatus.OK);
 				}
 			}
-		}catch (NullPointerException e) {
+		} catch (NullPointerException e) {
 			return new ResponseEntity<>(3.0, HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
-	
+
 	@PostMapping("/klinika/searchPacijentoviParametri")
-	public ResponseEntity<Set<KlinikaDTO>> searchKlinikaPacijentoviParametri(@RequestBody PretragaKlinikaDTO pretraga){
+	public ResponseEntity<Set<KlinikaDTO>> searchKlinikaPacijentoviParametri(@RequestBody PretragaKlinikaDTO pretraga) {
 		Set<KlinikaDTO> retVal = new HashSet<>();
 		TipPregleda tip = tipPregledaService.findOne(pretraga.tip);
 		List<Pregled> pregledi = pregledService.findAll();
-		for(Klinika k : klinikaService.findAll()) {
-			for(Lekar l :k.getLekari()) {
-				if(l.getTipoviPregleda().contains(tip) && l.getProsecnaOcena()>= pretraga.ocena) {
-					for(Pregled p : pregledi) {
-						if( (p.getLekar().getId().equals(l.getId())) ) {
-							if(!proveriZauzetost(p.getDatum(), pretraga.datum)) {
+		for (Klinika k : klinikaService.findAll()) {
+			if (k.getProsecnaOcena() < pretraga.ocena) {
+				continue;
+			}
+			for (Lekar l : k.getLekari()) {
+				if (l.getTipoviPregleda().contains(tip)) {
+					for (Pregled p : pregledi) {
+						if ((p.getLekar().getId().equals(l.getId()))) {
+							if (!proveriZauzetost(p.getDatum(), pretraga.datum)) {
 								KlinikaDTO dto = new KlinikaDTO(k);
-								if(!retVal.contains(dto)) {
+								if (!retVal.contains(dto)) {
 									retVal.add(dto);
 								}
 							}
-						}else {
+						} else {
 							KlinikaDTO dto = new KlinikaDTO(k);
-							if(!retVal.contains(dto)) {
+							if (!retVal.contains(dto)) {
 								retVal.add(dto);
 							}
 						}
 					}
 				}
 			}
+
 		}
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
-	
-	
-	
-	
+
 	private boolean proveriZauzetost(Date pregled, Date pretraga) {
-		if(pregled.getYear() == pretraga.getYear()) {
-			if(pregled.getMonth() == pretraga.getMonth()) {
-				if(pregled.getDay() == pretraga.getDay()) {
+		if (pregled.getYear() == pretraga.getYear()) {
+			if (pregled.getMonth() == pretraga.getMonth()) {
+				if (pregled.getDay() == pretraga.getDay()) {
 					return true;
 				}
 			}

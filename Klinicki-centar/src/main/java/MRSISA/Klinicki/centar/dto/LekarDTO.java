@@ -20,6 +20,10 @@ public class LekarDTO extends Osoba {
 	public LekarDTO(int id, String email, String lozinka, String jmbg, String ime, String prezime, double prosecnaOcena, Integer klinikaID) {
 		super(id, email, lozinka, ime, prezime, jmbg);
 		this.prosecnaOcena = prosecnaOcena;
+		double a = this.prosecnaOcena * 100;
+		double i = (Math.round(a));
+		double p = i/100;
+		this.prosecnaOcena = p;
 		this.klinikaID = klinikaID;
 	}
 
@@ -27,6 +31,10 @@ public class LekarDTO extends Osoba {
 		super(lekar.getId(), lekar.getEmail(), lekar.getLozinka(), lekar.getIme(), lekar.getPrezime(), lekar.getJmbg());
 		this.tipKorisnika = lekar.getTipKorisnika();
 		this.prosecnaOcena = lekar.getProsecnaOcena();
+		double a = this.prosecnaOcena * 100;
+		double i = (Math.round(a));
+		double p = i/100;
+		this.prosecnaOcena = p;
 		this.klinikaID = lekar.getKlinika().getId();
 	}
 
