@@ -88,7 +88,7 @@
                         TrajanjeTD.append(pregled.trajanje + " min");
                         let pregledTD = $("<td></td>");
                         let a = $("<a>Započni pregled</a>");
-                        a.attr("href", 'izvestajPregleda.html?pID=' + pregled.pacijent + "&prID=" + pregled.id);
+                        a.attr("href", 'izvestajPregleda.html?pID=' + pregled.pacijentID + "&prID=" + pregled.id);
                         pregledTD.append(a);
 
                         tr.append(datumTD);

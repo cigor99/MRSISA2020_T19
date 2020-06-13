@@ -32,7 +32,11 @@ function ucitajTabelu() {
                 if (window.tipKorisnika == "adminKlinike") {
                     let ukloni = $(`<td><button  type="button" id="ukloniBtn" onclick="ukloniPregled('${pregled.id}')">Ukloni</button></td>`)
                     tr.append(ukloni);
+                    $("#dodajPregled").css('visibility', 'visible');
+                    $("#zakaziPregled").css('visibility', 'hidden');
                 } else if (window.tipKorisnika == "lekar") {
+                	$("#dodajPregled").css('visibility', 'hidden');
+                	$("#zakaziPregled").css('visibility', 'visible');
                     document.getElementById("pacijent").innerHTML = "Pacijent";
                     let pacijent = $("<td>" + pregled.pacijent + "</td>");
                     tr.append(pacijent);
@@ -380,4 +384,39 @@ function izaberiSalu(idSale) {
     var sala = $("#salaSelect option[value='" + idSale + "']", opener.document).prop('selected', true);
     $("#date-time", opener.document).val(dt);
     opener.console.log(sala);
+}
+
+
+function ucitajPacijenta(){
+	var imeCoded = window.location.href.split("?")[1];
+    var imeJednako = imeCoded.split("&")[0];
+    var IDpacijenta = imeJednako.split("=")[1];
+    
+    console.log(IDpacijenta);
+    
+    
+}
+
+function zakaziPregled(){
+	var imeCoded = window.location.href.split("?")[1];
+    var imeJednako = imeCoded.split("&")[0];
+    var IDpacijenta = imeJednako.split("=")[1];
+    var pregled = imeCoded.split("&")[1];
+    var pregledID = pregled.split("=")[1];
+    var dt = $("#date-time").val();
+    console.log(dt);
+    console.log(pregledID);
+    console.log(IDpacijenta);
+    $.ajax({
+        type: "post",
+        url: "/klinicki-centar/pregled/posaljiZahtev/" + IDpacijenta + "/" + dt + "/" + pregledID,
+        success: function(data) {
+            alert("Poslat je zahtev za rezervaciju sale.");
+            close();
+        },
+        error: function() {
+            alert("Error");
+        }
+
+    });
 }

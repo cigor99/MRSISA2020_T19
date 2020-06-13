@@ -1,5 +1,7 @@
 package MRSISA.Klinicki.centar.domain;
 
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,6 +22,9 @@ public class ZahtevZaPregled {
 
 	@Column(name = "stanje_zahteva", unique = false, nullable = false)
 	private StanjeZahteva stanjeZahteva;
+	
+	@Column(name = "datum_slanja", unique = false, nullable = false)
+	private Date datumSlanja;
 
 	@ManyToOne
 	@JoinColumn(name = "pregled", referencedColumnName = "ID_Pregleda", nullable = false)
@@ -73,6 +78,14 @@ public class ZahtevZaPregled {
 
 	public void setPregled(Pregled pregled) {
 		this.pregled = pregled;
+	}
+
+	public Date getDatumSlanja() {
+		return datumSlanja;
+	}
+
+	public void setDatumSlanja(Date datumSlanja) {
+		this.datumSlanja = datumSlanja;
 	}
 
 }

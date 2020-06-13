@@ -82,6 +82,7 @@ public class PregledDTO {
 		this.tipPregleda = tipPregleda.getNaziv();
 		if (pacijent != null) {
 			this.pacijent = pacijent.getIme() + " " + pacijent.getPrezime();
+			this.pacijentID = pacijent.getId();
 		} else {
 			this.pacijent = " ";
 		}
@@ -103,6 +104,7 @@ public class PregledDTO {
 
 		if (pregled.getPacijent() != null) {
 			this.pacijent = pregled.getPacijent().getIme() + " " + pregled.getPacijent().getPrezime();
+			this.pacijentID = pregled.getPacijent().getId();
 		} else {
 			this.pacijent = " ";
 		}
