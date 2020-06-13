@@ -56,12 +56,15 @@ import MRSISA.Klinicki.centar.domain.Pregled;
 import MRSISA.Klinicki.centar.domain.Sala;
 import MRSISA.Klinicki.centar.dto.AdminKCDTO;
 import MRSISA.Klinicki.centar.dto.AdminKDTO;
+import MRSISA.Klinicki.centar.dto.KlinikaDTO;
 import MRSISA.Klinicki.centar.dto.LekarDTO;
 import MRSISA.Klinicki.centar.domain.StanjePacijenta;
+import MRSISA.Klinicki.centar.domain.TipPregleda;
 import MRSISA.Klinicki.centar.dto.LekarDTO;
 import MRSISA.Klinicki.centar.dto.MedicinskaSestraDTO;
 import MRSISA.Klinicki.centar.dto.Osoba;
 import MRSISA.Klinicki.centar.dto.PacijentDTO;
+import MRSISA.Klinicki.centar.dto.PretragaKlinikaDTO;
 import MRSISA.Klinicki.centar.dto.PrvoLogovanjeDTO;
 import MRSISA.Klinicki.centar.dto.SalaDTO;
 import MRSISA.Klinicki.centar.service.AdminKCSerivce;
@@ -72,6 +75,7 @@ import MRSISA.Klinicki.centar.service.LekarService;
 import MRSISA.Klinicki.centar.service.MedicinskaSestraSerive;
 import MRSISA.Klinicki.centar.service.PacijentService;
 import MRSISA.Klinicki.centar.service.PregledService;
+import MRSISA.Klinicki.centar.service.TipPregledaService;
 
 @RestController
 public class LekarController {
@@ -101,9 +105,12 @@ public class LekarController {
 
 	@Autowired
 	HttpServletRequest request;
-	
+
 	@Autowired
 	private PregledService pregledService;
+
+	@Autowired
+	private TipPregledaService tipPregledaService;
 
 	@GetMapping("/lekar/all")
 	public ResponseEntity<List<LekarDTO>> getAllLekari() {
@@ -118,7 +125,7 @@ public class LekarController {
 	@GetMapping("/lekar/page")
 	public ResponseEntity<List<LekarDTO>> getLekarPage() {
 		Pageable prvihDeset = PageRequest.of(0, 10);
-		//System.out.println(request.getSession().getAttribute("current"));
+		// System.out.println(request.getSession().getAttribute("current"));
 		AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
 //		System.out.println(admink.getEmail());
 //		System.out.println(admink.getKlinikaID());
@@ -211,7 +218,8 @@ public class LekarController {
 
 		for (Lekar l : lekarService.findAll()) {
 			System.out.println(l.getIme());
-			if (l.getIme().toLowerCase().contains(pretraga.toLowerCase()) || l.getPrezime().toLowerCase().contains(pretraga.toLowerCase())
+			if (l.getIme().toLowerCase().contains(pretraga.toLowerCase())
+					|| l.getPrezime().toLowerCase().contains(pretraga.toLowerCase())
 					|| l.getEmail().toLowerCase().contains(pretraga.toLowerCase())) {
 				System.out.println(l.getPrezime());
 				LekarDTO lekar = new LekarDTO(l);
@@ -435,44 +443,99 @@ public class LekarController {
 
 	}
 
+	/*
+	 * @PostMapping(
+	 * "/lekar/searchLekaraForPacijent/{kriterijum}/{pretraga}/{klinika}") public
+	 * ResponseEntity<List<LekarDTO>> searchLekarForPacijent(@PathVariable String
+	 * kriterijum,
+	 * 
+	 * @PathVariable String pretraga, @PathVariable Integer klinika) {
+	 * List<LekarDTO> retVal = new ArrayList<LekarDTO>(); switch (kriterijum) { case
+	 * "ime": for (Lekar l : lekarService.findAll()) { if
+	 * (l.getIme().toLowerCase().contains(pretraga.toLowerCase())) { if
+	 * (l.getKlinika().getId().equals(klinika)) { LekarDTO lekar = new LekarDTO(l);
+	 * retVal.add(lekar); } } } break; case "prezime": for (Lekar l :
+	 * lekarService.findAll()) { if
+	 * (l.getPrezime().toLowerCase().contains(pretraga.toLowerCase())) { if
+	 * (l.getKlinika().getId().equals(klinika)) { LekarDTO lekar = new LekarDTO(l);
+	 * retVal.add(lekar); } } } break; default: for (Lekar l :
+	 * lekarService.findAll()) { if
+	 * (l.getIme().toLowerCase().contains(pretraga.toLowerCase())) { if
+	 * (l.getKlinika().getId().equals(klinika)) { LekarDTO lekar = new LekarDTO(l);
+	 * retVal.add(lekar); } } } break; } return new ResponseEntity<>(retVal,
+	 * HttpStatus.OK);
+	 * 
+	 * }
+	 */
+
+	@PostMapping("/lekar/searchPacijentoviParametriDva/{klinika}")
+	public ResponseEntity<Set<LekarDTO>> searchPacijentoviParametri2(@PathVariable int klinika, @RequestBody PretragaKlinikaDTO pretraga) {
+		Set<LekarDTO> retVal = new HashSet<>();
+		TipPregleda tip = tipPregledaService.findOne(pretraga.tip);
+		List<Pregled> pregledi = pregledService.findAll();
+		for (Lekar l : lekarService.findAll()) {
+			if (l.getProsecnaOcena() < pretraga.ocena || !l.getKlinika().getId().equals(klinika)) {
+				continue;
+			}
+
+			if (l.getTipoviPregleda().contains(tip)) {
+				for (Pregled p : pregledi) {
+					if ((p.getLekar().getId().equals(l.getId()))) {
+						if (!proveriZauzetost(p.getDatum(), pretraga.datum)) {
+							LekarDTO dto = new LekarDTO(l);
+							if (!retVal.contains(dto)) {
+								retVal.add(dto);
+							}
+						}
+					} else {
+						LekarDTO dto = new LekarDTO(l);
+						if (!retVal.contains(dto)) {
+							retVal.add(dto);
+						}
+					}
+				}
+			}
+
+		}
+		return new ResponseEntity<>(retVal, HttpStatus.OK);
+	}
+	/*
+	@PostMapping("/lekar/searchPacijentoviParametriJedan/{ocena}")
+	public ResponseEntity<Set<LekarDTO>> searchPacijentoviParametri1(@PathVariable Double ocena) {
+		Set<LekarDTO> retVal = new HashSet<>();
+		TipPregleda tip = tipPregledaService.findOne(pretraga.tip);
+		List<Pregled> pregledi = pregledService.findAll();
+		for (Lekar l : lekarService.findAll()) {
+			if (l.getProsecnaOcena() < pretraga.ocena) {
+				continue;
+			}
+
+			if (l.getTipoviPregleda().contains(tip)) {
+				for (Pregled p : pregledi) {
+					if ((p.getLekar().getId().equals(l.getId()))) {
+						if (!proveriZauzetost(p.getDatum(), pretraga.datum)) {
+							LekarDTO dto = new LekarDTO(l);
+							if (!retVal.contains(dto)) {
+								retVal.add(dto);
+							}
+						}
+					} else {
+						LekarDTO dto = new LekarDTO(l);
+						if (!retVal.contains(dto)) {
+							retVal.add(dto);
+						}
+					}
+				}
+			}
+
+		}
+		return new ResponseEntity<>(retVal, HttpStatus.OK);
+	}*/
+
 	@PostMapping("/lekar/searchLekaraForPacijent/{kriterijum}/{pretraga}/{klinika}")
 	public ResponseEntity<List<LekarDTO>> searchLekarForPacijent(@PathVariable String kriterijum,
 			@PathVariable String pretraga, @PathVariable Integer klinika) {
-		List<LekarDTO> retVal = new ArrayList<LekarDTO>();
-		switch (kriterijum) {
-		case "ime":
-			for (Lekar l : lekarService.findAll()) {
-				if (l.getIme().toLowerCase().contains(pretraga.toLowerCase())) {
-					if (l.getKlinika().getId().equals(klinika)) {
-						LekarDTO lekar = new LekarDTO(l);
-						retVal.add(lekar);
-					}
-				}
-			}
-			break;
-		case "prezime":
-			for (Lekar l : lekarService.findAll()) {
-				if (l.getPrezime().toLowerCase().contains(pretraga.toLowerCase())) {
-					if (l.getKlinika().getId().equals(klinika)) {
-						LekarDTO lekar = new LekarDTO(l);
-						retVal.add(lekar);
-					}
-				}
-			}
-			break;
-		default:
-			for (Lekar l : lekarService.findAll()) {
-				if (l.getIme().toLowerCase().contains(pretraga.toLowerCase())) {
-					if (l.getKlinika().getId().equals(klinika)) {
-						LekarDTO lekar = new LekarDTO(l);
-						retVal.add(lekar);
-					}
-				}
-			}
-			break;
-		}
-		return new ResponseEntity<>(retVal, HttpStatus.OK);
-
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@PostMapping("/lekar/all/{klinika}")
@@ -487,11 +550,11 @@ public class LekarController {
 		}
 		return new ResponseEntity<>(lekariDTO, HttpStatus.OK);
 	}
-	
+
 	private boolean proveriZauzetost(Date pregled, Date pretraga) {
-		if(pregled.getYear() == pretraga.getYear()) {
-			if(pregled.getMonth() == pretraga.getMonth()) {
-				if(pregled.getDay() == pretraga.getDay()) {
+		if (pregled.getYear() == pretraga.getYear()) {
+			if (pregled.getMonth() == pretraga.getMonth()) {
+				if (pregled.getDay() == pretraga.getDay()) {
 					return true;
 				}
 			}

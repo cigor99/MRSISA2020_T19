@@ -1,4 +1,7 @@
 $(document).ready(function () {
+	window.tipID = null;
+	window.datum = null;
+
 	$.ajax({
 		url: "/klinicki-centar/login/tipKorisnika",
         type: "get",
@@ -84,7 +87,7 @@ function pretraga(){
 		dateTokens[2] = dateTokens[2].split()[1]
 	}
 	var date = new Date(dateTokens[2], dateTokens[0], dateTokens[1]);
-	
+	window.datum = dateTokens[2]+";"+dateTokens[0]+";"+dateTokens[1];
 	var tdint = parseInt(tdd);
 	var tmint = parseInt(tmm);
 	var tyint = parseInt(tyyyy);
@@ -135,6 +138,8 @@ function pretraga(){
 	}
 	let oc = $("#ocenaSel").val()
 	var ocenaTokens = oc.split("+");
+	
+	window.tipID = tipID;
 	var parametri = JSON.stringify({
 		datum: date,
 		tip : tipID,
@@ -173,7 +178,7 @@ function pretraga(){
 
                 let idTD = $("<td>" + klinika.id + "</td>")
                 let nazivTd = $("<td>" + klinika.naziv + "</td>")
-                let ocenaTD = $("<td>" + klinika.prosencaOcena + "</td>")
+                let ocenaTD = $("<td>" + klinika.prosecnaOcena + "</td>")
 				let adresaTD = $("<td>" + klinika.adresa + "</td>")
 				let cenaTD = null;
 				$.ajax({
@@ -190,7 +195,7 @@ function pretraga(){
 				
                 // let izaberiTD = $("<td>" + "<a href=\"#izabrana?id=" +
 				// klinika.id + ">Izaberi</a></td>")
-                let izaberiTD = $("<td><a href='pretragaLekara.html?id="+klinika.id+"&nacin="+ 1 +"'>Izaberi</a></td>")
+                let izaberiTD = $("<td><a href='pretragaLekara.html?id="+klinika.id+"&nacin="+ 1 +"&datum=" + window.datum + "&tip=" +window.tipID + "'>Izaberi</a></td>")
                 tr.append(idTD);
 				tr.append(nazivTd);
 				tr.append(ocenaTD);
@@ -233,12 +238,12 @@ $.ajax({
 
 			let idTD = $("<td>" + klinika.id + "</td>")
 			let nazivTd = $("<td>" + klinika.naziv + "</td>")
-			let ocenaTD = $("<td>" + klinika.prosencaOcena + "</td>")
+			let ocenaTD = $("<td>" + klinika.prosecnaOcena + "</td>")
 			let adresaTD = $("<td>" + klinika.adresa + "</td>")
 			
 			// let izaberiTD = $("<td>" + "<a href=\"#izabrana?id=" +
 			// klinika.id + ">Izaberi</a></td>")
-			let izaberiTD = $("<td><a href='pretragaLekara.html?id="+klinika.id+"&nacin="+ 2 +"'>Izaberi</a></td>")
+			let izaberiTD = $("<td><a href='pretragaLekara.html?id="+klinika.id+"&nacin="+ 2 +"&datum=" + window.datum + "&tip=" +window.tipID + "'>Izaberi</a></td>")
 			tr.append(idTD);
 			tr.append(nazivTd);
 			tr.append(ocenaTD);
