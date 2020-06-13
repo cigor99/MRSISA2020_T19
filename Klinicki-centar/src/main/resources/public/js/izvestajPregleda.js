@@ -80,6 +80,11 @@ $(document).ready(function() {
 
         // }
     });
+    
+    $("#pregled").click(function() {
+        myWindow = window.open("http://localhost:8080/klinicki-centar/zakazivanjePregleda.html?pID=" + IDpacijenta + "&pregledID=" + pregledID, "", "toolbar=yes,scrollbars=yes,resizable=yes,top=200,left=100,width=800,height=500");
+
+    });
 
 
     $("#sacuvaj").click(function() {

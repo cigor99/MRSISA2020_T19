@@ -8,7 +8,9 @@ var zahtevID;
 
 function ucitajTabelu() {
     var p = window.location.search.substr(1);
-    console.log(p);
+    var pp = p.split("&")[0];
+    var x = pp.split("=")[1];
+    console.log(x);
     if (p != "") {
         document.getElementById('dodajSalu').style.visibility = 'hidden';
         //document.getElementById('div_podaci').style.display = 'block';
@@ -40,7 +42,7 @@ function ucitajTabelu() {
                     if (p == "") {
                         tr.append(izmeni);
                         tr.append(ukloni);
-                    } else {
+                    } else if (x == "pregled") {
                         tr.append(izaberi);
                     }
                     table.append(tr);
@@ -57,7 +59,6 @@ function proveriKorisnika() {
     var w = url.split("&")[0];
 
     if (w.split("=")[1] == 'operacija') {
-
         var dat = url.split("&")[1];
         datum = dat.split("=")[1];
 
@@ -76,6 +77,8 @@ function proveriKorisnika() {
         var zah = url.split("&")[6];
         zahtevID = zah.split("=")[1];
     }
+
+
 
     $.ajax({
         type: "get",

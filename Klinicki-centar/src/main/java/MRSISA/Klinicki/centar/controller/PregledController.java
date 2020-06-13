@@ -78,6 +78,7 @@ public class PregledController {
 	
 	@Autowired
 	private PacijentService pacijentService;
+	
 
 	
 	@GetMapping("/all")
@@ -91,9 +92,12 @@ public class PregledController {
 			AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
 			klinika = admink.getKlinikaID();
 			for(Pregled p : pregledi) {
-				if(p.getSala().getKlinika().getId().equals(klinika) && (p.getPacijent() == null)) {
-					preglediDTO.add(new PregledDTO(p));
+				if(p.getSala() != null) {
+					if(p.getSala().getKlinika().getId().equals(klinika) && (p.getPacijent() == null)) {
+						preglediDTO.add(new PregledDTO(p));
+					}
 				}
+				
 			}
 		}
 		else if(tip.equals("lekar")) {
@@ -101,9 +105,9 @@ public class PregledController {
 			Lekar lekar = lekarService.findOne(lekarDTO.getId());
 			//klinika = lekar.getKlinika().getId();			
 			for(Pregled p : lekar.getPregledi()) {		
-				if(p.getPacijent() != null) {
-					preglediDTO.add(new PregledDTO(p));
-				}			
+				if(p.getSala() != null && p.getIzvestajiPregleda().size() == 0) {					
+					preglediDTO.add(new PregledDTO(p));					
+				}		
 			}
 		}
 		return new ResponseEntity<>(preglediDTO, HttpStatus.OK);
@@ -120,8 +124,10 @@ public class PregledController {
 			AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
 			klinika = admink.getKlinikaID();
 			for(Pregled p : pregledi) {
-				if(p.getSala().getKlinika().getId().equals(klinika)) {
-					preglediDTO.add(new PregledDTO(p));
+				if(p.getSala() != null) {
+					if(p.getSala().getKlinika().getId().equals(klinika) && (p.getPacijent() == null)) {
+						preglediDTO.add(new PregledDTO(p));
+					}
 				}
 			}
 		}
@@ -130,7 +136,9 @@ public class PregledController {
 			Lekar lekar = lekarService.findOne(lekarDTO.getId());
 			//klinika = lekar.getKlinika().getId();			
 			for(Pregled p : lekar.getPregledi()) {				
-				preglediDTO.add(new PregledDTO(p));				
+				if(p.getSala() != null && p.getIzvestajiPregleda().size() == 0) {					
+					preglediDTO.add(new PregledDTO(p));					
+				}						
 			}
 		}
 		
@@ -274,6 +282,44 @@ public class PregledController {
 		}
 		return new ResponseEntity<>(slobodni, HttpStatus.OK);
 		
+	}
+	
+	@PostMapping("/posaljiZahtev/{idPacijenta}/{datum}/{pregledID}")
+	public ResponseEntity<PregledDTO> zakazivanjePregleda(@PathVariable Integer idPacijenta, @PathVariable String datum, @PathVariable Integer pregledID){
+		System.out.println(datum);
+		ZahtevZaPregled zzp = new ZahtevZaPregled();
+		zzp.setStanje(StanjeZahteva.NA_CEKANJU);
+		zzp.setDatumSlanja(new Date(System.currentTimeMillis()));
+		Pregled pregled = new Pregled();
+		String stringdate = datum.replace("T", " ");
+		//System.out.println(stringdate);		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		try {
+			Date date = sdf.parse(stringdate);
+			pregled.setDatum(date);
+			Pacijent pac = pacijentService.findOne(idPacijenta);
+			pregled.setPacijent(pac);
+			LekarDTO lekarDTO = (LekarDTO) request.getSession().getAttribute("current");
+			Lekar lekar = lekarService.findOne(lekarDTO.getId());
+			pregled.setLekar(lekar);
+			Pregled trenutni = pregledService.findOne(pregledID);
+			TipPregleda tp = trenutni.getTipPregleda();
+			pregled.setTipPregleda(tp);
+			pregled.setSlobodan(false);
+			pregled.setPopust(0);
+			pregledService.addPregled(pregled);
+			zzp.setPregled(pregled);
+			//System.out.println(zzp.getId());
+			zzpService.save(zzp);
+			return new ResponseEntity<>(HttpStatus.OK);
+
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}					
+		
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
 }

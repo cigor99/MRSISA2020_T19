@@ -19,8 +19,8 @@ INSERT INTO PACIJENTI (ID_PACIJENTA, ADRESA, BROJ_TELEFONA, DRZAVA, EMAIL, GRAD,
 (8, 'Kosovska 12', '+352623656633', 'Srbija', 'jovanaj@hotmail.com', 'Novi Sad', 'Jovana', '8', '1234567891025', 'Laptop43', 1, 'Jovic', 2, NULL, 8);
 
 INSERT INTO Klinike (ID_Klinike, ADRESA, NAZIV, OPIS, POCETAK_RV, KRAJ_RV) VALUES
-(1, 'Adresa Klinike 1', 'klinika 1', 'opis', '08:00', '16:00'),
-(2, 'Adresa Klinike 2', 'klinika 2', 'opis', '08:00', '16:00');
+(1, 'Bulevar Oslobođenja 29, Novi Sad', 'klinika 1', 'opis', '08:00', '16:00'),
+(2, 'Balzakova 16, Novi Sad', 'klinika 2', 'opis', '08:00', '16:00');
 
 INSERT INTO KLINICKI_CENTAR (ID_KC) VALUES (1);
 
@@ -154,4 +154,23 @@ INSERT INTO LEKAR_OPERACIJA (ID_LEKARA, ID_OPERACIJE) VALUES
 (1, 1),
 (1, 2),
 (1, 3);
+
+
+INSERT INTO ZAHTEVI_ZA_PREGLED (ID_ZZP, STANJE_ZAHTEVA, DATUM_SLANJA, PREGLED) VALUES
+(1, 1, '2020-06-15 00:00:00', 13);
+
+INSERT INTO KLINIKA_OCENE (KLINIKA_ID_KLINIKE, OCENE) VALUES
+(1,4),
+(1,4),
+(1,4),
+(1,2),
+(2,0),
+(2,3),
+(2,0),
+(2,2),
+(1,4),
+(2,4),
+(1,1),
+(2,2);
+
 

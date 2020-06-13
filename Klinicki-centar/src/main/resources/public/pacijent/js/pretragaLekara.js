@@ -1,7 +1,15 @@
 $(document).ready(function () {
-	var imeCoded = window.location.href.split("?")[1];
-    var imeJednako = imeCoded.split("&")[0];
-    var imeParam = imeJednako.split("=")[1];
+    var urlParametri = window.location.href.split("?")[1];
+    var urlTok = urlParametri.split("&");
+    var imeParam = urlTok[0].split("=")[1];
+    var nacin = urlTok[1].split("=")[1]
+    var datum = urlTok[2].split("=")[1]
+    window.datum = datum
+    var tip = urlTok[3].split("=")[1]
+    console.log(datum)
+    console.log(tip)
+    window.tipID = tip;
+    window.nacin = nacin
     if(imeParam == undefined){
     	alert("Morate prvo izabrati kliniku")
     	window.location.replace("/klinicki-centar/pretragaKlinika.html");
@@ -54,11 +62,47 @@ $(document).ready(function () {
 		            var naslov = $("#naslov");
 		        	naslov.empty();
                     naslov.append('<h1>'+window.klinika.naziv+'</h1>');
-                    naslov.append('<a href="pregledi.html?id=' + window.klinika.id +'"><h1>Brzo zakazivanje<h1></a>');
-		    		naslov.append('<h1>Lekari</h1>');
-		        }
+                    naslov.append('<a href="pregledi.html?id=' + window.klinika.id +'"><h1>Brzo zakazivanje</h1></a>');
+                    if(nacin=="2"){
+                        var tabelaPretrazivanja = $("#tabelaPretrazivanja");
+                        tabelaPretrazivanja.append("<tr><td>Datum:</td><td><input type='text' id='datepicker'></td></tr>");
+                        tabelaPretrazivanja.append("<tr><td>Tip:</td><td><select id='tip'></select></td></tr>");
+                        tabelaPretrazivanja.append("<tr><td>Ocena:</td><td><select id='ocenaSel'><option>4+</option><option>3+</option><option>2+</option><option>1+</option></select></td></tr>");
+                        tabelaPretrazivanja.append("<tr><td><input type='button' id='pretraga' value='pretraga'></td><td><input type='button' id='reset' value='Reset'></td></tr>");                                                            
+                        var tip = $("#tip");
+                        $.ajax({
+                            url:"/klinicki-centar/tipPregleda/all",
+                            type: "get",
+                            success: function(data){
+                                for(t of data){
+                                    tip.append("<option>" + t.naziv + "</option>")
+                                }
+                            }
+                            
+                        });
+                        $(function(){$('#datepicker').datepicker()});
+
+                        $("#pretraga").click(function(){
+                            pretragaDva()
+                        })
+                                                     
+                        
+
+
+                    }else{
+                        var tabelaPretrazivanja = $("#tabelaPretrazivanja");
+                        tabelaPretrazivanja.append("<tr><td>Ocena:</td><td><select id='ocenaSel'><option>4+</option><option>3+</option><option>2+</option><option>1+</option></select></td></tr>");
+                        tabelaPretrazivanja.append("<tr><td><input type='button' id='pretraga' value='pretraga'></td><td><input type='button' id='reset' value='Reset'></td></tr>");
+                        $("#pretraga").click(function(){
+                            pretragaJedan()
+                        })
+                    }
+                }
+                
 		 });
-	}
+    }
+    
+   
 	
 	window.podaci;
     $('#idemo').checked = true;
@@ -88,9 +132,9 @@ $(document).ready(function () {
             } else if ($("#treciBr").hasClass("strong")) {
                 dobavi(parseInt($("#treciBr").text()) - 1, 6)
             }
-        }
-        if (window.search == true) {
-
+        }/*
+        if (window.search == true && window.nacin == 2) {
+            pretragaDva();
             $.ajax({
                 url: "/klinicki-centar/lekar/searchLekaraForPacijent/" + $("#kriterijum").val() + "/"+$("#search").val() + "/" + window.klinika.id,
                 type: "post",
@@ -126,7 +170,7 @@ $(document).ready(function () {
                     }
                 }
             });
-        }
+        }*/
     });
 
     function kartice(data) {
@@ -569,6 +613,7 @@ $(document).ready(function () {
     //     dobavi(brStr - 1, 6)
     // });
 
+    /*
     function search() {
         $("#error").css('visibility', 'hidden')
         if ($("#search").val() == "") {
@@ -616,7 +661,7 @@ $(document).ready(function () {
             }
 
         })
-    }
+    }*/
     $("#dugme").click(function() {
         search();
     });
@@ -628,7 +673,208 @@ $(document).ready(function () {
     // });
 	
 	
+function pretragaDva(){
+    var trazi = $('#datepicker').val();
+	if(trazi==""){
+		alert("Morate uneti parametar pretrage")
+		return;
+	}
+
+	var regex = /^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/;
+
+	if(!regex.test(trazi)){
+		alert("Neispravan unos datuma");
+		return;
+	}
+
+	var today = new Date();
+	var tdd = String(today.getDate()).padStart(2, '0');
+	var tmm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+	var tyyyy = today.getFullYear();
+	
+	var dateString = $("#datepicker").val();
+	var dateTokens=  dateString.split("/")
+	if(dateTokens[1].split()[0] == "0"){
+		dateTokens[1] = dateTokens[1].split()[1]
+	}
+	if(dateTokens[2].split()[0] == "0"){
+		dateTokens[2] = dateTokens[2].split()[1]
+	}
+	var date = new Date(dateTokens[2], dateTokens[0], dateTokens[1]);
+	
+	var tdint = parseInt(tdd);
+	var tmint = parseInt(tmm);
+	var tyint = parseInt(tyyyy);
+	var ddint = parseInt(dateTokens[1]);
+	var dmint = parseInt(dateTokens[0]);
+	var dyint = parseInt(dateTokens[2]);
+
+	if(dyint < tyint){
+		alert("Ne smete izabrati datum koji je vec prosao")
+		return;
+	}
+	if(dyint == tyint){
+		if(dmint < tmint){
+			alert("Ne smete izabrati datum koji je vec prosao")
+			return;
+		}
+		if(dmint == tmint){
+			if(ddint < tdint){
+				alert("Ne smete izabrati datum koji je vec prosao")
+				return;
+			}
+		}
+	}
+
+
+	var tipID = null;
+	let tipNaz = $("#tip").val();
+	$.ajax({
+		type: 'get',
+		url: "/klinicki-centar/tipPregleda/all",
+		success: function(data){
+			for(t of data){
+				if(t.naziv == tipNaz){
+					tipID = t.id;
+					return;
+				}
+			}
+		},
+		error: function(data){
+			alert("Greska u tipPregleda/all");
+		},
+		async:false
+	});
+
+	if (tipID == null){
+		alert("Tip nije pronadjen")
+		return;
+	}
+	let oc = $("#ocenaSel").val()
+	var ocenaTokens = oc.split("+");
+	var parametri = JSON.stringify({
+		datum: date,
+		tip : tipID,
+		ocena: ocenaTokens[0]
+	});
+
+	$.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/klinicki-centar/lekar/searchPacijentoviParametriDva/"+window.klinika.id,
+		dataType: 'json',
+		contentType : 'application/json',
+        data: parametri,
+        success : function (data) {
+            console.log(data);
+            $("#sledeci").css('visibility', 'hidden');
+            $("#poslednja").css('visibility', 'hidden');
+            $("#treciBr").css('visibility', 'hidden');
+            if (window.podaci == undefined) {
+                window.podaci = data;
+            } else {
+                let stari = window.podaci;
+                window.podaci = []
+                for (let novi of data) {
+                    for (let star of stari) {
+                        if (star.id == novi.id) {
+                            window.podaci.push(star);
+                        }
+                    }
+                }
+            }
+            window.search = true;
+            // window.filter = false;
+            $("#stranice").css('visibility', 'hidden')
+            $("#tabela").css('visibility', 'hidden');
+            $("#ROWDIV").empty();
+            $("#tabela").empty()
+
+            if ($("#idemo").is(":checked") == true) {
+                tabela(window.podaci);
+
+            } else {
+                kartice(window.podaci);
+            }
+        },
+        error: function(jqXHR) {
+            alert("Error: " + jqXHR.status + ", " + jqXHR.responseText);
+        }
+
+		
+        
+	});
+
+}
+
+
+function pretragaJedan(){
+    var dateTokens = window.datum.split(";")
+
+    var date = new Date(dateTokens[0], dateTokens[1], dateTokens[2]);
+    
+	var tipID = window.tipID;
+	
+	let oc = $("#ocenaSel").val()
+	var ocenaTokens = oc.split("+");
+	var parametri = JSON.stringify({
+		datum: date,
+		tip : tipID,
+		ocena: ocenaTokens[0]
+    });
+    
+    console.log(parametri)
+
+	$.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/klinicki-centar/lekar/searchPacijentoviParametriDva/"+window.klinika.id,
+		dataType: 'json',
+		contentType : 'application/json',
+        data: parametri,
+        success : function (data) {
+            console.log(data);
+            $("#sledeci").css('visibility', 'hidden');
+            $("#poslednja").css('visibility', 'hidden');
+            $("#treciBr").css('visibility', 'hidden');
+            if (window.podaci == undefined) {
+                window.podaci = data;
+            } else {
+                let stari = window.podaci;
+                window.podaci = []
+                for (let novi of data) {
+                    for (let star of stari) {
+                        if (star.id == novi.id) {
+                            window.podaci.push(star);
+                        }
+                    }
+                }
+            }
+            window.search = true;
+            // window.filter = false;
+            $("#stranice").css('visibility', 'hidden')
+            $("#tabela").css('visibility', 'hidden');
+            $("#ROWDIV").empty();
+            $("#tabela").empty()
+
+            if ($("#idemo").is(":checked") == true) {
+                tabela(window.podaci);
+
+            } else {
+                kartice(window.podaci);
+            }
+        },
+        error: function(jqXHR) {
+            alert("Error: " + jqXHR.status + ", " + jqXHR.responseText);
+        }
+
+		
+        
+	});
+
+}
 });
+
 
 
 
