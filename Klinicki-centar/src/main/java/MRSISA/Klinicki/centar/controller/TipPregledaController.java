@@ -124,6 +124,9 @@ public class TipPregledaController {
 		}		
 	}
 	
+	/*
+	 * Funkcija koja vraca sve tipove pregleda koje izabrani lekar moze da vrsi
+	 */
 	@GetMapping("/tipPregleda/getLekari/{id}")
 	public ResponseEntity<List<LekarDTO>> getLekari(@PathVariable Integer id){
 		TipPregleda tipPregleda = tipPregledaService.findOne(id);

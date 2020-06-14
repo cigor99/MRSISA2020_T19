@@ -65,6 +65,9 @@ public class AdminiKController {
 	@Autowired
 	private KlinikaService klinikaService;
 
+	/*
+	 * Funckija koja vraca sve administratore klinike
+	 */
 	@GetMapping("/adminK/getAll")
 	public ResponseEntity<List<AdminKDTO>> getAll() {
 		List<AdminKDTO> admini = new ArrayList<AdminKDTO>();
@@ -75,32 +78,34 @@ public class AdminiKController {
 
 		return new ResponseEntity<>(admini, HttpStatus.OK);
 	}
-	
+
+	/*
+	 * Funkcija za dodavanje administratora klinike
+	 */
 	@PostMapping("/adminK/add")
-	public ResponseEntity<Object> add(@RequestBody AdminKDTO adminDTO){
+	public ResponseEntity<Object> add(@RequestBody AdminKDTO adminDTO) {
 		adminDTO.setLozinka("Password1");
-		
-		
-		if(!adminDTO.proveraPolja()) {
-			return new ResponseEntity<>("Neispravni podaci",HttpStatus.BAD_REQUEST);
+
+		if (!adminDTO.proveraPolja()) {
+			return new ResponseEntity<>("Neispravni podaci", HttpStatus.BAD_REQUEST);
 		}
-		if(!jedinstvenEmail(adminDTO, true)) {
-			return new ResponseEntity<>("Email nije jedinstven, već postoji u bazi",HttpStatus.BAD_REQUEST);
+		if (!jedinstvenEmail(adminDTO, true)) {
+			return new ResponseEntity<>("Email nije jedinstven, već postoji u bazi", HttpStatus.BAD_REQUEST);
 		}
-		if(!jedinstvenJmbg(adminDTO, true)) {
-			return new ResponseEntity<>("JMBG nije jedinstven, već postoji u bazi",HttpStatus.BAD_REQUEST);
+		if (!jedinstvenJmbg(adminDTO, true)) {
+			return new ResponseEntity<>("JMBG nije jedinstven, već postoji u bazi", HttpStatus.BAD_REQUEST);
 		}
 		adminDTO.setLozinka("XAEA12");
-		AdministratorKlinike admin =  new AdministratorKlinike();
+		AdministratorKlinike admin = new AdministratorKlinike();
 		admin.setLozinka(adminDTO.getLozinka());
 		admin.setIme(adminDTO.getIme());
 		admin.setPrezime(adminDTO.getPrezime());
 		admin.setJmbg(adminDTO.getJmbg());
 		admin.setTipKorisnika(TipKorisnika.ADMINISTRATOR_KLINIKE);
 		admin.setEmail(adminDTO.getEmail());
-		
+
 		admin = adminService.save(admin);
-		
+
 		/// Slanje email-a sa kodom za aktivaciju naloga
 		ConfirmationToken confirmationToken = new ConfirmationToken(adminDTO.getJmbg());
 		confirmationToken = tokenService.save(confirmationToken);
@@ -119,12 +124,13 @@ public class AdminiKController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		
-		
 		return new ResponseEntity<>(new AdminKDTO(admin), HttpStatus.OK);
 	}
 	
 	
+	/*
+	 * Funkcija koja postavlja sifru pri provoj prijavi na sistem
+	 */
 	@PutMapping("/adminK/prvaSifra")
 	public ResponseEntity<Object> prvaSifra(@RequestBody PrvoLogovanjeDTO prvoLogovanje) {
 		Pattern regPass = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,256}$");
@@ -141,7 +147,10 @@ public class AdminiKController {
 		}
 	}
 	
-
+	
+	/*
+	 * Funkcija za izmenu administratora klinike
+	 */
 	@PutMapping("/adminK/update")
 	public ResponseEntity<AdminKDTO> updateAdmina(@RequestBody AdminKDTO adminKDTO) {
 

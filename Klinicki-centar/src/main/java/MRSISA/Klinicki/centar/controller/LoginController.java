@@ -85,13 +85,6 @@ public class LoginController {
 		if(!loginDTO.proveraPolja()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-//		List<TipPregleda> tipovi = tipPregledaService.findAll();
-//		
-//		for(TipPregleda tip : tipovi) {
-//			for(Lekar l : tip.getLekari()) {
-//				System.out.println(l);
-//			}
-//		}
 		
 		List<Pacijent> pacijenti = pacijentService.findAll();
 		for (Pacijent p : pacijenti) {

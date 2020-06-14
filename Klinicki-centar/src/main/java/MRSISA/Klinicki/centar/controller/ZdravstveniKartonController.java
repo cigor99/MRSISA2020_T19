@@ -25,6 +25,10 @@ public class ZdravstveniKartonController {
 	@Autowired
 	private ZdravstveniKartonService zdService;
 
+	
+	/*
+	 * Dobavlja zdravsteni karton na osnovu JMBG-a
+	 */
 	@GetMapping("/karton/get/{JMBG}")
 	public ResponseEntity<ZdravsteniKartonDTO> getKarton(@PathVariable String JMBG) {
 		List<ZdravstveniKarton> kartoni = zdService.findAll();

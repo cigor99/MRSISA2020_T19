@@ -307,6 +307,9 @@ public class SalaController {
 		return new ResponseEntity<>(new SalaDTO(sala), HttpStatus.OK);
 	}
 	
+	/*
+	 * Funkcija za proveru da li je sala slobodna u izabranom terminu
+	 */
 	@GetMapping("/sala/proveriDatum/{id}/{datum}/{tipPregledaId}")
 	public ResponseEntity<String> proveriDatum(@PathVariable int id, @PathVariable String datum, @PathVariable int tipPregledaId) {
 		Sala sala = salaService.findOne(id);
@@ -351,6 +354,9 @@ public class SalaController {
 		return new ResponseEntity<>("", HttpStatus.NOT_FOUND);
 	}
 	
+	/*
+	 * Funkcija za dobavljanje pregleda za izabrani datum
+	 */
 	@GetMapping("/sala/getDnevniRaspored/{id}/{mesec}")
 	public ResponseEntity<Object> getDnevniRaspored1(@PathVariable int id, @PathVariable String mesec){
 		Sala sala =  salaService.findOne(id);
@@ -375,6 +381,9 @@ public class SalaController {
 
 	}
 	
+	/*
+	 * Funkcija za dobavljanje podatke lekova za lek koji zelimo da izmenimo
+	 */
 	@GetMapping("/sala/getDnevniRaspored/{id}/{dan}/{mesec}")
 	public ResponseEntity<Object> getDnevniRaspored2(@PathVariable int id, @PathVariable String dan, @PathVariable String mesec){
 		Sala sala =  salaService.findOne(id);

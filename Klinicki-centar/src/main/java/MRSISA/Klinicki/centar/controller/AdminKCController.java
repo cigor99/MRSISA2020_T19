@@ -66,6 +66,9 @@ public class AdminKCController {
 	@Autowired
 	private KlinikaService klinikaService;
 
+	/*
+	 * Funkcija vraca sve administratore klinickog centra
+	 */
 	@GetMapping("/adminKC/getAll")
 	public ResponseEntity<List<AdminKCDTO>> getAllAdmini() {
 		List<AdministratorKlinickogCentra> admini = adminKCService.findAll();
@@ -75,7 +78,11 @@ public class AdminKCController {
 		}
 		return new ResponseEntity<>(ret, HttpStatus.OK);
 	}
+	
 
+	/*
+	 * Funkcija za dodavanje administratora klinickog centra
+	 */
 	@PostMapping("/adminKC/add")
 	public ResponseEntity<AdminKCDTO> addAdmin(@RequestBody AdminKCDTO adminKCDTO) {
 		adminKCDTO.setLozinka("Password1");
@@ -121,7 +128,11 @@ public class AdminKCController {
 
 		return new ResponseEntity<>(new AdminKCDTO(admin), HttpStatus.OK);
 	}
+	
 
+	/*
+	 * Funkcija za brisanje administratora klinickog centra
+	 */
 	@DeleteMapping("/adminKC/delete/{id}")
 	public ResponseEntity<Void> deleteAdmin(@PathVariable Integer id) {
 		AdministratorKlinickogCentra admin = adminKCService.findOne(id);
@@ -133,6 +144,10 @@ public class AdminKCController {
 		}
 	}
 
+	
+	/*
+	 * Funkcija za izmenu administratora klinickog centra
+	 */
 	@GetMapping("/adminKC/getupdate/{id}")
 	public ResponseEntity<AdminKCDTO> getUpdate(@PathVariable Integer id) {
 		AdministratorKlinickogCentra admin = adminKCService.findOne(id);
@@ -142,7 +157,11 @@ public class AdminKCController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
 
+	/*
+	 * Funkcija koja postavlja sifru pri provoj prijavi na sistem
+	 */
 	@PutMapping("/adminKC/prvaSifra")
 	public ResponseEntity<AdminKCDTO> prvaSifra(@RequestBody PrvoLogovanjeDTO prvoLogovanje) {
 		Pattern regPass = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,256}$");
@@ -159,6 +178,9 @@ public class AdminKCController {
 		}
 	}
 
+	/*
+	 * Funkcija za izmenu administratora klinickog centra
+	 */
 	@PutMapping("/adminKC/update")
 	public ResponseEntity<AdminKCDTO> updateAdmina(@RequestBody AdminKCDTO adminKCDTO) {
 
@@ -192,6 +214,9 @@ public class AdminKCController {
 
 	}
 
+	/*
+	 * Funkcija za izmenu super administratora klinickog centra
+	 */
 	@PutMapping("/superadmin/update")
 	public ResponseEntity<AdminKCDTO> updateSuperAdmina(@RequestBody AdminKCDTO adminKCDTO) {
 
