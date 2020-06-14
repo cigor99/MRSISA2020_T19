@@ -43,11 +43,15 @@ public class IzvestajPregledaController {
 	@Autowired
 	private ZdravstveniKartonService zdService;
 	
+	
+	/*
+	 * Fukcija za dodavanje izvestaja pregleda
+	 */
 	@PostMapping("/izvestajPregleda/add")
 	public ResponseEntity<Object> addIzvestaj(@RequestBody IzvestajPregledaDTO izvestajDTO) {
 		IzvestajPregleda izvestaj = new IzvestajPregleda();
 		Dijagnoza dijagnoza = dijagnozaService.findBySifra(izvestajDTO.getDijagnoza());
-//		System.out.println(dijagnoza.getNaziv());
+		
 		if (dijagnoza == null) {
 			return new ResponseEntity<>("Dijagnoza nije pronadjena", HttpStatus.NOT_FOUND);
 		}
@@ -60,7 +64,7 @@ public class IzvestajPregledaController {
 		izvestaj.setLekar(lekar);
 		lekar.getIzvestajiPregleda().add(izvestaj);
 		lekar = lekarService.save(lekar);
-//		
+
 		Recept recept = null;
 		if (izvestajDTO.getRecept() != null) {
 			System.out.println(izvestajDTO.getRecept());

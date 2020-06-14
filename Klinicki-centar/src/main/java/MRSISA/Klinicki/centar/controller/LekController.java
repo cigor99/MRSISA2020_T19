@@ -27,13 +27,15 @@ public class LekController {
 	@Autowired
 	private LekService lekService;
 
+	/*
+	 * Funkcija za dodavanje leka
+	 */
 	@PostMapping("/sifarnikLekova/addLek")
 	public ResponseEntity<LekDTO> addLek(@RequestBody LekDTO lekDTO) {
 
 		Lek lek = new Lek();
 		lek.setNaziv(lekDTO.getNaziv());
 		lek.setSifra(lekDTO.getSifra());
-//		KAKO DODATI KLINICKI CENTAR????
 		lek.setKlinickiCentar(new KlinickiCentar(1));
 
 		lek = lekService.addLek(lek);
@@ -41,6 +43,9 @@ public class LekController {
 		return new ResponseEntity<>(new LekDTO(lek), HttpStatus.OK);
 	}
 
+	/*
+	 * Funkcija za brisanje leka iz sifrarnika
+	 */
 	@DeleteMapping("/sifarnikLekova/deleteLek/{id}")
 	public ResponseEntity<Void> deleteLek(@PathVariable Integer id) {
 		Lek lek = lekService.findOne(id);
@@ -56,6 +61,9 @@ public class LekController {
 		}
 	}
 	
+	/*
+	 * Funkcija za dobavljanje podatke lekova za lek koji zelimo da izmenimo
+	 */
 	@GetMapping("/sifarnikLekova/getUpdate/{ID}")
 	public ResponseEntity<LekDTO> getUpdate(@PathVariable Integer ID){
 		Lek lek = lekService.findOne(ID);
@@ -66,6 +74,9 @@ public class LekController {
 		}
 	}
 	
+	/*
+	 * Funkcija za izmenu leka
+	 */
 	@PutMapping("/sifarnikLekova/Update")
 	public ResponseEntity<LekDTO> updateLek(@RequestBody LekDTO lekDTO){
 		Lek lek = lekService.findOne(lekDTO.getId());
@@ -81,6 +92,9 @@ public class LekController {
 		
 	}
 	
+	/*
+	 * Funkcija za dobavljanje svih lekova
+	 */
 	@GetMapping("/sifarnikLekova/getall")
 	public ResponseEntity<List<LekDTO>> getAll(){
 		ArrayList<LekDTO> retVal = new ArrayList<LekDTO>();
@@ -91,6 +105,9 @@ public class LekController {
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
 	
+	/*
+	 * Funkcija za dobavljanje leka
+	 */
 	@GetMapping("/sifarnikLekova/getOne/{id}")
 	public ResponseEntity<Object> getOne(@PathVariable Integer id){
 		List<Lek> lekovi = lekService.findAll();

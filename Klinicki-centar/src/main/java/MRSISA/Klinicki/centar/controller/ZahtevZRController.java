@@ -43,7 +43,11 @@ public class ZahtevZRController {
 
 	@Autowired
 	private JavaMailSender javaMailSender;
-
+	
+	
+	/*
+	 * Funkcija za dobavljanje zahteva za registraciju 
+	 */
 	@GetMapping("/KC/ZZR/getOne/{id}")
 	public ResponseEntity<ZahtevZaRegDTO> getOne(@PathVariable Integer id) {
 		ZahtevZaRegistraciju zahtev = zzrService.findOne(id);
@@ -54,7 +58,11 @@ public class ZahtevZRController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
 
+	/*
+	 * Funkcija koja prihvata zahtev za registraciju
+	 */
 	@PutMapping("/KC/ZZR/Prihvati/{id}")
 	public ResponseEntity<Object> prihvatiZZR(@PathVariable Integer id) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("prihvatiZZR");
@@ -107,7 +115,11 @@ public class ZahtevZRController {
 		}
 
 	}
-
+	
+	
+	/*
+	 * Funkcija koja proverava token pri prvoj registraciji 
+	 */
 	@GetMapping("/ZZR/potvrda-registracije/{token}")
 	public ResponseEntity<String> potvrdaRegistracije(@PathVariable String token) {
 		ConfirmationToken confToken = tokenService.finByToken(token);
@@ -123,6 +135,11 @@ public class ZahtevZRController {
 		}
 	}
 
+	
+	
+	/* 
+	 * Funkcija za odbijanje zahteva za registraciju
+	 */
 	@PutMapping("/KC/ZZR/Odbij/{id}")
 	public ResponseEntity<Object> odbijZZR(@PathVariable Integer id) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("odbijZZR");
@@ -158,6 +175,10 @@ public class ZahtevZRController {
 
 	}
 
+	
+	/*
+	 * Funkcija koja salje email 
+	 */
 	@PostMapping("/ZZR/sendEmail")
 	public ResponseEntity<EmailDTO> sendEmail(@RequestBody EmailDTO emailDTO) {
 		SimpleMailMessage msg = new SimpleMailMessage();

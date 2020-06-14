@@ -30,6 +30,9 @@ public class DijagnozaController {
 	@Autowired
 	private DijagnozaService dijaService;
 
+	/*
+	 * Funkcija za dodavanje dijagnoze u sifrarnik
+	 */
 	@PostMapping("/sifarnikDijagnoza/addDijagnoza")
 	public ResponseEntity<DijagnozaDTO> addDijagnoza(@RequestBody DijagnozaDTO dijagnozaDTO) {
 		Dijagnoza dijagnoza = new Dijagnoza();
@@ -43,6 +46,9 @@ public class DijagnozaController {
 		return new ResponseEntity<>(new DijagnozaDTO(dijagnoza), HttpStatus.OK);
 	}
 
+	/*
+	 * Funkcija za brisanje dijagnoze iz sifrarnika
+	 */
 	@DeleteMapping("/sifarnikDijagnoza/delete/{id}")
 	public ResponseEntity<Void> deleteDijagnoza(@PathVariable Integer id){
 		Dijagnoza dijagnoza = dijaService.findOne(id);
@@ -60,6 +66,9 @@ public class DijagnozaController {
 		}
 	}
 	
+	/*
+	 * Funkcija za dobavljanje podataka dijagnoze koju hocemo da izmenimo
+	 */
 	@GetMapping("/sifarnikDijagnoza/getUpdate/{id}")
 	public ResponseEntity<DijagnozaDTO> getUpdate(@PathVariable Integer id){
 		Dijagnoza dijagnoza = dijaService.findOne(id);
@@ -70,6 +79,9 @@ public class DijagnozaController {
 		}
 	}
 	
+	/*
+	 * Funkcija za izmenu dijagnoze iz sifrarnika
+	 */
 	@PutMapping("/sifarnikDijagnoza/Update")
 	public ResponseEntity<DijagnozaDTO> updateDijagnoze(@RequestBody DijagnozaDTO dijagnozaDTO){
 		Dijagnoza dijagnoza = dijaService.findOne(dijagnozaDTO.getId());
@@ -86,6 +98,10 @@ public class DijagnozaController {
 		return new ResponseEntity<>(new DijagnozaDTO(dijagnoza), HttpStatus.OK);
 	}
 	
+	
+	/*
+	 * Funkcija koja vraca sve dijagnoze iz sifrarnika
+	 */
 	@GetMapping("/sifarnikDijagnoza/getAll")
 	public ResponseEntity<List<DijagnozaDTO>> getAll(){
 		ArrayList<DijagnozaDTO> retVal = new ArrayList<DijagnozaDTO>();

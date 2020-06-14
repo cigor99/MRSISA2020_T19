@@ -261,6 +261,9 @@ public class LekarController {
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 
 	}
+	/*
+	 * Funckija koja vraca odredjeni broj lekara
+	 */
 
 	@GetMapping("/lekar/page")
 	public ResponseEntity<List<LekarDTO>> getLekarPage() {
@@ -277,6 +280,10 @@ public class LekarController {
 		return new ResponseEntity<>(lekariDTO, HttpStatus.OK);
 	}
 
+	
+	/*
+	 * Funckija za dodavanje lekara
+	 */
 	@PostMapping("/lekar/add")
 	public ResponseEntity<LekarDTO> addLekar(@RequestBody LekarDTO lekarDTO) {
 		lekarDTO.setLozinka("Password1");
@@ -331,7 +338,10 @@ public class LekarController {
 
 		return new ResponseEntity<>(new LekarDTO(lekar), HttpStatus.CREATED);
 	}
-
+	
+	/*
+	 * Funkcija koja postavlja sifru pri prvoj prijavi na sistem 
+	 */
 	@PutMapping("/lekar/prvaSifra")
 	public ResponseEntity<LekarDTO> prvaSifra(@RequestBody PrvoLogovanjeDTO prvoLogovanje) {
 		Pattern regPass = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,256}$");
@@ -348,17 +358,19 @@ public class LekarController {
 		}
 	}
 
+	
+	/*
+	 * Funkcija za pretragu lekara
+	 */
 	@PostMapping("/lekar/search")
 	public ResponseEntity<List<LekarDTO>> searchLekar(@RequestBody String pretraga) {
 		List<LekarDTO> retVal = new ArrayList<LekarDTO>();
-//		System.out.println(pretraga);
+
 
 		for (Lekar l : lekarService.findAll()) {
-//			System.out.println(l.getIme());
 			if (l.getIme().toLowerCase().contains(pretraga.toLowerCase())
 					|| l.getPrezime().toLowerCase().contains(pretraga.toLowerCase())
 					|| l.getEmail().toLowerCase().contains(pretraga.toLowerCase())) {
-//				System.out.println(l.getPrezime());
 				LekarDTO lekar = new LekarDTO(l);
 				retVal.add(lekar);
 			}
@@ -366,7 +378,10 @@ public class LekarController {
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 
 	}
-
+	
+	/*
+	 * Funkcija za brisanje lekara
+	 */
 	@DeleteMapping("/lekar/delete/{id}")
 	public ResponseEntity<Void> deleteSala(@PathVariable Integer id) {
 		Lekar lekar = lekarService.findOne(id);
@@ -377,7 +392,10 @@ public class LekarController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-
+	
+	/*
+	 * Funkcija koja dobavlja jednog lekara
+	 */
 	@GetMapping("/lekar/getOneLekar/{id}")
 	public ResponseEntity<LekarDTO> getLekar(@PathVariable Integer id) {
 		Lekar lekar = lekarService.findOne(id);
@@ -388,6 +406,9 @@ public class LekarController {
 		}
 	}
 
+	/*
+	 * Funkcija za izmenu lekara
+	 */
 	@PutMapping("/lekar/update")
 	public ResponseEntity<LekarDTO> updateLekara(@RequestBody LekarDTO lekarDTO) {
 
@@ -412,12 +433,11 @@ public class LekarController {
 		if (lekar == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-//		lekar.setEmail(lekarDTO.getEmail());
+
 		lekar.setIme(lekarDTO.getIme().substring(0, 1).toUpperCase() + lekarDTO.getIme().substring(1).toLowerCase());
 		lekar.setPrezime(
 				lekarDTO.getPrezime().substring(0, 1).toUpperCase() + lekarDTO.getPrezime().substring(1).toLowerCase());
 		lekar.setLozinka(lekarDTO.getLozinka());
-//		lekar.setJmbg(lekarDTO.getJmbg());
 
 		lekar = lekarService.save(lekar);
 
@@ -541,6 +561,10 @@ public class LekarController {
 
 	}
 
+	
+	/*
+	 * Funkcija za pretragu lekara 
+	 */
 	@PostMapping("/lekar/searchPacijentoviParametriDva/{klinika}")
 	public ResponseEntity<Set<LekarDTO>> searchPacijentoviParametri2(@PathVariable int klinika, @RequestBody PretragaKlinikaDTO pretraga) {
 		Set<LekarDTO> retVal = new HashSet<>();
@@ -573,7 +597,10 @@ public class LekarController {
 		}
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
-
+	
+	/*
+	 * Funkcija koja vraca sve lekare odredjene klinike
+	 */
 	@PostMapping("/lekar/all/{klinika}")
 	public ResponseEntity<Set<LekarDTO>> getAllLekariInKlinika(@PathVariable Integer klinika) {
 		List<Lekar> lekari = lekarService.findAll();

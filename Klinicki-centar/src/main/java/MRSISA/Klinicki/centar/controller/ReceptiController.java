@@ -119,14 +119,6 @@ public class ReceptiController {
 		recept.setLekar(lekar);
 		lekar.getRecepti().add(recept);
 		lekar = lekarService.save(lekar);
-		// D O D A T I N A K N A D N O ! ! ! ! !
-//		Pregled pregled = pregledService.findOne(receptDTO.getPregledID());
-//		if (pregled == null) {
-//			return new ResponseEntity<>("Pregled nije pronađen", HttpStatus.NOT_FOUND);
-//		}
-//		recept.setPregled(pregled);
-//		recept.setIzvestajiPregleda();
-		// D O D A T I N A K N A D N O ! ! ! ! !
 		
 		recept = receptiService.save(recept);
 

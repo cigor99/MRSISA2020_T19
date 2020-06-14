@@ -65,6 +65,10 @@ public class KCController {
 	@Autowired
 	private MedicinskaSestraSerive medSesService;
 
+	
+	/*
+	 * Funkcija za dobavljanje svih lekova sifrarnika
+	 */
 	@GetMapping("/KC/sifarnikLekova/getAll")
 	public ResponseEntity<List<Lek>> getAllLekovi() {
 		KlinickiCentar kc = kcService.findOne(1);
@@ -73,6 +77,9 @@ public class KCController {
 		return new ResponseEntity<>(lekovi, HttpStatus.OK);
 	}
 
+	/*
+	 * Funkcija za dobavljanje svih dijagnoza sifrarnika
+	 */
 	@GetMapping("/KC/sifarnikDijagnoza/getAll")
 	public ResponseEntity<List<Dijagnoza>> getAllDijagnoze() {
 		KlinickiCentar kc = kcService.findOne(1);
@@ -81,6 +88,10 @@ public class KCController {
 		return new ResponseEntity<>(dijagnoze, HttpStatus.OK);
 	}
 
+	
+	/*
+	 * Funkcija za dobavljanje svih zahteva za registraciju
+	 */
 	@GetMapping("/KC/ZZR/getAll")
 	public ResponseEntity<List<ZahtevZaRegDTO>> getAllZahteviZaReg() {
 		KlinickiCentar kc = kcService.findOne(1);
@@ -93,6 +104,9 @@ public class KCController {
 		return new ResponseEntity<>(ret, HttpStatus.OK);
 	}
 	
+	/*
+	 * Funkcija za aktivaciju profila admina KC
+	 */
 	@GetMapping("/KC/aktivacija/{token}")
 	public ResponseEntity<Object> aktivacijaNaloga(@PathVariable String token){
 		ConfirmationToken confToken = tokenService.finByToken(token);
@@ -126,22 +140,6 @@ public class KCController {
 			return new ResponseEntity<>("Link nije važeći", HttpStatus.NOT_FOUND);
 		}
 		
-	}
-	
-
-
-
-//	@PostMapping("/KC/sifarnikLekova/addLek")
-//	public ResponseEntity<KlinickiCentarDTO> addLek(@RequestBody LekDTO lekDTO){
-//		KlinickiCentar kc = kcService.findOne(1);
-//		Lek lek = new Lek();
-//		lek.setNaziv(lekDTO.getNaziv());
-//		lek.setSifra(lekDTO.getSifra());
-//		//KAKO DODATI KLINICKI CENTAR????
-//		
-//		lek = kcService.addLek(lek, kc);
-//	
-//		return new ResponseEntity<>(new LekDTO(lek), HttpStatus.OK);
-//	}	
+	}	
 
 }

@@ -188,6 +188,9 @@ public class MedicinskaSestraController {
 		return new ResponseEntity<>(new MedicinskaSestraDTO(sestra), HttpStatus.CREATED);
 	}
 	
+	/*
+	 * Funkcija za postavljanje sifre prilikom prve prijave na sistem
+	 */
 	@PutMapping("/medicinskaSestra/prvaSifra")
 	public ResponseEntity<MedicinskaSestraDTO> prvaSifra(@RequestBody PrvoLogovanjeDTO prvoLogovanje) {
 		Pattern regPass = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,256}$");
