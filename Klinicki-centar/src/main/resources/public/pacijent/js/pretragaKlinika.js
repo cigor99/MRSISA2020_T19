@@ -55,7 +55,11 @@ $(document).ready(function () {
 	prikaziKlinike()
 
 	$("#reset").click(function(){
-		$("#table-holder").empty()
+		prikaziKlinike()
+	});
+
+	$("#pretraga").click(function(){
+		pretraga()
 	});
 });
 

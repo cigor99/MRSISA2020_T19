@@ -92,7 +92,7 @@ public class ZahtevZRController {
 
 				msg.setSubject("Uspešna registracija na klinički centar!");
 				msg.setText("Da bi ste potvrdili nalog, kliknite na link: "
-						+ "https://mrsisa2020-t19.herokuapp.com/klinicki-centar/confirmation.html?token="
+						+ "http://localhost:8080/klinicki-centar/confirmation.html?token="
 						+ confirmationToken.getConfirmationToken());
 				// https://mrsisa2020-t19.herokuapp.com
 				// http://localhost:8080
