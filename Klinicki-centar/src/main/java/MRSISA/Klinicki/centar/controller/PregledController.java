@@ -25,6 +25,7 @@ import org.springframework.mail.MailAuthenticationException;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -200,6 +201,17 @@ public class PregledController {
 		System.out.println(pregledDTO.getCena());
 
 		return new ResponseEntity<>(new PregledDTO(pregled), HttpStatus.CREATED);
+	}
+	
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<Void> deletePregled(@PathVariable Integer id){
+		Pregled p = pregledService.findOne(id);
+		if(p != null) {
+			pregledService.remove(id);
+			return new ResponseEntity<>(HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 
 //	Funkcija vraća listu pregleda za određeni dan i mesec

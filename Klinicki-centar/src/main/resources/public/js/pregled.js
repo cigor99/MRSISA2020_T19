@@ -4,6 +4,14 @@ function ucitajTabelu() {
     //var selected = document.getElementById("terminiSelect");
     //filter = selected.options[selected.selectedIndex].value;
     console.log(window.tipKorisnika);
+    if (window.tipKorisnika == "adminKlinike") {       
+        $("#dodajPregled").css('visibility', 'visible');
+        $("#zakaziPregled").css('visibility', 'hidden');
+    } else if (window.tipKorisnika == "lekar") {
+    	$("#dodajPregled").css('visibility', 'hidden');
+    	$("#zakaziPregled").css('visibility', 'visible');   
+    	document.getElementById("pacijent").innerHTML = "Pacijent";
+    }
 
     $.ajax({
         type: "get",
@@ -31,13 +39,9 @@ function ucitajTabelu() {
                 tr.append(cena);
                 if (window.tipKorisnika == "adminKlinike") {
                     let ukloni = $(`<td><button  type="button" id="ukloniBtn" onclick="ukloniPregled('${pregled.id}')">Ukloni</button></td>`)
-                    tr.append(ukloni);
-                    $("#dodajPregled").css('visibility', 'visible');
-                    $("#zakaziPregled").css('visibility', 'hidden');
-                } else if (window.tipKorisnika == "lekar") {
-                	$("#dodajPregled").css('visibility', 'hidden');
-                	$("#zakaziPregled").css('visibility', 'visible');
-                    document.getElementById("pacijent").innerHTML = "Pacijent";
+                    tr.append(ukloni);                   
+                } else if (window.tipKorisnika == "lekar") {               	
+                    
                     let pacijent = $("<td>" + pregled.pacijent + "</td>");
                     tr.append(pacijent);
                     let zapocni = $("<td>" + "<a href=\"izvestajPregleda.html?id=" + pregled.pacijent + "&prID=" + pregled.id + "\">Zapocni pregled</a></td>")
