@@ -439,6 +439,9 @@ public class PacijentController {
 		
 	}
 	
+	/*
+	 * Funkcija koja vraca podatke o pregledu koji treba da se oceni
+	 */
 	@GetMapping("/getPregledByID/{idPregleda}")
 	public ResponseEntity<PregledDetaljiDTO> getPregledByID(@PathVariable String idPregleda){
 		Pregled p = pregledService.findOne(Integer.parseInt(idPregleda));
@@ -449,6 +452,9 @@ public class PacijentController {
 		}
 	}
 	
+	/*
+	 * Funkcija u kojoj se vrsi ocenjivanje klinike i lekara
+	 */
 	@PostMapping("ocenjivanjePregleda")
 	public ResponseEntity<String> ocenjivanjePregleda(@RequestBody OcenjivanjePregledaDTO ocene){
 		Integer lekarId = Integer.parseInt(ocene.getIdLekar());
