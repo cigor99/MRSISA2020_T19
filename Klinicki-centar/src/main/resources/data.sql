@@ -16,7 +16,8 @@ INSERT INTO PACIJENTI (ID_PACIJENTA, ADRESA, BROJ_TELEFONA, DRZAVA, EMAIL, GRAD,
 (5, 'Narodnog fronta 76', '+352533653333', 'Srbija', 'marinaMaric@hotmail.com', 'Kragujevac', 'Marina', '5', '1234567891022', 'Frizider1', 1, 'Maric', 2, NULL, 5),
 (6, 'Jovana Ducica 12', '+352623696333', 'Srbija', 'dusan6@hotmail.com', 'Smederevo', 'Dusan', '6', '1234567891023', 'Password2', 0, 'Kostic', 2, NULL, 6),
 (7, 'Patrijarha Pavla 20', '+352623653333', 'Srbija', 'jovan7@hotmail.com', 'Subotica', 'Jovan', '7', '1234567891024', 'Sifra1', 0, 'Jovanovic', 2, NULL, 7),
-(8, 'Kosovska 12', '+352623656633', 'Srbija', 'jovanaj@hotmail.com', 'Novi Sad', 'Jovana', '8', '1234567891025', 'Laptop43', 1, 'Jovic', 2, NULL, 8);
+(8, 'Kosovska 12', '+352623656633', 'Srbija', 'jovanaj@hotmail.com', 'Novi Sad', 'Jovana', '8', '1234567891025', 'Laptop43', 1, 'Jovic', 2, NULL, 8),
+(9, 'Kosovska 12', '+352623656633', 'Srbija', 'igi.l.1999@gmail.com', 'Novi Sad', 'Jovana', '90', '1234567833111', 'Password1', 1, 'Jovic', 2, NULL, NULL);
 
 INSERT INTO Klinike (ID_Klinike, ADRESA, NAZIV, OPIS, POCETAK_RV, KRAJ_RV) VALUES
 (1, 'Bulevar Oslobodjenja 29, Novi Sad', 'klinika 1', 'opis', '08:00', '16:00'),

@@ -537,7 +537,10 @@ public class LekarController {
 		}
 		return true;
 	}
-
+	
+	/*
+	 * Funkcija koja vracalistu lekara za prikaz pacijentu
+	 */
 	@GetMapping("/lekar/pageForPacijent/{stranica}/{koliko}/{klinika}")
 	public ResponseEntity<List<LekarDTO>> getLekariOdDo(@PathVariable Integer stranica, @PathVariable Integer koliko,
 			@PathVariable Integer klinika) {

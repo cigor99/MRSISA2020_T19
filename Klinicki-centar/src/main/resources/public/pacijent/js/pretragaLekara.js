@@ -66,7 +66,7 @@ $(document).ready(function () {
                         tabelaPretrazivanja.append("<tr><td>Datum:</td><td><input type='text' id='datepicker'></td></tr>");
                         tabelaPretrazivanja.append("<tr><td>Tip:</td><td><select id='tip'></select></td></tr>");
                         tabelaPretrazivanja.append("<tr><td>Ocena:</td><td><select id='ocenaSel'><option>4+</option><option>3+</option><option>2+</option><option>1+</option></select></td></tr>");
-                        tabelaPretrazivanja.append("<tr><td><input type='button' id='pretraga' value='pretraga'></td><td><input type='button' id='reset' value='Reset'></td></tr>");                                                            
+                        tabelaPretrazivanja.append("<tr><td><input type='button' id='pretraga' value='pretraga' class='button'></td><td><input type='button' id='reset' value='Reset' class='button'></td></tr>");                                                            
                         var tip = $("#tip");
                         $.ajax({
                             url:"/klinicki-centar/tipPregleda/all",
@@ -83,6 +83,25 @@ $(document).ready(function () {
                         $("#pretraga").click(function(){
                             pretragaDva()
                         })
+
+                        $("#reset").click(function(){
+                            $.ajax({
+                                type: "get",
+                                url: "/klinicki-centar/lekar/pageForPacijent/" + 0 + "/" + 6 + "/" + window.klinika.id,
+                                success: function(data) {
+                                    window.search = false;
+                                    window.filter = false;
+                                    $("#stranice").css('visibility', 'visible')
+                                    $('#ROWDIV').empty();
+                                    $("#tabela").empty();
+                                    kartice(data);
+                                },
+                                error: function(jqXHR) {
+                                    alert("Error: " + jqXHR.status + ", " + jqXHR.responseText);
+                                },
+                        
+                            });
+                        });
                                                      
                         
 
@@ -90,10 +109,29 @@ $(document).ready(function () {
                     }else{
                         var tabelaPretrazivanja = $("#tabelaPretrazivanja");
                         tabelaPretrazivanja.append("<tr><td>Ocena:</td><td><select id='ocenaSel'><option>4+</option><option>3+</option><option>2+</option><option>1+</option></select></td></tr>");
-                        tabelaPretrazivanja.append("<tr><td><input type='button' id='pretraga' value='pretraga'></td><td><input type='button' id='reset' value='Reset'></td></tr>");
+                        tabelaPretrazivanja.append("<tr><td><input type='button' id='pretraga' value='Pretraga' class='button'></td><td><input type='button' id='reset' value='Reset' class='button'></td></tr>");
                         $("#pretraga").click(function(){
                             pretragaJedan()
                         })
+
+                        $("#reset").click(function(){
+                            $.ajax({
+                                type: "get",
+                                url: "/klinicki-centar/lekar/pageForPacijent/" + 0 + "/" + 6 + "/" + window.klinika.id,
+                                success: function(data) {
+                                    window.search = false;
+                                    window.filter = false;
+                                    $("#stranice").css('visibility', 'visible')
+                                    $('#ROWDIV').empty();
+                                    $("#tabela").empty();
+                                    kartice(data);
+                                },
+                                error: function(jqXHR) {
+                                    alert("Error: " + jqXHR.status + ", " + jqXHR.responseText);
+                                },
+                        
+                            });
+                        });
                     }
                 }
                 
@@ -789,6 +827,11 @@ function pretragaDva(){
                         }
                     }
                 }
+                if(window.podaci = []){
+                    for(let star of stari){
+                        window.podaci.push(star)
+                    }
+                }
             }
             window.search = true;
             // window.filter = false;
@@ -796,7 +839,7 @@ function pretragaDva(){
             $("#tabela").css('visibility', 'hidden');
             $("#ROWDIV").empty();
             $("#tabela").empty()
-
+            
             if ($("#idemo").is(":checked") == true) {
                 tabela(window.podaci);
 
@@ -854,6 +897,11 @@ function pretragaJedan(){
                         if (star.id == novi.id) {
                             window.podaci.push(star);
                         }
+                    }
+                }
+                if(window.podaci = []){
+                    for(let star of stari){
+                        window.podaci.push(star)
                     }
                 }
             }

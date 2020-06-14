@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import javax.persistence.OptimisticLockException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import MRSISA.Klinicki.centar.domain.AdministratorKlinike;
+import MRSISA.Klinicki.centar.domain.ConfirmationToken;
+import MRSISA.Klinicki.centar.domain.ConfirmationTokenPregled;
 import MRSISA.Klinicki.centar.domain.Klinika;
 import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.Operacija;
@@ -41,17 +44,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import MRSISA.Klinicki.centar.domain.Pregled;
 import MRSISA.Klinicki.centar.domain.Sala;
+import MRSISA.Klinicki.centar.domain.StanjePacijenta;
 import MRSISA.Klinicki.centar.domain.StanjeZahteva;
 import MRSISA.Klinicki.centar.domain.TipKorisnika;
 import MRSISA.Klinicki.centar.domain.TipPregleda;
 import MRSISA.Klinicki.centar.domain.ZahtevZaGodisnjiOdmor;
 import MRSISA.Klinicki.centar.domain.ZahtevZaPregled;
+import MRSISA.Klinicki.centar.domain.ZahtevZaRegistraciju;
 import MRSISA.Klinicki.centar.dto.AdminKDTO;
 import MRSISA.Klinicki.centar.dto.LekarDTO;
 import MRSISA.Klinicki.centar.dto.PacijentDTO;
 import MRSISA.Klinicki.centar.dto.PregledDTO;
 import MRSISA.Klinicki.centar.dto.SalaDTO;
 import MRSISA.Klinicki.centar.dto.SlanjeZahtevaZaPregledDTO;
+import MRSISA.Klinicki.centar.dto.ZahtevZaRegDTO;
+import MRSISA.Klinicki.centar.service.ConfirmationTokenPregledService;
+import MRSISA.Klinicki.centar.service.ConfirmationTokenService;
 import MRSISA.Klinicki.centar.service.LekarService;
 import MRSISA.Klinicki.centar.service.PacijentService;
 import MRSISA.Klinicki.centar.service.PregledService;
@@ -86,6 +94,9 @@ public class PregledController {
 
 	@Autowired
 	private PacijentService pacijentService;
+
+	@Autowired
+	private ConfirmationTokenPregledService tokenPregledService;
 
 	@GetMapping("/all")
 	public ResponseEntity<List<PregledDTO>> getAllPregledi() {
@@ -418,8 +429,6 @@ public class PregledController {
 
 				if (pocetak.after(operacija.getDatum()) && pocetak.before(porednjenje)
 						|| pocetak.equals(operacija.getDatum()) || pocetak.equals(porednjenje)) {
-					// pocetak = new Date(krajOperacije.getTime()+15*ONE_MINUTE_IN_MILLIS);
-					// continue;
 					uslov = false;
 				}
 			}
@@ -429,9 +438,6 @@ public class PregledController {
 				if (zahtev.getStanjeZahteva().equals(StanjeZahteva.PRIHVACEN)) {
 					if (pocetak.after(zahtev.getPocetniDatum()) && pocetak.before(zahtev.getKrajnjiDatum())
 							|| zahtev.getKrajnjiDatum().equals(pocetak) || zahtev.getPocetniDatum().equals(pocetak)) {
-						// pocetak = new
-						// Date(zahtev.getKrajnjiDatum().getTime()+15*ONE_MINUTE_IN_MILLIS);
-						// continue;
 						uslov = false;
 					}
 				}
@@ -449,9 +455,8 @@ public class PregledController {
 		}
 		List<String> retVal = new ArrayList<String>();
 		for (Date d : slobodni) {
-			System.out.println(d);
 			String string = "";
-			if (d.getMinutes() == 0) {
+			if (d.getMinutes() < 9) {
 				string += d.getHours() + ":" + d.getMinutes();
 			} else {
 				string += d.getHours() + ":" + d.getMinutes();
@@ -459,6 +464,49 @@ public class PregledController {
 			retVal.add(string);
 		}
 		return new ResponseEntity<Object>(retVal, HttpStatus.OK);
+	}
+
+	@GetMapping("/potvrdiPregled/{token}")
+	public ResponseEntity<String> potvrdiPregled(@PathVariable String token) {
+		ConfirmationTokenPregled confToken = tokenPregledService.finByToken(token);
+		if (confToken != null) {
+			ZahtevZaPregled zahtev = zzpService.findOne(confToken.getIdZahteva());
+			if (!zahtev.getStanjeZahteva().equals(StanjeZahteva.ODBIJEN)) {
+				zahtev.setStanjeZahteva(StanjeZahteva.PRIHVACEN);
+				zzpService.save(zahtev);
+				return new ResponseEntity<String>("Uspešna aktivacija naloga!", HttpStatus.OK);
+			} else {
+				return new ResponseEntity<String>("Odbijeni ste", HttpStatus.FORBIDDEN);
+			}
+		} else {
+			return new ResponseEntity<String>("Link nije važeći", HttpStatus.NOT_FOUND);
+		}
+
+	}
+
+	@GetMapping("/odbijPregled/{token}")
+	public ResponseEntity<String> odbijPregled(@PathVariable String token) {
+		ConfirmationTokenPregled confToken = tokenPregledService.finByToken(token);
+		if (confToken != null) {
+			ZahtevZaPregled zahtev = zzpService.findOne(confToken.getIdZahteva());
+			if (zahtev == null) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			} else {
+				System.out.println(zahtev.getStanje());
+				if (zahtev.getStanje().equals(StanjeZahteva.ODBIJEN)) {
+					return new ResponseEntity<>("Zahtev je već odbijen", HttpStatus.BAD_REQUEST);
+				}
+				zahtev.setStanje(StanjeZahteva.ODBIJEN);
+				zahtev = zzpService.save(zahtev);
+				zahtev.getPregled().setSlobodan(true);
+				pregledService.save(zahtev.getPregled());
+				System.out.println(zahtev.getStanje());
+				return new ResponseEntity<>("Uspesno ste odbili pregled", HttpStatus.OK);
+			}
+		}else {
+			return new ResponseEntity<String>("Link nije važeći", HttpStatus.NOT_FOUND);
+		}
+
 	}
 
 }

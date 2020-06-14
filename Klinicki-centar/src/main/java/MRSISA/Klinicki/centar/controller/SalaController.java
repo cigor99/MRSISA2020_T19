@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import MRSISA.Klinicki.centar.domain.ConfirmationToken;
+import MRSISA.Klinicki.centar.domain.ConfirmationTokenPregled;
 import MRSISA.Klinicki.centar.domain.Klinika;
 import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.Operacija;
@@ -42,6 +44,8 @@ import MRSISA.Klinicki.centar.dto.LekarDTO;
 import MRSISA.Klinicki.centar.dto.OperacijaDTO;
 import MRSISA.Klinicki.centar.dto.PregledDTO;
 import MRSISA.Klinicki.centar.dto.SalaDTO;
+import MRSISA.Klinicki.centar.service.ConfirmationTokenPregledService;
+import MRSISA.Klinicki.centar.service.ConfirmationTokenService;
 import MRSISA.Klinicki.centar.service.KlinikaService;
 import MRSISA.Klinicki.centar.service.PregledService;
 import MRSISA.Klinicki.centar.service.SalaService;
@@ -71,6 +75,10 @@ public class SalaController {
 	
 	@Autowired
 	HttpServletRequest request;
+	
+	@Autowired
+	private ConfirmationTokenPregledService tokenPregledService;
+
 
 	
 	@GetMapping("/sala/all")
@@ -421,11 +429,13 @@ public class SalaController {
 		sala.getPregledi().add(pregled);
 		salaService.save(sala);
 		List<ZahtevZaPregled> zahtevi = zzpService.findAll();
+		ZahtevZaPregled zahtev = null;
 		for(ZahtevZaPregled z : zahtevi) {
 			if(z.getPregled().getId().equals(idPregleda)) {
 				z.setStanje(StanjeZahteva.PRIHVACEN);
 				System.out.println(z.getStanje());
 				zzpService.save(z);
+				zahtev = z;
 			}
 		}
 		pregledService.save(pregled);
@@ -435,13 +445,20 @@ public class SalaController {
 		Klinika k = klinikaService.findOne(klinikaid);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		SimpleMailMessage msg = new SimpleMailMessage();
+		ConfirmationTokenPregled confirmationTokenPregled = new ConfirmationTokenPregled();
+		try{
+			confirmationTokenPregled = new ConfirmationTokenPregled(zahtev.getId());
+		}catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+		tokenPregledService.save(confirmationTokenPregled);
 		msg.setTo(pregled.getPacijent().getEmail());
 		msg.setSubject("Pregled je uspešno zakazan");
 		msg.setText(String.format("Poštovani, pregled je zakazan, dana: %s u %S, u sali: %s, na klinici: %s.",
 				sdf.format(pregled.getDatum()).split(" ")[0],
 				sdf.format(pregled.getDatum()).split(" ")[1],
 				sala.getNaziv(),
-				k.getNaziv()));
+				k.getNaziv()) + "\nZa potvrdu kliknite sledeci link \nhttp://localhost:8080/klinicki-centar/pacijent/potvrdiPregled.html?token=" + confirmationTokenPregled.getConfirmationToken());
 
 		try {
 			javaMailSender.send(msg);
