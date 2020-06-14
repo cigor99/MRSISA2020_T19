@@ -30,23 +30,29 @@ import org.springframework.web.bind.annotation.RestController;
 import MRSISA.Klinicki.centar.domain.AdministratorKlinickogCentra;
 import MRSISA.Klinicki.centar.domain.AdministratorKlinike;
 import MRSISA.Klinicki.centar.domain.KlinickiCentar;
+import MRSISA.Klinicki.centar.domain.Klinika;
 import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.MedicinskaSestra;
+import MRSISA.Klinicki.centar.domain.Ocena;
 import MRSISA.Klinicki.centar.domain.Operacija;
 import MRSISA.Klinicki.centar.domain.Pacijent;
 import MRSISA.Klinicki.centar.domain.Pregled;
 import MRSISA.Klinicki.centar.domain.StanjePacijenta;
 import MRSISA.Klinicki.centar.domain.StanjeZahteva;
 import MRSISA.Klinicki.centar.domain.ZahtevZaRegistraciju;
+import MRSISA.Klinicki.centar.dto.OcenjivanjePregledaDTO;
 import MRSISA.Klinicki.centar.dto.OperacijaDTO;
 import MRSISA.Klinicki.centar.dto.Osoba;
 import MRSISA.Klinicki.centar.dto.PacijentDTO;
 import MRSISA.Klinicki.centar.dto.PregledDTO;
+import MRSISA.Klinicki.centar.dto.PregledDetaljiDTO;
 import MRSISA.Klinicki.centar.service.AdminKCSerivce;
 import MRSISA.Klinicki.centar.service.AdminKService;
+import MRSISA.Klinicki.centar.service.KlinikaService;
 import MRSISA.Klinicki.centar.service.LekarService;
 import MRSISA.Klinicki.centar.service.MedicinskaSestraSerive;
 import MRSISA.Klinicki.centar.service.PacijentService;
+import MRSISA.Klinicki.centar.service.PregledService;
 import MRSISA.Klinicki.centar.service.ZahtevZRService;
 
 /*Kontroler u kom se nalaze metode vezane za pacijenta*/
@@ -77,6 +83,13 @@ public class PacijentController {
 	
 	@Autowired
 	HttpServletRequest request;
+	
+
+	@Autowired
+	private PregledService pregledService;
+	
+	@Autowired
+	private KlinikaService klinikaService;
 
 	/*
 	 * Get zahtev Vraca sve pacijente iz baze
@@ -425,6 +438,68 @@ public class PacijentController {
 		return new ResponseEntity<>(istorija, HttpStatus.OK);
 		
 	}
+	
+	@GetMapping("/getPregledByID/{idPregleda}")
+	public ResponseEntity<PregledDetaljiDTO> getPregledByID(@PathVariable String idPregleda){
+		Pregled p = pregledService.findOne(Integer.parseInt(idPregleda));
+		if(p != null) {
+			return new ResponseEntity<PregledDetaljiDTO>(new PregledDetaljiDTO(p), HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PostMapping("ocenjivanjePregleda")
+	public ResponseEntity<String> ocenjivanjePregleda(@RequestBody OcenjivanjePregledaDTO ocene){
+		Integer lekarId = Integer.parseInt(ocene.getIdLekar());
+		Integer klinikaId = Integer.parseInt(ocene.getIdKlinika());
+		Lekar l = lekarService.findOne(lekarId);
+		if(l == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		Klinika k = klinikaService.findOne(klinikaId);
+		if(k == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		Ocena ocenaLekara = kojaOcena(ocene.getOcenaLekar());
+		if(ocenaLekara != null) {
+			List<Ocena> oceneLekara = l.getOcene();
+			oceneLekara.add(ocenaLekara);
+			l.setProsecnaOcena(l.izracunajProsecnuOcenu());
+			lekarService.save(l);
+		}else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		Ocena ocenaKlinike = kojaOcena(ocene.getOcenaKlinika());
+		if(ocenaKlinike != null) {
+			List<Ocena> oceneKlinike = k.getOcene();
+			oceneKlinike.add(ocenaKlinike);
+			k.setProsecnaOcena(k.izracunajProsecnuOcenu());
+			klinikaService.save(k);
+			
+			return new ResponseEntity<String>("Uspesno ocenjeno", HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	
+	private Ocena kojaOcena(String ocena) {
+		switch (ocena) {
+		case "5":
+			return Ocena.PET;
+		case "4":
+			return Ocena.CETIRI;
+		case "3":
+			return Ocena.TRI;
+		case "2":
+			return Ocena.DVA;
+		case "1":
+			return Ocena.JEDAN;
+		default:
+			return null;
+		}
+	}
 
 	/* Funkcija koja proverava da li postoji dati email u bazi */
 	private boolean jedinstvenEmail(Osoba osoba, Boolean dodavanje) {
@@ -544,6 +619,9 @@ public class PacijentController {
 		}
 		return true;
 	}
+	
+	
+
 	
 	
 

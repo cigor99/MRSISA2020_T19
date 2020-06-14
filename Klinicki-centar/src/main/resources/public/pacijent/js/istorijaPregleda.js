@@ -65,7 +65,7 @@ $(document).ready(function () {
             trHead.append(lekarTH);
             trHead.append(trajanjeTH);
             trHead.append(cenaTH);
-            //trHead.append(izaberiTH);
+            trHead.append(izaberiTH);
 	        thead.append(trHead);
             table.append(thead);
             
@@ -79,6 +79,7 @@ $(document).ready(function () {
                 let lekarTD = $("<td>" + pregled.lekar + "</td>")
                 let trajanjeTD = $("<td>" + pregled.trajanje + "</td>")
                 let cenaTD = $("<td>" + pregled.cena + "</td>")
+                let izaberiTD = $("<td><a href='detaljiPregleda.html?id=" + pregled.id + "'>Oceni</a></td>")
 
                 tr.append(idTD);
                 tr.append(datumTD);
@@ -88,6 +89,7 @@ $(document).ready(function () {
                 tr.append(lekarTD)
                 tr.append(trajanjeTD)
                 tr.append(cenaTD)
+                tr.append(izaberiTD)
                 table.append(tr);
                 holder.append(table);
             }

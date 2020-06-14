@@ -1,6 +1,8 @@
 package MRSISA.Klinicki.centar.domain;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -49,7 +51,7 @@ public class Klinika {
 	private Set<Sala> sale = new HashSet<Sala>();
 	
 	@ElementCollection
-	private Set<Ocena> ocene = new HashSet<Ocena>();
+	private List<Ocena> ocene = new ArrayList<Ocena>();
 	
 	@Column(name = "ocena", unique = false)
 	private Double prosecnaOcena = 3.0;
@@ -105,7 +107,7 @@ public class Klinika {
 	}
 
 	public Klinika(Integer id, String naziv, String adresa, String opis, Set<AdministratorKlinike> administratori,
-			Set<Lekar> lekari, Cenovnik cenovnik, Set<Sala> sale, Set<Ocena> ocene, String pocetakRV, String krajRV) {
+			Set<Lekar> lekari, Cenovnik cenovnik, Set<Sala> sale, List<Ocena> ocene, String pocetakRV, String krajRV) {
 		super();
 		this.id = id;
 		this.naziv = naziv;
@@ -195,14 +197,18 @@ public class Klinika {
 	public void setNaziv(String naziv) {
 		this.naziv = naziv;
 	}
-	public Set<Ocena> getOcene() {
+	public List<Ocena> getOcene() {
 		return ocene;
 	}
-	public void setOcene(Set<Ocena> ocene) {
+	public void setOcene(List<Ocena> ocene) {
 		this.ocene = ocene;
 	}
 	public Double getProsecnaOcena() {
 		return izracunajProsecnuOcenu();
+	}
+	
+	public void setProsecnaOcena(Double prosecnaOcena) {
+		this.prosecnaOcena = prosecnaOcena;
 	}
 	public String getPocetakRadnogVremena() {
 		return pocetakRadnogVremena;
