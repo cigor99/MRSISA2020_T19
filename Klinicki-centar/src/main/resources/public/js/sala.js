@@ -62,19 +62,19 @@ function proveriKorisnika() {
         var dat = url.split("&")[1];
         datum = dat.split("=")[1];
 
-        var vr = url.split("&")[2];
-        vreme = vr.split("=")[1];
+        // var vr = url.split("&")[2];
+        // vreme = vr.split("=")[1];
 
-        var tr = url.split("&")[3];
+        var tr = url.split("&")[2];
         trajanje = tr.split("=")[1];
 
-        var sl = url.split("&")[4];
-        sala = sl.split("=")[1];
+        // var sl = url.split("&")[4];
+        // sala = sl.split("=")[1];
 
-        var op = url.split("&")[5];
+        var op = url.split("&")[3];
         operacija = op.split("=")[1];
 
-        var zah = url.split("&")[6];
+        var zah = url.split("&")[4];
         zahtevID = zah.split("=")[1];
     }
 
@@ -106,14 +106,14 @@ function proveriKorisnika() {
                 trajanjeDIV.attr("class", 'pod');
                 trajanjeDIV.append(trajanje);
 
-                let salaDIV = $("<div><b>Sala: </b></div>");
-                salaDIV.attr("class", 'pod');
-                salaDIV.append(sala);
+                // let salaDIV = $("<div><b>Sala: </b></div>");
+                // salaDIV.attr("class", 'pod');
+                // salaDIV.append(sala);
 
                 div.append(datumDIV);
                 div.append(vremeDIV);
                 div.append(trajanjeDIV);
-                div.append(salaDIV);
+                // div.append(salaDIV);
             }
         },
         error: function(jqXHR) {
@@ -233,9 +233,8 @@ function filtriranje() {
                     tr.append(ukloni);
                 } else if (x == "pregled") {
                     tr.append(izaberi);
-                }
-                else if (x == "operacija"){
-                	tr.append(rezervisi);
+                } else if (x == "operacija") {
+                    tr.append(rezervisi);
                 }
                 table.append(tr);
             }

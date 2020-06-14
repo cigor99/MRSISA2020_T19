@@ -24,22 +24,22 @@ $(document).ready(function() {
                     success: function(data) {
                         datumTD.append(data.datum);
                         trajanjeTD.append(data.trajanje);
-                        salaTD.append(data.sala);
-                        vremeTD.append(data.vreme);
+                        // salaTD.append(data.sala);
+                        // vremeTD.append(data.vreme);
                     },
                     error: function(jqXHR) {
                         alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
                     },
                     async: false,
                 })
-                a.attr("href", 'sale.html?w=' + 'operacija' + '&dat=' + datumTD.html() + "&vr=" + vremeTD.html() + "&tr=" + trajanjeTD.html() + "&sa=" + salaTD.html() + "&op=" + zahtev.operacija + "&zz=" + zahtev.id);
+                a.attr("href", 'sale.html?w=' + 'operacija' + '&dat=' + datumTD.html() + "&tr=" + trajanjeTD.html() + "&op=" + zahtev.operacija + "&zz=" + zahtev.id);
                 rezervisiTD.append(a);
 
                 tr.append(idTD);
                 tr.append(datumTD);
-                tr.append(vremeTD);
+                // tr.append(vremeTD);
                 tr.append(trajanjeTD);
-                tr.append(salaTD);
+                // tr.append(salaTD);
                 tr.append(rezervisiTD);
 
                 tbody.append(tr);
