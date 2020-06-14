@@ -518,45 +518,6 @@ public class LekarController {
 		return true;
 	}
 
-	/*
-	 * @GetMapping("/lekar/getUpdate/{id}") public ResponseEntity<LekarDTO>
-	 * getUpdate(@PathVariable Integer id){ Lekar lekar = lekarService.findOne(id);
-	 * if(lekar != null) { return new ResponseEntity<>(new
-	 * LekarDTO(lekar),HttpStatus.OK); }else { return new
-	 * ResponseEntity<>(HttpStatus.NOT_FOUND); } }
-	 * 
-	 * @PutMapping("/lekar/update") public ResponseEntity<LekarDTO>
-	 * updateSala(@RequestBody LekarDTO lekarDTO){ Lekar lekar =
-	 * lekarService.findOne(lekarDTO.getId()); if(lekar == null) { return new
-	 * ResponseEntity<>(HttpStatus.BAD_REQUEST); }
-	 * lekar.setEmail(lekarDTO.getEmail()); lekar.setLozinka(lekarDTO.getLozinka());
-	 * lekar.setIme(lekarDTO.getIme()); lekar.setPrezime(lekarDTO.getPrezime()); ;
-	 * return new ResponseEntity<>(new LekarDTO(lekar), HttpStatus.OK); }
-	 */
-
-	/*
-	 * @GetMapping("/dobaviKlinike") public ResponseEntity<List<Klinika>>
-	 * dobaviKlinike() { ArrayList<Klinika> klinike = new ArrayList<Klinika>();
-	 * Klinika k1 = new Klinika(1, "klinika 1", "adresa klinike 1", "opis", null,
-	 * null, null, null); Klinika k2 = new Klinika(2, "klinika 2",
-	 * "adresa klinike 2", "opis", null, null, null, null); klinike.add(k1);
-	 * klinike.add(k2);
-	 * 
-	 * return new ResponseEntity<List<Klinika>>(klinike, HttpStatus.OK); }
-	 */
-
-	/*
-	 * @PostMapping("/dodajNovogLekara") public ResponseEntity
-	 * dodajLekara(@RequestBody Lekar lekar) throws ClassNotFoundException,
-	 * SQLException { System.out.println(lekar); lekarService.dodajLekara(lekar);
-	 * //System.out.println(lekar.getEmail()); return new
-	 * ResponseEntity(HttpStatus.OK); }
-	 */
-
-	/*
-	 * Get zahtev Vraca odredjen broj pacijenata
-	 */
-
 	@GetMapping("/lekar/pageForPacijent/{stranica}/{koliko}/{klinika}")
 	public ResponseEntity<List<LekarDTO>> getLekariOdDo(@PathVariable Integer stranica, @PathVariable Integer koliko,
 			@PathVariable Integer klinika) {
@@ -580,31 +541,6 @@ public class LekarController {
 
 	}
 
-	/*
-	 * @PostMapping(
-	 * "/lekar/searchLekaraForPacijent/{kriterijum}/{pretraga}/{klinika}") public
-	 * ResponseEntity<List<LekarDTO>> searchLekarForPacijent(@PathVariable String
-	 * kriterijum,
-	 * 
-	 * @PathVariable String pretraga, @PathVariable Integer klinika) {
-	 * List<LekarDTO> retVal = new ArrayList<LekarDTO>(); switch (kriterijum) { case
-	 * "ime": for (Lekar l : lekarService.findAll()) { if
-	 * (l.getIme().toLowerCase().contains(pretraga.toLowerCase())) { if
-	 * (l.getKlinika().getId().equals(klinika)) { LekarDTO lekar = new LekarDTO(l);
-	 * retVal.add(lekar); } } } break; case "prezime": for (Lekar l :
-	 * lekarService.findAll()) { if
-	 * (l.getPrezime().toLowerCase().contains(pretraga.toLowerCase())) { if
-	 * (l.getKlinika().getId().equals(klinika)) { LekarDTO lekar = new LekarDTO(l);
-	 * retVal.add(lekar); } } } break; default: for (Lekar l :
-	 * lekarService.findAll()) { if
-	 * (l.getIme().toLowerCase().contains(pretraga.toLowerCase())) { if
-	 * (l.getKlinika().getId().equals(klinika)) { LekarDTO lekar = new LekarDTO(l);
-	 * retVal.add(lekar); } } } break; } return new ResponseEntity<>(retVal,
-	 * HttpStatus.OK);
-	 * 
-	 * }
-	 */
-
 	@PostMapping("/lekar/searchPacijentoviParametriDva/{klinika}")
 	public ResponseEntity<Set<LekarDTO>> searchPacijentoviParametri2(@PathVariable int klinika, @RequestBody PretragaKlinikaDTO pretraga) {
 		Set<LekarDTO> retVal = new HashSet<>();
@@ -616,6 +552,7 @@ public class LekarController {
 			}
 
 			if (l.getTipoviPregleda().contains(tip)) {
+				
 				for (Pregled p : pregledi) {
 					if ((p.getLekar().getId().equals(l.getId()))) {
 						if (!proveriZauzetost(p.getDatum(), pretraga.datum)) {
@@ -635,44 +572,6 @@ public class LekarController {
 
 		}
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
-	}
-	/*
-	@PostMapping("/lekar/searchPacijentoviParametriJedan/{ocena}")
-	public ResponseEntity<Set<LekarDTO>> searchPacijentoviParametri1(@PathVariable Double ocena) {
-		Set<LekarDTO> retVal = new HashSet<>();
-		TipPregleda tip = tipPregledaService.findOne(pretraga.tip);
-		List<Pregled> pregledi = pregledService.findAll();
-		for (Lekar l : lekarService.findAll()) {
-			if (l.getProsecnaOcena() < pretraga.ocena) {
-				continue;
-			}
-
-			if (l.getTipoviPregleda().contains(tip)) {
-				for (Pregled p : pregledi) {
-					if ((p.getLekar().getId().equals(l.getId()))) {
-						if (!proveriZauzetost(p.getDatum(), pretraga.datum)) {
-							LekarDTO dto = new LekarDTO(l);
-							if (!retVal.contains(dto)) {
-								retVal.add(dto);
-							}
-						}
-					} else {
-						LekarDTO dto = new LekarDTO(l);
-						if (!retVal.contains(dto)) {
-							retVal.add(dto);
-						}
-					}
-				}
-			}
-
-		}
-		return new ResponseEntity<>(retVal, HttpStatus.OK);
-	}*/
-
-	@PostMapping("/lekar/searchLekaraForPacijent/{kriterijum}/{pretraga}/{klinika}")
-	public ResponseEntity<List<LekarDTO>> searchLekarForPacijent(@PathVariable String kriterijum,
-			@PathVariable String pretraga, @PathVariable Integer klinika) {
-		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@PostMapping("/lekar/all/{klinika}")

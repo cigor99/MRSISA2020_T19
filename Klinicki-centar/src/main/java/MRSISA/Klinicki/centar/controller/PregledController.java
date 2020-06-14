@@ -300,7 +300,7 @@ public class PregledController {
 		}
 		String[] tok = zahtev.getVreme().split(":");
 		int minuti = Integer.parseInt(tok[1]);
-		int sati = Integer.parseInt(tok[0]);
+		long sati = Integer.parseInt(tok[0]);
 		long time = sati * 60 + minuti;
 		time = time * 60000;
 		Date datum = new Date(zahtev.getDatum().getTime() + time);
@@ -441,7 +441,6 @@ public class PregledController {
 				Date dodaj = new Date();
 				dodaj.setTime(pocetak.getTime());
 				slobodni.add(dodaj);
-				System.out.println("dodao: " + dodaj);
 				pocetak.setTime(pocetak.getTime() + 15 * ONE_MINUTE_IN_MILLIS);
 			} else {
 				pocetak.setTime(pocetak.getTime() + 15 * ONE_MINUTE_IN_MILLIS);
@@ -457,11 +456,7 @@ public class PregledController {
 			} else {
 				string += d.getHours() + ":" + d.getMinutes();
 			}
-			System.out.println(string);
 			retVal.add(string);
-		}
-		for (String item : retVal) {
-			System.out.println(item);
 		}
 		return new ResponseEntity<Object>(retVal, HttpStatus.OK);
 	}
