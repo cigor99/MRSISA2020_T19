@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Prihodi</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="js/prihodi.js"></script>
+<script src="js/main.js"></script>
+<link href="style.css" rel="stylesheet">
+<script>
+	$(document).ready( function() {
+		ucitajZaglavlje();		
+	});
+</script>
+</head>
+
+<body>
+<div id="navbardiv"></div>
+<div class="naslov">
+<h1>Prihodi klinike</h1>
+</div>
+<div class="filter" id="div_podaci">
+    <form>
+        <div class="form-group" style="visibility:visible">
+            <label for="date-time">Početni datum:</label>
+            <input class="form-control" style="max-width: 250px; margin-right: 20px" type="date" id="date1">
+            <label for="date-time">Krajnji datum:</label>
+            <input class="form-control" style="max-width: 250px; margin-right: 20px" type="date" id="date2">  
+            <p id="error" style="display:hidden"></p>      
+            <button class="button" type="button" onclick="javascript:izracunaj()">Prikaži</button>
+        </div>
+    </form>
+    <div class="form-inline" style="visibility:hidden" id="ukupno_div">
+        <label>Ukupan prihod:</label>
+        <input class="form-control" style="max-width: 250px; margin-right: 20px" type="text" id="ukupno" readonly>
+    </div>
+</div>
+    
+</div>
+</body>
+</html>

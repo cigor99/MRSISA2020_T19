@@ -1,5 +1,6 @@
 package MRSISA.Klinicki.centar.controller;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,6 +49,7 @@ import MRSISA.Klinicki.centar.dto.PacijentDTO;
 import MRSISA.Klinicki.centar.dto.PretragaKlinikaDTO;
 import MRSISA.Klinicki.centar.service.AdminKService;
 import MRSISA.Klinicki.centar.service.KlinikaService;
+import MRSISA.Klinicki.centar.service.OperacijaService;
 import MRSISA.Klinicki.centar.service.PregledService;
 import MRSISA.Klinicki.centar.service.TipPregledaService;
 
@@ -65,6 +67,9 @@ public class KlinikaController {
 
 	@Autowired
 	private PregledService pregledService;
+	
+	@Autowired
+	private OperacijaService operacijaService;
 
 	@Autowired
 	HttpServletRequest request;
@@ -153,6 +158,34 @@ public class KlinikaController {
 
 		return new ResponseEntity<>(new KlinikaDTO(klinika), HttpStatus.OK);
 	}
+	
+	@GetMapping("/klinika/prihodi/{datum1}/{datum2}")
+	public ResponseEntity<Double> getPrihodi(@PathVariable String datum1, @PathVariable String datum2) throws ParseException {
+		int id = -1;
+		String tip = (String) request.getSession().getAttribute("tip");
+		if(tip.equals("adminKlinike")) {
+			AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
+			id = admink.getKlinikaID();			
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date1 = sdf.parse(datum1);
+		Date date2 = sdf.parse(datum2);
+		double ukupno = 0;
+		Klinika klinika = klinikaService.findOne(id);
+		if (klinika != null) {
+			for(Pregled p : pregledService.findAll()) {
+				if(p.getIzvestajiPregleda().size()>0 && p.getSala() != null && p.getSala().getKlinika().getId().equals(id)) {
+					if(p.getDatum().compareTo(date1)>=0 && p.getDatum().compareTo(date2)<= 0) {
+						ukupno += p.getTipPregleda().getCena().getIznos();	
+					}
+				}
+			}
+			return new ResponseEntity<>(ukupno, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+
 
 	@PutMapping("/klinika/addAdmin")
 	public ResponseEntity<Admin_klinikaDTO> addAdmin(@RequestBody Admin_klinikaDTO admin_klinika) {
