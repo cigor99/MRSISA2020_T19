@@ -56,6 +56,8 @@ public class Recept {
 
 	@OneToOne(mappedBy = "recept") 
 	private IzvestajPregleda izvestajiPregleda;
+	
+	
 
 	public Recept() {
 		super();

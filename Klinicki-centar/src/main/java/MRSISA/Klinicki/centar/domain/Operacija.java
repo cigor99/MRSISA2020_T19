@@ -18,6 +18,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 @Entity
 @Table(name = "Operacije")
@@ -52,6 +53,10 @@ public class Operacija {
 
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "operacija")
 	private Set<ZahtevZaOperaciju> zahteviZaOperaciju = new HashSet<ZahtevZaOperaciju>();
+	
+	@Version
+	@Column(name = "verzija", nullable = false, unique = false)
+	private int version;
 
 	public Operacija() {
 		super();

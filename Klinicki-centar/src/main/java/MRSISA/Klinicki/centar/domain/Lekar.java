@@ -57,7 +57,7 @@ public class Lekar {
 	// @Column(name = "klinika", unique = false)
 	// private Integer klinika;
 
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "lekar")
+	@OneToMany(mappedBy = "lekar", fetch = FetchType.EAGER)
 	private Set<Pregled> pregledi = new HashSet<Pregled>();
 
 	@OneToMany( fetch = FetchType.LAZY, mappedBy = "lekar")//cascade = { CascadeType.ALL },

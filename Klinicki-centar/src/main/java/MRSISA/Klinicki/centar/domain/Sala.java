@@ -17,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import javax.print.attribute.standard.DateTimeAtCompleted;
 
 @Entity
@@ -45,6 +46,10 @@ public class Sala {
 
 	@OneToMany(cascade = { CascadeType.ALL }, mappedBy = "sala", fetch = FetchType.EAGER)// fetch = FetchType.LAZY,
 	private Set<Operacija> operacije = new HashSet<Operacija>();
+	
+	@Version
+	@Column(name = "verzija", nullable = false, unique = false)
+	private int version;
 
 	public Sala() {
 		super();
@@ -108,9 +113,39 @@ public class Sala {
 	public void setPregledi(Set<Pregled> pregledi) {
 		this.pregledi = pregledi;
 	}
-
+	
+	public boolean slobodna(Date d1, Date d2) {
+		boolean retVal = true;
+		if(this.tip == TipSale.ZA_PREGLED) {
+			for(Pregled p : this.pregledi) {
+				Date pocetak = p.getDatum();
+				Date kraj = new Date(p.getDatum().getTime() + p.getTipPregleda().getTrajanje()*60000);
+				if(d1.compareTo(kraj)>=0 || d2.compareTo(pocetak)<=0 ) {
+					continue;
+					
+				}
+				else {
+					retVal = false;
+				}
+			}
+		}
+		else {
+			for(Operacija o : this.operacije) {
+				Date pocetak = o.getDatum();
+				Date kraj = new Date(o.getDatum().getTime() + o.getTrajanje()*60000);
+				if(d1.compareTo(kraj)>=0 || d2.compareTo(pocetak)<=0 ) {
+					continue;
+				}
+				else {
+					retVal = false;
+				}
+			}
+		}
+		return retVal;
+	}
+	
 	@SuppressWarnings("deprecation")
-	public Date getPrviSlobodanTermin() {
+	public Date prviSlobodanTermin(int trajanje) {
 		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		Date date = new Date(System.currentTimeMillis());
 		Date pocetni = date;
@@ -130,7 +165,7 @@ public class Sala {
 //						System.out.println("Prvi");
 						continue;
 					}
-					if(date.compareTo(p.getDatum()) < 0 && (p.getDatum().getTime() - date.getTime() < 900000)) { //uskoro
+					if(date.compareTo(p.getDatum()) < 0 && (p.getDatum().getTime() - date.getTime() < trajanje*60000)) { //uskoro
 //						System.out.println(p.getDatum().getTime() - date.getTime());
 //						System.out.println("Drugi");
 						date = krajPregleda;
@@ -144,6 +179,93 @@ public class Sala {
 						i = 1;
 						break;
 					}				
+				}
+				
+			}
+			else {
+				if(this.operacije.size() == 0) {
+					 i = 1;
+					 break;
+				}
+				for(Operacija o : this.operacije) {
+					int mins = o.getDatum().getMinutes();
+					Date krajOperacije = o.getDatum();
+					krajOperacije.setMinutes(mins+o.getTrajanje());
+//					System.out.println("Pocetak: "+o.getDatum()+"; kraj: "+krajOperacije);
+					if(pocetni.compareTo(o.getDatum()) > 0) { //stari
+//						System.out.println("Prvi");
+						continue;
+					}
+					if(date.compareTo(o.getDatum()) < 0 && (o.getDatum().getTime() - date.getTime() < trajanje*60000)) { //uskoro
+//						System.out.println(o.getDatum().getTime() - date.getTime());
+//						System.out.println("Drugi");
+						date = krajOperacije;
+					}
+					else if(date.compareTo(o.getDatum())>=0 && date.compareTo(krajOperacije) < 0) { //preklapa se
+//						System.out.println("Treci");
+						date = krajOperacije;
+					}
+					else {
+//						System.out.println("Cetvrti");
+						i = 1;
+						break;
+					}				
+				}
+			}
+		}
+		
+		//System.out.println(formatter.format(date));
+		int minuti = date.getMinutes();
+		int ostatak = minuti%15;
+		//System.out.println("OSTATAK: "+ostatak);
+		int x = 15-ostatak;
+		date.setMinutes(minuti+x);
+//		System.out.println("Prvi slobodan termin: "+formatter.format(date));
+		/*for(Pregled p : this.pregledi) {
+			
+		}*/
+		prviSlobodanTermin = date;
+		return prviSlobodanTermin;
+	}
+
+	@SuppressWarnings("deprecation")
+	public Date getPrviSlobodanTermin() {
+		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		Date date = new Date(System.currentTimeMillis());
+		Date pocetni = date;
+		int i = 0;
+		while(i == 0) {
+			if(this.tip == TipSale.ZA_PREGLED) {
+				if(this.pregledi.size() == 0) {
+					 i = 1;
+					 break;
+				}
+				for(Pregled p : this.pregledi) {
+					
+						int mins = p.getDatum().getMinutes();
+						Date krajPregleda = p.getDatum();
+						krajPregleda.setMinutes(mins+p.getTipPregleda().getTrajanje());
+//						System.out.println("Pocetak: "+p.getDatum()+"; kraj: "+krajPregleda);
+						if(pocetni.compareTo(p.getDatum()) > 0) { //stari
+//							System.out.println("Prvi");
+							continue;
+						}
+						if(date.compareTo(p.getDatum()) < 0 && (p.getDatum().getTime() - date.getTime() < 900000)) { //uskoro
+//							System.out.println(p.getDatum().getTime() - date.getTime());
+//							System.out.println("Drugi");
+							date = krajPregleda;
+						}
+						else if(date.compareTo(p.getDatum())>=0 && date.compareTo(krajPregleda) < 0) { //preklapa se
+//							System.out.println("Treci");
+							date = krajPregleda;
+						}
+						else {
+//							System.out.println("Cetvrti");
+							i = 1;
+							break;
+						}				
+					
+					
 				}
 				
 			}

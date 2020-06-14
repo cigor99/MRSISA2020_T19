@@ -69,7 +69,7 @@ public class ReceptiController {
 	}
 
 	//Funkcija overava recept
-	//Prima, id recepta koji treba da se overi i id medicinske sestra koja overeca recept, kao parametar
+	//Prima, id recepta koji treba da se overi i id medicinske sestra koja overeca recept, kao parametarz
 	@PutMapping("/recepti/overi/{id}/{medSesID}") /// {medSesID}"
 	public ResponseEntity<ReceptDTO> overi(@PathVariable Integer id, @PathVariable Integer medSesID) { // @PathVariable Integer medSesID
 		Recept recept = receptiService.findOne(id);

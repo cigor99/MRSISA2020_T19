@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -35,6 +36,10 @@ public class ZahtevZaRegistraciju {
 	@ManyToOne
 	@JoinColumn(name = "klinicki_centar", referencedColumnName = "ID_KC", nullable = false)
 	private KlinickiCentar klinickiCentar;
+	
+	@Version
+	@Column(name = "verzija", nullable = false, unique = false)
+	private int version;
 	
 	public ZahtevZaRegistraciju() {
 

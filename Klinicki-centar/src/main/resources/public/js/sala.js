@@ -8,7 +8,9 @@ var zahtevID;
 
 function ucitajTabelu() {
     var p = window.location.search.substr(1);
-    console.log(p);
+    var pp = p.split("&")[0];
+    var x = pp.split("=")[1];
+    console.log(x);
     if (p != "") {
         document.getElementById('dodajSalu').style.visibility = 'hidden';
         //document.getElementById('div_podaci').style.display = 'block';
@@ -40,7 +42,7 @@ function ucitajTabelu() {
                     if (p == "") {
                         tr.append(izmeni);
                         tr.append(ukloni);
-                    } else {
+                    } else if (x == "pregled") {
                         tr.append(izaberi);
                     }
                     table.append(tr);
@@ -54,24 +56,29 @@ function ucitajTabelu() {
 
 function proveriKorisnika() {
     var url = window.location.href.split("?")[1];
+    var w = url.split("&")[0];
 
-    var dat = url.split("&")[1];
-    datum = dat.split("=")[1];
+    if (w.split("=")[1] == 'operacija') {
+        var dat = url.split("&")[1];
+        datum = dat.split("=")[1];
 
-    var vr = url.split("&")[2];
-    vreme = vr.split("=")[1];
+        var vr = url.split("&")[2];
+        vreme = vr.split("=")[1];
 
-    var tr = url.split("&")[3];
-    trajanje = tr.split("=")[1];
+        var tr = url.split("&")[3];
+        trajanje = tr.split("=")[1];
 
-    var sl = url.split("&")[4];
-    sala = sl.split("=")[1];
+        var sl = url.split("&")[4];
+        sala = sl.split("=")[1];
 
-    var op = url.split("&")[5];
-    operacija = op.split("=")[1];
+        var op = url.split("&")[5];
+        operacija = op.split("=")[1];
 
-    var zah = url.split("&")[6];
-    zahtevID = zah.split("=")[1];
+        var zah = url.split("&")[6];
+        zahtevID = zah.split("=")[1];
+    }
+
+
 
     $.ajax({
         type: "get",
@@ -83,6 +90,8 @@ function proveriKorisnika() {
             if (tipKorisnika == "lekar") {
                 $("#dodajSalu").css('visibility', 'hidden');
 
+
+            } else if (tipKorisnika == 'adminKlinike') {
                 let div = $("#podaci");
 
                 let datumDIV = $("<div><b>Datum: </b></div>");
@@ -172,6 +181,8 @@ function pretraga() {
 
 function filtriranje() {
     var p = window.location.search.substr(1);
+    var pp = p.split("&")[0];
+    var x = pp.split("=")[1];
     var filter;
     if (p == "") {
         var tipSelected = document.getElementById("tipSaleSelect");
@@ -211,7 +222,8 @@ function filtriranje() {
                 slobodna.attr('id', "termin" + sala.id);
                 let izmeni = $("<td>" + "<a href=\"izmeniSalu.html?id=" + sala.id + "\">Izmeni</a></td>")
                 let ukloni = $(`<td><button  type="button" id="ukloniBtn" onclick="ukloniSalu('${sala.id}')">Ukloni</button></td>`)
-                let izaberi = $(`<td><button  type="button" id="izaberiBtn" onclick="rezervisi('${sala.id}')">Izaberi</button></td>`)
+                let izaberi = $(`<td><button  type="button" id="izaberiBtn" onclick="izaberiSalu('${sala.id}')">Izaberi</button></td>`)
+                let rezervisi = $(`<td><button  type="button" id="izaberiBtn" onclick="rezervisi('${sala.id}')">Rezervisi</button></td>`)
                 tr.append(id);
                 tr.append(naziv);
                 tr.append(tip);
@@ -219,8 +231,11 @@ function filtriranje() {
                 if (p == "") {
                     tr.append(izmeni);
                     tr.append(ukloni);
-                } else {
+                } else if (x == "pregled") {
                     tr.append(izaberi);
+                }
+                else if (x == "operacija"){
+                	tr.append(rezervisi);
                 }
                 table.append(tr);
             }

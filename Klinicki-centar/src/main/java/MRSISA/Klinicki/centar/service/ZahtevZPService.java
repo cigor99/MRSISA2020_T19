@@ -1,8 +1,11 @@
 package MRSISA.Klinicki.centar.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import MRSISA.Klinicki.centar.domain.ZahtevZaOperaciju;
 import MRSISA.Klinicki.centar.domain.ZahtevZaPregled;
 import MRSISA.Klinicki.centar.repository.ZahtevZPRepository;
 
@@ -20,4 +23,7 @@ public class ZahtevZPService {
 		return zzpRep.save(zahtev);
 	}
 	
+	public List<ZahtevZaPregled> findAll(){
+		return zzpRep.findAll();
+	}
 }

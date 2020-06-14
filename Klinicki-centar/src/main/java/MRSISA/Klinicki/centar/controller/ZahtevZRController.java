@@ -1,5 +1,10 @@
 package MRSISA.Klinicki.centar.controller;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.OptimisticLockException;
+import javax.persistence.Persistence;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,37 +56,56 @@ public class ZahtevZRController {
 	}
 
 	@PutMapping("/KC/ZZR/Prihvati/{id}")
-	public ResponseEntity<ZahtevZaRegDTO> prihvatiZZR(@PathVariable Integer id) {
-		ZahtevZaRegistraciju zahtev = zzrService.findOne(id);
+	public ResponseEntity<Object> prihvatiZZR(@PathVariable Integer id) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("prihvatiZZR");
+		try {
+			EntityManager em = emf.createEntityManager();
+			em.getTransaction().begin();
 
-		if (zahtev != null) {
-			zahtev.setStanje(StanjeZahteva.PRIHVACEN);
-			zahtev.getPacijent().setStanjePacijenta(StanjePacijenta.PRIHVACEN);
-			zahtev = zzrService.save(zahtev);
-
-			ConfirmationToken confirmationToken = new ConfirmationToken(zahtev.getPacijent().getJmbg());
-			confirmationToken = tokenService.save(confirmationToken);
-			SimpleMailMessage msg = new SimpleMailMessage();
-
-			msg.setTo(zahtev.getPacijent().getEmail());
-
-			msg.setSubject("Uspešna registracija na klinički centar!");
-			msg.setText("Da bi ste potvrdili nalog, kliknite na link: "
-					+ "https://mrsisa2020-t19.herokuapp.com/klinicki-centar/confirmation.html?token="
-					+ confirmationToken.getConfirmationToken());
-//https://mrsisa2020-t19.herokuapp.com
-//http://localhost:8080
-			try {
-				javaMailSender.send(msg);
-			} catch (MailException e) {
-				// e.printStackTrace();
-				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			ZahtevZaRegistraciju zahtev = zzrService.findOne(id);
+			
+			if(zahtev == null) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			}
+			else {
+				System.out.println(zahtev.getStanje());
+				if(zahtev.getStanje().equals(StanjeZahteva.ODBIJEN)) {
+					return new ResponseEntity<>("Zahtev je već odbijen",HttpStatus.BAD_REQUEST);
+				}
+				zahtev.setStanje(StanjeZahteva.PRIHVACEN);
+				zahtev.getPacijent().setStanjePacijenta(StanjePacijenta.PRIHVACEN);
+				zahtev = zzrService.save(zahtev);
 
-			return new ResponseEntity<>(new ZahtevZaRegDTO(zahtev), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+				ConfirmationToken confirmationToken = new ConfirmationToken(zahtev.getPacijent().getJmbg());
+				confirmationToken = tokenService.save(confirmationToken);
+				SimpleMailMessage msg = new SimpleMailMessage();
+
+				msg.setTo(zahtev.getPacijent().getEmail());
+
+				msg.setSubject("Uspešna registracija na klinički centar!");
+				msg.setText("Da bi ste potvrdili nalog, kliknite na link: "
+						+ "https://mrsisa2020-t19.herokuapp.com/klinicki-centar/confirmation.html?token="
+						+ confirmationToken.getConfirmationToken());
+				// https://mrsisa2020-t19.herokuapp.com
+				// http://localhost:8080
+				try {
+					javaMailSender.send(msg);
+				} catch (MailException e) {
+					// e.printStackTrace();
+					return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+				}
+
+				em.flush();
+				em.getTransaction().commit();
+				em.close();
+				return new ResponseEntity<>(new ZahtevZaRegDTO(zahtev), HttpStatus.OK);
+			} 
+
+		} catch (OptimisticLockException e) {
+			System.out.println("Greška pri prihvatanju registracije!");
+			return new ResponseEntity<>("Zahtev je vec obrađen, od strane nekog drugog", HttpStatus.BAD_REQUEST);
 		}
+
 	}
 
 	@GetMapping("/ZZR/potvrda-registracije/{token}")
@@ -100,17 +124,38 @@ public class ZahtevZRController {
 	}
 
 	@PutMapping("/KC/ZZR/Odbij/{id}")
-	public ResponseEntity<ZahtevZaRegDTO> odbijZZR(@PathVariable Integer id) {
-		ZahtevZaRegistraciju zahtev = zzrService.findOne(id);
+	public ResponseEntity<Object> odbijZZR(@PathVariable Integer id) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("odbijZZR");
 
-		if (zahtev != null) {
-			zahtev.setStanje(StanjeZahteva.ODBIJEN);
-			zahtev.getPacijent().setStanjePacijenta(StanjePacijenta.ODBIJEN);
-			zahtev = zzrService.save(zahtev);
-			return new ResponseEntity<>(new ZahtevZaRegDTO(zahtev), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		try {
+			EntityManager em = emf.createEntityManager();
+			em.getTransaction().begin();
+
+			ZahtevZaRegistraciju zahtev = zzrService.findOne(id);
+			if(zahtev == null) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+			else {
+				System.out.println(zahtev.getStanje());
+				if(zahtev.getStanje().equals(StanjeZahteva.PRIHVACEN)) {
+					return new ResponseEntity<>("Zahtev je već prihvaćen",HttpStatus.BAD_REQUEST);
+				}
+				zahtev.setStanje(StanjeZahteva.ODBIJEN);
+				zahtev.getPacijent().setStanjePacijenta(StanjePacijenta.ODBIJEN);
+				zahtev = zzrService.save(zahtev);
+
+				em.flush();
+				em.getTransaction().commit();
+				em.close();
+
+				return new ResponseEntity<>(new ZahtevZaRegDTO(zahtev), HttpStatus.OK);
+			} 
+
+		} catch (OptimisticLockException e) {
+			System.out.println("Greška pri odbijanju registracije!");
+			return new ResponseEntity<>("Zahtev je vec obrađen, od strane nekog drugog", HttpStatus.BAD_REQUEST);
 		}
+
 	}
 
 	@PostMapping("/ZZR/sendEmail")

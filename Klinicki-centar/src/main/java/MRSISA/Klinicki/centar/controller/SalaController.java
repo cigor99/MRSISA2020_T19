@@ -27,18 +27,23 @@ import org.springframework.web.bind.annotation.RestController;
 import MRSISA.Klinicki.centar.domain.Klinika;
 import MRSISA.Klinicki.centar.domain.Lekar;
 import MRSISA.Klinicki.centar.domain.Operacija;
+import MRSISA.Klinicki.centar.domain.Pacijent;
 import MRSISA.Klinicki.centar.domain.Pregled;
 import MRSISA.Klinicki.centar.domain.Sala;
+import MRSISA.Klinicki.centar.domain.StanjeZahteva;
 import MRSISA.Klinicki.centar.domain.TipPregleda;
 import MRSISA.Klinicki.centar.domain.TipSale;
+import MRSISA.Klinicki.centar.domain.ZahtevZaPregled;
 import MRSISA.Klinicki.centar.dto.AdminKDTO;
 import MRSISA.Klinicki.centar.dto.LekarDTO;
 import MRSISA.Klinicki.centar.dto.OperacijaDTO;
 import MRSISA.Klinicki.centar.dto.PregledDTO;
 import MRSISA.Klinicki.centar.dto.SalaDTO;
 import MRSISA.Klinicki.centar.service.KlinikaService;
+import MRSISA.Klinicki.centar.service.PregledService;
 import MRSISA.Klinicki.centar.service.SalaService;
 import MRSISA.Klinicki.centar.service.TipPregledaService;
+import MRSISA.Klinicki.centar.service.ZahtevZPService;
 
 @RestController
 public class SalaController {
@@ -51,6 +56,13 @@ public class SalaController {
 	
 	@Autowired
 	private TipPregledaService tipPregledaService;
+	
+	@Autowired
+	private PregledService pregledService;
+	
+	@Autowired
+	private ZahtevZPService zzpService;
+	
 	
 	@Autowired
 	HttpServletRequest request;
@@ -76,6 +88,53 @@ public class SalaController {
 					saleDTO.add(new SalaDTO(s));
 				}
 			}
+		}
+		
+		
+		return new ResponseEntity<>(saleDTO, HttpStatus.OK);
+	}
+	
+	@GetMapping("/sala/saleZaPregled")
+	public ResponseEntity<List<SalaDTO>> getAllSalZaPReglede(){		
+		List<Sala> sale =  salaService.findAll();
+		List<SalaDTO> saleDTO = new ArrayList<SalaDTO>();
+		int klinika = -1;
+		String tip = (String) request.getSession().getAttribute("tip");
+		if(tip.equals("adminKlinike")) {
+			AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
+			klinika = admink.getKlinikaID();
+		}
+		else if(tip.equals("lekar")) {
+			LekarDTO lekar = (LekarDTO) request.getSession().getAttribute("current");
+			klinika = lekar.getKlinikaID();
+		}
+		if(klinika != -1) {			
+			for(Sala s : sale) {
+				if(s.getKlinika().getId().equals(klinika) && s.getTip().equals(TipSale.ZA_PREGLED)) {
+					saleDTO.add(new SalaDTO(s));
+				}
+			}
+		}
+		
+		
+		return new ResponseEntity<>(saleDTO, HttpStatus.OK);
+	}
+	
+	@GetMapping("/sala/rezervacijaPregleda/{idPregleda}")
+	public ResponseEntity<List<SalaDTO>> getSaleZaRezervaciju(@PathVariable Integer idPregleda){		
+		List<SalaDTO> saleDTO = new ArrayList<SalaDTO>();
+		Pregled pregled = pregledService.findOne(idPregleda);
+		
+		int klinika = -1;
+		String tip = (String) request.getSession().getAttribute("tip");
+		if(tip.equals("adminKlinike")) {
+			AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
+			klinika = admink.getKlinikaID();
+		}
+		
+		if(klinika != -1) {			
+			saleDTO = dobaviSlobodneSaleZaPregled(pregled.getDatum(), pregled.getTipPregleda().getTrajanje(), klinika);
+			System.out.println(saleDTO.size());
 		}
 		
 		
@@ -338,6 +397,70 @@ public class SalaController {
 			}
 			return new ResponseEntity<>(retVal, HttpStatus.OK); 
 		}
+	}
+	
+	@GetMapping("/sala/rezervisiSaluZaPregled/{idSale}/{idPregleda}")
+	public ResponseEntity<String> rezervacijaSaleZaPRegled1(@PathVariable Integer idSale, @PathVariable Integer idPregleda){
+		Pregled pregled = pregledService.findOne(idPregleda);
+		Sala sala  = salaService.findOne(idSale);
+		pregled.setSala(sala);
+		sala.getPregledi().add(pregled);
+		salaService.save(sala);
+		List<ZahtevZaPregled> zahtevi = zzpService.findAll();
+		for(ZahtevZaPregled z : zahtevi) {
+			if(z.getPregled().getId().equals(idPregleda)) {
+				z.setStanje(StanjeZahteva.PRIHVACEN);
+				System.out.println(z.getStanje());
+				zzpService.save(z);
+			}
+		}
+		pregledService.save(pregled);
+		String str = "";		
+		return new ResponseEntity<>(str, HttpStatus.OK);
+	
+	}
+	
+	@GetMapping("/sala/rezervisiSaluZaPregled/{idSale}/{idPregleda}/{datum}")
+	public ResponseEntity<String> rezervacijaSaleZaPRegled2(@PathVariable Integer idSale, @PathVariable Integer idPregleda, @PathVariable String datum){
+		Pregled pregled = pregledService.findOne(idPregleda);
+		Sala sala  = salaService.findOne(idSale);
+		System.out.println(datum);
+		pregled.setSala(sala);
+		sala.getPregledi().add(pregled);
+		salaService.save(sala);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		try {
+			Date date = sdf.parse(datum);
+			pregled.setDatum(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		List<ZahtevZaPregled> zahtevi = zzpService.findAll();
+		for(ZahtevZaPregled z : zahtevi) {
+			if(z.getPregled().getId().equals(idPregleda)) {
+				z.setStanje(StanjeZahteva.PRIHVACEN);
+				zzpService.save(z);
+			}
+		}
+		pregledService.save(pregled);
+		String str = "";
+		return new ResponseEntity<>(str, HttpStatus.OK);
+	
+	}
+	
+	private List<SalaDTO> dobaviSlobodneSaleZaPregled(Date datum1, int trajanje, int klinikaID) {
+		List<Sala> sale =  salaService.findAll();
+		List<SalaDTO> saleDTO = new ArrayList<SalaDTO>();
+		Date datum2 = new Date(datum1.getTime() + trajanje*60000);
+		for(Sala s : sale) {
+			if(s.getKlinika().getId().equals(klinikaID) && s.getTip().equals(TipSale.ZA_PREGLED)) {
+				if(s.slobodna(datum1, datum2)) {
+					saleDTO.add(new SalaDTO(s));
+					System.out.println(s.getNaziv());
+				}
+			}
+		}
+		return saleDTO;
 	}
 	
 	
