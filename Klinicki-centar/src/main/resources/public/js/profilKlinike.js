@@ -12,6 +12,7 @@ $(document).ready(function() {
             $("#adresa").val(klinika.adresa)
             $("#opis").val(klinika.opis)
             $("#ocena").val(klinika.prosecnaOcena)
+            console.log(klinika.prosecnaOcena)
             window.nazivKlinike = klinika.naziv;
             window.adresaKlinike = klinika.adresa;
         },
