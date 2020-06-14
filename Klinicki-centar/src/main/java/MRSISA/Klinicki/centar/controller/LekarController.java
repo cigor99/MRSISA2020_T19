@@ -3,6 +3,7 @@ package MRSISA.Klinicki.centar.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -280,7 +281,6 @@ public class LekarController {
 		return new ResponseEntity<>(lekariDTO, HttpStatus.OK);
 	}
 
-	
 	/*
 	 * Funckija za dodavanje lekara
 	 */
@@ -338,9 +338,9 @@ public class LekarController {
 
 		return new ResponseEntity<>(new LekarDTO(lekar), HttpStatus.CREATED);
 	}
-	
+
 	/*
-	 * Funkcija koja postavlja sifru pri prvoj prijavi na sistem 
+	 * Funkcija koja postavlja sifru pri prvoj prijavi na sistem
 	 */
 	@PutMapping("/lekar/prvaSifra")
 	public ResponseEntity<LekarDTO> prvaSifra(@RequestBody PrvoLogovanjeDTO prvoLogovanje) {
@@ -358,14 +358,12 @@ public class LekarController {
 		}
 	}
 
-	
 	/*
 	 * Funkcija za pretragu lekara
 	 */
 	@PostMapping("/lekar/search")
 	public ResponseEntity<List<LekarDTO>> searchLekar(@RequestBody String pretraga) {
 		List<LekarDTO> retVal = new ArrayList<LekarDTO>();
-
 
 		for (Lekar l : lekarService.findAll()) {
 			if (l.getIme().toLowerCase().contains(pretraga.toLowerCase())
@@ -378,7 +376,7 @@ public class LekarController {
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 
 	}
-	
+
 	/*
 	 * Funkcija za brisanje lekara
 	 */
@@ -392,7 +390,7 @@ public class LekarController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
+
 	/*
 	 * Funkcija koja dobavlja jednog lekara
 	 */
@@ -537,7 +535,7 @@ public class LekarController {
 		}
 		return true;
 	}
-	
+
 	/*
 	 * Funkcija koja vracalistu lekara za prikaz pacijentu
 	 */
@@ -564,12 +562,12 @@ public class LekarController {
 
 	}
 
-	
 	/*
-	 * Funkcija za pretragu lekara 
+	 * Funkcija za pretragu lekara
 	 */
 	@PostMapping("/lekar/searchPacijentoviParametriDva/{klinika}")
-	public ResponseEntity<Set<LekarDTO>> searchPacijentoviParametri2(@PathVariable int klinika, @RequestBody PretragaKlinikaDTO pretraga) {
+	public ResponseEntity<Set<LekarDTO>> searchPacijentoviParametri2(@PathVariable int klinika,
+			@RequestBody PretragaKlinikaDTO pretraga) {
 		Set<LekarDTO> retVal = new HashSet<>();
 		TipPregleda tip = tipPregledaService.findOne(pretraga.tip);
 		List<Pregled> pregledi = pregledService.findAll();
@@ -579,28 +577,19 @@ public class LekarController {
 			}
 
 			if (l.getTipoviPregleda().contains(tip)) {
-				
-				for (Pregled p : pregledi) {
-					if ((p.getLekar().getId().equals(l.getId()))) {
-						if (!proveriZauzetost(p.getDatum(), pretraga.datum)) {
-							LekarDTO dto = new LekarDTO(l);
-							if (!retVal.contains(dto)) {
-								retVal.add(dto);
-							}
-						}
-					} else {
-						LekarDTO dto = new LekarDTO(l);
-						if (!retVal.contains(dto)) {
-							retVal.add(dto);
-						}
+				if(proveriZauzetost2(l, pretraga.datum)) {
+					LekarDTO dto = new LekarDTO(l);
+					if (!retVal.contains(dto)) {
+						retVal.add(dto);
 					}
 				}
+				
 			}
 
 		}
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
-	
+
 	/*
 	 * Funkcija koja vraca sve lekare odredjene klinike
 	 */
@@ -617,15 +606,71 @@ public class LekarController {
 		return new ResponseEntity<>(lekariDTO, HttpStatus.OK);
 	}
 
-	private boolean proveriZauzetost(Date pregled, Date pretraga) {
-		if (pregled.getYear() == pretraga.getYear()) {
-			if (pregled.getMonth() == pretraga.getMonth()) {
-				if (pregled.getDay() == pretraga.getDay()) {
-					return true;
+	private boolean proveriZauzetost2(Lekar l, Date pretraga) {
+		Klinika klinika = l.getKlinika();
+		Date pocetak = new Date();
+		Date kraj = new Date();
+		pocetak.setTime(pretraga.getTime());
+		kraj.setTime(pretraga.getTime());
+		final long ONE_MINUTE_IN_MILLIS = 60000;
+		
+		String pocetakString = klinika.getPocetakRadnogVremena();
+		String[] pocetakTokens = pocetakString.split(":");
+		int pocetakSat = Integer.parseInt(pocetakTokens[0]);
+		int pocetakMinut = Integer.parseInt(pocetakTokens[1]);
+		pocetakMinut += pocetakSat * 60;
+		pocetak.setTime(pocetak.getTime() + pocetakMinut * ONE_MINUTE_IN_MILLIS);
+		
+		String krajString = klinika.getKrajRadnogVremena();
+		String[] krajTokens = krajString.split(":");
+		int krajSat = Integer.parseInt(krajTokens[0]);
+		int krajMinut = Integer.parseInt(krajTokens[1]);
+		krajMinut += krajSat * 60;
+		kraj.setTime(kraj.getTime() + krajMinut * ONE_MINUTE_IN_MILLIS);
+		
+		Date porednjenje = new Date();
+		while (pocetak.before(kraj)) {
+			boolean uslov = true;
+			for (Pregled pregled : l.getPregledi()) {
+				porednjenje.setTime(
+						pregled.getDatum().getTime() + pregled.getTipPregleda().getTrajanje() * ONE_MINUTE_IN_MILLIS);
+
+				if (pocetak.after(pregled.getDatum()) && pocetak.before(porednjenje)
+						|| pocetak.equals(pregled.getDatum()) || pocetak.equals(porednjenje)) {
+					// pocetak = new Date(krajPregleda.getTime()+15*ONE_MINUTE_IN_MILLIS);
+					// continue;
+					uslov = false;
+				}
+
+			}
+
+			for (Operacija operacija : l.getOperacije()) {
+				porednjenje.setTime(operacija.getDatum().getTime() + operacija.getTrajanje() * ONE_MINUTE_IN_MILLIS);
+
+				if (pocetak.after(operacija.getDatum()) && pocetak.before(porednjenje)
+						|| pocetak.equals(operacija.getDatum()) || pocetak.equals(porednjenje)) {
+					uslov = false;
 				}
 			}
+
+			for (ZahtevZaGodisnjiOdmor zahtev : l.getZahteviZaGodisnji()) {
+
+				if (zahtev.getStanjeZahteva().equals(StanjeZahteva.PRIHVACEN)) {
+					if (pocetak.after(zahtev.getPocetniDatum()) && pocetak.before(zahtev.getKrajnjiDatum())
+							|| zahtev.getKrajnjiDatum().equals(pocetak) || zahtev.getPocetniDatum().equals(pocetak)) {
+						uslov = false;
+					}
+				}
+			}
+
+			if (uslov) {
+				return false;
+			} else {
+				pocetak.setTime(pocetak.getTime() + 15 * ONE_MINUTE_IN_MILLIS);
+			}
+
 		}
-		return false;
+		return true;
 	}
 
 }
