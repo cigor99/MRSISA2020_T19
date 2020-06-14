@@ -404,6 +404,8 @@ public class SalaController {
 		Pregled pregled = pregledService.findOne(idPregleda);
 		Sala sala  = salaService.findOne(idSale);
 		pregled.setSala(sala);
+		sala.getPregledi().add(pregled);
+		salaService.save(sala);
 		List<ZahtevZaPregled> zahtevi = zzpService.findAll();
 		for(ZahtevZaPregled z : zahtevi) {
 			if(z.getPregled().getId().equals(idPregleda)) {
@@ -412,6 +414,7 @@ public class SalaController {
 				zzpService.save(z);
 			}
 		}
+		pregledService.save(pregled);
 		String str = "";		
 		return new ResponseEntity<>(str, HttpStatus.OK);
 	
@@ -423,6 +426,8 @@ public class SalaController {
 		Sala sala  = salaService.findOne(idSale);
 		System.out.println(datum);
 		pregled.setSala(sala);
+		sala.getPregledi().add(pregled);
+		salaService.save(sala);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		try {
 			Date date = sdf.parse(datum);
@@ -437,6 +442,7 @@ public class SalaController {
 				zzpService.save(z);
 			}
 		}
+		pregledService.save(pregled);
 		String str = "";
 		return new ResponseEntity<>(str, HttpStatus.OK);
 	

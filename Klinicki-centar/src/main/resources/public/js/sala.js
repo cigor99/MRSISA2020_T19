@@ -181,6 +181,8 @@ function pretraga() {
 
 function filtriranje() {
     var p = window.location.search.substr(1);
+    var pp = p.split("&")[0];
+    var x = pp.split("=")[1];
     var filter;
     if (p == "") {
         var tipSelected = document.getElementById("tipSaleSelect");
@@ -220,7 +222,8 @@ function filtriranje() {
                 slobodna.attr('id', "termin" + sala.id);
                 let izmeni = $("<td>" + "<a href=\"izmeniSalu.html?id=" + sala.id + "\">Izmeni</a></td>")
                 let ukloni = $(`<td><button  type="button" id="ukloniBtn" onclick="ukloniSalu('${sala.id}')">Ukloni</button></td>`)
-                let izaberi = $(`<td><button  type="button" id="izaberiBtn" onclick="rezervisi('${sala.id}')">Izaberi</button></td>`)
+                let izaberi = $(`<td><button  type="button" id="izaberiBtn" onclick="izaberiSalu('${sala.id}')">Izaberi</button></td>`)
+                let rezervisi = $(`<td><button  type="button" id="izaberiBtn" onclick="rezervisi('${sala.id}')">Rezervisi</button></td>`)
                 tr.append(id);
                 tr.append(naziv);
                 tr.append(tip);
@@ -228,8 +231,11 @@ function filtriranje() {
                 if (p == "") {
                     tr.append(izmeni);
                     tr.append(ukloni);
-                } else {
+                } else if (x == "pregled") {
                     tr.append(izaberi);
+                }
+                else if (x == "operacija"){
+                	tr.append(rezervisi);
                 }
                 table.append(tr);
             }
