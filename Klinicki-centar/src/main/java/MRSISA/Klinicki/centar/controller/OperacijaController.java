@@ -17,6 +17,7 @@ import MRSISA.Klinicki.centar.domain.Operacija;
 import MRSISA.Klinicki.centar.domain.Pregled;
 import MRSISA.Klinicki.centar.domain.StanjeZahteva;
 import MRSISA.Klinicki.centar.domain.ZahtevZaOperaciju;
+import MRSISA.Klinicki.centar.dto.AdminKDTO;
 import MRSISA.Klinicki.centar.dto.LekarDTO;
 import MRSISA.Klinicki.centar.dto.OperacijaDTO;
 import MRSISA.Klinicki.centar.dto.PregledDTO;
@@ -44,6 +45,26 @@ public class OperacijaController {
 		}
 
 		return new ResponseEntity<>(new OperacijaDTO(op), HttpStatus.OK);
+	}
+	
+	@GetMapping("/Operacija/all")
+	public ResponseEntity<List<OperacijaDTO>> getAllOperacije() {
+		List<Operacija> operacije = operacijaService.findAll();
+		List<OperacijaDTO> operacijeDTO = new ArrayList<OperacijaDTO>();
+
+		int klinika = -1;
+		String tip = (String) request.getSession().getAttribute("tip");
+		if (tip.equals("lekar")) {
+			LekarDTO lekarDTO = (LekarDTO) request.getSession().getAttribute("current");
+			Lekar lekar = lekarService.findOne(lekarDTO.getId());
+			// klinika = lekar.getKlinika().getId();
+			for (Operacija o : lekar.getOperacije()) {
+				if (o.getSala() != null) {
+					operacijeDTO.add(new OperacijaDTO(o));
+				}
+			}
+		}
+		return new ResponseEntity<>(operacijeDTO, HttpStatus.OK);
 	}
 
 	//Funkcija koja vraca sve operacije lekara

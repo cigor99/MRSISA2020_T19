@@ -6,10 +6,10 @@ function ucitajTabelu() {
     console.log(window.tipKorisnika);
     if (window.tipKorisnika == "adminKlinike") {       
         $("#dodajPregled").css('visibility', 'visible');
-        $("#zakaziPregled").css('visibility', 'hidden');
+        //$("#zakaziPregled").css('visibility', 'hidden');
     } else if (window.tipKorisnika == "lekar") {
     	$("#dodajPregled").css('visibility', 'hidden');
-    	$("#zakaziPregled").css('visibility', 'visible');   
+    	//$("#zakaziPregled").css('visibility', 'visible');   
     	document.getElementById("pacijent").innerHTML = "Pacijent";
     }
 
