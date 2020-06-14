@@ -370,8 +370,8 @@ public class PregledController {
 		return new ResponseEntity<>(new PregledDTO(), HttpStatus.CREATED);
 	}
 
-	@PostMapping("/posaljiZahtev/{idPacijenta}/{datum}/{pregledID}")
-	public ResponseEntity<PregledDTO> zakazivanjePregleda(@PathVariable Integer idPacijenta, @PathVariable String datum,
+	@PostMapping("/posaljiZahtev/{datum}/{pregledID}")
+	public ResponseEntity<PregledDTO> zakazivanjePregleda(@PathVariable String datum,
 			@PathVariable Integer pregledID) {
 		ZahtevZaPregled zzp = new ZahtevZaPregled();
 		zzp.setStanje(StanjeZahteva.NA_CEKANJU);
@@ -383,12 +383,13 @@ public class PregledController {
 		try {
 			Date date = sdf.parse(stringdate);
 			pregled.setDatum(date);
+			Pregled trenutni = pregledService.findOne(pregledID);
+			int idPacijenta = trenutni.getPacijent().getId();
 			Pacijent pac = pacijentService.findOne(idPacijenta);
 			pregled.setPacijent(pac);
 			LekarDTO lekarDTO = (LekarDTO) request.getSession().getAttribute("current");
 			Lekar lekar = lekarService.findOne(lekarDTO.getId());
-			pregled.setLekar(lekar);
-			Pregled trenutni = pregledService.findOne(pregledID);
+			pregled.setLekar(lekar);			
 			TipPregleda tp = trenutni.getTipPregleda();
 			pregled.setTipPregleda(tp);
 			pregled.setSlobodan(false);

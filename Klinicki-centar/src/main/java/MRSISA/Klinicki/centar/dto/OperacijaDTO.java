@@ -51,8 +51,14 @@ public class OperacijaDTO {
 		this.datum = d.split(" ")[0];
 		this.vreme = d.split(" ")[1];
 		System.err.println(d.split(" ")[1]);
-		this.sala = o.getSala().getNaziv();
-		this.salaID = o.getSala().getId();
+		if(o.getSala() != null) {
+			this.sala = o.getSala().getNaziv();	
+			this.salaID = o.getSala().getId();
+		}
+		else {
+			this.sala = "";
+		}
+		
 		Set<String> imena = new HashSet<>();
 		for (Lekar l : o.getLekari()) {
 			imena.add("" + l.getIme() + " " + l.getPrezime());

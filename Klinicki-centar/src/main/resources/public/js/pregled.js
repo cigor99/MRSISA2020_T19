@@ -391,15 +391,6 @@ function izaberiSalu(idSale) {
 }
 
 
-function ucitajPacijenta(){
-	var imeCoded = window.location.href.split("?")[1];
-    var imeJednako = imeCoded.split("&")[0];
-    var IDpacijenta = imeJednako.split("=")[1];
-    
-    console.log(IDpacijenta);
-    
-    
-}
 
 function zakaziPregled(){
 	var imeCoded = window.location.href.split("?")[1];
@@ -411,16 +402,23 @@ function zakaziPregled(){
     console.log(dt);
     console.log(pregledID);
     console.log(IDpacijenta);
-    $.ajax({
-        type: "post",
-        url: "/klinicki-centar/pregled/posaljiZahtev/" + IDpacijenta + "/" + dt + "/" + pregledID,
-        success: function(data) {
-            alert("Poslat je zahtev za rezervaciju sale.");
-            close();
-        },
-        error: function() {
-            alert("Error");
-        }
+    if(dt == ""){
+        $("#datumError").text("Unesite datum.").css('visibility', 'visible').css('color', 'red');
+    }
+    else{
+    	$("#datumError").css('visibility', 'hidden');
+    	$.ajax({
+            type: "post",
+            url: "/klinicki-centar/pregled/posaljiZahtev/" + dt + "/" + pregledID,
+            success: function(data) {
+                alert("Poslat je zahtev za rezervaciju sale.");
+                close();
+            },
+            error: function() {
+                alert("Error");
+            }
 
-    });
+        });
+    }
+    
 }

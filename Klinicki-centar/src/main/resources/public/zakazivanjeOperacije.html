@@ -2,13 +2,13 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Zakazivanje pregleda</title>
+<title>Zakazivanje operacije</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script src="js/pregled.js"></script>
+<script src="js/zakazivanjeOperacije.js"></script>
 <script src="js/main.js"></script>
 <link href="style.css" rel="stylesheet">
 <script>
@@ -20,7 +20,7 @@
 <body>
 <div id="navbardiv"></div>
 <div class="naslov">
-<h1>Zakazivanje pregleda</h1>
+<h1>Zakazivanje operacije</h1>
 </div>
 
 <div class="forma-za-dodavanje">
@@ -29,9 +29,12 @@
 <label for="date-time">Datum i vreme:</label>
 <input class="form-control" style="max-width: 250px; margin-right: 20px" type="datetime-local" id="date-time" name="date-time">
 <p id="datumError" style="display:hidden"></p>
+<label>Trajanje:</label>
+<input class="form-control" type="text" id="trajanje">
+<p id="trajanjeError" style="display:hidden"></p>
 </div>
 
-<button class="button" type="button" id="zakaziBtn" onclick="javascript:zakaziPregled()">Zakazi pregled</button>
+<button class="button" type="button" id="zakaziBtn" onclick="javascript:zakazi()">Zakazi operaciju</button>
 </form>
 </div>
 

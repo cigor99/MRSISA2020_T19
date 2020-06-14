@@ -35,7 +35,7 @@ public class Operacija {
 	private int trajanje;
 
 	@ManyToOne
-	@JoinColumn(name = "sala", referencedColumnName = "ID_Sale", nullable = false)
+	@JoinColumn(name = "sala", referencedColumnName = "ID_Sale", nullable = true)
 	private Sala sala;
 
 	// MOZDA STAVITI EAGER
