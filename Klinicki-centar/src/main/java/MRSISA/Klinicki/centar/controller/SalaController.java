@@ -15,6 +15,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -63,6 +66,8 @@ public class SalaController {
 	@Autowired
 	private ZahtevZPService zzpService;
 	
+	@Autowired
+	private JavaMailSender javaMailSender;
 	
 	@Autowired
 	HttpServletRequest request;
@@ -415,6 +420,41 @@ public class SalaController {
 			}
 		}
 		pregledService.save(pregled);
+		
+		AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
+		int klinikaid = admink.getKlinikaID();
+		Klinika k = klinikaService.findOne(klinikaid);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		SimpleMailMessage msg = new SimpleMailMessage();
+		msg.setTo(pregled.getPacijent().getEmail());
+		msg.setSubject("Pregled je uspešno zakazan");
+		msg.setText(String.format("Poštovani, pregled je zakazan, dana: %s u %S, u sali: %s, na klinici: %s.",
+				sdf.format(pregled.getDatum()).split(" ")[0],
+				sdf.format(pregled.getDatum()).split(" ")[1],
+				sala.getNaziv(),
+				k.getNaziv()));
+
+		try {
+			javaMailSender.send(msg);
+		} catch (MailException e) {
+			e.printStackTrace();
+			System.out.println("Automatsko dodeljivanje termina pregleda pri slanju email-a pacijentu");
+		}
+		
+		SimpleMailMessage msg1 = new SimpleMailMessage();
+		msg1.setTo(pregled.getLekar().getEmail());
+		msg1.setSubject("Novi pregled");
+		msg1.setText(String.format("Poštovani obavezni ste da prisustvujete pregledu, dana: %s, u sali: %s",
+				pregled.getDatum().toString(), pregled.getSala().getNaziv()));
+
+		try {
+			javaMailSender.send(msg1);
+		} catch (MailException e) {
+			 e.printStackTrace();
+			System.out.println("Automatsko dodeljivanje termina pregleda pri slanju email-a lekaru");
+		}
+		
+		System.out.println(pregled.getLekar().getEmail());
 		String str = "";		
 		return new ResponseEntity<>(str, HttpStatus.OK);
 	
@@ -443,6 +483,39 @@ public class SalaController {
 			}
 		}
 		pregledService.save(pregled);
+		
+		AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
+		int klinikaid = admink.getKlinikaID();
+		Klinika k = klinikaService.findOne(klinikaid);
+		SimpleMailMessage msg = new SimpleMailMessage();
+		msg.setTo(pregled.getPacijent().getEmail());
+		msg.setSubject("Pregled je uspešno zakazan");
+		msg.setText(String.format("Poštovani, pregled je zakazan, dana: %s u %S, u sali: %s, na klinici: %s.",
+				sdf.format(pregled.getDatum()).split(" ")[0],
+				sdf.format(pregled.getDatum()).split(" ")[1],
+				sala.getNaziv(),
+				k.getNaziv()));
+
+		try {
+			javaMailSender.send(msg);
+		} catch (MailException e) {
+			e.printStackTrace();
+			System.out.println("Automatsko dodeljivanje termina pregleda pri slanju email-a pacijentu");
+		}
+		
+		SimpleMailMessage msg1 = new SimpleMailMessage();
+		msg1.setTo(pregled.getLekar().getEmail());
+		msg1.setSubject("Novi pregled");
+		msg1.setText(String.format("Poštovani obavezni ste da prisustvujete pregledu, dana: %s, u sali: %s",
+				pregled.getDatum().toString(), pregled.getSala().getNaziv()));
+
+		try {
+			javaMailSender.send(msg1);
+		} catch (MailException e) {
+			 e.printStackTrace();
+			System.out.println("Automatsko dodeljivanje termina pregleda pri slanju email-a lekaru");
+		}
+		
 		String str = "";
 		return new ResponseEntity<>(str, HttpStatus.OK);
 	
