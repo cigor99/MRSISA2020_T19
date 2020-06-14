@@ -87,7 +87,7 @@ $(document).ready(function () {
                         $("#reset").click(function(){
                             $.ajax({
                                 type: "get",
-                                url: "/klinicki-centar/lekar/pageForPacijent/" + 0 + "/" + 6 + "/" + window.klinika.id,
+                                url: "/klinicki-centar/lekar/pageForPacijent/" + 0 + "/" + 6 + "/" + window.klinika.id +"/" + window.tipID,
                                 success: function(data) {
                                     window.search = false;
                                     window.filter = false;
@@ -117,7 +117,7 @@ $(document).ready(function () {
                         $("#reset").click(function(){
                             $.ajax({
                                 type: "get",
-                                url: "/klinicki-centar/lekar/pageForPacijent/" + 0 + "/" + 6 + "/" + window.klinika.id,
+                                url: "/klinicki-centar/lekar/pageForPacijent/" + 0 + "/" + 6 + "/" + window.klinika.id+"/" + window.tipID,
                                 success: function(data) {
                                     window.search = false;
                                     window.filter = false;
@@ -144,7 +144,7 @@ $(document).ready(function () {
     $('#idemo').checked = true;
     $.ajax({
         type: "get",
-        url: "/klinicki-centar/lekar/pageForPacijent/" + 0 + "/" + 6 + "/" + window.klinika.id,
+        url: "/klinicki-centar/lekar/pageForPacijent/" + 0 + "/" + 6 + "/" + window.klinika.id+"/" + window.tipID,
         success: function(data) {
             window.search = false;
             window.filter = false;
@@ -562,7 +562,7 @@ $(document).ready(function () {
         if ($("#idemo").is(":checked") == true) {
             $.ajax({
                 type: "get",
-                url: "/klinicki-centar/lekar/pageForPacijent/" + od + "/" + dokle + "/" + window.klinika.id,
+                url: "/klinicki-centar/lekar/pageForPacijent/" + od + "/" + dokle + "/" + window.klinika.id+"/" + window.tipID,
                 success: function(data) {
                     tabela(data);
                 },
@@ -574,7 +574,7 @@ $(document).ready(function () {
         }
         $.ajax({
             type: "get",
-            url: "/klinicki-centar/lekar/pageForPacijent/" + od + "/" + dokle + "/" + window.klinika.id,
+            url: "/klinicki-centar/lekar/pageForPacijent/" + od + "/" + dokle + "/" + window.klinika.id+"/" + window.tipID,
             success: function(data) {
                 kartice(data);
             },
@@ -827,11 +827,11 @@ function pretragaDva(){
                         }
                     }
                 }
-                if(window.podaci = []){
+                /*if(window.podaci = []){
                     for(let star of stari){
                         window.podaci.push(star)
                     }
-                }
+                }*/
             }
             window.search = true;
             // window.filter = false;
@@ -899,11 +899,11 @@ function pretragaJedan(){
                         }
                     }
                 }
-                if(window.podaci = []){
+                /*if(window.podaci = []){
                     for(let star of stari){
                         window.podaci.push(star)
                     }
-                }
+                }*/
             }
             window.search = true;
             // window.filter = false;

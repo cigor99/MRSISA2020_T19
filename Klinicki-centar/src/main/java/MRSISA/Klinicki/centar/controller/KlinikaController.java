@@ -33,13 +33,17 @@ import MRSISA.Klinicki.centar.domain.Cena;
 import MRSISA.Klinicki.centar.domain.Klinika;
 import MRSISA.Klinicki.centar.domain.Lek;
 import MRSISA.Klinicki.centar.domain.Lekar;
+import MRSISA.Klinicki.centar.domain.Operacija;
 import MRSISA.Klinicki.centar.domain.Pacijent;
 import MRSISA.Klinicki.centar.domain.Pregled;
+import MRSISA.Klinicki.centar.domain.StanjeZahteva;
 import MRSISA.Klinicki.centar.domain.TipPregleda;
+import MRSISA.Klinicki.centar.domain.ZahtevZaGodisnjiOdmor;
 import MRSISA.Klinicki.centar.dto.AdminKDTO;
 import MRSISA.Klinicki.centar.dto.Admin_klinikaDTO;
 import MRSISA.Klinicki.centar.dto.KlinikaDTO;
 import MRSISA.Klinicki.centar.dto.LekDTO;
+import MRSISA.Klinicki.centar.dto.LekarDTO;
 import MRSISA.Klinicki.centar.dto.PacijentDTO;
 import MRSISA.Klinicki.centar.dto.PretragaKlinikaDTO;
 import MRSISA.Klinicki.centar.service.AdminKService;
@@ -196,7 +200,10 @@ public class KlinikaController {
 			return new ResponseEntity<>(new KlinikaDTO(klinika), HttpStatus.OK);
 		}
 	}
-
+	
+	/*
+	 * Funckija koja vraca id trenutno ulogovanog administratora klinike
+	 */
 	@GetMapping("/klinika/getCurrent")
 	public ResponseEntity<Integer> getCurrent() {
 		AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
@@ -207,6 +214,9 @@ public class KlinikaController {
 
 	}
 
+	/*
+	 * Funckija koja vraca cenu po tipu pregleda
+	 */
 	@GetMapping("/klinika/getCenaTipaPoID/{idKlinike}/{idTipa}")
 	public ResponseEntity<Double> getCenaTipaPoID(@PathVariable Integer idKlinike, @PathVariable Integer idTipa) {
 		Klinika klinika = klinikaService.findOne(idKlinike);
@@ -222,6 +232,9 @@ public class KlinikaController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
+	/*
+	 * Funckija kojom pacijent vrsi pretragu klinika
+	 */
 	@PostMapping("/klinika/searchPacijentoviParametri")
 	public ResponseEntity<Set<KlinikaDTO>> searchKlinikaPacijentoviParametri(@RequestBody PretragaKlinikaDTO pretraga) {
 		Set<KlinikaDTO> retVal = new HashSet<>();
@@ -233,19 +246,10 @@ public class KlinikaController {
 			}
 			for (Lekar l : k.getLekari()) {
 				if (l.getTipoviPregleda().contains(tip)) {
-					for (Pregled p : pregledi) {
-						if ((p.getLekar().getId().equals(l.getId()))) {
-							if (!proveriZauzetost(p.getDatum(), pretraga.datum)) {
-								KlinikaDTO dto = new KlinikaDTO(k);
-								if (!retVal.contains(dto)) {
-									retVal.add(dto);
-								}
-							}
-						} else {
-							KlinikaDTO dto = new KlinikaDTO(k);
-							if (!retVal.contains(dto)) {
-								retVal.add(dto);
-							}
+					if(!proveriZauzetosti(l, pretraga.datum)) {
+						KlinikaDTO dto = new KlinikaDTO(k);
+						if (!retVal.contains(dto)) {
+							retVal.add(dto);
 						}
 					}
 				}
@@ -254,15 +258,74 @@ public class KlinikaController {
 		}
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
+	
+	/*
+	 * Funkcija koja vrsi roveru da li je lekar zauzet u tom danu
+	 */
+	private boolean proveriZauzetosti(Lekar l, Date pretraga) {
+		Klinika klinika = l.getKlinika();
+		Date pocetak = new Date();
+		Date kraj = new Date();
+		pocetak.setTime(pretraga.getTime());
+		kraj.setTime(pretraga.getTime());
+		final long ONE_MINUTE_IN_MILLIS = 60000;
+		
+		String pocetakString = klinika.getPocetakRadnogVremena();
+		String[] pocetakTokens = pocetakString.split(":");
+		int pocetakSat = Integer.parseInt(pocetakTokens[0]);
+		int pocetakMinut = Integer.parseInt(pocetakTokens[1]);
+		pocetakMinut += pocetakSat * 60;
+		pocetak.setTime(pocetak.getTime() + pocetakMinut * ONE_MINUTE_IN_MILLIS);
+		
+		String krajString = klinika.getKrajRadnogVremena();
+		String[] krajTokens = krajString.split(":");
+		int krajSat = Integer.parseInt(krajTokens[0]);
+		int krajMinut = Integer.parseInt(krajTokens[1]);
+		krajMinut += krajSat * 60;
+		kraj.setTime(kraj.getTime() + krajMinut * ONE_MINUTE_IN_MILLIS);
+		
+		Date porednjenje = new Date();
+		while (pocetak.before(kraj)) {
+			boolean uslov = true;
+			for (Pregled pregled : l.getPregledi()) {
+				porednjenje.setTime(
+						pregled.getDatum().getTime() + pregled.getTipPregleda().getTrajanje() * ONE_MINUTE_IN_MILLIS);
 
-	private boolean proveriZauzetost(Date pregled, Date pretraga) {
-		if (pregled.getYear() == pretraga.getYear()) {
-			if (pregled.getMonth() == pretraga.getMonth()) {
-				if (pregled.getDay() == pretraga.getDay()) {
-					return true;
+				if (pocetak.after(pregled.getDatum()) && pocetak.before(porednjenje)
+						|| pocetak.equals(pregled.getDatum()) || pocetak.equals(porednjenje)) {
+					// pocetak = new Date(krajPregleda.getTime()+15*ONE_MINUTE_IN_MILLIS);
+					// continue;
+					uslov = false;
+				}
+
+			}
+
+			for (Operacija operacija : l.getOperacije()) {
+				porednjenje.setTime(operacija.getDatum().getTime() + operacija.getTrajanje() * ONE_MINUTE_IN_MILLIS);
+
+				if (pocetak.after(operacija.getDatum()) && pocetak.before(porednjenje)
+						|| pocetak.equals(operacija.getDatum()) || pocetak.equals(porednjenje)) {
+					uslov = false;
 				}
 			}
+
+			for (ZahtevZaGodisnjiOdmor zahtev : l.getZahteviZaGodisnji()) {
+
+				if (zahtev.getStanjeZahteva().equals(StanjeZahteva.PRIHVACEN)) {
+					if (pocetak.after(zahtev.getPocetniDatum()) && pocetak.before(zahtev.getKrajnjiDatum())
+							|| zahtev.getKrajnjiDatum().equals(pocetak) || zahtev.getPocetniDatum().equals(pocetak)) {
+						uslov = false;
+					}
+				}
+			}
+
+			if (uslov) {
+				return false;
+			} else {
+				pocetak.setTime(pocetak.getTime() + 15 * ONE_MINUTE_IN_MILLIS);
+			}
+
 		}
-		return false;
+		return true;
 	}
 }

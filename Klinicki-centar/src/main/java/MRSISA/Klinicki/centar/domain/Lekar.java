@@ -49,7 +49,7 @@ public class Lekar {
 	private List<Ocena> ocene = new ArrayList<Ocena>();
 	
 	@Column(name = "ocena", unique = false)
-	private Double prosecnaOcena = 3.0;
+	private Double prosecnaOcena = 0.0;
 
 	@ManyToOne
 	@JoinColumn(name = "klinika", referencedColumnName = "ID_Klinike", nullable = false)
@@ -129,7 +129,7 @@ public class Lekar {
 		//System.out.println(this.toString());
 		int i = this.ocene.size();
 		if(i == 0) {
-			return 3.0;
+			return 0.0;
 		}
 		for(Ocena o : this.ocene) {
 			int ocena = o.ordinal()+1;

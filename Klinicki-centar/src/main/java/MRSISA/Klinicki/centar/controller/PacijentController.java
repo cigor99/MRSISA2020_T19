@@ -356,21 +356,6 @@ public class PacijentController {
 				}
 			}
 		}
-		/*for (Pacijent pacijent : pacijentService.findAll()) {
-			if (kriterijum.equalsIgnoreCase("ime")) {
-				if (pacijent.getIme().equalsIgnoreCase(vrednost)) {
-					retVal.add(new PacijentDTO(pacijent));
-				}
-			} else if (kriterijum.equalsIgnoreCase("prezime")) {
-				if (pacijent.getPrezime().equalsIgnoreCase(vrednost)) {
-					retVal.add(new PacijentDTO(pacijent));
-				}
-			} else if (kriterijum.equalsIgnoreCase("Jedin. br. pacijenta")) {
-				if (pacijent.getJedinstveniBrOsig().equalsIgnoreCase(vrednost)) {
-					retVal.add(new PacijentDTO(pacijent));
-				}
-			}
-		}*/
 
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
@@ -393,6 +378,9 @@ public class PacijentController {
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
 	
+	/*
+	 * Funkcija koja vraca istoriju pregleda za pacijenta
+	 */
 	@GetMapping("/istorijaPregleda")
 	public ResponseEntity<Set<PregledDTO>> getIstorijaPregleda(){
 		Set<PregledDTO> istorija = new HashSet<>();
@@ -413,6 +401,9 @@ public class PacijentController {
 		
 	}
 	
+	/*
+	 * Funkcija koja vraca istoriju operacija za pacijenta
+	 */
 	@GetMapping("/istorijaOperacija")
 	public ResponseEntity<Set<OperacijaDTO>> getIstorijaOperacija(){
 		Set<OperacijaDTO> istorija = new HashSet<>();

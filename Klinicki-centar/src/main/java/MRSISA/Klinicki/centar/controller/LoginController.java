@@ -61,15 +61,6 @@ public class LoginController {
 	@Autowired
 	HttpServletRequest request;
 	
-	
-	/*Object obj = request.getSession().getAttribute("current");
-		Lekar l2 = (Lekar) obj;
-		System.out.println(l2.getIme());
-	 */
-	
-	
-
-	
 	/*Post zahtev
 	 * Funkcija za prijavu na sistem
 	 *Proverava se da li su svi podaci ispravno uneseni
@@ -150,19 +141,27 @@ public class LoginController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
-	
+	/*
+	 * Funckija koja vraca tip ulogovanog korisnika
+	 */
 	@GetMapping("/tipKorisnika")
 	public ResponseEntity<String> getTipKorisnika(){
 		String tip = (String) request.getSession().getAttribute("tip");
 		return new ResponseEntity<>(tip, HttpStatus.OK);
 	}
 	
+	/*
+	 * Funckija koja vraca trenutno ulogovanog korisnika
+	 */
 	@GetMapping("/getLoggedUser")
 	public ResponseEntity<Osoba> getLoggedUser(){
 		Osoba osoba = (Osoba) request.getSession().getAttribute("current");
 		return new ResponseEntity<>(osoba, HttpStatus.OK);
 	}
 	
+	/*
+	 * Funckija u kojoj se vrsi odjavljivanje korisnika
+	 */
 	@GetMapping("/logout")
 	public ResponseEntity<String> logOut(){
 		request.getSession().setAttribute("tip", "");

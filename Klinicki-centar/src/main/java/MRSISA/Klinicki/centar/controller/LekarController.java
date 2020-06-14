@@ -539,9 +539,9 @@ public class LekarController {
 	/*
 	 * Funkcija koja vracalistu lekara za prikaz pacijentu
 	 */
-	@GetMapping("/lekar/pageForPacijent/{stranica}/{koliko}/{klinika}")
+	@GetMapping("/lekar/pageForPacijent/{stranica}/{koliko}/{klinika}/{tipID}")
 	public ResponseEntity<List<LekarDTO>> getLekariOdDo(@PathVariable Integer stranica, @PathVariable Integer koliko,
-			@PathVariable Integer klinika) {
+			@PathVariable Integer klinika, @PathVariable String tipID) {
 		Pageable prvihDeset = PageRequest.of(stranica, koliko);
 		// , Sort.by("stanjePacijenta").descending().and(Sort.by("id")));
 		Page<Lekar> lekari = null;
@@ -554,7 +554,15 @@ public class LekarController {
 
 		for (Lekar l : lekari) {
 			if (l.getKlinika().getId().equals(klinika)) {
-				lekariDTO.add(new LekarDTO(l));
+				if(!tipID.equals("null")) {
+					TipPregleda tip = tipPregledaService.findOne(Integer.parseInt(tipID));
+					if(l.getTipoviPregleda().contains(tip)) {
+						lekariDTO.add(new LekarDTO(l));
+					}
+				}else {
+					lekariDTO.add(new LekarDTO(l));
+				}
+				
 			}
 		}
 
@@ -577,7 +585,7 @@ public class LekarController {
 			}
 
 			if (l.getTipoviPregleda().contains(tip)) {
-				if(proveriZauzetost2(l, pretraga.datum)) {
+				if(!proveriZauzetosti(l, pretraga.datum)) {
 					LekarDTO dto = new LekarDTO(l);
 					if (!retVal.contains(dto)) {
 						retVal.add(dto);
@@ -606,7 +614,10 @@ public class LekarController {
 		return new ResponseEntity<>(lekariDTO, HttpStatus.OK);
 	}
 
-	private boolean proveriZauzetost2(Lekar l, Date pretraga) {
+	/*
+	 * Funkcija za proveru da li lekar ima slobodan termin
+	 */
+	private boolean proveriZauzetosti(Lekar l, Date pretraga) {
 		Klinika klinika = l.getKlinika();
 		Date pocetak = new Date();
 		Date kraj = new Date();

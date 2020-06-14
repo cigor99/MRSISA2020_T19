@@ -99,6 +99,9 @@ public class PregledController {
 	@Autowired
 	private ConfirmationTokenPregledService tokenPregledService;
 
+	/*
+	 * Funkcija koja vraca preglede
+	 */
 	@GetMapping("/all")
 	public ResponseEntity<List<PregledDTO>> getAllPregledi() {
 		List<Pregled> pregledi = pregledService.findAll();
@@ -176,7 +179,11 @@ public class PregledController {
 		return new ResponseEntity<>(preglediDTO, HttpStatus.OK);
 		// return new ResponseEntity<>(HttpStatus.OK);
 	}
-
+	
+	
+	/*
+	 * Funkcija u kojoj se dodaje nov pregled
+	 */
 	@PostMapping("/add")
 	public ResponseEntity<PregledDTO> addPregled(@RequestBody PregledDTO pregledDTO) {
 		Pregled pregled = new Pregled();
@@ -214,6 +221,9 @@ public class PregledController {
 		return new ResponseEntity<>(new PregledDTO(pregled), HttpStatus.CREATED);
 	}
 	
+	/*
+	 * Funckija za brisanje pregleda
+	 */
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<Void> deletePregled(@PathVariable Integer id){
 		Pregled p = pregledService.findOne(id);
@@ -254,6 +264,9 @@ public class PregledController {
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
 
+	/*
+	 * Funkcija u kojoj se vrsi zakazivanje vec definisanih pregleda
+	 */
 	@PostMapping("/brzoZakazivanje/{idPregleda}")
 	public ResponseEntity<PregledDTO> brzoZakazivanje(@PathVariable Integer idPregleda) {
 		List<Pregled> pregledi = pregledService.findAll();
@@ -294,6 +307,9 @@ public class PregledController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
+	/*
+	 * Funckija koja vraca vec definisane preglede odredjene klinike
+	 */
 	@GetMapping("/definisaniPregledi/{idKlinike}")
 	public ResponseEntity<Object> definisaniPregledi(@PathVariable Integer idKlinike) {
 		List<Pregled> pregledi = pregledService.findAll();
@@ -312,6 +328,9 @@ public class PregledController {
 
 	}
 
+	/*
+	 * Funckija u kojoj se vrsi zakazivanje pregleda koji pacijent definise
+	 */
 	@PostMapping("/zakaziSvoj")
 	public ResponseEntity<Object> zakaziSvoj(@RequestBody SlanjeZahtevaZaPregledDTO zahtev) {
 		Lekar lekar = lekarService.findOne(zahtev.getLekarID());
@@ -388,6 +407,9 @@ public class PregledController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
+	/*
+	 * Funckija koja vraca slobodne termine lekara
+	 */
 	@GetMapping("/slobodniTermini/{idLekara}/{datum}")
 	public ResponseEntity<Object> slobodniTermini(@PathVariable Integer idLekara, @PathVariable String datum) {
 
@@ -468,8 +490,9 @@ public class PregledController {
 		List<String> retVal = new ArrayList<String>();
 		for (Date d : slobodni) {
 			String string = "";
+			System.out.println(d.getMinutes());
 			if (d.getMinutes() < 9) {
-				string += d.getHours() + ":" + d.getMinutes();
+				string += d.getHours() + ":0" + d.getMinutes();
 			} else {
 				string += d.getHours() + ":" + d.getMinutes();
 			}
@@ -478,6 +501,9 @@ public class PregledController {
 		return new ResponseEntity<Object>(retVal, HttpStatus.OK);
 	}
 
+	/*
+	 * Funckija u kojoj se vrsi potvrda pregleda sa pacijentove strane
+	 */
 	@GetMapping("/potvrdiPregled/{token}")
 	public ResponseEntity<String> potvrdiPregled(@PathVariable String token) {
 		ConfirmationTokenPregled confToken = tokenPregledService.finByToken(token);
@@ -495,7 +521,10 @@ public class PregledController {
 		}
 
 	}
-
+	
+	/*
+	 * Funckija u kojoj se vrsi odbijanje pregleda sa pacijentove strane
+	 */
 	@GetMapping("/odbijPregled/{token}")
 	public ResponseEntity<String> odbijPregled(@PathVariable String token) {
 		ConfirmationTokenPregled confToken = tokenPregledService.finByToken(token);
