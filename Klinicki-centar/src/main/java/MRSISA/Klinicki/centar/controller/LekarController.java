@@ -166,12 +166,16 @@ public class LekarController {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if (zahtev.getStanjeZahteva().equals(StanjeZahteva.PRIHVACEN)) {
-					if (zahtevDatum.after(zahtev.getPocetniDatum()) && zahtevDatum.before(zahtev.getKrajnjiDatum())
-							|| zahtev.getKrajnjiDatum().equals(zahtevDatum)
-							|| zahtev.getPocetniDatum().equals(zahtevDatum)) {
-						uslov = false;
+				try {
+					if (zahtev.getStanjeZahteva().equals(StanjeZahteva.PRIHVACEN)) {
+						if (zahtevDatum.after(zahtev.getPocetniDatum()) && zahtevDatum.before(zahtev.getKrajnjiDatum())
+								|| zahtev.getKrajnjiDatum().equals(zahtevDatum)
+								|| zahtev.getPocetniDatum().equals(zahtevDatum)) {
+							uslov = false;
+						}
 					}
+				}catch (NullPointerException e) {
+					e.printStackTrace();
 				}
 
 			}
