@@ -49,7 +49,7 @@ $(document).ready(function() {
             }
         },
         error: function(jqXHR) {
-            alert("Error: " + jqXHR.status + ", " + JSON.parse(jqXHR.responseText).error);
+            alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
         }
     });
 
@@ -77,6 +77,9 @@ function prihvati(IDZahteva) {
                 // $("#prihvatiTD" + IDZahteva).remove()
                 $("#odbij" + IDZahteva).remove()
                 $("#prihvatiTD" + IDZahteva).remove()
+            },
+            error: function(jqXHR) {
+                alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
             }
         });
     } else {
@@ -112,12 +115,16 @@ function odbij(IDZahteva, idPacijenta) {
                 $("#td" + IDZahteva).html("ODBIJEN")
                 $("#odbij" + IDZahteva).remove()
                 $("#prihvatiTD" + IDZahteva).remove()
+                window.open("odbijeno.html?id=" + idPacijenta,
+                    'newwindow',
+                    'width=700,height=400');
+            },
+            error: function(jqXHR) {
+                alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
             },
             async: false
         });
-        window.open("odbijeno.html?id=" + idPacijenta,
-            'newwindow',
-            'width=700,height=400');
+
 
     } else {
         return;

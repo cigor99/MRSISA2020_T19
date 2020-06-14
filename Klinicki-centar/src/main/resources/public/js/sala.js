@@ -90,6 +90,8 @@ function proveriKorisnika() {
             if (tipKorisnika == "lekar") {
                 $("#dodajSalu").css('visibility', 'hidden');
 
+
+            } else if (tipKorisnika == 'adminKlinike') {
                 let div = $("#podaci");
 
                 let datumDIV = $("<div><b>Datum: </b></div>");

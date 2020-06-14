@@ -45,4 +45,30 @@
       <property name="javax.persistence.sql-load-script-source" value="data.sql"/>
     </properties>
   </persistence-unit>
+  
+  <persistence-unit name="prihvatiZZR" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <class>Klinicki-centar.optimistic.ZahtevZaRegistraciju</class>
+    <properties>
+      <property name="hibernate.connection.driver_class" value="org.h2.Driver"/>
+      <property name="hibernate.connection.url" value="jdbc:h2:mem:test;LOCK_TIMEOUT=10000"/>
+      <property name="hibernate.connection.username" value="sa"/>
+      <property name="hibernate.connection.password" value=""/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+      <property name="javax.persistence.sql-load-script-source" value="data.sql"/>
+    </properties>
+  </persistence-unit>
+  
+   <persistence-unit name="odbijZZR" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <class>Klinicki-centar.optimistic.ZahtevZaRegistraciju</class>
+    <properties>
+      <property name="hibernate.connection.driver_class" value="org.h2.Driver"/>
+      <property name="hibernate.connection.url" value="jdbc:h2:mem:test;LOCK_TIMEOUT=10000"/>
+      <property name="hibernate.connection.username" value="sa"/>
+      <property name="hibernate.connection.password" value=""/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+      <property name="javax.persistence.sql-load-script-source" value="data.sql"/>
+    </properties>
+  </persistence-unit>
 </persistence>

@@ -11,7 +11,7 @@ $(document).ready(function() {
                 $("#email").val(data.email);
             },
             error: function(jqXHR) {
-                alert("Error: " + jqXHR.status + ", " + JSON.parse(jqXHR.responseText).error);
+                alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
             },
             async: false,
         })
@@ -49,12 +49,12 @@ $(document).ready(function() {
                 subject: "Razlog odbijanja zahteva za registraciju na klinički centar"
             }),
             success: function() {
-                    alert("USPESNO STE POSLALI EMAIL")
-                    window.close()
-                }
-                // }, error: function (jqXHR) {
-                //     alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
-                // },
+                alert("USPESNO STE POSLALI EMAIL")
+                window.close()
+            },
+            error: function(jqXHR) {
+                alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+            },
 
         })
     }
