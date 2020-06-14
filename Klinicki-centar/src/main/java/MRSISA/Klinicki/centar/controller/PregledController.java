@@ -238,7 +238,7 @@ public class PregledController {
 			if (p.getId().equals(idPregleda)) {
 				if (p.isSlobodan()) {
 					p.setSlobodan(false);
-					ZahtevZaPregled zzp = new ZahtevZaPregled(1, StanjeZahteva.NA_CEKANJU, p);
+					ZahtevZaPregled zzp = new ZahtevZaPregled(1, StanjeZahteva.NA_CEKANJU, p, new Date());
 					PacijentDTO pacijentDTO = (PacijentDTO) request.getSession().getAttribute("current");
 					Pacijent pacijent = pacijentService.findOne(pacijentDTO.getId());
 					if (pacijent == null) {
@@ -304,8 +304,10 @@ public class PregledController {
 		long time = sati * 60 + minuti;
 		time = time * 60000;
 		Date datum = new Date(zahtev.getDatum().getTime() + time);
-		Pregled pregled = new Pregled(1, datum, null, lekar, tipPregleda, pacijent, 0, false, null, null, null);
-		ZahtevZaPregled zzp = new ZahtevZaPregled(1, StanjeZahteva.NA_CEKANJU, pregled);
+		Pregled pregled = new Pregled(0, datum, null, lekar, tipPregleda, pacijent, 0, false, null, null, null);
+		System.out.println("ordinal: " + StanjeZahteva.NA_CEKANJU.ordinal());
+		ZahtevZaPregled zzp = new ZahtevZaPregled(0, StanjeZahteva.NA_CEKANJU, pregled, new Date());
+		System.out.println(zzp);
 		Set<AdministratorKlinike> admini = lekar.getKlinika().getAdministratori();
 		SimpleMailMessage msg = new SimpleMailMessage();
 		for (AdministratorKlinike admin : admini) {
@@ -329,7 +331,6 @@ public class PregledController {
 	@PostMapping("/posaljiZahtev/{idPacijenta}/{datum}/{pregledID}")
 	public ResponseEntity<PregledDTO> zakazivanjePregleda(@PathVariable Integer idPacijenta, @PathVariable String datum,
 			@PathVariable Integer pregledID) {
-		System.out.println(datum);
 		ZahtevZaPregled zzp = new ZahtevZaPregled();
 		zzp.setStanje(StanjeZahteva.NA_CEKANJU);
 		zzp.setDatumSlanja(new Date(System.currentTimeMillis()));

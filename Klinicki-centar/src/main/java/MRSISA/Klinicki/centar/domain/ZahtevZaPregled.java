@@ -26,7 +26,7 @@ public class ZahtevZaPregled {
 	@Column(name = "datum_slanja", unique = false, nullable = false)
 	private Date datumSlanja;
 
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.ALL})
 	@JoinColumn(name = "pregled", referencedColumnName = "ID_Pregleda", nullable = false)
 	private Pregled pregled;
 
@@ -34,18 +34,22 @@ public class ZahtevZaPregled {
 		super();
 	}
 
-	public ZahtevZaPregled(Integer id, StanjeZahteva stanjeZahteva, Pregled pregled) {
+	public ZahtevZaPregled(Integer id, StanjeZahteva stanjeZahteva, Pregled pregled, Date datumSlanja) {
 		super();
 		this.id = id;
 		this.stanjeZahteva = stanjeZahteva;
 		this.pregled = pregled;
+		this.datumSlanja = datumSlanja;
 	}
 	
 	
 
+	
+
 	@Override
 	public String toString() {
-		return "ZahtevZaPregled pregled id=" + pregled.getId() + "pacijent" + pregled.getPacijent().getId() +"]";
+		return "ZahtevZaPregled [id=" + id + ", stanjeZahteva=" + stanjeZahteva + ", datumSlanja=" + datumSlanja
+				+ ", pregled=" + pregled.getId() + "]";
 	}
 
 	public Integer getId() {

@@ -63,7 +63,9 @@ public class ZahtevZaRezervacijuController {
 		List<ZahtevZaPregledDTO> retVal = new ArrayList<ZahtevZaPregledDTO>();
 		AdminKDTO admink = (AdminKDTO) request.getSession().getAttribute("current");
 		int klinika = admink.getKlinikaID();
+		System.out.println("Usao");
 		for (ZahtevZaPregled zahtev : zahtevi) {
+			System.out.println(zahtev);
 			int idk = zahtev.getPregled().getLekar().getKlinika().getId();
 			if (zahtev.getStanjeZahteva().equals(StanjeZahteva.NA_CEKANJU) && idk == klinika) {
 				System.out.println(zahtev.getStanje());
@@ -74,7 +76,7 @@ public class ZahtevZaRezervacijuController {
 		return new ResponseEntity<>(retVal, HttpStatus.OK);
 	}
 	
-	@Scheduled(cron = "0 * * * * *") // 0 59 23
+	@Scheduled(cron = "0 59 23 * * *") // 0 59 23
 	public void autoDodelaTermina() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		List<ZahtevZaPregled> zahtevi = zzpService.findAll();
