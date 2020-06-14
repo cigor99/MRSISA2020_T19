@@ -87,7 +87,6 @@ function pretraga(){
 		dateTokens[2] = dateTokens[2].split()[1]
 	}
 	var date = new Date(dateTokens[2], dateTokens[0], dateTokens[1]);
-	window.datum = dateTokens[2]+";"+dateTokens[0]+";"+dateTokens[1];
 	var tdint = parseInt(tdd);
 	var tmint = parseInt(tmm);
 	var tyint = parseInt(tyyyy);
@@ -112,6 +111,7 @@ function pretraga(){
 		}
 	}
 
+	window.datum = dateTokens[2]+";"+dateTokens[0]+";"+dateTokens[1];
 
 	var tipID = null;
 	let tipNaz = $("#tip").val();
@@ -206,7 +206,9 @@ function pretraga(){
                 holder.append(table);
             }
 
-		},
+		},error: function(jqXHR) {
+			alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+		}
         
 	});
 }
@@ -253,7 +255,9 @@ $.ajax({
 			holder.append(table);
 		}
 
-	},
+	},error: function(jqXHR) {
+		alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+	}
 	
 });
 }

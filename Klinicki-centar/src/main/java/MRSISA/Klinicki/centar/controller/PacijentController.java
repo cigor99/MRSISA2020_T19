@@ -419,12 +419,6 @@ public class PacijentController {
 		Object current = request.getSession().getAttribute("current");
 		PacijentDTO curr = null;
 		Set<String> lekari = new HashSet<>();
-		for(int i = 0; i< 5; i++) {
-			lekari.add("TEST PODACI"+i);
-		}
-		System.out.println(lekari);
-		OperacijaDTO operDTO1 = new OperacijaDTO(1, "2020-01-01 16:00", "2020-01-01", "16:00", "sala1", "tip1", 500.0, 2, 1, lekari);
-		OperacijaDTO operDTO2 = new OperacijaDTO(2, "2020-01-01 16:00", "2020-01-01", "16:00", "sala1", "tip1", 500.0, 2, 1, lekari);
 		try {
 			curr = (PacijentDTO) current;
 		}catch (ClassCastException e) {
@@ -432,11 +426,9 @@ public class PacijentController {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 		Pacijent p = pacijentService.findOne(curr.getId());
-		/*for(Operacija operacija : p.getIstorijaOperacija()) {
+		for(Operacija operacija : p.getIstorijaOperacija()) {
 			istorija.add(new OperacijaDTO(operacija));
-		}*/
-		istorija.add(operDTO1);
-		istorija.add(operDTO2);
+		}
 		
 		
 		return new ResponseEntity<>(istorija, HttpStatus.OK);

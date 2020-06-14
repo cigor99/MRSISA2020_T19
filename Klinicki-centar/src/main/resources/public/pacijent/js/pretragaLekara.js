@@ -4,10 +4,8 @@ $(document).ready(function () {
     var imeParam = urlTok[0].split("=")[1];
     var nacin = urlTok[1].split("=")[1]
     var datum = urlTok[2].split("=")[1]
-    window.datum = datum
+    window.datum = datum;
     var tip = urlTok[3].split("=")[1]
-    console.log(datum)
-    console.log(tip)
     window.tipID = tip;
     window.nacin = nacin
     if(imeParam == undefined){
@@ -216,9 +214,14 @@ $(document).ready(function () {
                 karton.attr("class", 'del');
                 let a = $("<a>Izaberi</a>")
                 a.attr("class", 'btn');
-                a.attr("href", 'zakazivanjePregleda.html?id=' + lekar.id +"&klinika=" + window.klinika.id)
+               
                 
-                karton.append(a);
+                a.attr("href", 'zakazivanjePregleda.html?id=' + lekar.id +"&klinika=" + window.klinika.id + "&datum=" + window.datum + "&tipID=" + window.tipID)
+                
+                if(window.datum != "null" && window.tipID != "null"){
+                    karton.append(a);
+                }
+                
                 ul.append(karton)
 
                 well.append(img);
@@ -279,7 +282,8 @@ $(document).ready(function () {
                 // let TDkarton = $("<td>" + "<a href=\"pacijentProfil.html?id=" + pacijent.id + "\">Karton</a></td>")
                 let TDprofil = $("<td></td>")
                 let profil = $("<a>Profil lekara</a>")
-                profil.attr("href", 'zakazivanjePregleda.html?id=' + lekar.id +"&klinika=" + window.klinika.id)
+                profil.attr("href", 'zakazivanjePregleda.html?id=' + lekar.id +"&klinika=" + window.klinika.id + "&datum=" + window.datum + "&tipID=" + window.tipID)
+                
                 TDprofil.append(profil);
 
                 // tr.append(idTD)
@@ -288,7 +292,9 @@ $(document).ready(function () {
                     // tr.append(polTD)
                 tr.append(emailTD)
                 tr.append(ocenaTD)
-                tr.append(TDprofil)
+                if(window.datum != "null" && window.tipID != "null"){
+                    tr.append(TDprofil)
+                }
                 tbody.append(tr)
             }
         }
@@ -700,7 +706,7 @@ function pretragaDva(){
 	if(dateTokens[2].split()[0] == "0"){
 		dateTokens[2] = dateTokens[2].split()[1]
 	}
-	var date = new Date(dateTokens[2], dateTokens[0], dateTokens[1]);
+    var date = new Date(dateTokens[2], dateTokens[0], dateTokens[1]);
 	
 	var tdint = parseInt(tdd);
 	var tmint = parseInt(tmm);
@@ -725,7 +731,7 @@ function pretragaDva(){
 			}
 		}
 	}
-
+    window.datum = dateTokens[2]+";"+dateTokens[0]+";"+dateTokens[1];
 
 	var tipID = null;
 	let tipNaz = $("#tip").val();
@@ -749,7 +755,8 @@ function pretragaDva(){
 	if (tipID == null){
 		alert("Tip nije pronadjen")
 		return;
-	}
+    }
+    window.tipID = tipID;
 	let oc = $("#ocenaSel").val()
 	var ocenaTokens = oc.split("+");
 	var parametri = JSON.stringify({

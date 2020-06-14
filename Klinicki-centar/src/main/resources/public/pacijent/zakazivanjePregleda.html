@@ -22,7 +22,8 @@
             float: none;
         }
     </style>
-
+    
+<script src="js/logout.js"></script>
 </head>
 
 <body>
@@ -47,7 +48,7 @@
 
     <div class="forma-za-dodavanje">
         <form action="">
-            <div class="form-group" id="datum">
+            <div class="form-group">
                 <label>Datum:</label>
                 <input type="text" class="form-control" id="datum" readonly>
             </div>
@@ -75,16 +76,8 @@
                 <p id="cenaError" style="display:hidden"></p>
             </div>
             
-            <div class="form-group">
-                <label for="sala">Sala:</label>
-                <select class="form-control" id="salaSelect">
-				</select>
-				<button class="button" type="button" onclick="javascript:pretraziSale()">Pretrazi sale</button>
-                <p id="salaError" style="display:hidden"></p>
-            </div>        
-            
             <div>
-            <a id="nazad">Nazad na pretragu lekara</a>
+            <input type="button" id="potvrdi" value="Posalji zahtev">
             </div>
             
         </form>

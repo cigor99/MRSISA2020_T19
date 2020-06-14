@@ -3,10 +3,15 @@ package MRSISA.Klinicki.centar.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import MRSISA.Klinicki.centar.domain.AdministratorKlinike;
 import MRSISA.Klinicki.centar.domain.Klinika;
 import MRSISA.Klinicki.centar.domain.Lekar;
+import MRSISA.Klinicki.centar.domain.Operacija;
 import MRSISA.Klinicki.centar.domain.Pacijent;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -38,12 +44,14 @@ import MRSISA.Klinicki.centar.domain.Sala;
 import MRSISA.Klinicki.centar.domain.StanjeZahteva;
 import MRSISA.Klinicki.centar.domain.TipKorisnika;
 import MRSISA.Klinicki.centar.domain.TipPregleda;
+import MRSISA.Klinicki.centar.domain.ZahtevZaGodisnjiOdmor;
 import MRSISA.Klinicki.centar.domain.ZahtevZaPregled;
 import MRSISA.Klinicki.centar.dto.AdminKDTO;
 import MRSISA.Klinicki.centar.dto.LekarDTO;
 import MRSISA.Klinicki.centar.dto.PacijentDTO;
 import MRSISA.Klinicki.centar.dto.PregledDTO;
 import MRSISA.Klinicki.centar.dto.SalaDTO;
+import MRSISA.Klinicki.centar.dto.SlanjeZahtevaZaPregledDTO;
 import MRSISA.Klinicki.centar.service.LekarService;
 import MRSISA.Klinicki.centar.service.PacijentService;
 import MRSISA.Klinicki.centar.service.PregledService;
@@ -237,7 +245,7 @@ public class PregledController {
 					Set<AdministratorKlinike> admini = klinika.getAdministratori();
 					SimpleMailMessage msg = new SimpleMailMessage();
 					for(AdministratorKlinike admin: admini) {
-						msg.setTo("igi.l.1999@gmail.com");
+						msg.setTo(admin.getEmail());
 						msg.setSubject("Novi zahtev za pregled");
 						msg.setText(zzp.toString());
 						try {
@@ -251,6 +259,7 @@ public class PregledController {
 						}
 					}
 					zzpService.save(zzp);
+					//pregledService.save(p);
 					return new ResponseEntity<>(new PregledDTO(), HttpStatus.CREATED);
 				}
 			}
@@ -275,5 +284,141 @@ public class PregledController {
 		return new ResponseEntity<>(slobodni, HttpStatus.OK);
 		
 	}
+	
+	@PostMapping("/zakaziSvoj")
+	public ResponseEntity<Object> zakaziSvoj(@RequestBody SlanjeZahtevaZaPregledDTO zahtev){
+		Lekar lekar = lekarService.findOne(zahtev.getLekarID());
+		TipPregleda tipPregleda = tipPregledaService.findOne(zahtev.getTipID());
+		PacijentDTO pacijentDTO = (PacijentDTO) request.getSession().getAttribute("current");
+		Pacijent pacijent = pacijentService.findOne(pacijentDTO.getId());
+		if(pacijent == null || lekar==null || tipPregleda==null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		String[] tok = zahtev.getVreme().split(":");
+		int minuti = Integer.parseInt(tok[1]);
+		int sati = Integer.parseInt(tok[0]);
+		long time = sati*60+minuti;
+		time = time * 60000;
+		Date datum = new Date(zahtev.getDatum().getTime()+time);
+		Pregled pregled = new Pregled(1, datum, null, lekar, tipPregleda, pacijent, 0, false, null, null, null);
+		ZahtevZaPregled zzp = new ZahtevZaPregled(1, StanjeZahteva.NA_CEKANJU, pregled);
+		Set<AdministratorKlinike> admini = lekar.getKlinika().getAdministratori();
+		SimpleMailMessage msg = new SimpleMailMessage();
+		for(AdministratorKlinike admin: admini) {
+			msg.setTo(admin.getEmail());
+			msg.setSubject("Novi zahtev za pregled");
+			msg.setText(zzp.toString());
+			try {
+				javaMailSender.send(msg);
+			} catch (MailAuthenticationException e) {
+				// e.printStackTrace();
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			} catch (MailException e) {
+				// e.printStackTrace();
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}
+		zzpService.save(zzp);
+		return new ResponseEntity<>(new PregledDTO(), HttpStatus.CREATED);
+	}
 
+	
+	@GetMapping("/slobodniTermini/{idLekara}/{datum}")
+	public ResponseEntity<Object> slobodniTermini(@PathVariable Integer idLekara, @PathVariable String datum){
+
+		Lekar lekar = lekarService.findOne(idLekara);
+		Klinika klinika = lekar.getKlinika();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		Date pocetak = null;
+		Date kraj = new Date();
+		try {
+			pocetak = sdf.parse(datum);
+			kraj.setTime(pocetak.getTime());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		final long ONE_MINUTE_IN_MILLIS = 60000;
+		String pocetakString = klinika.getPocetakRadnogVremena();
+		String[] pocetakTokens = pocetakString.split(":");
+		int pocetakSat = Integer.parseInt(pocetakTokens[0]);
+		int pocetakMinut = Integer.parseInt(pocetakTokens[1]);
+		pocetakMinut += pocetakSat *60;
+		pocetak.setTime(pocetak.getTime() + pocetakMinut*ONE_MINUTE_IN_MILLIS);
+		
+		List<Date> slobodni = new ArrayList<Date>();
+		
+		String krajString = klinika.getKrajRadnogVremena();
+		String[] krajTokens = krajString.split(":");
+		int krajSat = Integer.parseInt(krajTokens[0]);
+		int krajMinut = Integer.parseInt(krajTokens[1]);
+		krajMinut += krajSat * 60;
+		kraj.setTime(kraj.getTime() + krajMinut * ONE_MINUTE_IN_MILLIS);
+		
+		Date porednjenje = new Date();
+		while(pocetak.before(kraj)) {
+			boolean uslov = true;
+			for (Pregled pregled : lekar.getPregledi()){
+				porednjenje.setTime(pregled.getDatum().getTime() + pregled.getTipPregleda().getTrajanje()*ONE_MINUTE_IN_MILLIS);
+				
+				if(pocetak.after(pregled.getDatum()) && pocetak.before(porednjenje) || pocetak.equals(pregled.getDatum()) || pocetak.equals(porednjenje)) {
+					//pocetak = new Date(krajPregleda.getTime()+15*ONE_MINUTE_IN_MILLIS);
+					//continue;
+					uslov = false;
+				}
+				
+			}
+			
+			for(Operacija operacija: lekar.getOperacije()) {
+				porednjenje.setTime(operacija.getDatum().getTime() + operacija.getTrajanje()*ONE_MINUTE_IN_MILLIS);
+				
+				if(pocetak.after(operacija.getDatum()) && pocetak.before(porednjenje) || pocetak.equals(operacija.getDatum()) || pocetak.equals(porednjenje)) {
+					//pocetak = new Date(krajOperacije.getTime()+15*ONE_MINUTE_IN_MILLIS);
+					//continue;
+					uslov = false;
+				}
+			}
+			
+			for (ZahtevZaGodisnjiOdmor zahtev : lekar.getZahteviZaGodisnji()) {
+				
+				if (zahtev.getStanjeZahteva().equals(StanjeZahteva.PRIHVACEN)) {
+					if (pocetak.after(zahtev.getPocetniDatum()) && pocetak.before(zahtev.getKrajnjiDatum())
+							|| zahtev.getKrajnjiDatum().equals(pocetak)
+							|| zahtev.getPocetniDatum().equals(pocetak)) {
+						//pocetak = new Date(zahtev.getKrajnjiDatum().getTime()+15*ONE_MINUTE_IN_MILLIS);
+						//continue;
+						uslov = false;
+					}
+				}
+			}
+			
+			if(uslov) {
+				Date dodaj = new Date();
+				dodaj.setTime(pocetak.getTime());
+				slobodni.add(dodaj);
+				System.out.println("dodao: " + dodaj);
+				pocetak.setTime(pocetak.getTime()+15*ONE_MINUTE_IN_MILLIS);
+			}else {
+				pocetak.setTime(pocetak.getTime()+15*ONE_MINUTE_IN_MILLIS);
+			}
+			
+		}
+		List<String> retVal = new ArrayList<String>();
+		for(Date d : slobodni) {
+			System.out.println(d);
+			String string = "";
+			if(d.getMinutes() == 0) {
+				string += d.getHours() + ":" + d.getMinutes();
+			}else {
+				string += d.getHours() + ":" + d.getMinutes();
+			}
+			System.out.println(string);
+			retVal.add(string);
+		}
+		for(String item : retVal) {
+			System.out.println(item);
+		}
+		return new ResponseEntity<Object>(retVal,HttpStatus.OK);
+	}
+	
 }

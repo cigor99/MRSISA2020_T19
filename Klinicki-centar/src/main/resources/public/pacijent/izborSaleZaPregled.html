@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Sale</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="../js/pregled.js"></script>
+<script src="../js/main.js"></script>
+<link href="style.css" rel="stylesheet">
+<script>
+	$(document).ready( function() {
+		//ucitajZaglavlje();		
+		ucitajSale();
+	});
+</script>
+</head>
+
+<body>
+<div id="navbardiv"></div>
+<div class="naslov">
+<h1>Izbor sale za pregled</h1>
+</div>
+
+<div class="filter" >
+	<form>
+	<div class="form-inline" style="visibility:visible">
+		<label for="date-time">Datum i vreme:</label>
+		<input class="form-control" style="max-width: 250px; margin-right: 20px" type="datetime-local" id="date-time"
+	      name="date-time"> <!-- value="2018-06-12T19:30"
+	      min="2018-06-07T00:00" max="2018-06-14T00:00"> -->		
+		<label for="tip">Trajanje pregleda u minutima:</label>
+		<input class="form-control" style="max-width: 250px; margin-right: 20px" id="trajanje" placeholder="Unesite trajanje pregleda">
+		<button class="button" type="button" onclick="javascript:datumVreme()">Ok</button>
+	</div>
+	</form>
+</div>
+
+<div class="main_div">
+
+<div class="table-holder">      
+  <table id="sale" name="sale" class="table">
+    <thead>
+      <tr>
+        <th id="id">ID</th>
+		<th id="naziv">Naziv</th>
+		<th id="tip">Tip sale</th>
+		<th></th>
+      </tr>
+    </thead>
+    <tbody id="table_body">
+    </tbody>
+  </table>	
+</div>
+</div>
+
+<div class="pretraga">
+<form>
+	<div class="form-group">
+	<input style="width: 220px;" type="text" id="trazi" placeholder="Pretraga.." name="search">
+	<button type="button" onclick="javascript:pretraga()"><i class="fa fa-search"></i></button>
+	</div>
+</form>
+</div>
+
+
+
+
+</body>
+</html>

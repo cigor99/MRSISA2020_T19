@@ -50,21 +50,21 @@ $(document).ready(function () {
 	        var idTH = $('<th id="ID">ID</th>');
 	        var datumTH = $('<th id="datum">Datum</th>');
 	        var vremeTH = $('<th id="vreme">Vreme</th>');
-            var tipTH = $('<th id="tip">Tip</th>');
+            //var tipTH = $('<th id="tip">Tip</th>');
             var salaTH = $('<th id="sala">Sala</th>');
             var lekarTH = $('<th id="lekar">Lekari</th>');
             var trajanjeTH = $('<th id="trajanje">Trajanje</th>')
-            var cenaTH = $('<th id="cena">Cena Operacije</th>');
+            //var cenaTH = $('<th id="cena">Cena Operacije</th>');
             
             var izaberiTH = $('<th>Detalji</th>');
 	        trHead.append(idTH);
 	        trHead.append(datumTH);
 	        trHead.append(vremeTH);
-	        trHead.append(tipTH);
+	        //trHead.append(tipTH);
 	        trHead.append(salaTH);
             trHead.append(lekarTH);
             trHead.append(trajanjeTH);
-            trHead.append(cenaTH);
+            //trHead.append(cenaTH);
             //trHead.append(izaberiTH);
 	        thead.append(trHead);
             table.append(thead);
@@ -74,7 +74,7 @@ $(document).ready(function () {
                 let idTD = $("<td>" + oper.id + "</td>")
                 let datumTD = $("<td>" + oper.datum + "</td>")
                 let vremeTD = $("<td>" + oper.vreme + "</td>")
-				let tipTD = $("<td>" + oper.tipPregleda + "</td>")
+				//let tipTD = $("<td>" + oper.tipPregleda + "</td>")
                 let salaTD = $("<td>" + oper.sala + "</td>")
                 let imena = ""
                 console.log(oper.lekari)
@@ -86,16 +86,16 @@ $(document).ready(function () {
                 imena = imena.substring(0, imena.length-2);
                 let lekarTD = $("<td>" + imena + "</td>")
                 let trajanjeTD = $("<td>" + oper.trajanje + "</td>")
-                let cenaTD = $("<td>" + oper.cena + "</td>")
+                //let cenaTD = $("<td>" + oper.cena + "</td>")
 
                 tr.append(idTD);
                 tr.append(datumTD);
                 tr.append(vremeTD)
-                tr.append(tipTD)
+               //tr.append(tipTD)
                 tr.append(salaTD)
                 tr.append(lekarTD)
                 tr.append(trajanjeTD)
-                tr.append(cenaTD)
+                //tr.append(cenaTD)
                 table.append(tr);
                 holder.append(table);
             }

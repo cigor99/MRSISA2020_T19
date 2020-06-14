@@ -1,8 +1,15 @@
 $(document).ready(function () {	
-	var imeCoded = window.location.href.split("?")[1];
-    var imeJednako = imeCoded.split("&")[0];
-    var imeParam = imeJednako.split("=")[1];
-    var klinikaParam = imeCoded.split("&")[1].split("=")[1];
+	var urlParametri = window.location.href.split("?")[1];
+    var urlTok = urlParametri.split("&");
+	var imeParam = urlTok[0].split("=")[1];
+	window.lekarID = imeParam
+	var klinikaParam = urlTok[1].split("=")[1];
+    var datum = urlTok[2].split("=")[1]
+    window.datum = datum;
+    var tip = urlTok[3].split("=")[1]
+	window.tipID = tip;
+	console.log(window.tipID)
+    console.log(window.lekarID)
     if(imeParam == undefined){
     	alert("Morate prvo izabrati lekara")
     	window.location.replace("/klinicki-centar/pretragaLekara.html");
@@ -40,7 +47,6 @@ $(document).ready(function () {
         type: "get",
         success: function(data) {
         	window.tipKorisnika = data
-        	console.log(data)
         },
         error: function(data){
         	alert("error getTipKorisnika")
@@ -70,11 +76,80 @@ $(document).ready(function () {
 		            
 		            var naslov = $("#naslov");
 		        	naslov.empty();
-		    		naslov.append('<h1>'+window.ulogovani.ime+" " + window.ulogovani.prezime+'</h1>');
-		    		naslov.append('<h1>Zakazi pregled</h1>');
+					naslov.append('<h1>Zakazi pregled</h1>');
+					
+					popuni()
 		    		
 		        }
 		 });
 	}
 	
 });
+
+function popuni(){
+	var datumTokens = window.datum.split(";")
+	var datString = datumTokens[2] + "/"+datumTokens[1]+"/"+datumTokens[0]
+	var pathString = datumTokens[2] + "-" + datumTokens[1] + "-" + datumTokens[0]
+	console.log(datString)
+	$("#datum").val(datString)
+
+	$.ajax({
+		type: 'get',
+		url: "/klinicki-centar/tipPregleda/all",
+		success: function(data){
+			for(tipPregleda of data){
+				if (tipPregleda.id == window.tipID){
+					var tipNaziv = tipPregleda.naziv
+					var tipTrajanje = tipPregleda.trajanje
+					var tipCena = tipPregleda.cena
+					$("#tip").val(tipNaziv)
+					$("#trajanje").val(tipTrajanje)
+					$("#cena").val(tipCena)
+				}
+			}
+		}
+	});
+
+	$.ajax({
+		type: 'get',
+		url: "/klinicki-centar/pregled/slobodniTermini/" + window.lekarID + "/" + pathString,
+		success: function(data){
+			var sel = $("#vreme");
+			for(let item of data){
+				sel.append("<option>"+item+"</option")
+			}
+		},error: function(jqXHR) {
+			alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+		}
+	});
+
+	$("#potvrdi").click(function() {
+		console.log(datumTokens[2])
+		console.log(datumTokens[1])
+		console.log(datumTokens[0])
+		var date = new Date(datumTokens[0], datumTokens[1], datumTokens[2]);
+		var vreme = $("#vreme").val()
+		var tip = window.tipID;
+		var parametri = JSON.stringify({
+			datum:date,
+			vreme:vreme,
+			tipID:window.tipID,
+			lekarID: window.lekarID,
+
+		});
+		console.log(parametri)
+		$.ajax({
+			type: 'post',
+			url: "/klinicki-centar/pregled/zakaziSvoj",
+			dataType: 'json',
+			contentType : 'application/json',
+			data: parametri,
+			success : function (data) {
+				alert("Uspesno poslat zahtev")
+			},error: function(jqXHR) {
+				alert("Error: " + jqXHR.status + " " + jqXHR.responseText);
+			}
+		});
+    });
+
+}

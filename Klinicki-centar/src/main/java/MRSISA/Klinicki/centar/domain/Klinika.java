@@ -204,6 +204,19 @@ public class Klinika {
 	public Double getProsecnaOcena() {
 		return izracunajProsecnuOcenu();
 	}
+	public String getPocetakRadnogVremena() {
+		return pocetakRadnogVremena;
+	}
+	public void setPocetakRadnogVremena(String pocetakRadnogVremena) {
+		this.pocetakRadnogVremena = pocetakRadnogVremena;
+	}
+	public String getKrajRadnogVremena() {
+		return krajRadnogVremena;
+	}
+	public void setKrajRadnogVremena(String krajRadnogVremena) {
+		this.krajRadnogVremena = krajRadnogVremena;
+	}
+	
 	
 	
 	
